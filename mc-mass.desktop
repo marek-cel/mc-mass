@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=0.1
+Name=MC-Mass
+GenericName=MC-Mass
+Exec=mc-mass
+Terminal=false
+Categories=
+Comment=
+Keywords=
+Icon=mc-mass
+Name[pl]=mc-mass.desktop

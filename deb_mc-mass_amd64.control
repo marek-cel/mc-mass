@@ -1,0 +1,8 @@
+Package: mc-mass
+Version: 0.1
+Architecture: amd64
+Maintainer: Marek M. Cel <marekcel@marekcel.pl>
+Depends: libqt5core5a, libqt5gui5, libqt5opengl5, libqt5svg5, libqt5widgets5, libqt5xml5
+Installed-Size: 365
+Homepage: http://marekcel.pl
+Description: Aircraft mass characteristics (empty mass, center of mass and inertia tensor) estimation tool, which uses formulas from Raymer D.P. Aircraft Design: A Conceptual Approach and NASA TP-2015-218751.
