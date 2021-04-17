@@ -11,10 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MScSim-Mass</string>
+   <string>MC-Mass</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../mscsim-mass.qrc">
+   <iconset resource="../mc-mass.qrc">
     <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
   </property>
   <property name="locale">
@@ -3085,7 +3085,7 @@
   <tabstop>pushButtonDel</tabstop>
  </tabstops>
  <resources>
-  <include location="../mscsim-mass.qrc"/>
+  <include location="../mc-mass.qrc"/>
  </resources>
  <connections/>
 </ui>
