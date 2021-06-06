@@ -415,6 +415,9 @@ public:
 
     inline void setMainRotorBlades( int m_rotor_nb ) { _m_rotor_nb = m_rotor_nb ; }
 
+    /** */
+    std::string toString() const;
+
 private:
 
     Components _components;     ///< mass components

@@ -159,6 +159,8 @@ MainWindow::MainWindow( QWidget *parent ) :
 {
     _ui->setupUi( this );
 
+    _ui->textResults->setFontFamily( "Monospace" );
+
     _scSave   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_actionSave_triggered())   );
     _scExport = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_actionExport_triggered()) );
 
@@ -1110,6 +1112,8 @@ void MainWindow::updateGUI()
     _ui->spinBox_I_XY->setValue( inertiaMatrix.xy() );
     _ui->spinBox_I_XZ->setValue( inertiaMatrix.xz() );
     _ui->spinBox_I_YZ->setValue( inertiaMatrix.yz() );
+
+    _ui->textResults->setText( ac->toString().c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

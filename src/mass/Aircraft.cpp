@@ -126,6 +126,9 @@
 
 #include <mass/Aircraft.h>
 
+#include <iomanip>
+#include <sstream>
+
 #include <Xml.h>
 
 #include <mass/AllElse.h>
@@ -819,6 +822,56 @@ void Aircraft::delComponent( int index )
     }
 
     update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+std::string Aircraft::toString() const
+{
+    std::stringstream ss;
+
+    ss.setf( std::ios_base::showpoint );
+    ss.setf( std::ios_base::fixed );
+
+    ss << "empty mass [kg]: ";
+    ss << std::setprecision( 1 ) << _massTotal;
+    ss << std::endl;
+
+    ss << "center of mass [m]: ";
+    ss << std::setfill(' ') << std::setw( 8 ) << std::setprecision( 2 ) << _centerOfMass.x();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 8 ) << std::setprecision( 2 ) << _centerOfMass.y();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 8 ) << std::setprecision( 2 ) << _centerOfMass.z();
+    ss << std::endl;
+
+    ss << "inertia [kg*m^2]:";
+    ss << std::endl;
+
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.xx();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.xy();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.xz();
+    ss << std::endl;
+
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.yx();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.yy();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.yz();
+    ss << std::endl;
+
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.zx();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.zy();
+    ss << " ";
+    ss << std::setfill(' ') << std::setw( 12 ) << std::setprecision( 1 ) << _inertiaMatrix.zz();
+    ss << std::endl;
+
+    ss << std::endl;
+
+    return ss.str();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
