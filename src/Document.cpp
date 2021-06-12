@@ -153,14 +153,14 @@ void Document::newEmpty()
 
 bool Document::exportAs( const char *fileName )
 {
-    std::ofstream fstream( fileName, std::ios_base::out );
+    std::fstream fs( fileName, std::ios_base::out );
 
-    if ( fstream.is_open() )
+    if ( fs.is_open() )
     {
-        fstream << _aircraft.toString();
+        fs << _aircraft.toString();
 
-        fstream.flush();
-        fstream.close();
+        fs.flush();
+        fs.close();
 
         return true;
     }

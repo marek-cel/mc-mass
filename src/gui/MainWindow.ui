@@ -17,9 +17,6 @@
    <iconset resource="../mc-mass.qrc">
     <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
   </property>
-  <property name="locale">
-   <locale language="Polish" country="Poland"/>
-  </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
@@ -66,8 +63,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
@@ -434,8 +431,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_13">
@@ -709,8 +706,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
@@ -1093,8 +1090,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_14">
@@ -1435,8 +1432,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_15">
@@ -1739,8 +1736,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_16">
@@ -1940,8 +1937,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_17">
@@ -2011,8 +2008,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>368</width>
-             <height>627</height>
+             <width>417</width>
+             <height>630</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_18">
@@ -2426,7 +2423,7 @@
        <item row="4" column="2">
         <widget class="QLabel" name="labelUnit_I_XX">
          <property name="text">
-          <string>[kg*m^2]</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[kg&lt;span style=&quot; background-color:transparent;&quot;&gt;∙&lt;/span&gt;m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2464,7 +2461,7 @@
        <item row="7" column="2">
         <widget class="QLabel" name="labelUnit_I_XY">
          <property name="text">
-          <string>[kg*m^2]</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[kg&lt;span style=&quot; background-color:transparent;&quot;&gt;∙&lt;/span&gt;m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2522,7 +2519,7 @@
        <item row="6" column="2">
         <widget class="QLabel" name="labelUnit_I_ZZ">
          <property name="text">
-          <string>[kg*m^2]</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[kg&lt;span style=&quot; background-color:transparent;&quot;&gt;∙&lt;/span&gt;m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2851,7 +2848,7 @@
        <item row="9" column="2">
         <widget class="QLabel" name="labelUnit_I_YZ">
          <property name="text">
-          <string>[kg*m^2]</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[kg&lt;span style=&quot; background-color:transparent;&quot;&gt;∙&lt;/span&gt;m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2861,7 +2858,7 @@
        <item row="8" column="2">
         <widget class="QLabel" name="labelUnit_I_XZ">
          <property name="text">
-          <string>[kg*m^2]</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[kg&lt;span style=&quot; background-color:transparent;&quot;&gt;∙&lt;/span&gt;m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2881,7 +2878,7 @@
        <item row="5" column="2">
         <widget class="QLabel" name="labelUnit_I_YY">
          <property name="text">
-          <string>[kg*m^2]</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[kg&lt;span style=&quot; background-color:transparent;&quot;&gt;∙&lt;/span&gt;m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2921,7 +2918,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
