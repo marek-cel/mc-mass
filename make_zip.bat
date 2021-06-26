@@ -20,6 +20,6 @@ rem call "%QTDIR%\bin\windeployqt.exe" --release mscsim.exe
 rem cd ..\..
 call "%QTDIR%\bin\windeployqt.exe" --release mc-mass\bin\mc-mass.exe
 
-"C:\Program Files\7-Zip\7z.exe" a mc-mass_0.1_win64.zip -r mc-mass\
+"C:\Program Files\7-Zip\7z.exe" a mc-mass_0.2_win64.zip -r mc-mass\
 
 pause

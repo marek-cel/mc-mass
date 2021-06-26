@@ -151,7 +151,7 @@ public:
 
     explicit DialogEdit( QWidget *parent = NULLPTR, const Component *component = NULLPTR );
 
-    ~DialogEdit();
+    virtual ~DialogEdit();
 
     void updateComponent( Component *component );
 
