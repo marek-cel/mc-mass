@@ -651,7 +651,7 @@ void Aircraft::save( QDomDocument *doc, QDomElement *parentNode )
     QDomElement componentsNode = doc->createElement( "components" );
     parentNode->appendChild( componentsNode );
 
-    for ( Aircraft::Components::iterator it = _components.begin(); it != _components.end(); it++ )
+    for ( Aircraft::Components::iterator it = _components.begin(); it != _components.end(); ++it )
     {
         (*it)->save( doc, &componentsNode );
     }
@@ -775,7 +775,7 @@ void Aircraft::update()
     Vector3 s;
     Matrix3x3 i;
 
-    for ( Components::iterator it = _components.begin(); it != _components.end(); it++ )
+    for ( Components::iterator it = _components.begin(); it != _components.end(); ++it )
     {
         m += (*it)->getMass();
         s += (*it)->getMass() * (*it)->getPosition();

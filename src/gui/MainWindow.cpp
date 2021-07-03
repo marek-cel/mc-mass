@@ -1090,7 +1090,7 @@ void MainWindow::updateGUI()
         QString name = (*it)->getName();
         _ui->listComponents->addItem( new QListWidgetItem( name, _ui->listComponents ) );
 
-        it++;
+        ++it;
     }
 
     // RESULTS
