@@ -15,28 +15,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
+#ifndef COMPONENTS_ROTORTAIL_H_
+#define COMPONENTS_ROTORTAIL_H_
 
-#include <gui/RecentFileAction.h>
+////////////////////////////////////////////////////////////////////////////////
+
+#include <components/Component.h>
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-////////////////////////////////////////////////////////////////////////////////
-
-RecentFileAction::RecentFileAction( int id, QString text, QObject *parent ) :
-    QAction( text, parent )
+/**
+ * @brief The RotorTail class.
+ *
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.230</li>
+ * </ul>
+ */
+class RotorTail : public Component
 {
-    _id = id;
-    connect( this, SIGNAL(triggered()), this, SLOT(trigger()) );
-}
+public:
 
-////////////////////////////////////////////////////////////////////////////////
+    static constexpr char xmlTagName[] { "rotor_tail" };
 
-void RecentFileAction::trigger()
-{
-    emit(triggered(_id));
-}
+    RotorTail( const AircraftData *data );
 
-////////////////////////////////////////////////////////////////////////////////
+    double getStatisticalMass() const override;
+
+    inline const char* getXmlTagName() const override { return xmlTagName; }
+};
 
 } // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // COMPONENTS_ROTORTAIL_H_

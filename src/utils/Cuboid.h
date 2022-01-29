@@ -15,28 +15,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
+#ifndef UTILS_CUBOID_H_
+#define UTILS_CUBOID_H_
 
-#include <gui/RecentFileAction.h>
+////////////////////////////////////////////////////////////////////////////////
+
+#include <mcutil/math/Matrix3x3.h>
+#include <mcutil/math/Vector3.h>
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-////////////////////////////////////////////////////////////////////////////////
-
-RecentFileAction::RecentFileAction( int id, QString text, QObject *parent ) :
-    QAction( text, parent )
+/**
+ * @brief The Cuboid class.
+ */
+class Cuboid
 {
-    _id = id;
-    connect( this, SIGNAL(triggered()), this, SLOT(trigger()) );
-}
+public:
 
-////////////////////////////////////////////////////////////////////////////////
-
-void RecentFileAction::trigger()
-{
-    emit(triggered(_id));
-}
-
-////////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Returns cuboid matrix of inertia.
+     * @param m [kg] mass
+     * @param l [m] length (dimension x-component)
+     * @param w [m] width  (dimension y-component)
+     * @param h [m] height (dimension z-component)
+     * @return matrix of inertia [kg*m^2]
+     */
+    static Matrix3x3 getInertia( double m, double l, double w, double h );
+};
 
 } // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // UTILS_CUBOID_H_

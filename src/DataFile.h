@@ -15,41 +15,68 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
-#ifndef GUI_RECENTFILEACTION_H_
-#define GUI_RECENTFILEACTION_H_
+#ifndef DATAFILE_H_
+#define DATAFILE_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QAction>
+#include <vector>
+
+#include <QDomDocument>
+#include <QDomElement>
+
+#include <defs.h>
+
+#include <mcutil/math/Matrix3x3.h>
+#include <mcutil/math/Vector3.h>
+
+#include <Aircraft.h>
+#include <components/Component.h>
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-////////////////////////////////////////////////////////////////////////////////
-
-class RecentFileAction : public QAction
+/**
+ * @brief The Data file class.
+ */
+class DataFile
 {
-    Q_OBJECT
-
 public:
 
-    RecentFileAction( int id, QString text, QObject *parent );
+    /**
+     * @brief Constructor.
+     */
+    DataFile();
+
+    /**
+     * @brief Destructor.
+     */
+    virtual ~DataFile();
+
+    /** */
+    void newEmpty();
+
+    /** */
+    bool exportAs( const char *fileName );
+
+    /** */
+    bool readFile( const char *fileName );
+
+    /** */
+    bool saveFile( const char *fileName );
+
+    inline       Aircraft* getAircraft()       { return &_aircraft; }
+    inline const Aircraft* getAircraft() const { return &_aircraft; }
 
 private:
 
-    int _id;
-
-signals:
-
-    void triggered( int id );
-
-private slots:
-
-    void trigger();
+    Aircraft _aircraft;     ///<
 };
 
 } // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // GUI_RECENTFILEACTION_H_
+#endif // DATAFILE_H_

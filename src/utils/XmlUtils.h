@@ -15,28 +15,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
+#ifndef UTILS_XMLUTILS_H_
+#define UTILS_XMLUTILS_H_
 
-#include <gui/RecentFileAction.h>
+////////////////////////////////////////////////////////////////////////////////
+
+#include <QDomDocument>
+#include <QDomElement>
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-////////////////////////////////////////////////////////////////////////////////
-
-RecentFileAction::RecentFileAction( int id, QString text, QObject *parent ) :
-    QAction( text, parent )
+/**
+ * @brief The XmlUtils class.
+ */
+class XmlUtils
 {
-    _id = id;
-    connect( this, SIGNAL(triggered()), this, SLOT(trigger()) );
-}
+public:
 
-////////////////////////////////////////////////////////////////////////////////
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, const QString &text );
 
-void RecentFileAction::trigger()
-{
-    emit(triggered(_id));
-}
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, double value );
 
-////////////////////////////////////////////////////////////////////////////////
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, int value );
+
+    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
+                              const char *tag_name, bool value );
+};
 
 } // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // UTILS_XMLUTILS_H_

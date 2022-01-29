@@ -15,28 +15,43 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
+#ifndef COMPONENTS_TAILHOR_H_
+#define COMPONENTS_TAILHOR_H_
 
-#include <gui/RecentFileAction.h>
+////////////////////////////////////////////////////////////////////////////////
+
+#include <components/Component.h>
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-////////////////////////////////////////////////////////////////////////////////
-
-RecentFileAction::RecentFileAction( int id, QString text, QObject *parent ) :
-    QAction( text, parent )
+/**
+ * @brief The TailHor class.
+ *
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407</li>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579</li>
+ *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.230-231</li>
+ * </ul>
+ */
+class TailHor : public Component
 {
-    _id = id;
-    connect( this, SIGNAL(triggered()), this, SLOT(trigger()) );
-}
+public:
 
-////////////////////////////////////////////////////////////////////////////////
+    static constexpr char xmlTagName[] { "tail_hor" };
 
-void RecentFileAction::trigger()
-{
-    emit(triggered(_id));
-}
+    TailHor( const AircraftData *data );
 
-////////////////////////////////////////////////////////////////////////////////
+    double getStatisticalMass() const override;
+
+    inline const char* getXmlTagName() const override { return xmlTagName; }
+};
 
 } // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // COMPONENTS_TAILHOR_H_

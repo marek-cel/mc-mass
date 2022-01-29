@@ -15,8 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef GUI_MAINWINDOW_H_
+#define GUI_MAINWINDOW_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@
 
 #include <defs.h>
 
-#include <Document.h>
+#include <DataFile.h>
 
 #include <gui/RecentFileAction.h>
 
@@ -38,6 +38,9 @@ namespace Ui
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace mc
+{
 
 /**
  * @brief Main window class.
@@ -68,7 +71,7 @@ private:
     QShortcut *_scSave;                         ///< key shortcut - save
     QShortcut *_scExport;                       ///< key shortcut - export
 
-    Document _doc;                              ///<
+    DataFile _dataFile;                         ///< data file
 
     bool _saved;                                ///<
 
@@ -223,6 +226,8 @@ private slots:
     void on_spinBoxMainRotorBlades_valueChanged ( int arg1 );
 };
 
+} // namespace mc
+
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+#endif // GUI_MAINWINDOW_H_

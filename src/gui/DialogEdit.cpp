@@ -19,6 +19,9 @@
 #include <gui/DialogEdit.h>
 #include <ui_DialogEdit.h>
 
+namespace mc
+{
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogEdit::edit( QWidget *parent, Component *component )
@@ -139,3 +142,7 @@ void DialogEdit::on_spinBox_H_valueChanged( double /*arg1*/ )
 {
     updateMass();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+} // namespace mc

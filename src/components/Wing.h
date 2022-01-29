@@ -15,28 +15,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
+#ifndef COMPONENTS_WING_H_
+#define COMPONENTS_WING_H_
 
-#include <gui/RecentFileAction.h>
+////////////////////////////////////////////////////////////////////////////////
+
+#include <components/Component.h>
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-////////////////////////////////////////////////////////////////////////////////
-
-RecentFileAction::RecentFileAction( int id, QString text, QObject *parent ) :
-    QAction( text, parent )
+/**
+ * @brief The Wing class.
+ *
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407</li>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579</li>
+ * </ul>
+ */
+class Wing : public Component
 {
-    _id = id;
-    connect( this, SIGNAL(triggered()), this, SLOT(trigger()) );
-}
+public:
 
-////////////////////////////////////////////////////////////////////////////////
+    static constexpr char xmlTagName[] { "wing" };
 
-void RecentFileAction::trigger()
-{
-    emit(triggered(_id));
-}
+    Wing( const AircraftData *data );
 
-////////////////////////////////////////////////////////////////////////////////
+    double getStatisticalMass() const override;
+
+    inline const char* getXmlTagName() const override { return xmlTagName; }
+};
 
 } // namespace mc
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // COMPONENTS_WING_H_

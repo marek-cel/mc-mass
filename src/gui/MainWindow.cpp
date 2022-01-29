@@ -27,19 +27,21 @@
 
 #include <gui/DialogEdit.h>
 
-#include <mass/AllElse.h>
-#include <mass/Engine.h>
-#include <mass/Fuselage.h>
-#include <mass/GearMain.h>
-#include <mass/GearNose.h>
-#include <mass/RotorDrive.h>
-#include <mass/RotorHub.h>
-#include <mass/RotorMain.h>
-#include <mass/RotorTail.h>
-#include <mass/TailHor.h>
-#include <mass/TailVer.h>
-#include <mass/Wing.h>
+#include <components/AllElse.h>
+#include <components/Engine.h>
+#include <components/Fuselage.h>
+#include <components/GearMain.h>
+#include <components/GearNose.h>
+#include <components/RotorDrive.h>
+#include <components/RotorHub.h>
+#include <components/RotorMain.h>
+#include <components/RotorTail.h>
+#include <components/TailHor.h>
+#include <components/TailVer.h>
+#include <components/Wing.h>
 
+namespace mc
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -116,7 +118,7 @@ void MainWindow::newFile()
 
     _currentFile = "";
 
-    _doc.newEmpty();
+    _dataFile.newEmpty();
 
     updateGUI();
     updateTitleBar();
@@ -211,7 +213,7 @@ void MainWindow::readFile( QString fileName )
 {
     if ( QFileInfo( fileName ).suffix() == QString( "xml" ) )
     {
-        if ( !_doc.readFile( fileName.toStdString().c_str() ) )
+        if ( !_dataFile.readFile( fileName.toStdString().c_str() ) )
         {
             QMessageBox::warning( this, tr( APP_TITLE ),
                                  tr( "Cannot read file %1." ).arg( fileName ) );
@@ -227,7 +229,7 @@ void MainWindow::readFile( QString fileName )
 
 void MainWindow::saveFile( QString fileName )
 {
-    if ( _doc.saveFile( fileName.toStdString().c_str() ) )
+    if ( _dataFile.saveFile( fileName.toStdString().c_str() ) )
     {
         _saved = true;
     }
@@ -245,7 +247,7 @@ void MainWindow::saveFile( QString fileName )
 
 void MainWindow::exportAs( QString fileName )
 {
-    if ( !_doc.exportAs( fileName.toStdString().c_str() ) )
+    if ( !_dataFile.exportAs( fileName.toStdString().c_str() ) )
     {
         QMessageBox::warning( this, tr( APP_TITLE ),
                              tr( "Cannot export file %1." ).arg(fileName) );
@@ -308,56 +310,56 @@ void MainWindow::addComponent()
 
     if ( _ui->comboBoxComponents->currentIndex() == 0 )
     {
-        component = new Fuselage( _doc.getAircraft() );
+        component = new Fuselage( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 1 )
     {
-        component = new Wing( _doc.getAircraft() );
+        component = new Wing( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 2 )
     {
-        component = new TailHor( _doc.getAircraft() );
+        component = new TailHor( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 3 )
     {
-        component = new TailVer( _doc.getAircraft() );
+        component = new TailVer( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 4 )
     {
-        component = new GearMain( _doc.getAircraft() );
+        component = new GearMain( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 5 )
     {
-        component = new GearNose( _doc.getAircraft() );
+        component = new GearNose( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 6 )
     {
-        component = new Engine( _doc.getAircraft() );
+        component = new Engine( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 7 )
     {
-        component = new RotorDrive( _doc.getAircraft() );
+        component = new RotorDrive( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 8 )
     {
-        component = new RotorHub( _doc.getAircraft() );
+        component = new RotorHub( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 9 )
     {
-        component = new RotorMain( _doc.getAircraft() );
+        component = new RotorMain( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 10 )
     {
-        component = new RotorTail( _doc.getAircraft() );
+        component = new RotorTail( _dataFile.getAircraft() );
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 11 )
     {
-        component = new AllElse( _doc.getAircraft() );
+        component = new AllElse( _dataFile.getAircraft() );
     }
 
     if ( component )
     {
-        _doc.getAircraft()->addComponent( component );
+        _dataFile.getAircraft()->addComponent( component );
         _saved = false;
     }
 
@@ -371,13 +373,13 @@ void MainWindow::editComponent()
 {
     int index = _ui->listComponents->currentRow();
 
-    Component *component = _doc.getAircraft()->getComponent( index );
+    Component *component = _dataFile.getAircraft()->getComponent( index );
 
     if ( component )
     {
         DialogEdit::edit( this, component );
 
-        _doc.getAircraft()->update();
+        _dataFile.getAircraft()->update();
 
         _saved = false;
 
@@ -861,7 +863,7 @@ void MainWindow::setAircraftType( Type type )
 
 void MainWindow::updateGUI()
 {
-    Aircraft *ac = _doc.getAircraft();
+    Aircraft *ac = _dataFile.getAircraft();
 
     // DATA
 
@@ -880,7 +882,7 @@ void MainWindow::updateGUI()
     _ui->spinBoxCruiseV ->setValue( ac->getCruiseV () );
     _ui->spinBoxMachMax ->setValue( ac->getMachMax () );
 
-    _ui->checkBoxNavyAircraft->setChecked( _doc.getAircraft()->getNavyAircraft() );
+    _ui->checkBoxNavyAircraft->setChecked( _dataFile.getAircraft()->getNavyAircraft() );
 
     // data - fuselage
     _ui->comboBoxCargoDoor->setCurrentIndex( ac->getCargoDoor() );
@@ -1046,9 +1048,10 @@ void MainWindow::updateWettedArea()
 
 void MainWindow::updateWingAR()
 {
-    if ( _doc.getAircraft()->getWingArea() > 0.0 )
+    if ( _dataFile.getAircraft()->getWingArea() > 0.0 )
     {
-        double ar = pow( _doc.getAircraft()->getWingSpan(), 2.0 ) / _doc.getAircraft()->getWingArea();
+        double ar = pow( _dataFile.getAircraft()->getWingSpan(), 2.0 )
+                / _dataFile.getAircraft()->getWingArea();
         _ui->spinBoxWingAR->setValue( ar );
     }
     else
@@ -1061,9 +1064,10 @@ void MainWindow::updateWingAR()
 
 void MainWindow::updateWingTR()
 {
-    if ( _doc.getAircraft()->getWingCR() > 0.0 )
+    if ( _dataFile.getAircraft()->getWingCR() > 0.0 )
     {
-        double tr = _doc.getAircraft()->getWingCT() / _doc.getAircraft()->getWingCR();
+        double tr = _dataFile.getAircraft()->getWingCT()
+                / _dataFile.getAircraft()->getWingCR();
         _ui->spinBoxWingTR->setValue( tr );
     }
     else
@@ -1076,9 +1080,10 @@ void MainWindow::updateWingTR()
 
 void MainWindow::updateHorTailAR()
 {
-    if ( _doc.getAircraft()->getHorTailArea() > 0.0 )
+    if ( _dataFile.getAircraft()->getHorTailArea() > 0.0 )
     {
-        double ar = pow( _doc.getAircraft()->getHorTailSpan(), 2.0 ) / _doc.getAircraft()->getHorTailArea();
+        double ar = pow( _dataFile.getAircraft()->getHorTailSpan(), 2.0 )
+                / _dataFile.getAircraft()->getHorTailArea();
         _ui->spinBoxHorTailAR->setValue( ar );
     }
     else
@@ -1091,9 +1096,10 @@ void MainWindow::updateHorTailAR()
 
 void MainWindow::updateHorTailTR()
 {
-    if ( _doc.getAircraft()->getHorTailCR() > 0.0 )
+    if ( _dataFile.getAircraft()->getHorTailCR() > 0.0 )
     {
-        double tr = _doc.getAircraft()->getHorTailCT() / _doc.getAircraft()->getHorTailCR();
+        double tr = _dataFile.getAircraft()->getHorTailCT()
+                / _dataFile.getAircraft()->getHorTailCR();
         _ui->spinBoxHorTailTR->setValue( tr );
     }
     else
@@ -1106,9 +1112,10 @@ void MainWindow::updateHorTailTR()
 
 void MainWindow::updateVerTailAR()
 {
-    if ( _doc.getAircraft()->getVerTailArea() > 0.0 )
+    if ( _dataFile.getAircraft()->getVerTailArea() > 0.0 )
     {
-        double ar = pow( _doc.getAircraft()->getVerTailHeight(), 2.0 ) / _doc.getAircraft()->getVerTailArea();
+        double ar = pow( _dataFile.getAircraft()->getVerTailHeight(), 2.0 )
+                / _dataFile.getAircraft()->getVerTailArea();
         _ui->spinBoxVerTailAR->setValue( ar );
     }
     else
@@ -1121,9 +1128,10 @@ void MainWindow::updateVerTailAR()
 
 void MainWindow::updateVerTailTR()
 {
-    if ( _doc.getAircraft()->getVerTailCR() > 0.0 )
+    if ( _dataFile.getAircraft()->getVerTailCR() > 0.0 )
     {
-        double tr = _doc.getAircraft()->getVerTailCT() / _doc.getAircraft()->getVerTailCR();
+        double tr = _dataFile.getAircraft()->getVerTailCT()
+                / _dataFile.getAircraft()->getVerTailCR();
         _ui->spinBoxVerTailTR->setValue( tr );
     }
     else
@@ -1263,7 +1271,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_listComponents_currentRowChanged( int currentRow )
 {
-    Aircraft::Components components = _doc.getAircraft()->getComponents();
+    Aircraft::Components components = _dataFile.getAircraft()->getComponents();
 
     if ( currentRow >=0 && currentRow < (int)components.size() )
     {
@@ -1295,12 +1303,12 @@ void MainWindow::on_pushButtonAdd_clicked()
 
 void MainWindow::on_pushButtonDel_clicked()
 {
-    Aircraft::Components components = _doc.getAircraft()->getComponents();
+    Aircraft::Components components = _dataFile.getAircraft()->getComponents();
     int currentRow = _ui->listComponents->currentRow();
 
     if ( currentRow >=0 && currentRow < (int)components.size() )
     {
-        _doc.getAircraft()->delComponent( currentRow );
+        _dataFile.getAircraft()->delComponent( currentRow );
         _saved = false;
     }
 
@@ -1331,7 +1339,7 @@ void MainWindow::on_comboBoxAircraftType_currentIndexChanged( int index )
 
     setAircraftType( type );
 
-    _doc.getAircraft()->setType( type );
+    _dataFile.getAircraft()->setType( type );
     _saved = false;
     updateTitleBar();
 }
@@ -1340,7 +1348,7 @@ void MainWindow::on_comboBoxAircraftType_currentIndexChanged( int index )
 
 void MainWindow::on_spinBoxMassEmpty_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setM_empty( arg1 );
+    _dataFile.getAircraft()->setM_empty( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1349,7 +1357,7 @@ void MainWindow::on_spinBoxMassEmpty_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMassMaxTO_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setM_maxTO( arg1 );
+    _dataFile.getAircraft()->setM_maxTO( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1358,7 +1366,7 @@ void MainWindow::on_spinBoxMassMaxTO_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMassMaxLand_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setM_maxLand( arg1 );
+    _dataFile.getAircraft()->setM_maxLand( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1367,7 +1375,7 @@ void MainWindow::on_spinBoxMassMaxLand_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMaxNz_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setNzMax( arg1 );
+    _dataFile.getAircraft()->setNzMax( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1376,7 +1384,7 @@ void MainWindow::on_spinBoxMaxNz_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMaxNzLand_valueChanged(double arg1)
 {
-    _doc.getAircraft()->setNzMaxLand( arg1 );
+    _dataFile.getAircraft()->setNzMaxLand( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1385,7 +1393,7 @@ void MainWindow::on_spinBoxMaxNzLand_valueChanged(double arg1)
 
 void MainWindow::on_spinBoxStallV_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setStallV( arg1 );
+    _dataFile.getAircraft()->setStallV( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1394,7 +1402,7 @@ void MainWindow::on_spinBoxStallV_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxCruiseV_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setCruiseV( arg1 );
+    _dataFile.getAircraft()->setCruiseV( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1403,7 +1411,7 @@ void MainWindow::on_spinBoxCruiseV_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxCruiseH_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setCruiseH( arg1 );
+    _dataFile.getAircraft()->setCruiseH( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1412,7 +1420,7 @@ void MainWindow::on_spinBoxCruiseH_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMachMax_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setMachMax( arg1 );
+    _dataFile.getAircraft()->setMachMax( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1421,7 +1429,7 @@ void MainWindow::on_spinBoxMachMax_valueChanged( double arg1 )
 
 void MainWindow::on_checkBoxNavyAircraft_toggled( bool checked )
 {
-    _doc.getAircraft()->setNavyAircraft( checked );
+    _dataFile.getAircraft()->setNavyAircraft( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1441,7 +1449,7 @@ void MainWindow::on_comboBoxCargoDoor_currentIndexChanged( int index )
         case TwoSideAndAftDoor : door = TwoSideAndAftDoor ; break;
     }
 
-    _doc.getAircraft()->setCargoDoor( door );
+    _dataFile.getAircraft()->setCargoDoor( door );
     _saved = false;
     updateTitleBar();
 }
@@ -1450,7 +1458,7 @@ void MainWindow::on_comboBoxCargoDoor_currentIndexChanged( int index )
 
 void MainWindow::on_spinBoxFuseLength_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setFuseLength( arg1 );
+    _dataFile.getAircraft()->setFuseLength( arg1 );
     _saved = false;
     updateTitleBar();
     updateWettedArea();
@@ -1460,7 +1468,7 @@ void MainWindow::on_spinBoxFuseLength_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxFuseHeight_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setFuseHeight( arg1 );
+    _dataFile.getAircraft()->setFuseHeight( arg1 );
     _saved = false;
     updateTitleBar();
     updateWettedArea();
@@ -1470,7 +1478,7 @@ void MainWindow::on_spinBoxFuseHeight_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxFuseWidth_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setFuseWidth( arg1 );
+    _dataFile.getAircraft()->setFuseWidth( arg1 );
     _saved = false;
     updateTitleBar();
     updateWettedArea();
@@ -1480,7 +1488,7 @@ void MainWindow::on_spinBoxFuseWidth_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxNoseLength_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setNoseLength( arg1 );
+    _dataFile.getAircraft()->setNoseLength( arg1 );
     _saved = false;
     updateTitleBar();
     updateWettedArea();
@@ -1490,7 +1498,7 @@ void MainWindow::on_spinBoxNoseLength_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxPressVol_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setPressVol( arg1 );
+    _dataFile.getAircraft()->setPressVol( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1499,7 +1507,7 @@ void MainWindow::on_spinBoxPressVol_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWettedArea_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWettedArea( arg1 );
+    _dataFile.getAircraft()->setWettedArea( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1508,7 +1516,7 @@ void MainWindow::on_spinBoxWettedArea_valueChanged( double arg1 )
 
 void MainWindow::on_checkBoxFuselageLG_toggled( bool checked )
 {
-    _doc.getAircraft()->setFuselageLG( checked );
+    _dataFile.getAircraft()->setFuselageLG( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1517,7 +1525,7 @@ void MainWindow::on_checkBoxFuselageLG_toggled( bool checked )
 
 void MainWindow::on_checkBoxCargoRamp_toggled( bool checked )
 {
-    _doc.getAircraft()->setCargoRamp( checked );
+    _dataFile.getAircraft()->setCargoRamp( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1526,7 +1534,7 @@ void MainWindow::on_checkBoxCargoRamp_toggled( bool checked )
 
 void MainWindow::on_spinBoxWingArea_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingArea( arg1 );
+    _dataFile.getAircraft()->setWingArea( arg1 );
     _saved = false;
     updateTitleBar();
     updateWingAR();
@@ -1536,7 +1544,7 @@ void MainWindow::on_spinBoxWingArea_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingExp_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingExp( arg1 );
+    _dataFile.getAircraft()->setWingExp( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1545,7 +1553,7 @@ void MainWindow::on_spinBoxWingExp_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingSpan_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingSpan( arg1 );
+    _dataFile.getAircraft()->setWingSpan( arg1 );
     _saved = false;
     updateTitleBar();
     updateWingAR();
@@ -1555,7 +1563,7 @@ void MainWindow::on_spinBoxWingSpan_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingSweep_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingSweep( arg1 );
+    _dataFile.getAircraft()->setWingSweep( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1564,7 +1572,7 @@ void MainWindow::on_spinBoxWingSweep_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingCR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingCR( arg1 );
+    _dataFile.getAircraft()->setWingCR( arg1 );
     _saved = false;
     updateTitleBar();
     updateWingTR();
@@ -1574,7 +1582,7 @@ void MainWindow::on_spinBoxWingCR_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingCT_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingCT( arg1 );
+    _dataFile.getAircraft()->setWingCT( arg1 );
     _saved = false;
     updateTitleBar();
     updateWingTR();
@@ -1584,7 +1592,7 @@ void MainWindow::on_spinBoxWingCT_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingTC_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingTC( arg1 );
+    _dataFile.getAircraft()->setWingTC( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1593,7 +1601,7 @@ void MainWindow::on_spinBoxWingTC_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingFuel_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingFuel( arg1 );
+    _dataFile.getAircraft()->setWingFuel( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1602,7 +1610,7 @@ void MainWindow::on_spinBoxWingFuel_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxCtrlArea_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setCtrlArea( arg1 );
+    _dataFile.getAircraft()->setCtrlArea( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1611,7 +1619,7 @@ void MainWindow::on_spinBoxCtrlArea_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingAR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingAR( arg1 );
+    _dataFile.getAircraft()->setWingAR( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1620,7 +1628,7 @@ void MainWindow::on_spinBoxWingAR_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxWingTR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setWingTR( arg1 );
+    _dataFile.getAircraft()->setWingTR( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1629,7 +1637,7 @@ void MainWindow::on_spinBoxWingTR_valueChanged( double arg1 )
 
 void MainWindow::on_checkBoxWingDelta_toggled( bool checked )
 {
-    _doc.getAircraft()->setWingDelta( checked );
+    _dataFile.getAircraft()->setWingDelta( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1638,7 +1646,7 @@ void MainWindow::on_checkBoxWingDelta_toggled( bool checked )
 
 void MainWindow::on_checkBoxWingVar_toggled( bool checked )
 {
-    _doc.getAircraft()->setWingVar( checked );
+    _dataFile.getAircraft()->setWingVar( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1647,7 +1655,7 @@ void MainWindow::on_checkBoxWingVar_toggled( bool checked )
 
 void MainWindow::on_spinBoxHorTailArea_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailArea( arg1 );
+    _dataFile.getAircraft()->setHorTailArea( arg1 );
     _saved = false;
     updateTitleBar();
     updateHorTailAR();
@@ -1657,7 +1665,7 @@ void MainWindow::on_spinBoxHorTailArea_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailSpan_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailSpan( arg1 );
+    _dataFile.getAircraft()->setHorTailSpan( arg1 );
     _saved = false;
     updateTitleBar();
     updateHorTailAR();
@@ -1667,7 +1675,7 @@ void MainWindow::on_spinBoxHorTailSpan_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailSweep_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailSweep( arg1 );
+    _dataFile.getAircraft()->setHorTailSweep( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1676,7 +1684,7 @@ void MainWindow::on_spinBoxHorTailSweep_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailCR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailCR( arg1 );
+    _dataFile.getAircraft()->setHorTailCR( arg1 );
     _saved = false;
     updateTitleBar();
     updateHorTailTR();
@@ -1686,7 +1694,7 @@ void MainWindow::on_spinBoxHorTailCR_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailCT_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailCT( arg1 );
+    _dataFile.getAircraft()->setHorTailCT( arg1 );
     _saved = false;
     updateTitleBar();
     updateHorTailTR();
@@ -1696,7 +1704,7 @@ void MainWindow::on_spinBoxHorTailCT_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailTC_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailTC( arg1 );
+    _dataFile.getAircraft()->setHorTailTC( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1705,7 +1713,7 @@ void MainWindow::on_spinBoxHorTailTC_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxElevArea_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setElevArea( arg1 );
+    _dataFile.getAircraft()->setElevArea( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1714,7 +1722,7 @@ void MainWindow::on_spinBoxElevArea_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailFW_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailFW( arg1 );
+    _dataFile.getAircraft()->setHorTailFW( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1723,7 +1731,7 @@ void MainWindow::on_spinBoxHorTailFW_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailArm_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailArm( arg1 );
+    _dataFile.getAircraft()->setHorTailArm( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1732,7 +1740,7 @@ void MainWindow::on_spinBoxHorTailArm_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailAR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailAR( arg1 );
+    _dataFile.getAircraft()->setHorTailAR( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1741,7 +1749,7 @@ void MainWindow::on_spinBoxHorTailAR_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxHorTailTR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setHorTailTR( arg1 );
+    _dataFile.getAircraft()->setHorTailTR( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1750,7 +1758,7 @@ void MainWindow::on_spinBoxHorTailTR_valueChanged( double arg1 )
 
 void MainWindow::on_checkBoxHorTailMoving_toggled( bool checked )
 {
-    _doc.getAircraft()->setHorTailMoving( checked );
+    _dataFile.getAircraft()->setHorTailMoving( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1759,7 +1767,7 @@ void MainWindow::on_checkBoxHorTailMoving_toggled( bool checked )
 
 void MainWindow::on_checkBoxHorTailRolling_toggled( bool checked )
 {
-    _doc.getAircraft()->setHorTailRolling( checked );
+    _dataFile.getAircraft()->setHorTailRolling( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1768,7 +1776,7 @@ void MainWindow::on_checkBoxHorTailRolling_toggled( bool checked )
 
 void MainWindow::on_spinBoxVerTailArea_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailArea( arg1 );
+    _dataFile.getAircraft()->setVerTailArea( arg1 );
     _saved = false;
     updateTitleBar();
     updateVerTailAR();
@@ -1778,7 +1786,7 @@ void MainWindow::on_spinBoxVerTailArea_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxVerTailHeight_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailHeight( arg1 );
+    _dataFile.getAircraft()->setVerTailHeight( arg1 );
     _saved = false;
     updateTitleBar();
     updateVerTailAR();
@@ -1788,7 +1796,7 @@ void MainWindow::on_spinBoxVerTailHeight_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxVerTailSweep_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailSweep( arg1 );
+    _dataFile.getAircraft()->setVerTailSweep( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1797,7 +1805,7 @@ void MainWindow::on_spinBoxVerTailSweep_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxVerTailCR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailCR( arg1 );
+    _dataFile.getAircraft()->setVerTailCR( arg1 );
     _saved = false;
     updateTitleBar();
     updateVerTailTR();
@@ -1807,7 +1815,7 @@ void MainWindow::on_spinBoxVerTailCR_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxVerTailCT_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailCT( arg1 );
+    _dataFile.getAircraft()->setVerTailCT( arg1 );
     _saved = false;
     updateTitleBar();
     updateVerTailTR();
@@ -1817,7 +1825,7 @@ void MainWindow::on_spinBoxVerTailCT_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxVerTailTC_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailTC( arg1 );
+    _dataFile.getAircraft()->setVerTailTC( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1826,7 +1834,7 @@ void MainWindow::on_spinBoxVerTailTC_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxVerTailArm_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailArm( arg1 );
+    _dataFile.getAircraft()->setVerTailArm( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1835,14 +1843,14 @@ void MainWindow::on_spinBoxVerTailArm_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxRuddArea_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setRuddArea( arg1 );
+    _dataFile.getAircraft()->setRuddArea( arg1 );
     _saved = false;
     updateTitleBar();
 }
 
 void MainWindow::on_spinBoxVerTailAR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailAR( arg1 );
+    _dataFile.getAircraft()->setVerTailAR( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1851,7 +1859,7 @@ void MainWindow::on_spinBoxVerTailAR_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxVerTailTR_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setVerTailTR( arg1 );
+    _dataFile.getAircraft()->setVerTailTR( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1860,7 +1868,7 @@ void MainWindow::on_spinBoxVerTailTR_valueChanged( double arg1 )
 
 void MainWindow::on_checkBoxTailT_toggled( bool checked )
 {
-    _doc.getAircraft()->setTailT( checked );
+    _dataFile.getAircraft()->setTailT( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1869,7 +1877,7 @@ void MainWindow::on_checkBoxTailT_toggled( bool checked )
 
 void MainWindow::on_checkBoxVerTailRotor_toggled( bool checked )
 {
-    _doc.getAircraft()->setVerTailRotor( checked );
+    _dataFile.getAircraft()->setVerTailRotor( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1879,7 +1887,7 @@ void MainWindow::on_checkBoxVerTailRotor_toggled( bool checked )
 
 void MainWindow::on_spinBoxMainGearLength_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setMainGearLength( arg1 );
+    _dataFile.getAircraft()->setMainGearLength( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1888,7 +1896,7 @@ void MainWindow::on_spinBoxMainGearLength_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxNoseGearLength_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setNoseGearLength( arg1 );
+    _dataFile.getAircraft()->setNoseGearLength( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1897,7 +1905,7 @@ void MainWindow::on_spinBoxNoseGearLength_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMainGearWheels_valueChanged( int arg1 )
 {
-    _doc.getAircraft()->setMainGearWheels( arg1 );
+    _dataFile.getAircraft()->setMainGearWheels( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1906,7 +1914,7 @@ void MainWindow::on_spinBoxMainGearWheels_valueChanged( int arg1 )
 
 void MainWindow::on_spinBoxMainGearStruts_valueChanged( int arg1 )
 {
-    _doc.getAircraft()->setMainGearStruts( arg1 );
+    _dataFile.getAircraft()->setMainGearStruts( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1915,7 +1923,7 @@ void MainWindow::on_spinBoxMainGearStruts_valueChanged( int arg1 )
 
 void MainWindow::on_spinBoxNoseGearWheels_valueChanged( int arg1 )
 {
-    _doc.getAircraft()->setNoseGearWheels( arg1 );
+    _dataFile.getAircraft()->setNoseGearWheels( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1924,7 +1932,7 @@ void MainWindow::on_spinBoxNoseGearWheels_valueChanged( int arg1 )
 
 void MainWindow::on_checkBoxGearFixed_toggled( bool checked )
 {
-    _doc.getAircraft()->setGearFixed( checked );
+    _dataFile.getAircraft()->setGearFixed( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1933,7 +1941,7 @@ void MainWindow::on_checkBoxGearFixed_toggled( bool checked )
 
 void MainWindow::on_checkBoxGearCross_toggled( bool checked )
 {
-    _doc.getAircraft()->setGearCross( checked );
+    _dataFile.getAircraft()->setGearCross( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1942,7 +1950,7 @@ void MainWindow::on_checkBoxGearCross_toggled( bool checked )
 
 void MainWindow::on_checkBoxGearTripod_toggled( bool checked )
 {
-    _doc.getAircraft()->setGearTripod( checked );
+    _dataFile.getAircraft()->setGearTripod( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1951,7 +1959,7 @@ void MainWindow::on_checkBoxGearTripod_toggled( bool checked )
 
 void MainWindow::on_checkBoxGearMainKneel_toggled( bool checked )
 {
-    _doc.getAircraft()->setGearMainKneel( checked );
+    _dataFile.getAircraft()->setGearMainKneel( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1960,7 +1968,7 @@ void MainWindow::on_checkBoxGearMainKneel_toggled( bool checked )
 
 void MainWindow::on_checkBoxGearNoseKneel_toggled( bool checked )
 {
-    _doc.getAircraft()->setGearNoseKneel( checked );
+    _dataFile.getAircraft()->setGearNoseKneel( checked );
     _saved = false;
     updateTitleBar();
 }
@@ -1969,7 +1977,7 @@ void MainWindow::on_checkBoxGearNoseKneel_toggled( bool checked )
 
 void MainWindow::on_spinBoxEngineMass_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setEngineMass( arg1 );
+    _dataFile.getAircraft()->setEngineMass( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1978,7 +1986,7 @@ void MainWindow::on_spinBoxEngineMass_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMainRotorDiameter_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setMainRotorRad( 0.5 * arg1 );
+    _dataFile.getAircraft()->setMainRotorRad( 0.5 * arg1 );
     _saved = false;
     updateTitleBar();
     updateRotorTipVel();
@@ -1988,7 +1996,7 @@ void MainWindow::on_spinBoxMainRotorDiameter_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMainRotorChord_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setMainRotorChord( arg1 );
+    _dataFile.getAircraft()->setMainRotorChord( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -1997,7 +2005,7 @@ void MainWindow::on_spinBoxMainRotorChord_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMainRotorRPM_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setMainRotorRPM( arg1 );
+    _dataFile.getAircraft()->setMainRotorRPM( arg1 );
     _saved = false;
     updateTitleBar();
     updateRotorTipVel();
@@ -2007,7 +2015,7 @@ void MainWindow::on_spinBoxMainRotorRPM_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxTailRotorDiameter_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setTailRotorRad( 0.5 * arg1 );
+    _dataFile.getAircraft()->setTailRotorRad( 0.5 * arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -2016,7 +2024,7 @@ void MainWindow::on_spinBoxTailRotorDiameter_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMainRotorGear_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setMainRotorGear( arg1 );
+    _dataFile.getAircraft()->setMainRotorGear( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -2025,7 +2033,7 @@ void MainWindow::on_spinBoxMainRotorGear_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxPowerLimit_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setPowerLimit( arg1 );
+    _dataFile.getAircraft()->setPowerLimit( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -2034,7 +2042,7 @@ void MainWindow::on_spinBoxPowerLimit_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMainRotorTipVel_valueChanged( double arg1 )
 {
-    _doc.getAircraft()->setMainRotorTipVel( arg1 );
+    _dataFile.getAircraft()->setMainRotorTipVel( arg1 );
     _saved = false;
     updateTitleBar();
 }
@@ -2043,7 +2051,11 @@ void MainWindow::on_spinBoxMainRotorTipVel_valueChanged( double arg1 )
 
 void MainWindow::on_spinBoxMainRotorBlades_valueChanged( int arg1 )
 {
-    _doc.getAircraft()->setMainRotorBlades( arg1 );
+    _dataFile.getAircraft()->setMainRotorBlades( arg1 );
     _saved = false;
     updateTitleBar();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+} // namespace mc

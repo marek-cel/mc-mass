@@ -16,25 +16,32 @@
  *
  ******************************************************************************/
 
-#include <gui/RecentFileAction.h>
+#include <utils/Cuboid.h>
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-RecentFileAction::RecentFileAction( int id, QString text, QObject *parent ) :
-    QAction( text, parent )
+Matrix3x3 Cuboid::getInertia( double m, double l, double w, double h )
 {
-    _id = id;
-    connect( this, SIGNAL(triggered()), this, SLOT(trigger()) );
-}
+    Matrix3x3 result;
 
-////////////////////////////////////////////////////////////////////////////////
+    result.xx() = m * ( w*w + h*h ) / 12.0;
+    result.xy() = 0.0;
+    result.xz() = 0.0;
 
-void RecentFileAction::trigger()
-{
-    emit(triggered(_id));
+    result.yx() = 0.0;
+    result.yy() = m * ( l*l + h*h ) / 12.0;
+    result.yz() = 0.0;
+
+    result.zx() = 0.0;
+    result.zy() = 0.0;
+    result.zz() = m * ( l*l + w*w ) / 12.0;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

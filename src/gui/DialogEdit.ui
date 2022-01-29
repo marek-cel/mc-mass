@@ -259,7 +259,7 @@
    <item row="8" column="0">
     <widget class="QLabel" name="labelComputedMass">
      <property name="text">
-      <string>Computed Mass [kg]:</string>
+      <string>Precomputed Mass [kg]:</string>
      </property>
      <property name="buddy">
       <cstring>spinBoxComputedMass</cstring>

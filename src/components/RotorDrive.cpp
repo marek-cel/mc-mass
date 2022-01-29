@@ -15,54 +15,69 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
-#ifndef DEFS_H_
-#define DEFS_H_
+
+#include <components/RotorDrive.h>
+
+#include <mcutil/misc/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <iostream>
+namespace mc
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define APP_NAME   "mc-mass"
-#define APP_VER    "0.2"
-#define ORG_NAME   "Marek_Cel"
-#define ORG_DOMAIN "marekcel.pl"
+double RotorDrive::computeMass( Type type,
+                                double m_rotor_rpm,
+                                double m_rotor_gr,
+                                double rotor_mcp )
+{
+    // NASA TP-2015-218751, p.236
+    if ( type == Helicopter )
+    {
+        double n_rotor = 1.0; // number of rotors
 
-////////////////////////////////////////////////////////////////////////////////
+        double chi = 1.0; // ?? technology factor
 
-#define APP_TITLE "MC-Mass"
+        double engine_rpm = m_rotor_gr * m_rotor_rpm;
 
-////////////////////////////////////////////////////////////////////////////////
+        double m_lb = chi * 95.7634 * pow( n_rotor, 0.38553 ) * pow( rotor_mcp, 0.78137 )
+                * pow( engine_rpm, 0.09899 ) / pow( m_rotor_rpm, 0.80686 );
 
-#ifndef NULLPTR
-#   if __cplusplus >= 201103L
-#       define NULLPTR nullptr
-#   else
-#       define NULLPTR 0
-#   endif
-#endif
+        return Units::lb2kg( m_lb );
+    }
 
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef DELPTR
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
+    return 0.0;
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DELTAB
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
+RotorDrive::RotorDrive( const AircraftData *data ) :
+    Component( data )
+{
+    setName( "Rotor Drive" );
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFS_H_
+void RotorDrive::save( QDomDocument *doc, QDomElement *parentNode )
+{
+    QDomElement node = doc->createElement( xmlTagName );
+    parentNode->appendChild( node );
+
+    saveParameters( doc, &node );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double RotorDrive::getComputedMass() const
+{
+    return computeMass( _ac->getType(),
+                        _ac->getMainRotorRPM(),
+                        _ac->getMainRotorGear(),
+                        _ac->getPowerLimit() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+} // namespace mc

@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     app->setOrganizationDomain ( ORG_DOMAIN );
     app->setOrganizationName   ( ORG_NAME   );
 
-    MainWindow *win = new MainWindow();
+    mc::MainWindow *win = new mc::MainWindow();
     win->show();
     
     int result = app->exec();

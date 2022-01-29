@@ -15,14 +15,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
-#ifndef DIALOGEDIT_H
-#define DIALOGEDIT_H
+#ifndef GUI_DIALOGEDIT_H_
+#define GUI_DIALOGEDIT_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <QDialog>
 
-#include <mass/Component.h>
+#include <components/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,6 +32,9 @@ namespace Ui
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace mc
+{
 
 class DialogEdit : public QDialog
 {
@@ -65,6 +68,8 @@ private slots:
     void on_spinBox_H_valueChanged( double arg1 );
 };
 
+} // namespace mc
+
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DIALOGEDIT_H
+#endif // GUI_DIALOGEDIT_H_

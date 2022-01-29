@@ -15,54 +15,50 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  ******************************************************************************/
-#ifndef DEFS_H_
-#define DEFS_H_
+
+#include <utils/XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <iostream>
+namespace mc
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define APP_NAME   "mc-mass"
-#define APP_VER    "0.2"
-#define ORG_NAME   "Marek_Cel"
-#define ORG_DOMAIN "marekcel.pl"
+void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, const QString &text )
+{
+    QDomElement node = doc->createElement( tag_name );
+    parent->appendChild( node );
 
-////////////////////////////////////////////////////////////////////////////////
-
-#define APP_TITLE "MC-Mass"
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef NULLPTR
-#   if __cplusplus >= 201103L
-#       define NULLPTR nullptr
-#   else
-#       define NULLPTR 0
-#   endif
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef DELPTR
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
+    QDomNode textNode = doc->createTextNode( text );
+    node.appendChild( textNode );
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DELTAB
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
+void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, double value )
+{
+    saveTextNode( doc, parent, tag_name, QString::number( value, 'f', 6 ) );
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFS_H_
+void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, int value )
+{
+    saveTextNode( doc, parent, tag_name, QString::number( value ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, bool value )
+{
+    saveTextNode( doc, parent, tag_name, QString( value ? "1" : "0" ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+} // namespace mc
