@@ -54,10 +54,10 @@ public:
     virtual ~Component() = default;
 
     /**
-     * @brief getStatisticalMass
-     * @return
+     * @brief Returns component estimated mass.
+     * @return [kg] component estimated mass
      */
-    virtual double getStatisticalMass() const = 0;
+    virtual double getEstimatedMass() const = 0;
 
     /**
      * @brief read
@@ -66,12 +66,9 @@ public:
     virtual void read( QDomElement *parentNode );
 
     /**
-     * @brief save
-     * @param doc
-     * @param parentNode
+     * @brief Returns component XML tag name.
+     * @return component XML tag name
      */
-    virtual void save( QDomDocument *doc, QDomElement *parentNode );
-
     virtual const char* getXmlTagName() const = 0;
 
     inline const char* getName() const { return _name.c_str(); }

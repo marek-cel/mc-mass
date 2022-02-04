@@ -27,31 +27,30 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AllElse::computeMass( Type type,
-                             double m_maxto )
+double AllElse::estimateMass( const AircraftData *data )
 {
-    double w_dg = Units::kg2lb( m_maxto );
+    double w_dg = Units::kg2lb( data->general.mtow );
 
     // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
             m1 = Units::lb2kg( 0.17 * w_dg );
         }
 
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m1 = Units::lb2kg( 0.17 * w_dg );
         }
 
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m1 = Units::lb2kg( 0.1  * w_dg );
         }
 
         // ??
-        if ( type == Helicopter )
+        if ( data->type == AircraftData::Helicopter )
         {
             m1 = Units::lb2kg( 0.25 * w_dg );
         }
@@ -62,19 +61,19 @@ double AllElse::computeMass( Type type,
         double m2_lb = 0.0;
 
         //
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
             m2_lb = Units::kg2lb( m1 );
         }
 
         //
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m2_lb = Units::kg2lb( m1 );
         }
 
         //
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m2_lb = Units::kg2lb( m1 );
         }
@@ -93,24 +92,6 @@ AllElse::AllElse( const AircraftData *data ) :
     Component( data )
 {
     setName( "All-else Empty" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void AllElse::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( xmlTagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double AllElse::getComputedMass() const
-{
-    return computeMass( _ac->getType(),
-                        _ac->getM_maxTO() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -27,30 +27,29 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Engine::computeMass( Type type,
-                            double m_engine )
+double Engine::estimateMass( const AircraftData *data )
 {
-    double w_en = Units::kg2lb( m_engine );
+    double w_en = Units::kg2lb( data->engine.mass );
 
     // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
             m1 = Units::lb2kg( 1.3 * w_en );
         }
 
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m1 = Units::lb2kg( 1.3 * w_en );
         }
 
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m1 = Units::lb2kg( 1.4 * w_en );
         }
 
-        if ( type == Helicopter )
+        if ( data->type == AircraftData::Helicopter )
         {
             // same as for CargoTransport
             m1 = Units::lb2kg( 1.3 * w_en );
@@ -62,25 +61,25 @@ double Engine::computeMass( Type type,
         double m2_lb = 0.0;
 
         //
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
             m2_lb = Units::kg2lb( m1 );
         }
 
         //
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m2_lb = Units::kg2lb( m1 );
         }
 
         //
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m2_lb = Units::kg2lb( m1 );
         }
 
         //
-        if ( type == Helicopter )
+        if ( data->type == AircraftData::Helicopter )
         {
             m2_lb = Units::kg2lb( m1 );
         }
@@ -99,21 +98,6 @@ Engine::Engine( const AircraftData *data ) :
     Component( data )
 {
     setName( "Engine" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Engine::save( QDomDocument *doc, QDomElement *parentNode )
-{
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Engine::getComputedMass() const
-{
-    return computeMass( _ac->getType(),
-                        _ac->getEngineMass() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

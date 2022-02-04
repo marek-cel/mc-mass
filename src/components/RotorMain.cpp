@@ -27,27 +27,23 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double RotorMain::computeMass( Type type,
-                               double m_rotor_r,
-                               double m_rotor_c,
-                               double m_rotor_tv,
-                               int m_rotor_nb )
+double RotorMain::estimateMass( const AircraftData *data )
 {
     // NASA TP-2015-218751, p.228
-    if ( type == Helicopter )
+    if ( data->type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
 
-        double r_ft = Units::m2ft( m_rotor_r );
-        double c_ft = Units::m2ft( m_rotor_c );
+        double r_ft = Units::m2ft( data->rotors.m_rotor_r );
+        double c_ft = Units::m2ft( data->rotors.m_blades_c );
 
-        double v_tip_fps = Units::mps2fps( m_rotor_tv );
+        double v_tip_fps = Units::mps2fps( data->rotors.m_rotor_tv );
 
         double mu_b = 1.0; // ?? flap natural frequency
 
         double chi_b = 1.0; // ?? technology factor
 
-        double m_lb = chi_b * 0.02606 * n_rotor * pow( (double)m_rotor_nb, 0.6592 )
+        double m_lb = chi_b * 0.02606 * n_rotor * pow( (double)data->rotors.m_rotor_nb, 0.6592 )
                 * pow( r_ft, 1.3371 ) * pow( c_ft, 0.9959 )
                 * pow( v_tip_fps, 0.6682 ) * pow( mu_b, 2.5279 );
 
@@ -63,27 +59,6 @@ RotorMain::RotorMain( const AircraftData *data ) :
     Component( data )
 {
     setName( "Main Rotor" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void RotorMain::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( xmlTagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double RotorMain::getComputedMass() const
-{
-    return computeMass( _ac->getType(),
-                        _ac->getMainRotorRad(),      //double m_rotor_r,
-                        _ac->getMainRotorChord(),    //double m_rotor_c,
-                        _ac->getMainRotorTipVel(),   //double m_rotor_tv,
-                        _ac->getMainRotorBlades() ); //int m_rotor_nb )
 }
 
 ////////////////////////////////////////////////////////////////////////////////

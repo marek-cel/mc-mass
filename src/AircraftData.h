@@ -45,7 +45,7 @@ struct AircraftData
     struct General
     {
         double m_empty;             ///< [kg] empty mass
-        double m_maxTO;             ///< [kg] maximum take-off mass
+        double mtow;                ///< [kg] maximum take-off mass
         double m_maxLand;           ///< [kg] maximum landing mass
         double nz_max;              ///< [-] Nz max
         double nz_maxLand;          ///< [-] Nz max (landing)
@@ -67,11 +67,11 @@ struct AircraftData
          */
         enum CargoDoors
         {
-            NoCargoDoors = 0,       ///< no cargo doors
-            OneSideCargoDoors,      ///< one side cargo doors
-            TwoSideCargoDoors,      ///< two side cargo doors
-            AftClamshellDoors,      ///< aft clamshell doors
-            TwoSideAndAftDoors      ///< two side and aft clamshell doors
+            NoCargoDoor = 0,        ///< no cargo door
+            OneSideCargoDoor,       ///< one side cargo door
+            TwoSideCargoDoor,       ///< two side cargo door
+            AftClamshellDoor,       ///< aft clamshell door
+            TwoSideAndAftDoor       ///< two side and aft clamshell door
         };
 
         CargoDoors cargo_door;      ///< cargo doors type
@@ -176,7 +176,7 @@ struct AircraftData
      */
     struct Engine
     {
-        double engine;              ///< [kg] engine mass
+        double mass;                ///< [kg] engine mass
     };
 
     /**
@@ -199,9 +199,9 @@ struct AircraftData
     General        general;         ///< general aircraft data
     Fuselage       fuselage;        ///< fuselage data
     Wing           wing;            ///< wing data
-    HorizontalTail hTail;           ///< horizontal tail data
-    VerticalTail   vTail;           ///< vertical tail data
-    LandingGear    lGear;           ///< lannding gear data
+    HorizontalTail hor_tail;        ///< horizontal tail data
+    VerticalTail   ver_tail;        ///< vertical tail data
+    LandingGear    landing_gear;    ///< lannding gear data
     Engine         engine;          ///< engine data
     Rotors         rotors;          ///< helicopter rotors data
 

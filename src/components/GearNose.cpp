@@ -27,37 +27,28 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double GearNose::computeMass( Type type,
-                              double m_empty,
-                              double m_maxto,
-                              double m_max_land,
-                              double nz_max_land,
-                              double n_gear_l,
-                              int n_gear_wheels,
-                              bool navy_aircraft,
-                              bool gear_fixed,
-                              bool n_gear_kneeling )
+double GearNose::estimateMass( const AircraftData *data )
 {
-    double w_dg = Units::kg2lb( m_maxto );
-    double w_0  = Units::kg2lb( m_empty );
+    double w_dg = Units::kg2lb( data->general.mtow );
+    double w_0  = Units::kg2lb( data->general.m_empty );
 
     // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        double reduce = gear_fixed ? ( 0.014 * w_0 ) : 0.0;
+        double reduce = data->landing_gear.fixed ? ( 0.014 * w_0 ) : 0.0;
 
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
-            double coeff = navy_aircraft ? 0.045 : 0.033;
+            double coeff = data->general.navy_ac ? 0.045 : 0.033;
             m1 = 0.15 * Units::lb2kg( coeff * w_dg - reduce );
         }
 
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m1 = 0.15 * Units::lb2kg( 0.043 * w_dg - reduce );
         }
 
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m1 = 0.15 * Units::lb2kg( 0.057 * w_dg - reduce );
         }
@@ -67,31 +58,32 @@ double GearNose::computeMass( Type type,
     {
         double m2_lb = 0.0;
 
-        double w_l = Units::kg2lb( m_max_land );
-        double n_l = 1.5 * nz_max_land;
+        double w_l = Units::kg2lb( data->general.m_maxLand );
+        double n_l = 1.5 * data->general.nz_maxLand;
 
-        double l_n_in = Units::m2in( n_gear_l );
+        double l_n_in = Units::m2in( data->landing_gear.nose_l );
 
         // Rayner: Aircraft Design, p.572, eq.15.3
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
-            m2_lb = pow( w_l * n_l, 0.29 ) * pow( l_n_in, 0.5 ) * pow( (double)n_gear_wheels, 0.525 );
+            m2_lb = pow( w_l * n_l, 0.29 ) * pow( l_n_in, 0.5 )
+                  * pow( (double)data->landing_gear.nose_wheels, 0.525 );
         }
 
         // Rayner: Aircraft Design, p.575, eq.15.27
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
-            double k_np = n_gear_kneeling ? 1.15 : 1.0;
+            double k_np = data->landing_gear.nose_kneel ? 1.15 : 1.0;
 
             m2_lb = 0.032 * k_np * pow( w_l, 0.646 ) * pow( n_l, 0.2 )
-                    * pow( l_n_in, 0.5 ) * pow( (double)n_gear_wheels, 0.45 );
+                    * pow( l_n_in, 0.5 ) * pow( (double)data->landing_gear.nose_wheels, 0.45 );
         }
 
         // Rayner: Aircraft Design, p.576, eq.15.48
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m2_lb = 0.125 * pow( n_l * w_l, 0.566 ) * pow( l_n_in / 12.0, 0.845 )
-                    - ( gear_fixed ? 0.014 * w_0 : 0.0 );
+                    - ( data->landing_gear.fixed ? 0.014 * w_0 : 0.0 );
         }
 
         m2 = Units::lb2kg( m2_lb );
@@ -108,32 +100,6 @@ GearNose::GearNose( const AircraftData *data ) :
     Component( data )
 {
     setName( "Nose Landing Gear" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void GearNose::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( xmlTagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double GearNose::getComputedMass() const
-{
-    return computeMass( _ac->getType(),            // Type type,
-                        _ac->getM_empty(),         // double m_empty,
-                        _ac->getM_maxTO(),         // double m_maxto,
-                        _ac->getM_maxLand(),       // double m_max_land,
-                        _ac->getNzMaxLand(),       // double nz_max_land,
-                        _ac->getNoseGearLength(),  // double n_gear_l,
-                        _ac->getNoseGearWheels(),  // int n_gear_wheels,
-                        _ac->getNavyAircraft(),    // bool navy_aircraft,
-                        _ac->getGearFixed(),       // bool gear_fixed,
-                        _ac->getGearNoseKneel() ); // bool n_gear_kneeling
 }
 
 ////////////////////////////////////////////////////////////////////////////////

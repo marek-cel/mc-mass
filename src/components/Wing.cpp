@@ -29,37 +29,24 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::computeMass( Type type,
-                          double wing_exp,
-                          double m_maxto,
-                          double nz_max,
-                          bool wing_delta,
-                          double wing_sweep,
-                          double wing_tr,
-                          double wing_ar,
-                          bool wing_var,
-                          double area_ctrl,
-                          double wing_tc,
-                          double wing_fuel,
-                          double v_cruise,
-                          double h_cruise )
+double Wing::estimateMass( const AircraftData *data )
 {
-    double s_w = Units::sqm2sqft( wing_exp );
+    double s_w = Units::sqm2sqft( data->wing.exp );
 
     // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
             m1 = Units::lb2kg( 9.0 * s_w );
         }
 
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m1 = Units::lb2kg( 10.0 * s_w );
         }
 
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m1 = Units::lb2kg( 2.5 * s_w );
         }
@@ -77,7 +64,7 @@ double Wing::computeMass( Type type,
         double sweep_rad = Units::deg2rad( wing_sweep );
 
         // Rayner: Aircraft Design, p.572, eq.15.1
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
             double k_vs  = wing_var   ? 1.19  : 1.0;
             double k_dw  = wing_delta ? 0.768 : 1.0;
@@ -89,7 +76,7 @@ double Wing::computeMass( Type type,
         }
 
         // Rayner: Aircraft Design, p.574, eq.15.25
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m2_lb = 0.0051 * pow( w_dg * n_z, 0.557 )
                     * pow( s_w, 0.649 ) * pow( wing_ar, 0.5 ) * pow( wing_tc, -0.4 )
@@ -98,7 +85,7 @@ double Wing::computeMass( Type type,
         }
 
         // Rayner: Aircraft Design, p.575, eq.15.46
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             double w_fw  = Units::kg2lb( wing_fuel );
 
@@ -129,36 +116,6 @@ Wing::Wing( const AircraftData *data ) :
     Component( data )
 {
     setName( "Wing" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Wing::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( xmlTagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Wing::getComputedMass() const
-{
-    return computeMass( _ac->getType(),      // Type type,
-                        _ac->getWingExp(),   // double wing_exp,
-                        _ac->getM_maxTO(),   // double m_maxto,
-                        _ac->getNzMax(),     // double nz_max,
-                        _ac->getWingDelta(), // bool wing_delta,
-                        _ac->getWingSweep(), // double wing_sweep,
-                        _ac->getWingTR(),    // double wing_tr,
-                        _ac->getWingAR(),    // double wing_ar,
-                        _ac->getWingVar(),   // bool wing_var,
-                        _ac->getCtrlArea(),  // double area_ctrl,
-                        _ac->getWingTC(),    // double wing_tc,
-                        _ac->getWingFuel(),  // double wing_fuel,
-                        _ac->getCruiseV(),   // double v_cruise,
-                        _ac->getCruiseH() ); // double h_cruise )
 }
 
 ////////////////////////////////////////////////////////////////////////////////

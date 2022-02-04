@@ -39,12 +39,34 @@ class RotorMain : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "rotor_main" };
+    static constexpr char xmlTagName[] { "rotor_main" };    ///< component XML tag name
 
+    /**
+     * @brief Estimates component mass based on the aircraft parameters.
+     * @param[in] data aircraft parameters
+     * @return [kg] component statistical mass
+     */
+    static double estimateMass( const AircraftData *data );
+
+    /**
+     * @brief Constructor.
+     * @param data aircraft data struct
+     */
     RotorMain( const AircraftData *data );
 
-    double getStatisticalMass() const override;
+    /**
+     * @brief Returns component estimated mass.
+     * @return [kg] component estimated mass
+     */
+    inline double getEstimatedMass() const override
+    {
+        return estimateMass( _data );
+    }
 
+    /**
+     * @brief Returns component XML tag name.
+     * @return component XML tag name
+     */
     inline const char* getXmlTagName() const override { return xmlTagName; }
 };
 

@@ -80,7 +80,7 @@ bool Aircraft::read( QDomElement *parentNode )
         {
             // data
             QDomElement nodeM_empty   = nodeData.firstChildElement( "m_empty"     );
-            QDomElement nodeM_maxTO   = nodeData.firstChildElement( "m_max_to"    );
+            QDomElement nodeMTOW      = nodeData.firstChildElement( "m_max_to"    );
             QDomElement nodeM_maxLand = nodeData.firstChildElement( "m_max_land"  );
             QDomElement nodeNzMax     = nodeData.firstChildElement( "nz_max"      );
             QDomElement nodeNzMaxLand = nodeData.firstChildElement( "nz_max_land" );
@@ -164,7 +164,7 @@ bool Aircraft::read( QDomElement *parentNode )
             QDomElement nodeMainRotorBlades = nodeData.firstChildElement( "m_rotor_nb"   );
 
             if ( !nodeM_empty   .isNull()
-              && !nodeM_maxTO   .isNull()
+              && !nodeMTOW      .isNull()
               && !nodeM_maxLand .isNull()
               && !nodeNzMax     .isNull()
               && !nodeNzMaxLand .isNull()
@@ -250,7 +250,7 @@ bool Aircraft::read( QDomElement *parentNode )
             {
                 // general
                 _data.general.m_empty    = nodeM_empty   .text().toDouble();
-                _data.general.m_maxTO    = nodeM_maxTO   .text().toDouble();
+                _data.general.mtow       = nodeMTOW      .text().toDouble();
                 _data.general.m_maxLand  = nodeM_maxLand .text().toDouble();
                 _data.general.nz_max     = nodeNzMax     .text().toDouble();
                 _data.general.nz_maxLand = nodeNzMaxLand .text().toDouble();
@@ -268,11 +268,11 @@ bool Aircraft::read( QDomElement *parentNode )
 
                 switch ( cargo_door_temp )
                 {
-                    case AircraftData::Fuselage::NoCargoDoors       : _data.fuselage.cargo_door = AircraftData::Fuselage::NoCargoDoors       ; break;
-                    case AircraftData::Fuselage::OneSideCargoDoors  : _data.fuselage.cargo_door = AircraftData::Fuselage::OneSideCargoDoors  ; break;
-                    case AircraftData::Fuselage::TwoSideCargoDoors  : _data.fuselage.cargo_door = AircraftData::Fuselage::TwoSideCargoDoors  ; break;
-                    case AircraftData::Fuselage::AftClamshellDoors  : _data.fuselage.cargo_door = AircraftData::Fuselage::AftClamshellDoors  ; break;
-                    case AircraftData::Fuselage::TwoSideAndAftDoors : _data.fuselage.cargo_door = AircraftData::Fuselage::TwoSideAndAftDoors ; break;
+                    case AircraftData::Fuselage::NoCargoDoors       : _data.fuselage.cargo_door = AircraftData::Fuselage::NoCargoDoor       ; break;
+                    case AircraftData::Fuselage::OneSideCargoDoors  : _data.fuselage.cargo_door = AircraftData::Fuselage::OneSideCargoDoor  ; break;
+                    case AircraftData::Fuselage::TwoSideCargoDoors  : _data.fuselage.cargo_door = AircraftData::Fuselage::TwoSideCargoDoor  ; break;
+                    case AircraftData::Fuselage::AftClamshellDoors  : _data.fuselage.cargo_door = AircraftData::Fuselage::AftClamshellDoor  ; break;
+                    case AircraftData::Fuselage::TwoSideAndAftDoors : _data.fuselage.cargo_door = AircraftData::Fuselage::TwoSideAndAftDoor ; break;
                 }
 
                 _data.fuselage.l = nodeFuseL.text().toDouble();

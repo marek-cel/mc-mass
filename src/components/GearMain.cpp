@@ -27,47 +27,34 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double GearMain::computeMass( Type type,
-                              double m_empty,
-                              double m_max_to,
-                              double m_max_land,
-                              double nz_max_land,
-                              double m_gear_l,
-                              double v_stall,
-                              int m_gear_wheels,
-                              int m_gear_struts,
-                              bool navy_aircraft,
-                              bool gear_fixed,
-                              bool gear_cross,
-                              bool gear_tripod,
-                              bool m_gear_kneeling )
+double GearMain::estimateMass( const AircraftData *data )
 {
-    double w_dg = Units::kg2lb( m_max_to );
-    double w_0  = Units::kg2lb( m_empty  );
+    double w_dg = Units::kg2lb( data->general.mtow    );
+    double w_0  = Units::kg2lb( data->general.m_empty );
 
     // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        double reduce = gear_fixed ? ( 0.014 * w_0 ) : 0.0;
+        double reduce = data->landing_gear.fixed ? ( 0.014 * w_0 ) : 0.0;
 
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
-            double coeff = navy_aircraft ? 0.045 : 0.033;
+            double coeff = data->general.navy_ac ? 0.045 : 0.033;
             m1 = 0.85 * Units::lb2kg( coeff * w_dg - reduce );
         }
 
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             m1 = 0.85 * Units::lb2kg( 0.043 * w_dg - reduce );
         }
 
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m1 = 0.85 * Units::lb2kg( 0.057 * w_dg - reduce );
         }
 
         // NASA TP-2015-218751, p.233
-        if ( type == Helicopter )
+        if ( data->type == AircraftData::Helicopter )
         {
             m1 = Units::lb2kg( 0.0325 * w_dg );
         }
@@ -77,13 +64,13 @@ double GearMain::computeMass( Type type,
     {
         double m2_lb = 0.0;
 
-        double w_l = Units::kg2lb( m_max_land );
-        double n_l = 1.5 * nz_max_land;
+        double w_l = Units::kg2lb( data->general.m_maxLand );
+        double n_l = 1.5 * data->general.nz_maxLand;
 
         double l_m_in = Units::m2in( m_gear_l );
 
         // Rayner: Aircraft Design, p.572, eq.15.5
-        if ( type == FighterAttack )
+        if ( data->type == AircraftData::FighterAttack )
         {
             double k_cb  = gear_cross  ? 2.25  : 1.0;
             double k_tpg = gear_tripod ? 0.826 : 1.0;
@@ -92,7 +79,7 @@ double GearMain::computeMass( Type type,
         }
 
         // Rayner: Aircraft Design, p.574, eq.15.29
-        if ( type == CargoTransport )
+        if ( data->type == AircraftData::CargoTransport )
         {
             double k_mp = m_gear_kneeling ? 1.126 : 1.0;
 
@@ -102,13 +89,13 @@ double GearMain::computeMass( Type type,
         }
 
         // Rayner: Aircraft Design, p.576, eq.15.50
-        if ( type == GeneralAviation )
+        if ( data->type == AircraftData::GeneralAviation )
         {
             m2_lb = 0.095 * pow( n_l * w_l, 0.768 ) * pow( l_m_in / 12.0, 0.409 );
         }
 
         // NASA TP-2015-218751, p.233
-        if ( type == Helicopter )
+        if ( data->type == AircraftData::Helicopter )
         {
             m2_lb = 0.4013 * pow( w_dg, 0.6662 ) * pow ( n_l, 0.536 );
         }
@@ -127,36 +114,6 @@ GearMain::GearMain( const AircraftData *data ) :
     Component( data )
 {
     setName( "Main Landing Gear" );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void GearMain::save( QDomDocument *doc, QDomElement *parentNode )
-{
-    QDomElement node = doc->createElement( xmlTagName );
-    parentNode->appendChild( node );
-
-    saveParameters( doc, &node );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double GearMain::getComputedMass() const
-{
-    return computeMass( _ac->getType(),
-                        _ac->getM_empty(),         // double m_empty,
-                        _ac->getM_maxTO(),         // double m_max_to,
-                        _ac->getM_maxLand(),       // double m_max_land,
-                        _ac->getNzMaxLand(),       // double nz_max_land,
-                        _ac->getMainGearLength(),  // double m_gear_l,
-                        _ac->getStallV(),          // double v_stall,
-                        _ac->getMainGearWheels(),  // int m_gear_wheels,
-                        _ac->getMainGearStruts(),  // int m_gear_struts,
-                        _ac->getNavyAircraft(),    // bool navy_aircraft,
-                        _ac->getGearFixed(),       // bool gear_fixed,
-                        _ac->getGearCross(),       // bool gear_cross,
-                        _ac->getGearTripod(),      // bool gear_tripod,
-                        _ac->getGearMainKneel() ); // bool m_gear_kneeling
 }
 
 ////////////////////////////////////////////////////////////////////////////////
