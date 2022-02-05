@@ -576,7 +576,7 @@ bool Aircraft::readDataWing( QDomElement *parentNode )
         _data.wing.tr        = nodeWingTR       .text().toDouble();
         _data.wing.t_c       = nodeWingTC       .text().toDouble();
         _data.wing.fuel      = nodeWingFuel     .text().toDouble();
-        _data.wing.area      = nodeCtrlArea     .text().toDouble();
+        _data.wing.ctrl_area = nodeCtrlArea     .text().toDouble();
         _data.wing.delta     = nodeWingDelta    .text().toInt();
         _data.wing.var_sweep = nodeWingVarSweep .text().toInt();
 
@@ -911,7 +911,7 @@ void Aircraft::saveDataWing( QDomDocument *doc, QDomElement *parentNode )
     XmlUtils::saveTextNode( doc, parentNode, "tr"        , _data.wing.tr        );
     XmlUtils::saveTextNode( doc, parentNode, "t_c"       , _data.wing.t_c       );
     XmlUtils::saveTextNode( doc, parentNode, "fuel"      , _data.wing.fuel      );
-    XmlUtils::saveTextNode( doc, parentNode, "ctrl_area" , _data.wing.area      );
+    XmlUtils::saveTextNode( doc, parentNode, "ctrl_area" , _data.wing.ctrl_area );
     XmlUtils::saveTextNode( doc, parentNode, "delta"     , _data.wing.delta     );
     XmlUtils::saveTextNode( doc, parentNode, "var_sweep" , _data.wing.var_sweep );
 }
