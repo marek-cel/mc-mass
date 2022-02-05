@@ -1,4 +1,13 @@
-bin/*
+bin
+build
+
+out_cloc.txt
+out_cppcheck.txt
+out_cpplint.txt
+
+coverage.info
+coverage_full.info
+coverage-report
 
 ################################################################################
 
