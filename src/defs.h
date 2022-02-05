@@ -25,7 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define APP_NAME   "mc-mass"
-#define APP_VER    "0.2"
+#define APP_VER    "1.0"
 #define ORG_NAME   "Marek_Cel"
 #define ORG_DOMAIN "marekcel.pl"
 
@@ -35,21 +35,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef NULLPTR
-#   if __cplusplus >= 201103L
-#       define NULLPTR nullptr
-#   else
-#       define NULLPTR 0
-#   endif
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
 #ifndef DELPTR
 #define DELPTR( ptr ) \
 { \
     if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
+    ptr = nullptr; \
 }
 #endif
 
@@ -59,7 +49,7 @@
 #define DELTAB( ptr ) \
 { \
     if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
+    ptr = nullptr; \
 }
 #endif
 

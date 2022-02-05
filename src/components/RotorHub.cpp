@@ -29,16 +29,20 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double RotorHub::estimateMass( const AircraftData *data )
+constexpr char RotorHub::xmlTagName[];
+
+////////////////////////////////////////////////////////////////////////////////
+
+double RotorHub::estimateMass( const AircraftData &data )
 {
     // NASA TP-2015-218751, p.228
-    if ( data->type == AircraftData::Helicopter )
+    if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
 
-        double r_ft = Units::m2ft( data->rotors.m_rotor_r );
+        double r_ft = Units::m2ft( data.rotors.main_r );
 
-        double v_tip_fps = Units::mps2fps( data->rotors.m_rotor_tv );
+        double v_tip_fps = Units::mps2fps( data.rotors.main_tip_vel );
 
         double mu_h = 1.0; // ?? flap natural frequency
 
@@ -46,7 +50,8 @@ double RotorHub::estimateMass( const AircraftData *data )
 
         double w_b = RotorMain::estimateMass( data );
 
-        double m_lb = chi_h * 0.003722 * n_rotor * pow( (double)data->rotors.m_rotor_nb, 0.2807 )
+        double m_lb = chi_h * 0.003722 * n_rotor
+                * pow( static_cast<double>(data.rotors.main_blades), 0.2807 )
                 * pow( r_ft, 1.5377 ) * pow( v_tip_fps, 0.429 ) * pow( mu_h, 2.1414 )
                 * pow( w_b / n_rotor, 0.5505 );
 

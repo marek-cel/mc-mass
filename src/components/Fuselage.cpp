@@ -29,24 +29,28 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Fuselage::estimateMass( const AircraftData *data )
+constexpr char Fuselage::xmlTagName[];
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Fuselage::estimateMass( const AircraftData &data )
 {
-    double s_f = Units::sqm2sqft( data->fuselage.wetted_area );
+    double s_f = Units::sqm2sqft( data.fuselage.wetted_area );
 
     // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        if ( data->type == AircraftData::FighterAttack )
+        if ( data.type == AircraftData::FighterAttack )
         {
             m1 = Units::lb2kg( 4.8 * s_f );
         }
 
-        if ( data->type == AircraftData::CargoTransport )
+        if ( data.type == AircraftData::CargoTransport )
         {
             m1 = Units::lb2kg( 5.0 * s_f );
         }
 
-        if ( data->type == AircraftData::GeneralAviation )
+        if ( data.type == AircraftData::GeneralAviation )
         {
             m1 = Units::lb2kg( 1.4 * s_f );
         }
@@ -56,27 +60,27 @@ double Fuselage::estimateMass( const AircraftData *data )
     {
         double m2_lb = 0.0;
 
-        double w_dg = Units::kg2lb( data->general.mtow );
-        double n_z  = 1.5 * data->general.nz_max;
-        double l_ft = Units::m2ft( data->fuselage.l );
-        double d_ft = Units::m2ft( data->fuselage.h );
-        double w_ft = Units::m2ft( data->fuselage.w );
+        double w_dg = Units::kg2lb( data.general.mtow );
+        double n_z  = 1.5 * data.general.nz_max;
+        double l_ft = Units::m2ft( data.fuselage.l );
+        double d_ft = Units::m2ft( data.fuselage.h );
+        double w_ft = Units::m2ft( data.fuselage.w );
 
         // Rayner: Aircraft Design, p.572, eq.15.4
-        if ( data->type == AircraftData::FighterAttack )
+        if ( data.type == AircraftData::FighterAttack )
         {
-            double k_dwf = data->wing.delta ? 0.774 : 1.0;
+            double k_dwf = data.wing.delta ? 0.774 : 1.0;
 
             m2_lb = 0.499 * k_dwf * pow( w_dg, 0.35 ) * pow( n_z, 0.25 )
                     * pow( l_ft, 0.5 ) * pow( d_ft, 0.849 ) * pow( w_ft, 0.685 );
         }
 
         // Rayner: Aircraft Design, p.574, eq.15.28
-        if ( data->type == AircraftData::CargoTransport )
+        if ( data.type == AircraftData::CargoTransport )
         {
             double k_door = 1.0;
 
-            switch ( data->fuselage.cargo_door )
+            switch ( data.fuselage.cargo_door )
             {
                 case AircraftData::Fuselage::NoCargoDoor       : k_door = 1.0;  break;
                 case AircraftData::Fuselage::OneSideCargoDoor  : k_door = 1.06; break;
@@ -85,13 +89,13 @@ double Fuselage::estimateMass( const AircraftData *data )
                 case AircraftData::Fuselage::TwoSideAndAftDoor : k_door = 1.25; break;
             }
 
-            double k_lg = data->fuselage.mounted_lg ? 1.12 : 1.0;
+            double k_lg = data.fuselage.landing_gear ? 1.12 : 1.0;
 
-            double b_w = Units::m2ft( data->wing.span );
-            double sweep_rad = Units::deg2rad( data->wing.sweep );
+            double b_w = Units::m2ft( data.wing.span );
+            double sweep_rad = Units::deg2rad( data.wing.sweep );
 
             double k_ws = 0.75
-                    * ( (1.0 + 2.0 * data->wing.tr)/(1.0 + data->wing.tr) )
+                    * ( (1.0 + 2.0 * data.wing.tr)/(1.0 + data.wing.tr) )
                     * ( b_w * tan( sweep_rad ) / l_ft );
 
             m2_lb = 0.328 * k_door * k_lg * pow( w_dg * n_z, 0.5 )
@@ -100,15 +104,15 @@ double Fuselage::estimateMass( const AircraftData *data )
         }
 
         // Rayner: Aircraft Design, p.576, eq.15.49
-        if ( data->type == AircraftData::GeneralAviation )
+        if ( data.type == AircraftData::GeneralAviation )
         {
-            double l_t_ft = Units::m2ft( data->hor_tail.arm );
+            double l_t_ft = Units::m2ft( data.hor_tail.arm );
 
-            double vol_press_cuft = Units::cum2cuft( data->fuselage.press_vol );
+            double vol_press_cuft = Units::cum2cuft( data.fuselage.press_vol );
             double w_press = 11.9 + pow( vol_press_cuft * 8.0, 0.271 );
 
-            double v_mps = Units::kts2mps( data->general.v_cruise );
-            double h_m   = Units::ft2m( data->general.h_cruise );
+            double v_mps = Units::kts2mps( data.general.v_cruise );
+            double h_m   = Units::ft2m( data.general.h_cruise );
             double rho = Atmosphere::getDensity( h_m );
             double q = 0.5 * rho * pow( v_mps, 2.0 );
             double q_psf = Units::pa2psf( q );
@@ -119,9 +123,9 @@ double Fuselage::estimateMass( const AircraftData *data )
         }
 
         // NASA TP-2015-218751, p.232
-        if ( data->type == AircraftData::Helicopter )
+        if ( data.type == AircraftData::Helicopter )
         {
-            double f_ramp = data->fuselage.cargo_ramp ? 1.3939 : 1.0;
+            double f_ramp = data.fuselage.cargo_ramp ? 1.3939 : 1.0;
 
             double w_basic = 5.896 * f_ramp * pow( w_dg / 1000.0, 0.4908 )
                     * pow( n_z, 0.1323 ) * pow( s_f, 0.2544 ) * pow( l_ft, 0.61 );
@@ -136,7 +140,7 @@ double Fuselage::estimateMass( const AircraftData *data )
         m2 = Units::lb2kg( m2_lb );
     }
 
-    std::cout << "Fuselage:  " << m1 << "  " << m2 << std::endl;
+    //std::cout << "Fuselage:  " << m1 << "  " << m2 << std::endl;
 
     return ( m1 + m2 ) / 2.0;
 }

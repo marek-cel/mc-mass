@@ -44,7 +44,7 @@ public:
 
     static void edit( QWidget *parent, Component *component );
 
-    explicit DialogEdit( QWidget *parent = NULLPTR, const Component *component = NULLPTR );
+    explicit DialogEdit( QWidget *parent = Q_NULLPTR, const Component *component = Q_NULLPTR );
 
     virtual ~DialogEdit();
 

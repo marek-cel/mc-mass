@@ -98,7 +98,7 @@ void DialogEdit::updateComponent( Component *component )
 
 void DialogEdit::updateMass()
 {
-    _ui->spinBoxComputedMass->setValue( _component->getComputedMass() );
+    _ui->spinBoxEstimatedMass->setValue( _component->getEstimatedMass() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

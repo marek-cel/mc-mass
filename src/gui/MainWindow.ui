@@ -272,7 +272,7 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxMassMaxTO">
+             <widget class="QDoubleSpinBox" name="spinBoxMTOW">
               <property name="toolTip">
                <string>maximum take-off mass</string>
               </property>
@@ -304,18 +304,18 @@
              </widget>
             </item>
             <item row="2" column="0">
-             <widget class="QLabel" name="labelMassMaxTO">
+             <widget class="QLabel" name="labelMTOW">
               <property name="toolTip">
                <string>maximum take-off mass</string>
               </property>
               <property name="text">
-               <string>Max TO Mass [kg]:</string>
+               <string>MTOW [kg]:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxMassMaxTO</cstring>
+               <cstring>spinBoxMTOW</cstring>
               </property>
              </widget>
             </item>
@@ -835,7 +835,7 @@
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxWingCT">
+             <widget class="QDoubleSpinBox" name="spinBoxWingCTip">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -912,7 +912,7 @@
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxWingCR">
+             <widget class="QDoubleSpinBox" name="spinBoxWingCRoot">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -925,7 +925,7 @@
              </widget>
             </item>
             <item row="10" column="1">
-             <widget class="QCheckBox" name="checkBoxWingVar">
+             <widget class="QCheckBox" name="checkBoxWingVarSweep">
               <property name="text">
                <string>Variable Sweep</string>
               </property>
@@ -961,7 +961,7 @@
              </widget>
             </item>
             <item row="5" column="0">
-             <widget class="QLabel" name="labelWingCT">
+             <widget class="QLabel" name="labelWingCTip">
               <property name="text">
                <string>Tip Chord [m]:</string>
               </property>
@@ -969,7 +969,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxWingCT</cstring>
+               <cstring>spinBoxWingCTip</cstring>
               </property>
              </widget>
             </item>
@@ -987,7 +987,7 @@
              </widget>
             </item>
             <item row="4" column="0">
-             <widget class="QLabel" name="labelWingCR">
+             <widget class="QLabel" name="labelWingCRoot">
               <property name="text">
                <string>Root Chord [m]:</string>
               </property>
@@ -995,7 +995,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxWingCR</cstring>
+               <cstring>spinBoxWingCRoot</cstring>
               </property>
              </widget>
             </item>
@@ -1026,7 +1026,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxWingExp">
+             <widget class="QDoubleSpinBox" name="spinBoxWingAreaExp">
               <property name="toolTip">
                <string>wing exposed planform area (without the part of the wing buried in the fuselage)</string>
               </property>
@@ -1042,7 +1042,7 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QLabel" name="labelWingExp">
+             <widget class="QLabel" name="labelWingAreaExp">
               <property name="toolTip">
                <string>wing exposed planform area (without the part of the wing buried in the fuselage)</string>
               </property>
@@ -1053,7 +1053,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxWingExp</cstring>
+               <cstring>spinBoxWingAreaExp</cstring>
               </property>
              </widget>
             </item>
@@ -1164,7 +1164,7 @@
              </widget>
             </item>
             <item row="3" column="0">
-             <widget class="QLabel" name="labelHorTailCR">
+             <widget class="QLabel" name="labelHorTailCRoot">
               <property name="text">
                <string>Root Chord [m]:</string>
               </property>
@@ -1172,7 +1172,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxHorTailCR</cstring>
+               <cstring>spinBoxHorTailCRoot</cstring>
               </property>
              </widget>
             </item>
@@ -1193,7 +1193,7 @@
              </widget>
             </item>
             <item row="8" column="0">
-             <widget class="QLabel" name="labelHorTailFW">
+             <widget class="QLabel" name="labelHorTailWF">
               <property name="toolTip">
                <string>fuselage width at horizontal tail intersection</string>
               </property>
@@ -1204,7 +1204,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxHorTailFW</cstring>
+               <cstring>spinBoxHorTailWF</cstring>
               </property>
              </widget>
             </item>
@@ -1216,14 +1216,14 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxHorTailCR">
+             <widget class="QDoubleSpinBox" name="spinBoxHorTailCRoot">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item row="8" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxHorTailFW">
+             <widget class="QDoubleSpinBox" name="spinBoxHorTailWF">
               <property name="toolTip">
                <string>fuselage width at horizontal tail intersection</string>
               </property>
@@ -1256,7 +1256,7 @@
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxHorTailCT">
+             <widget class="QDoubleSpinBox" name="spinBoxHorTailCTip">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -1283,7 +1283,7 @@
              </widget>
             </item>
             <item row="4" column="0">
-             <widget class="QLabel" name="labelHorTailCT">
+             <widget class="QLabel" name="labelHorTailCTip">
               <property name="text">
                <string>Tip Chord [m]:</string>
               </property>
@@ -1291,7 +1291,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxHorTailCT</cstring>
+               <cstring>spinBoxHorTailCTip</cstring>
               </property>
              </widget>
             </item>
@@ -1445,7 +1445,7 @@
              </widget>
             </item>
             <item row="4" column="0">
-             <widget class="QLabel" name="labelVerTailCT">
+             <widget class="QLabel" name="labelVerTailCTip">
               <property name="text">
                <string>Tip Chord [m]:</string>
               </property>
@@ -1453,7 +1453,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxVerTailCT</cstring>
+               <cstring>spinBoxVerTailCTip</cstring>
               </property>
              </widget>
             </item>
@@ -1471,7 +1471,7 @@
              </widget>
             </item>
             <item row="3" column="0">
-             <widget class="QLabel" name="labelVerTailCR">
+             <widget class="QLabel" name="labelVerTailCRoot">
               <property name="text">
                <string>Root Chord [m]:</string>
               </property>
@@ -1479,7 +1479,7 @@
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
               <property name="buddy">
-               <cstring>spinBoxVerTailCR</cstring>
+               <cstring>spinBoxVerTailCRoot</cstring>
               </property>
              </widget>
             </item>
@@ -1586,7 +1586,7 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxVerTailCR">
+             <widget class="QDoubleSpinBox" name="spinBoxVerTailCRoot">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -1653,7 +1653,7 @@
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QDoubleSpinBox" name="spinBoxVerTailCT">
+             <widget class="QDoubleSpinBox" name="spinBoxVerTailCTip">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -3000,7 +3000,7 @@
   <tabstop>scrollAreaGeneral</tabstop>
   <tabstop>comboBoxAircraftType</tabstop>
   <tabstop>spinBoxMassEmpty</tabstop>
-  <tabstop>spinBoxMassMaxTO</tabstop>
+  <tabstop>spinBoxMTOW</tabstop>
   <tabstop>spinBoxMassMaxLand</tabstop>
   <tabstop>spinBoxMaxNz</tabstop>
   <tabstop>spinBoxMaxNzLand</tabstop>
@@ -3020,34 +3020,34 @@
   <tabstop>checkBoxCargoRamp</tabstop>
   <tabstop>scrollAreaWing</tabstop>
   <tabstop>spinBoxWingArea</tabstop>
-  <tabstop>spinBoxWingExp</tabstop>
+  <tabstop>spinBoxWingAreaExp</tabstop>
   <tabstop>spinBoxWingSpan</tabstop>
   <tabstop>spinBoxWingSweep</tabstop>
-  <tabstop>spinBoxWingCR</tabstop>
-  <tabstop>spinBoxWingCT</tabstop>
+  <tabstop>spinBoxWingCRoot</tabstop>
+  <tabstop>spinBoxWingCTip</tabstop>
   <tabstop>spinBoxWingTC</tabstop>
   <tabstop>spinBoxWingFuel</tabstop>
   <tabstop>spinBoxCtrlArea</tabstop>
   <tabstop>checkBoxWingDelta</tabstop>
-  <tabstop>checkBoxWingVar</tabstop>
+  <tabstop>checkBoxWingVarSweep</tabstop>
   <tabstop>scrollAreaTailH</tabstop>
   <tabstop>spinBoxHorTailArea</tabstop>
   <tabstop>spinBoxHorTailSpan</tabstop>
   <tabstop>spinBoxHorTailSweep</tabstop>
-  <tabstop>spinBoxHorTailCR</tabstop>
-  <tabstop>spinBoxHorTailCT</tabstop>
+  <tabstop>spinBoxHorTailCRoot</tabstop>
+  <tabstop>spinBoxHorTailCTip</tabstop>
   <tabstop>spinBoxHorTailTC</tabstop>
   <tabstop>spinBoxHorTailArm</tabstop>
   <tabstop>spinBoxElevArea</tabstop>
-  <tabstop>spinBoxHorTailFW</tabstop>
+  <tabstop>spinBoxHorTailWF</tabstop>
   <tabstop>checkBoxHorTailMoving</tabstop>
   <tabstop>checkBoxHorTailRolling</tabstop>
   <tabstop>scrollAreaTailV</tabstop>
   <tabstop>spinBoxVerTailArea</tabstop>
   <tabstop>spinBoxVerTailHeight</tabstop>
   <tabstop>spinBoxVerTailSweep</tabstop>
-  <tabstop>spinBoxVerTailCR</tabstop>
-  <tabstop>spinBoxVerTailCT</tabstop>
+  <tabstop>spinBoxVerTailCRoot</tabstop>
+  <tabstop>spinBoxVerTailCTip</tabstop>
   <tabstop>spinBoxVerTailTC</tabstop>
   <tabstop>spinBoxVerTailArm</tabstop>
   <tabstop>spinBoxRuddArea</tabstop>

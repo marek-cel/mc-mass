@@ -27,30 +27,34 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AllElse::estimateMass( const AircraftData *data )
+constexpr char AllElse::xmlTagName[];
+
+////////////////////////////////////////////////////////////////////////////////
+
+double AllElse::estimateMass( const AircraftData &data )
 {
-    double w_dg = Units::kg2lb( data->general.mtow );
+    double w_dg = Units::kg2lb( data.general.mtow );
 
     // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
-        if ( data->type == AircraftData::FighterAttack )
+        if ( data.type == AircraftData::FighterAttack )
         {
             m1 = Units::lb2kg( 0.17 * w_dg );
         }
 
-        if ( data->type == AircraftData::CargoTransport )
+        if ( data.type == AircraftData::CargoTransport )
         {
             m1 = Units::lb2kg( 0.17 * w_dg );
         }
 
-        if ( data->type == AircraftData::GeneralAviation )
+        if ( data.type == AircraftData::GeneralAviation )
         {
             m1 = Units::lb2kg( 0.1  * w_dg );
         }
 
         // ??
-        if ( data->type == AircraftData::Helicopter )
+        if ( data.type == AircraftData::Helicopter )
         {
             m1 = Units::lb2kg( 0.25 * w_dg );
         }
@@ -61,19 +65,19 @@ double AllElse::estimateMass( const AircraftData *data )
         double m2_lb = 0.0;
 
         //
-        if ( data->type == AircraftData::FighterAttack )
+        if ( data.type == AircraftData::FighterAttack )
         {
             m2_lb = Units::kg2lb( m1 );
         }
 
         //
-        if ( data->type == AircraftData::CargoTransport )
+        if ( data.type == AircraftData::CargoTransport )
         {
             m2_lb = Units::kg2lb( m1 );
         }
 
         //
-        if ( data->type == AircraftData::GeneralAviation )
+        if ( data.type == AircraftData::GeneralAviation )
         {
             m2_lb = Units::kg2lb( m1 );
         }
@@ -81,7 +85,7 @@ double AllElse::estimateMass( const AircraftData *data )
         m2 = Units::lb2kg( m2_lb );
     }
 
-    std::cout << "AllElse:  " << m1 << "  " << m2 << std::endl;
+    //std::cout << "AllElse:  " << m1 << "  " << m2 << std::endl;
 
     return ( m1 + m2 ) / 2.0;
 }

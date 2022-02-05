@@ -85,7 +85,8 @@ public:
     inline Matrix3x3 getInertiaMatrix () const { return _inertiaMatrix; }
     inline double    getMassTotal     () const { return _massTotal;     }
 
-    inline AircraftData getData() const { return _data; }
+    inline       AircraftData* getData()       { return &_data; }
+    inline const AircraftData* getData() const { return &_data; }
 
     void setData( const AircraftData &data );
 
@@ -104,6 +105,28 @@ private:
 
 
     void deleteAllComponents();
+
+    bool readData( QDomElement *dataNode );
+
+    bool readDataGeneral     ( QDomElement *parentNode );
+    bool readDataFuselage    ( QDomElement *parentNode );
+    bool readDataWing        ( QDomElement *parentNode );
+    bool readDataHorTail     ( QDomElement *parentNode );
+    bool readDataVerTail     ( QDomElement *parentNode );
+    bool readDataLandingGear ( QDomElement *parentNode );
+    bool readDataEngine      ( QDomElement *parentNode );
+    bool readDataRotors      ( QDomElement *parentNode );
+
+    bool readComponents( QDomElement *componentsNode );
+
+    void saveDataGeneral     ( QDomDocument *doc, QDomElement *parentNode );
+    void saveDataFuselage    ( QDomDocument *doc, QDomElement *parentNode );
+    void saveDataWing        ( QDomDocument *doc, QDomElement *parentNode );
+    void saveDataHorTail     ( QDomDocument *doc, QDomElement *parentNode );
+    void saveDataVerTail     ( QDomDocument *doc, QDomElement *parentNode );
+    void saveDataLandingGear ( QDomDocument *doc, QDomElement *parentNode );
+    void saveDataEngine      ( QDomDocument *doc, QDomElement *parentNode );
+    void saveDataRotors      ( QDomDocument *doc, QDomElement *parentNode );
 };
 
 } // namespace mc

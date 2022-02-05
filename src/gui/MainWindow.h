@@ -54,7 +54,7 @@ public:
     typedef std::vector< RecentFileAction* > RecentFilesActions;
 
     /** @brief Constructor. */
-    explicit MainWindow( QWidget *parent = NULLPTR );
+    explicit MainWindow( QWidget *parent = Q_NULLPTR );
 
     /** @brief Destructor. */
     virtual ~MainWindow();
@@ -101,7 +101,7 @@ private:
     void addComponent();
     void editComponent();
 
-    void setAircraftType( Type type );
+    void setAircraftType( AircraftData::Type type );
 
     void updateGUI();
     void updateTitleBar();
@@ -142,7 +142,7 @@ private slots:
     void on_comboBoxAircraftType_currentIndexChanged( int index );
 
     void on_spinBoxMassEmpty_valueChanged   ( double arg1 );
-    void on_spinBoxMassMaxTO_valueChanged   ( double arg1 );
+    void on_spinBoxMTOW_valueChanged        ( double arg1 );
     void on_spinBoxMassMaxLand_valueChanged ( double arg1 );
     void on_spinBoxMaxNz_valueChanged       ( double arg1 );
     void on_spinBoxMaxNzLand_valueChanged   ( double arg1 );
@@ -162,28 +162,28 @@ private slots:
     void on_checkBoxFuselageLG_toggled ( bool checked );
     void on_checkBoxCargoRamp_toggled  ( bool checked );
 
-    void on_spinBoxWingArea_valueChanged  ( double arg1 );
-    void on_spinBoxWingExp_valueChanged   ( double arg1 );
-    void on_spinBoxWingSpan_valueChanged  ( double arg1 );
-    void on_spinBoxWingSweep_valueChanged ( double arg1 );
-    void on_spinBoxWingCR_valueChanged    ( double arg1 );
-    void on_spinBoxWingCT_valueChanged    ( double arg1 );
-    void on_spinBoxWingTC_valueChanged    ( double arg1 );
-    void on_spinBoxWingFuel_valueChanged  ( double arg1 );
-    void on_spinBoxCtrlArea_valueChanged  ( double arg1 );
-    void on_spinBoxWingAR_valueChanged    ( double arg1 );
-    void on_spinBoxWingTR_valueChanged    ( double arg1 );
-    void on_checkBoxWingDelta_toggled ( bool checked );
-    void on_checkBoxWingVar_toggled   ( bool checked );
+    void on_spinBoxWingArea_valueChanged    ( double arg1 );
+    void on_spinBoxWingAreaExp_valueChanged ( double arg1 );
+    void on_spinBoxWingSpan_valueChanged    ( double arg1 );
+    void on_spinBoxWingSweep_valueChanged   ( double arg1 );
+    void on_spinBoxWingCRoot_valueChanged   ( double arg1 );
+    void on_spinBoxWingCTip_valueChanged    ( double arg1 );
+    void on_spinBoxWingTC_valueChanged      ( double arg1 );
+    void on_spinBoxWingFuel_valueChanged    ( double arg1 );
+    void on_spinBoxCtrlArea_valueChanged    ( double arg1 );
+    void on_spinBoxWingAR_valueChanged      ( double arg1 );
+    void on_spinBoxWingTR_valueChanged      ( double arg1 );
+    void on_checkBoxWingDelta_toggled    ( bool checked );
+    void on_checkBoxWingVarSweep_toggled ( bool checked );
 
     void on_spinBoxHorTailArea_valueChanged  ( double arg1 );
     void on_spinBoxHorTailSpan_valueChanged  ( double arg1 );
     void on_spinBoxHorTailSweep_valueChanged ( double arg1 );
-    void on_spinBoxHorTailCR_valueChanged    ( double arg1 );
-    void on_spinBoxHorTailCT_valueChanged    ( double arg1 );
+    void on_spinBoxHorTailCRoot_valueChanged ( double arg1 );
+    void on_spinBoxHorTailCTip_valueChanged  ( double arg1 );
     void on_spinBoxHorTailTC_valueChanged    ( double arg1 );
     void on_spinBoxElevArea_valueChanged     ( double arg1 );
-    void on_spinBoxHorTailFW_valueChanged    ( double arg1 );
+    void on_spinBoxHorTailWF_valueChanged    ( double arg1 );
     void on_spinBoxHorTailArm_valueChanged   ( double arg1 );
     void on_spinBoxHorTailAR_valueChanged    ( double arg1 );
     void on_spinBoxHorTailTR_valueChanged    ( double arg1 );
@@ -193,8 +193,8 @@ private slots:
     void on_spinBoxVerTailArea_valueChanged   ( double arg1 );
     void on_spinBoxVerTailHeight_valueChanged ( double arg1 );
     void on_spinBoxVerTailSweep_valueChanged  ( double arg1 );
-    void on_spinBoxVerTailCR_valueChanged     ( double arg1 );
-    void on_spinBoxVerTailCT_valueChanged     ( double arg1 );
+    void on_spinBoxVerTailCRoot_valueChanged  ( double arg1 );
+    void on_spinBoxVerTailCTip_valueChanged   ( double arg1 );
     void on_spinBoxVerTailTC_valueChanged     ( double arg1 );
     void on_spinBoxVerTailArm_valueChanged    ( double arg1 );
     void on_spinBoxRuddArea_valueChanged      ( double arg1 );

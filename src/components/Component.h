@@ -60,10 +60,17 @@ public:
     virtual double getEstimatedMass() const = 0;
 
     /**
-     * @brief read
-     * @param parentNode
+     * @brief Reads component data.
+     * @param parentNode XML parent node
      */
-    virtual void read( QDomElement *parentNode );
+    void read( QDomElement *parentNode );
+
+    /**
+     * @brief Saves component data.
+     * @param doc XML document
+     * @param parentNode XML parent node
+     */
+    void save( QDomDocument *doc, QDomElement *parentNode );
 
     /**
      * @brief Returns component XML tag name.

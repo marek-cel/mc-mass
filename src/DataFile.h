@@ -70,6 +70,9 @@ public:
     inline       Aircraft* getAircraft()       { return &_aircraft; }
     inline const Aircraft* getAircraft() const { return &_aircraft; }
 
+    inline       AircraftData* getAircraftData()       { return _aircraft.getData(); }
+    inline const AircraftData* getAircraftData() const { return _aircraft.getData(); }
+
 private:
 
     Aircraft _aircraft;     ///<

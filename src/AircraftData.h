@@ -49,7 +49,7 @@ struct AircraftData
         double m_maxLand;           ///< [kg] maximum landing mass
         double nz_max;              ///< [-] Nz max
         double nz_maxLand;          ///< [-] Nz max (landing)
-        double stall_v;             ///< [kts] stall speed
+        double v_stall;             ///< [kts] stall speed
         double h_cruise;            ///< [ft]  cruise altitude
         double v_cruise;            ///< [kts] cruise speed
         double mach_max;            ///< [-] maximum design Mach number
@@ -65,7 +65,7 @@ struct AircraftData
         /**
          * @brief The CargoDoor enum
          */
-        enum CargoDoors
+        enum CargoDoor
         {
             NoCargoDoor = 0,        ///< no cargo door
             OneSideCargoDoor,       ///< one side cargo door
@@ -74,18 +74,18 @@ struct AircraftData
             TwoSideAndAftDoor       ///< two side and aft clamshell door
         };
 
-        CargoDoors cargo_door;      ///< cargo doors type
+        CargoDoor cargo_door;       ///< cargo doors type
 
         double l;                   ///< [m] fuselage length
         double h;                   ///< [m] fuselage height
         double w;                   ///< [m] fuselage width
 
-        double nl;                  ///< [m] nose length
+        double l_n;                 ///< [m] nose length
 
         double wetted_area;         ///< [m^2] fuselage wetted area
         double press_vol;           ///< [m^3] volume of pressurized section
 
-        bool mounted_lg;            ///< specifies if main landing gear is fuselage mounted
+        bool landing_gear;          ///< specifies if main landing gear is fuselage mounted
         bool cargo_ramp;            ///< specifies if helicopter has a cargo ramp
     };
 
@@ -95,19 +95,19 @@ struct AircraftData
     struct Wing
     {
         double area;                ///< [m^2] wing area
-        double exp;                 ///< [m^2] wing exposed area
+        double area_exp;            ///< [m^2] wing exposed area
         double span;                ///< [m] wing span
         double sweep;               ///< [deg] wing sweep at 25% chord
-        double c_t;                 ///< [m] wing tip chord
-        double c_r;                 ///< [m] wing root chord
+        double c_tip;               ///< [m] wing tip chord
+        double c_root;              ///< [m] wing root chord
         double ar;                  ///< [-] wing aspect ratio
         double tr;                  ///< [-] wing taper ratio
-        double tc;                  ///< [-] wing thickness ratio
+        double t_c;                 ///< [-] wing thickness ratio
         double fuel;                ///< [kg] wing fuel capacity
         double ctrl_area;           ///< [m^2] wing mounted control surface area
 
         bool delta;                 ///< specifies if delta wing
-        bool var;                   ///< specifies if wing has variable sweep
+        bool var_sweep;             ///< specifies if wing has variable sweep
     };
 
     /**
@@ -118,11 +118,11 @@ struct AircraftData
         double area;                ///< [m^2] horizontal tail area
         double span;                ///< [m] horizontal tail span
         double sweep;               ///< [deg] horizontal tail sweep at 25% MAC
-        double c_t;                 ///< [m] horizontal tail tip chord
-        double c_r;                 ///< [m] horizontal tail root chord
-        double tc;                  ///< [-] horizontal tail thickness ratio
+        double c_tip;               ///< [m] horizontal tail tip chord
+        double c_root;              ///< [m] horizontal tail root chord
+        double t_c;                 ///< [-] horizontal tail thickness ratio
         double elev_area;           ///< [m^2] elevator area
-        double fw;                  ///< [m] fuselage width at horizontal tail intersection
+        double w_f;                 ///< [m] fuselage width at horizontal tail intersection
         double arm;                 ///< [m] horizontal tail arm
         double ar;                  ///< [-] horizontal tail aspect ratio
         double tr;                  ///< [-] horizontal tail taper ratio
@@ -139,9 +139,9 @@ struct AircraftData
         double area;                ///< [m^2] vertical tail area
         double height;              ///< [m] vertical tail height
         double sweep;               ///< [deg] vertical tail sweep at 25% MAC
-        double c_t;                 ///< [m] vertical tail tip chord
-        double c_r;                 ///< [m] vertical tail root chord
-        double tc;                  ///< [-] vertical tail thickness ratio
+        double c_tip;               ///< [m] vertical tail tip chord
+        double c_root;              ///< [m] vertical tail root chord
+        double t_c;                 ///< [-] vertical tail thickness ratio
         double arm;                 ///< [m] vertical tail arm
         double rudd_area;           ///< [m^2] rudder area
         double ar;                  ///< [-] vertical tail aspect ratio
@@ -184,15 +184,15 @@ struct AircraftData
      */
     struct Rotors
     {
-        double m_rotor_r;           ///< [m]   main rotor radius
-        double m_blades_c;          ///< [m]   main rotor blades chord
-        double m_rotor_rpm;         ///< [rpm] main rotor rotation speed
-        double m_rotor_gear;        ///< [-]   main rotor gearing ratio
-        double t_rotor_r;           ///< [m]   tail rotor radius
-        double rotor_mcp;           ///< [hp]  drive system power limit (MCP)
-        double m_rotor_tv;          ///< [m/s] main rotor blade tip velocity
+        double main_r;              ///< [m]   main rotor radius
+        double main_cb;             ///< [m]   main rotor blades chord
+        double main_rpm;            ///< [rpm] main rotor rotation speed
+        double main_gear_ratio;     ///< [-]   main rotor gearing ratio
+        double tail_r;              ///< [m]   tail rotor radius
+        double mcp;                 ///< [hp]  drive system power limit (MCP - Maximum Continuous Power)
+        double main_tip_vel;        ///< [m/s] main rotor blade tip velocity
 
-        int m_rotor_nb;             ///< number of main rotor blades
+        int main_blades;            ///< number of main rotor blades
     };
 
     Type           type;            ///< aircraft type

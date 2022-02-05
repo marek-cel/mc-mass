@@ -27,19 +27,23 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double RotorDrive::estimateMass( const AircraftData *data )
+constexpr char RotorDrive::xmlTagName[];
+
+////////////////////////////////////////////////////////////////////////////////
+
+double RotorDrive::estimateMass( const AircraftData &data )
 {
     // NASA TP-2015-218751, p.236
-    if ( data->type == AircraftData::Helicopter )
+    if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
 
         double chi = 1.0; // ?? technology factor
 
-        double engine_rpm = data->rotors.m_rotor_gear * data->rotors.m_rotor_rpm;
+        double engine_rpm = data.rotors.main_gear_ratio * data.rotors.main_rpm;
 
-        double m_lb = chi * 95.7634 * pow( n_rotor, 0.38553 ) * pow( data->rotors.rotor_mcp, 0.78137 )
-                * pow( engine_rpm, 0.09899 ) / pow( data->rotors.m_rotor_rpm, 0.80686 );
+        double m_lb = chi * 95.7634 * pow( n_rotor, 0.38553 ) * pow( data.rotors.mcp, 0.78137 )
+                * pow( engine_rpm, 0.09899 ) / pow( data.rotors.main_rpm, 0.80686 );
 
         return Units::lb2kg( m_lb );
     }

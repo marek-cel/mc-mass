@@ -46,7 +46,7 @@ public:
      * @param[in] data aircraft parameters
      * @return [kg] component statistical mass
      */
-    static double estimateMass( const AircraftData *data );
+    static double estimateMass( const AircraftData &data );
 
     /**
      * @brief Constructor.
@@ -60,7 +60,7 @@ public:
      */
     inline double getEstimatedMass() const override
     {
-        return estimateMass( _data );
+        return estimateMass( *_data );
     }
 
     /**

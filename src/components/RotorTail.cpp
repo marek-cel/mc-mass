@@ -27,20 +27,24 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double RotorTail::estimateMass( const AircraftData *data )
+constexpr char RotorTail::xmlTagName[];
+
+////////////////////////////////////////////////////////////////////////////////
+
+double RotorTail::estimateMass( const AircraftData &data )
 {
     // NASA TP-2015-218751, p.230
-    if ( data->type == AircraftData::Helicopter )
+    if ( data.type == AircraftData::Helicopter )
     {
         double chi_tr = 1.0; // ?? technology factor
 
-        double r_mr_ft = Units::m2ft( data->rotors.m_rotor_r );
-        double r_tr_ft = Units::m2ft( data->rotors.t_rotor_r );
+        double r_mr_ft = Units::m2ft( data.rotors.main_r );
+        double r_tr_ft = Units::m2ft( data.rotors.tail_r );
 
-        double v_tip_fps = Units::mps2fps( data->rotors.m_rotor_tv );
+        double v_tip_fps = Units::mps2fps( data.rotors.main_tip_vel );
 
         double m_lb = chi_tr * 1.3778 * pow( r_tr_ft, 0.0897 )
-                * pow( data->rotors.rotor_mcp * r_mr_ft / v_tip_fps, 0.8951 );
+                * pow( data.rotors.mcp * r_mr_ft / v_tip_fps, 0.8951 );
 
         return Units::lb2kg( m_lb );
     }
