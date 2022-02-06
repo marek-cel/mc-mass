@@ -2,13 +2,30 @@
 
 It is assumed that all aircraft components are uniform rectangular cuboids, parallel to the aircraft Body Axis System, with position defined by their center of mass.
 
+All values are expressed in International System of Units (SI).
+
+\section{Center of Mass}
+
+Aircraft center of mass position is given by the following formula. \cite{Taylor2005}
+\begin{equation}
+  \label{eq-center-of-mass}
+  \vec{r}_{CG}
+  =
+  \frac{\sum_{j} m_j * \vec{r}_j}{\sum_{j} m_j}
+\end{equation}
+
+Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [$m_j$]       --- [kg] component mass
+  \item [$\vec{r}_j$] --- [m] component center of mass position
+\end{description}
+
 \section{Moment of Inertia}
 
 Uniform rectangular cuboid moment of inertia about its center of mass is given by the following formula. \cite{Awrejcewicz2012}
-
 \begin{equation}
   \label{eq-cuboid-inertia}
-  {\boldsymbol I}
+  {\boldsymbol I}_0
   =
   m
   \left[
@@ -20,9 +37,17 @@ Uniform rectangular cuboid moment of inertia about its center of mass is given b
   \right]
 \end{equation}
 
+Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [$m$] --- [kg] component mass
+  \item [$l$] --- [m] component length (dimension along x-axis)
+  \item [$w$] --- [m] component width (dimension along y-axis)
+  \item [$h$] --- [m] component height (dimension along z-axis)
+\end{description}
+
 \section{Huygens–Steiner Parallel Axis Theorem}
 
-Huygens–Steiner parallel axis theorem, given by the following expression, is used to calculate aircraft components inertia tensors. \cite{Awrejcewicz2012}
+Huygens–Steiner parallel axis theorem, given by the following expression, is used to calculate aircraft components inertia tensors expressed in the aircraft Body Axis System. \cite{Awrejcewicz2012}
 \begin{equation}
   \label{eq-mass-steiners}
   {\boldsymbol I}_b
@@ -39,21 +64,150 @@ Huygens–Steiner parallel axis theorem, given by the following expression, is u
   \right]
 \end{equation}
 
+Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [${\boldsymbol I}_0$] --- [kg$\cdot$m\textsuperscript{2}] component inertia about its center of mass
+  \item [$m$] --- [kg] component mass
+  \item [$x$] --- [m] component center of mass x-coordinate
+  \item [$y$] --- [m] component center of mass y-coordinate
+  \item [$z$] --- [m] component center of mass z-coordinate
+\end{description}
+
 Sum of all aircraft components inertia tensors gives aircraft inertia tensor:
 \begin{equation}
-  {\boldsymbol I}_b = \sum_{j} {\boldsymbol I}_{j,b}
+  {\boldsymbol I}_{b} = \sum_{j} {\boldsymbol I}_{b,j}
 \end{equation}
 
 \section{Statistical Weight Estimation}
 
-Lorem ipsum. \cite{NASA-TP-2015-218751,Raymer1992}
+Lorem ipsum. \cite{NASA-TP-2015-218751,Raymer2018}
 
 \subsection{Fighter/Attack}
 
+\subsubsection{Wing}
+
+Lorem ipsum.
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Main Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Nose Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.
+
 \subsection{Cargo/Transport}
 
+\subsubsection{Wing}
+
+Lorem ipsum.
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Main Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Nose Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.
+
 \subsection{General Aviation}
+
+\subsubsection{Wing}
+
+Lorem ipsum.
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Main Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Nose Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.
 
 \subsection{Helicopter}
 
 Lorem ipsum. \cite{NASA-TP-2015-218751}
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Main Rotor}
+
+Lorem ipsum.
+
+\subsubsection{Tail Rotor}
+
+Lorem ipsum.
+
+\subsubsection{Rotor Drive System}
+
+Lorem ipsum.
+
+\subsubsection{Main Rotor Hub}
+
+Lorem ipsum.
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.
