@@ -30,6 +30,11 @@ namespace mc
 
 /**
  * @brief The Cuboid class.
+ *
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>Awrejcewicz J.: Classical Mechanics: Kinematics and Statics, 2012, p.155</li>
+ * </ul>
  */
 class Cuboid
 {
