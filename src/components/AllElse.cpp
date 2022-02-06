@@ -35,59 +35,33 @@ double AllElse::estimateMass( const AircraftData &data )
 {
     double w_dg = Units::kg2lb( data.general.mtow );
 
+    double m = 0.0;
+
     // Rayner: Aircraft Design, p.568, table 15.2
-    double m1 = 0.0;
+    if ( data.type == AircraftData::FighterAttack )
     {
-        if ( data.type == AircraftData::FighterAttack )
-        {
-            m1 = Units::lb2kg( 0.17 * w_dg );
-        }
-
-        if ( data.type == AircraftData::CargoTransport )
-        {
-            m1 = Units::lb2kg( 0.17 * w_dg );
-        }
-
-        if ( data.type == AircraftData::GeneralAviation )
-        {
-            m1 = Units::lb2kg( 0.1  * w_dg );
-        }
-
-        // ??
-        if ( data.type == AircraftData::Helicopter )
-        {
-            m1 = Units::lb2kg( 0.25 * w_dg );
-        }
+        m = Units::lb2kg( 0.17 * w_dg );
     }
 
-    double m2 = 0.0;
+    // Rayner: Aircraft Design, p.568, table 15.2
+    if ( data.type == AircraftData::CargoTransport )
     {
-        double m2_lb = 0.0;
-
-        //
-        if ( data.type == AircraftData::FighterAttack )
-        {
-            m2_lb = Units::kg2lb( m1 );
-        }
-
-        //
-        if ( data.type == AircraftData::CargoTransport )
-        {
-            m2_lb = Units::kg2lb( m1 );
-        }
-
-        //
-        if ( data.type == AircraftData::GeneralAviation )
-        {
-            m2_lb = Units::kg2lb( m1 );
-        }
-
-        m2 = Units::lb2kg( m2_lb );
+        m = Units::lb2kg( 0.17 * w_dg );
     }
 
-    //std::cout << "AllElse:  " << m1 << "  " << m2 << std::endl;
+    // Rayner: Aircraft Design, p.568, table 15.2
+    if ( data.type == AircraftData::GeneralAviation )
+    {
+        m = Units::lb2kg( 0.1  * w_dg );
+    }
 
-    return ( m1 + m2 ) / 2.0;
+    // engineering judgement
+    if ( data.type == AircraftData::Helicopter )
+    {
+        m = Units::lb2kg( 0.25 * w_dg );
+    }
+
+    return m;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

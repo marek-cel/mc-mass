@@ -134,6 +134,7 @@ double Fuselage::estimateMass( const AircraftData &data )
 
             m2_lb = chi_basic * w_basic;
 
+            // same as m2
             m1 = Units::lb2kg( m2_lb );
         }
 

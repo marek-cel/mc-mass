@@ -35,27 +35,29 @@ double Engine::estimateMass( const AircraftData &data )
 {
     double w_en = Units::kg2lb( data.engine.mass );
 
-    // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
+        // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::FighterAttack )
         {
             m1 = Units::lb2kg( 1.3 * w_en );
         }
 
+        // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::CargoTransport )
         {
             m1 = Units::lb2kg( 1.3 * w_en );
         }
 
+        // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::GeneralAviation )
         {
             m1 = Units::lb2kg( 1.4 * w_en );
         }
 
+        // engineering judgement (same as for CargoTransport)
         if ( data.type == AircraftData::Helicopter )
         {
-            // same as for CargoTransport
             m1 = Units::lb2kg( 1.3 * w_en );
         }
     }

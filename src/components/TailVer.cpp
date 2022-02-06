@@ -122,7 +122,7 @@ double TailVer::estimateMass( const AircraftData &data )
 
             m2_lb = chi_vt * 1.046 * f_tr * pow( s_vt, 0.9441 ) * pow( data.ver_tail.ar, 0.5332 );
 
-            m1 = Units::lb2kg( m2_lb );
+            m1 = Units::lb2kg( m2_lb ); // same as m2
         }
 
         m2 = Units::lb2kg( m2_lb );

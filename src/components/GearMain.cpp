@@ -36,22 +36,24 @@ double GearMain::estimateMass( const AircraftData &data )
     double w_dg = Units::kg2lb( data.general.mtow    );
     double w_0  = Units::kg2lb( data.general.m_empty );
 
-    // Rayner: Aircraft Design, p.568, table 15.2
     double m1 = 0.0;
     {
         double reduce = data.landing_gear.fixed ? ( 0.014 * w_0 ) : 0.0;
 
+        // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::FighterAttack )
         {
             double coeff = data.general.navy_ac ? 0.045 : 0.033;
             m1 = 0.85 * Units::lb2kg( coeff * w_dg - reduce );
         }
 
+        // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::CargoTransport )
         {
             m1 = 0.85 * Units::lb2kg( 0.043 * w_dg - reduce );
         }
 
+        // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::GeneralAviation )
         {
             m1 = 0.85 * Units::lb2kg( 0.057 * w_dg - reduce );

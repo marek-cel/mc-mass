@@ -279,7 +279,7 @@ void Aircraft::update()
         i += (*it)->getInertia();
     }
 
-    _centerOfMass = ( m > 0.0 ) ? ( s * ( 1.0 / m ) ) : Vector3();
+    _centerOfMass = ( m > 0.0 ) ? ( s / m ) : Vector3();
     _inertiaMatrix = i;
     _massTotal = m;
 }

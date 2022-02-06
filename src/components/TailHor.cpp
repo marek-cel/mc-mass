@@ -115,7 +115,7 @@ double TailHor::estimateMass( const AircraftData &data )
 
             m2_lb = chi_ht * 0.7176 * pow( s_ht, 1.1881 ) * pow( data.hor_tail.ar, 0.3173 );
 
-            m1 = Units::lb2kg( m2_lb );
+            m1 = Units::lb2kg( m2_lb ); // same as m2
         }
 
         m2 = Units::lb2kg( m2_lb );
