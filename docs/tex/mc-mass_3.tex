@@ -1,13 +1,59 @@
-\chapter{Weight Estimation Formulas}
+\chapter{Mass Characterics}
+
+It is assumed that all aircraft components are uniform rectangular cuboids, parallel to the aircraft Body Axis System, with position defined by their center of mass.
+
+\section{Moment of Inertia}
+
+Uniform rectangular cuboid moment of inertia about its center of mass is given by the following formula. \cite{Awrejcewicz2012}
+
+\begin{equation}
+  \label{eq-cuboid-inertia}
+  {\boldsymbol I}
+  =
+  m
+  \left[
+    \begin{matrix}
+      \frac{w^2 + h^2}{12} & 0 & 0 \\
+      0 & \frac{l^2 + h^2}{12} & 0 \\
+      0 & 0 & \frac{l^2 + w^2}{12} \\
+    \end{matrix}
+  \right]
+\end{equation}
+
+\section{Huygens–Steiner Parallel Axis Theorem}
+
+Huygens–Steiner parallel axis theorem, given by the following expression, is used to calculate aircraft components inertia tensors. \cite{Awrejcewicz2012}
+\begin{equation}
+  \label{eq-mass-steiners}
+  {\boldsymbol I}_b
+  =
+  {\boldsymbol I}_0
+  +
+  m
+  \left[
+    \begin{matrix}
+      y^2 + z^2 &       -xy &       -xz \\
+            -yx & x^2 + z^2 &       -yz \\
+            -zx &       -zy & x^2 + y^2 \\
+    \end{matrix}
+  \right]
+\end{equation}
+
+Sum of all aircraft components inertia tensors gives aircraft inertia tensor:
+\begin{equation}
+  {\boldsymbol I}_b = \sum_{j} {\boldsymbol I}_{j,b}
+\end{equation}
+
+\section{Statistical Weight Estimation}
 
 Lorem ipsum. \cite{NASA-TP-2015-218751,Raymer1992}
 
-\section{Fighter/Attack}
+\subsection{Fighter/Attack}
 
-\section{Cargo/Transport}
+\subsection{Cargo/Transport}
 
-\section{General Aviation}
+\subsection{General Aviation}
 
-\section{Helicopter}
+\subsection{Helicopter}
 
 Lorem ipsum. \cite{NASA-TP-2015-218751}
