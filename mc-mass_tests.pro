@@ -45,8 +45,7 @@ win32: LIBS += \
 unix: LIBS += \
     -L/lib \
     -L/usr/lib \
-    -L/usr/local/lib \
-    -lmcutilMath
+    -L/usr/local/lib
 
 ################################################################################
 

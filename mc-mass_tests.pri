@@ -8,3 +8,9 @@ SOURCES += \
 
 SOURCES += \
     $$PWD/tests/components/TestAllElse.cpp
+
+################################################################################
+
+SOURCES += \
+    $$PWD/tests/utils/TestMatrix3x3.cpp \
+    $$PWD/tests/utils/TestVector3.cpp
