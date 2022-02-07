@@ -13,7 +13,6 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 
 #include <Aircraft.h>
@@ -182,6 +181,7 @@ void Aircraft::reset()
     _data.fuselage.press_vol    = 0.0;
     _data.fuselage.landing_gear = false;
     _data.fuselage.cargo_ramp   = false;
+    _data.fuselage.wetted_area_override = false;
 
     // wing
     _data.wing.area      = 0.0;
@@ -491,6 +491,7 @@ bool Aircraft::readDataFuselage( QDomElement *parentNode )
     QDomElement nodePressVol   = parentNode->firstChildElement( "press_vol"    );
     QDomElement nodeFuselageLG = parentNode->firstChildElement( "landing_gear" );
     QDomElement nodeCargoRamp  = parentNode->firstChildElement( "cargo_ramp"   );
+    QDomElement nodeWettedAreaOverride  = parentNode->firstChildElement( "wetted_area_override" );
 
     if (   !nodeCargoDoor  .isNull()
         && !nodeFuseL      .isNull()
@@ -501,6 +502,7 @@ bool Aircraft::readDataFuselage( QDomElement *parentNode )
         && !nodePressVol   .isNull()
         && !nodeFuselageLG .isNull()
         && !nodeCargoRamp  .isNull()
+        && !nodeWettedAreaOverride.isNull()
        )
     {
         int cargo_door_temp = nodeCargoDoor.text().toInt();
@@ -526,6 +528,7 @@ bool Aircraft::readDataFuselage( QDomElement *parentNode )
         _data.fuselage.press_vol    = nodePressVol   .text().toDouble();
         _data.fuselage.landing_gear = nodeFuselageLG .text().toInt();
         _data.fuselage.cargo_ramp   = nodeCargoRamp  .text().toInt();
+        _data.fuselage.wetted_area_override = nodeWettedAreaOverride.text().toInt();
 
         return true;
     }
@@ -895,6 +898,8 @@ void Aircraft::saveDataFuselage( QDomDocument *doc, QDomElement *parentNode )
     XmlUtils::saveTextNode( doc, parentNode, "press_vol"    , _data.fuselage.press_vol    );
     XmlUtils::saveTextNode( doc, parentNode, "landing_gear" , _data.fuselage.landing_gear );
     XmlUtils::saveTextNode( doc, parentNode, "cargo_ramp"   , _data.fuselage.cargo_ramp   );
+
+    XmlUtils::saveTextNode( doc, parentNode, "wetted_area_override", _data.fuselage.wetted_area_override );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

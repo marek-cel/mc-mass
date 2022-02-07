@@ -13,15 +13,14 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 #ifndef UTILS_CUBOID_H_
 #define UTILS_CUBOID_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <mcutil/math/Matrix3x3.h>
-#include <mcutil/math/Vector3.h>
+#include <utils/Matrix3x3.h>
+#include <utils/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

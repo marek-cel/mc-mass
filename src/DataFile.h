@@ -13,7 +13,6 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 #ifndef DATAFILE_H_
 #define DATAFILE_H_
@@ -27,8 +26,8 @@
 
 #include <defs.h>
 
-#include <mcutil/math/Matrix3x3.h>
-#include <mcutil/math/Vector3.h>
+#include <utils/Matrix3x3.h>
+#include <utils/Vector3.h>
 
 #include <Aircraft.h>
 #include <components/Component.h>

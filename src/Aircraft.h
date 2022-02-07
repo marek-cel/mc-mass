@@ -13,7 +13,6 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 #ifndef AIRCRAFT_H_
 #define AIRCRAFT_H_
@@ -25,8 +24,8 @@
 #include <QDomDocument>
 #include <QDomElement>
 
-#include <mcutil/math/Matrix3x3.h>
-#include <mcutil/math/Vector3.h>
+#include <utils/Matrix3x3.h>
+#include <utils/Vector3.h>
 
 #include <defs.h>
 #include <AircraftData.h>

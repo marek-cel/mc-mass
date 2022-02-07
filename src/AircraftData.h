@@ -13,7 +13,6 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 #ifndef AIRCRAFTDATA_H_
 #define AIRCRAFTDATA_H_
@@ -87,6 +86,7 @@ struct AircraftData
 
         bool landing_gear;          ///< specifies if main landing gear is fuselage mounted
         bool cargo_ramp;            ///< specifies if helicopter has a cargo ramp
+        bool wetted_area_override;  ///< specifies if wetted area override is enabled
     };
 
     /**

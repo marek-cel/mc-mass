@@ -13,7 +13,6 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 #ifndef GUI_MAINWINDOW_H_
 #define GUI_MAINWINDOW_H_
@@ -158,9 +157,11 @@ private slots:
     void on_spinBoxFuseWidth_valueChanged  ( double arg1 );
     void on_spinBoxNoseLength_valueChanged ( double arg1 );
     void on_spinBoxPressVol_valueChanged   ( double arg1 );
-    void on_spinBoxWettedArea_valueChanged ( double arg1 );
+    void on_spinBoxWettedAreaEstimated_valueChanged ( double arg1 );
+    void on_spinBoxWettedAreaReal_valueChanged ( double arg1 );
     void on_checkBoxFuselageLG_toggled ( bool checked );
     void on_checkBoxCargoRamp_toggled  ( bool checked );
+    void on_checkBoxWettedAreaOverride_toggled( bool checked );
 
     void on_spinBoxWingArea_valueChanged    ( double arg1 );
     void on_spinBoxWingAreaExp_valueChanged ( double arg1 );

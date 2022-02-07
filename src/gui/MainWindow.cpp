@@ -13,7 +13,6 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 
 #include <gui/MainWindow.h>
@@ -428,16 +427,19 @@ void MainWindow::setAircraftType( AircraftData::Type type )
     _ui->spinBoxFuseWidth  ->setEnabled( false );
     _ui->spinBoxNoseLength ->setEnabled( false );
 
-    _ui->spinBoxWettedArea ->setEnabled( false );
+    _ui->spinBoxWettedAreaEstimated ->setEnabled( false );
+    _ui->spinBoxWettedAreaReal      ->setEnabled( false );
     _ui->spinBoxPressVol   ->setEnabled( false );
 
     _ui->labelCargoDoor->setEnabled( false );
 
-    _ui->labelWettedArea ->setEnabled( false );
+    _ui->labelWettedAreaEstimated ->setEnabled( false );
+    _ui->labelWettedAreaReal      ->setEnabled( false );
     _ui->labelPressVol   ->setEnabled( false );
 
     _ui->checkBoxFuselageLG->setEnabled( false );
     _ui->checkBoxCargoRamp->setEnabled( false );
+    _ui->checkBoxWettedAreaOverride->setEnabled( false );
 
     // data - wing
     _ui->labelWingArea    ->setEnabled( false );
@@ -586,11 +588,12 @@ void MainWindow::setAircraftType( AircraftData::Type type )
         _ui->spinBoxFuseWidth  ->setEnabled( true );
         _ui->spinBoxNoseLength ->setEnabled( true );
 
-        _ui->labelWettedArea ->setEnabled( true );
+        _ui->labelWettedAreaEstimated ->setEnabled( true );
 
-        _ui->spinBoxWettedArea ->setEnabled( true );
+        _ui->spinBoxWettedAreaEstimated ->setEnabled( true );
 
         _ui->checkBoxCargoRamp->setEnabled( true );
+        _ui->checkBoxWettedAreaOverride->setEnabled( true );
 
         // data - horizontal tail
         _ui->labelHorTailArea ->setEnabled( true );
@@ -657,9 +660,11 @@ void MainWindow::setAircraftType( AircraftData::Type type )
         _ui->spinBoxFuseWidth  ->setEnabled( true );
         _ui->spinBoxNoseLength ->setEnabled( true );
 
-        _ui->labelWettedArea ->setEnabled( true );
+        _ui->labelWettedAreaEstimated ->setEnabled( true );
 
-        _ui->spinBoxWettedArea ->setEnabled( true );
+        _ui->spinBoxWettedAreaEstimated ->setEnabled( true );
+
+        _ui->checkBoxWettedAreaOverride->setEnabled( true );
 
         // data - wing
         _ui->labelWingArea    ->setEnabled( true );
@@ -896,10 +901,11 @@ void MainWindow::updateGUI()
     _ui->spinBoxNoseLength ->setValue( data->fuselage.l_n );
 
     _ui->spinBoxPressVol   ->setValue( data->fuselage.press_vol   );
-    _ui->spinBoxWettedArea ->setValue( data->fuselage.wetted_area );
+    _ui->spinBoxWettedAreaReal ->setValue( data->fuselage.wetted_area );
 
     _ui->checkBoxFuselageLG ->setChecked( data->fuselage.landing_gear );
     _ui->checkBoxCargoRamp  ->setChecked( data->fuselage.cargo_ramp   );
+    _ui->checkBoxWettedAreaOverride->setChecked( data->fuselage.wetted_area_override );
 
     // data - wing
     _ui->spinBoxWingArea    ->setValue( data->wing.area      );
@@ -1046,10 +1052,10 @@ void MainWindow::updateWettedArea()
     double a_top  = w_fuse * ( l_fuse - l_nose ) + 0.5 * w_fuse * l_nose;
     double a_side = h_fuse * ( l_fuse - l_nose ) + 0.5 * h_fuse * l_nose;
 
-    // Rayner: Aircraft Design, p.205, eq. 7.13
+    // Raymer: Aircraft Design, p.205, eq. 7.13
     double s_wet = 3.4 * ( ( a_top + a_side ) / 2.0 );
 
-    _ui->spinBoxWettedArea->setValue( s_wet );
+    _ui->spinBoxWettedAreaEstimated->setValue( s_wet );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1521,7 +1527,17 @@ void MainWindow::on_spinBoxPressVol_valueChanged( double arg1 )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_spinBoxWettedArea_valueChanged( double arg1 )
+void MainWindow::on_spinBoxWettedAreaEstimated_valueChanged( double arg1 )
+{
+    if ( !_dataFile.getAircraftData()->fuselage.wetted_area_override )
+    {
+        _ui->spinBoxWettedAreaReal->setValue( arg1 );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_spinBoxWettedAreaReal_valueChanged( double arg1 )
 {
     _dataFile.getAircraftData()->fuselage.wetted_area = arg1;
     _saved = false;
@@ -1544,6 +1560,23 @@ void MainWindow::on_checkBoxCargoRamp_toggled( bool checked )
     _dataFile.getAircraftData()->fuselage.cargo_ramp = checked;
     _saved = false;
     updateTitleBar();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_checkBoxWettedAreaOverride_toggled( bool checked )
+{
+    _dataFile.getAircraftData()->fuselage.wetted_area_override = checked;
+    _saved = false;
+    updateTitleBar();
+
+    _ui->labelWettedAreaReal->setEnabled( checked );
+    _ui->spinBoxWettedAreaReal->setEnabled( checked );
+
+    if ( !checked )
+    {
+        _ui->spinBoxWettedAreaReal->setValue( _ui->spinBoxWettedAreaEstimated->value() );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -14,61 +14,46 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef GUI_DIALOGEDIT_H_
-#define GUI_DIALOGEDIT_H_
+#ifndef PARALLELAXISTHEOREM_H_
+#define PARALLELAXISTHEOREM_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDialog>
+#include <cmath>
 
-#include <components/Component.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
-{
-    class DialogEdit;
-}
+#include <utils/Matrix3x3.h>
+#include <utils/Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace mc
 {
 
-class DialogEdit : public QDialog
+/**
+ * @brief Gets matrix of inertia about parallel axis.
+ *
+ * @param m [kg] mass
+ * @param i [kg*m^2] inertia tensor
+ * @param r [m] position
+ * @return shifted inertia tensor [kg*m^2]
+ *
+ * <h3>Refernces:</h3>
+ * <ul>
+ *   <li>Awrejcewicz J.: Classical Mechanics: Kinematics and Statics, 2012, p.163</li>
+ *   <li><a href="https://en.wikipedia.org/wiki/Parallel_axis_theorem">Parallel axis theorem - Wikipedia</a></li>
+ * </ul>
+ */
+Matrix3x3 parallelAxisTheorem( double m, const Matrix3x3 &i, const Vector3 &r )
 {
-    Q_OBJECT
+    Matrix3x3 a(  r.y()*r.y() + r.z()*r.z() , -r.x()*r.y()               , -r.x()*r.z(),
+                 -r.y()*r.x()               ,  r.x()*r.x() + r.z()*r.z() , -r.y()*r.z(),
+                 -r.z()*r.x()               , -r.z()*r.y()               ,  r.x()*r.x() + r.y()*r.y() );
 
-public:
-
-    static void edit( QWidget *parent, Component *component );
-
-    explicit DialogEdit( QWidget *parent = Q_NULLPTR, const Component *component = Q_NULLPTR );
-
-    virtual ~DialogEdit();
-
-    void updateComponent( Component *component );
-
-private:
-
-    Ui::DialogEdit *_ui;            ///<
-
-    const Component *_component;    ///<
-
-    void updateMass();
-
-private slots:
-
-    void on_spinBox_X_valueChanged( double arg1 );
-    void on_spinBox_Y_valueChanged( double arg1 );
-    void on_spinBox_Z_valueChanged( double arg1 );
-    void on_spinBox_L_valueChanged( double arg1 );
-    void on_spinBox_W_valueChanged( double arg1 );
-    void on_spinBox_H_valueChanged( double arg1 );
-};
+    return ( i + m * a );
+}
 
 } // namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // GUI_DIALOGEDIT_H_
+#endif // PARALLELAXISTHEOREM_H_

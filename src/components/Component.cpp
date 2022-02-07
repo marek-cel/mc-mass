@@ -13,12 +13,11 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  ******************************************************************************/
 
 #include <components/Component.h>
 
-#include <mcutil/physics/ParallelAxisTheorem.h>
+#include <utils/ParallelAxisTheorem.h>
 
 #include <DataFile.h>
 
