@@ -24,6 +24,7 @@
     <press_vol>0.000000</press_vol>
     <landing_gear>0</landing_gear>
     <cargo_ramp>0</cargo_ramp>
+    <wetted_area_override>0</wetted_area_override>
    </fuselage>
    <wing>
     <area>0.000000</area>
