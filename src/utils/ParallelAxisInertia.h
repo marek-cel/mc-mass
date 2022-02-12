@@ -14,8 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef PARALLELAXISTHEOREM_H_
-#define PARALLELAXISTHEOREM_H_
+#ifndef PARALLELAXISINERTIA_H_
+#define PARALLELAXISINERTIA_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +43,7 @@ namespace mc
  *   <li><a href="https://en.wikipedia.org/wiki/Parallel_axis_theorem">Parallel axis theorem - Wikipedia</a></li>
  * </ul>
  */
-Matrix3x3 parallelAxisTheorem( double m, const Matrix3x3 &i, const Vector3 &r )
+Matrix3x3 parallelAxisInertia( double m, const Matrix3x3 &i, const Vector3 &r )
 {
     Matrix3x3 a(  r.y()*r.y() + r.z()*r.z() , -r.x()*r.y()               , -r.x()*r.z(),
                  -r.y()*r.x()               ,  r.x()*r.x() + r.z()*r.z() , -r.y()*r.z(),
@@ -56,4 +56,4 @@ Matrix3x3 parallelAxisTheorem( double m, const Matrix3x3 &i, const Vector3 &r )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // PARALLELAXISTHEOREM_H_
+#endif // PARALLELAXISINERTIA_H_

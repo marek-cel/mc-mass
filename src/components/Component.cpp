@@ -17,7 +17,7 @@
 
 #include <components/Component.h>
 
-#include <utils/ParallelAxisTheorem.h>
+#include <utils/ParallelAxisInertia.h>
 
 #include <DataFile.h>
 
@@ -82,7 +82,7 @@ void Component::save( QDomDocument *doc, QDomElement *parentNode )
 
 Matrix3x3 Component::getInertia() const
 {
-    return parallelAxisTheorem( _m, Cuboid::getInertia( _m, _l, _w, _h ), _r );
+    return parallelAxisInertia( _m, Cuboid::getInertia( _m, _l, _w, _h ), _r );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

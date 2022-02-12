@@ -2,7 +2,7 @@ HEADERS += \
     $$PWD/Atmosphere.h \
     $$PWD/Cuboid.h \
     $$PWD/Matrix3x3.h \
-    $$PWD/ParallelAxisTheorem.h \
+    $$PWD/ParallelAxisInertia.h \
     $$PWD/Units.h \
     $$PWD/XmlUtils.h \
     $$PWD/Vector3.h
