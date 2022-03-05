@@ -257,17 +257,17 @@
     </widget>
    </item>
    <item row="8" column="0">
-    <widget class="QLabel" name="labelComputedMass">
+    <widget class="QLabel" name="labelEstimatedMass">
      <property name="text">
-      <string>Computed Mass [kg]:</string>
+      <string>Estimated Mass [kg]:</string>
      </property>
      <property name="buddy">
-      <cstring>spinBoxComputedMass</cstring>
+      <cstring>spinBoxEstimatedMass</cstring>
      </property>
     </widget>
    </item>
    <item row="8" column="1">
-    <widget class="QDoubleSpinBox" name="spinBoxComputedMass">
+    <widget class="QDoubleSpinBox" name="spinBoxEstimatedMass">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -302,7 +302,7 @@
   <tabstop>spinBox_L</tabstop>
   <tabstop>spinBox_W</tabstop>
   <tabstop>spinBox_H</tabstop>
-  <tabstop>spinBoxComputedMass</tabstop>
+  <tabstop>spinBoxEstimatedMass</tabstop>
  </tabstops>
  <resources/>
  <connections>

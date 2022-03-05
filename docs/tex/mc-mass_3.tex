@@ -1,13 +1,243 @@
-\chapter{Weight Estimation Formulas}
+\chapter{Mass Characterics}
 
-Lorem ipsum. \cite{NASA-TP-2015-218751,Raymer1992}
+It is assumed that all aircraft components are uniform rectangular cuboids, parallel to the aircraft Body Axis System, with position defined by their center of mass.
 
-\section{Fighter/Attack}
+% All values are expressed in International System of Units (SI). \cite{NASA-SP-7012}
 
-\section{Cargo/Transport}
+\section{Center of Mass}
 
-\section{General Aviation}
+Aircraft center of mass position is given by the following formula. \cite{Taylor2005}
+\begin{equation}
+  \label{eq-center-of-mass}
+  \vec{r}_{CG}
+  =
+  \frac{\sum_{j} m_j \cdot \vec{r}_j}{\sum_{j} m_j}
+\end{equation}
 
-\section{Helicopter}
+\noindent Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [$m_j$]       --- [kg] component mass
+  \item [$\vec{r}_j$] --- [m] component center of mass position
+\end{description}
+
+\section{Moment of Inertia}
+
+Uniform rectangular cuboid moment of inertia about its center of mass is given by the following formula. \cite{Awrejcewicz2012}
+\begin{equation}
+  \label{eq-cuboid-inertia}
+  {\boldsymbol I}_0
+  =
+  m
+  \left[
+    \begin{matrix}
+      \frac{w^2 + h^2}{12} & 0 & 0 \\
+      0 & \frac{l^2 + h^2}{12} & 0 \\
+      0 & 0 & \frac{l^2 + w^2}{12} \\
+    \end{matrix}
+  \right]
+\end{equation}
+
+\noindent Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [$m$] --- [kg] component mass
+  \item [$l$] --- [m] component length (dimension along x-axis)
+  \item [$w$] --- [m] component width (dimension along y-axis)
+  \item [$h$] --- [m] component height (dimension along z-axis)
+\end{description}
+
+\section{Huygens–Steiner Parallel Axis Theorem}
+
+Huygens–Steiner parallel axis theorem, given by the following expression, is used to calculate aircraft components inertia tensors expressed in the aircraft Body Axis System. \cite{Awrejcewicz2012}
+\begin{equation}
+  \label{eq-mass-steiners}
+  {\boldsymbol I}_b
+  =
+  {\boldsymbol I}_0
+  +
+  m
+  \left[
+    \begin{matrix}
+      y^2 + z^2 &       -xy &       -xz \\
+            -yx & x^2 + z^2 &       -yz \\
+            -zx &       -zy & x^2 + y^2 \\
+    \end{matrix}
+  \right]
+\end{equation}
+
+\noindent Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [${\boldsymbol I}_0$] --- [kg$\cdot$m\textsuperscript{2}] component inertia about its center of mass
+  \item [$m$] --- [kg] component mass
+  \item [$x$] --- [m] component center of mass x-coordinate
+  \item [$y$] --- [m] component center of mass y-coordinate
+  \item [$z$] --- [m] component center of mass z-coordinate
+\end{description}
+
+Sum of all aircraft components inertia tensors gives aircraft inertia tensor:
+\begin{equation}
+  {\boldsymbol I}_{b} = \sum_{j} {\boldsymbol I}_{b,j}
+\end{equation}
+
+\section{Statistical Weight Estimation}
+
+Lorem ipsum. \cite{NASA-TP-2015-218751,Raymer2018}
+
+\subsection{Fighter/Attack}
+
+\subsubsection{Wing}
+
+Wing mass is calculated as an arithmetic average of the results provided by the approximate and statistical methods described in \cite{Raymer2018}.
+
+\noindent \textit{Approximate Method}
+\begin{equation}
+  m = 9 \cdot S_W
+\end{equation}
+
+\noindent Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [$m$]   --- [lb] wing mass
+  \item [$S_W$] --- [ft\textsuperscript{2}] wing exposed planform area
+\end{description}
+
+\noindent \textit{Statistical Method}
+\begin{multline}
+  m
+  =
+  0.0103 \cdot K_{dw}
+  \cdot K_{vs} \cdot \left( W_{dg} \cdot N_z \right)^{0.5}
+  \cdot S_W^{0.622} \cdot A^{0.785} \cdot \left(t/c \right)^{-0.4} 
+  \\
+  \cdot \left( 1 + \lambda \right)^{0.05}
+  \cdot \left( cos \Lambda \right)^{-1.0}
+  \cdot S_{csw}^{0.04}
+\end{multline}
+
+\noindent Where:
+\begin{description}[align=right,labelwidth=1cm]
+  \item [$K_{dw}$] --- 0.768 : 1.0
+  \item TODO
+\end{description}
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Main Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Nose Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.
+
+\subsection{Cargo/Transport}
+
+\subsubsection{Wing}
+
+Lorem ipsum.
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Main Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Nose Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.
+
+\subsection{General Aviation}
+
+\subsubsection{Wing}
+
+Lorem ipsum.
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Main Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Nose Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.
+
+\subsection{Helicopter}
 
 Lorem ipsum. \cite{NASA-TP-2015-218751}
+
+\subsubsection{Fuselage}
+
+Lorem ipsum.
+
+\subsubsection{Landing Gear}
+
+Lorem ipsum.
+
+\subsubsection{Main Rotor}
+
+Lorem ipsum.
+
+\subsubsection{Tail Rotor}
+
+Lorem ipsum.
+
+\subsubsection{Rotor Drive System}
+
+Lorem ipsum.
+
+\subsubsection{Main Rotor Hub}
+
+Lorem ipsum.
+
+\subsubsection{Horizontal Tail}
+
+Lorem ipsum.
+
+\subsubsection{Vertical Tail}
+
+Lorem ipsum.
+
+\subsubsection{"All-else empty"}
+
+Lorem ipsum.

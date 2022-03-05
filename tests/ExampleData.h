@@ -1,0 +1,22 @@
+#ifndef TESTS_EXAMPLEDATA_H_
+#define TESTS_EXAMPLEDATA_H_
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <AircraftData.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+class ExampleData
+{
+public:
+
+    static mc::AircraftData getDataFighterAttack();
+    static mc::AircraftData getDataCargoTransport();
+    static mc::AircraftData getDataGeneralAviation();
+    static mc::AircraftData getDataHelicopter();
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // TESTS_EXAMPLEDATA_H_
