@@ -11,7 +11,7 @@ TARGET = mc-mass
 
 ################################################################################
 
-CONFIG += c++11
+CONFIG += c++17
 
 ################################################################################
 
@@ -54,9 +54,13 @@ unix: DEFINES += _LINUX_
 
 INCLUDEPATH += ./src
 
+unix: INCLUDEPATH += /usr/local/include
+
 ################################################################################
 
-win32: LIBS += \
+LIBS += \
+    -lmcutilMath \
+    -lmcutilMisc
 
 win32: CONFIG(release, debug|release): LIBS += \
 

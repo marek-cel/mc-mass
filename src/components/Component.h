@@ -24,8 +24,8 @@
 #include <QDomDocument>
 #include <QDomElement>
 
-#include <utils/Matrix3x3.h>
-#include <utils/Vector3.h>
+#include <mcutil/math/Matrix3x3.h>
+#include <mcutil/math/Vector3.h>
 
 #include <defs.h>
 

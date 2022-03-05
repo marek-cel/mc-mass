@@ -26,8 +26,8 @@
 
 #include <defs.h>
 
-#include <utils/Matrix3x3.h>
-#include <utils/Vector3.h>
+#include <mcutil/math/Matrix3x3.h>
+#include <mcutil/math/Vector3.h>
 
 #include <Aircraft.h>
 #include <components/Component.h>
