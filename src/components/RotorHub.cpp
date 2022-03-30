@@ -17,7 +17,7 @@
 
 #include <components/RotorHub.h>
 
-#include <mcutil/misc/Units.h>
+#include <mcutils/misc/Units.h>
 
 #include <components/RotorMain.h>
 

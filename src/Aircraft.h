@@ -24,8 +24,8 @@
 #include <QDomDocument>
 #include <QDomElement>
 
-#include <mcutil/math/Matrix3x3.h>
-#include <mcutil/math/Vector3.h>
+#include <mcutils/math/Matrix3x3.h>
+#include <mcutils/math/Vector3.h>
 
 #include <defs.h>
 #include <AircraftData.h>

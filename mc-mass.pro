@@ -54,13 +54,15 @@ unix: DEFINES += _LINUX_
 
 INCLUDEPATH += ./src
 
-unix: INCLUDEPATH += /usr/local/include
+unix: INCLUDEPATH += \
+    /usr/local/include \
+    /usr/local/include/mcutils
 
 ################################################################################
 
 LIBS += \
-    -lmcutilMath \
-    -lmcutilMisc
+    -lmcutils_math \
+    -lmcutils_misc
 
 win32: CONFIG(release, debug|release): LIBS += \
 

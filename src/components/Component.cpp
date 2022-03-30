@@ -17,7 +17,7 @@
 
 #include <components/Component.h>
 
-#include <mcutil/physics/Physics.h>
+#include <mcutils/physics/Physics.h>
 
 #include <DataFile.h>
 
