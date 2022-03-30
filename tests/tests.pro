@@ -5,7 +5,7 @@ TEMPLATE = app
 
 ################################################################################
 
-DESTDIR = $$PWD/bin
+DESTDIR = $$PWD/../bin
 TARGET = tests
 
 ################################################################################
@@ -36,7 +36,7 @@ win32: DEFINES += WIN32
 
 ################################################################################
 
-INCLUDEPATH += ./src ./tests
+INCLUDEPATH += ../src
 
 ################################################################################
 
@@ -50,6 +50,8 @@ unix: LIBS += \
 ################################################################################
 
 LIBS += \
+    -lmcutils_math \
+    -lmcutils_misc \
     -lgcov --coverage \
     -lgtest \
     -lgtest_main \
@@ -57,6 +59,7 @@ LIBS += \
 
 ################################################################################
 
-include($$PWD/src/components/components.pri)
-include($$PWD/src/utils/utils.pri)
-include($$PWD/mc-mass_tests.pri)
+include($$PWD/tests.pri)
+
+include($$PWD/../src/components/components.pri)
+include($$PWD/../src/utils/utils.pri)
