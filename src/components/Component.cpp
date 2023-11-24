@@ -84,7 +84,7 @@ void Component::save( QDomDocument *doc, QDomElement *parentNode )
 
 Matrix3x3 Component::getInertia() const
 {
-    return Physics::parallelAxisInertia( _m, Cuboid::getInertia( _m, _l, _w, _h ), _r );
+    return Physics::ParallelAxisInertia(_m, Cuboid::getInertia(_m, _l, _w, _h), _r);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

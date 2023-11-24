@@ -61,8 +61,7 @@ unix: INCLUDEPATH += \
 ################################################################################
 
 LIBS += \
-    -lmcutils_math \
-    -lmcutils_misc
+    -lmcutils
 
 win32: CONFIG(release, debug|release): LIBS += \
 

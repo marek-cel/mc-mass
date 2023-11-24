@@ -255,9 +255,9 @@ void Aircraft::reset()
     _data.rotors.main_blades     = 0;
 
     // RESULTS
-    _centerOfMass.set( 0.0, 0.0, 0.0 );
+    _centerOfMass.Set( 0.0, 0.0, 0.0 );
 
-    _inertiaMatrix.set( 0.0, 0.0, 0.0,
+    _inertiaMatrix.Set( 0.0, 0.0, 0.0,
                         0.0, 0.0, 0.0,
                         0.0, 0.0, 0.0 );
 
