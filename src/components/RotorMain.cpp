@@ -63,7 +63,7 @@ double RotorMain::estimateMass( const AircraftData &data )
 RotorMain::RotorMain( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Main Rotor" );
+    set_name("Main Rotor");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

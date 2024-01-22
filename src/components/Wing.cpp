@@ -120,7 +120,7 @@ double Wing::estimateMass( const AircraftData &data )
 Wing::Wing( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Wing" );
+    set_name("Wing");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

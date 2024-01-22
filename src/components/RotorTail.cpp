@@ -58,7 +58,7 @@ double RotorTail::estimateMass( const AircraftData &data )
 RotorTail::RotorTail( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Tail Rotor" );
+    set_name("Tail Rotor");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

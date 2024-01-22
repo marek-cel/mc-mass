@@ -101,10 +101,10 @@ double Engine::estimateMass( const AircraftData &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Engine::Engine( const AircraftData *data ) :
-    Component( data )
+Engine::Engine(const AircraftData* data)
+    : Component(data)
 {
-    setName( "Engine" );
+    set_name("Engine");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

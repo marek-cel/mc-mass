@@ -139,7 +139,7 @@ double TailVer::estimateMass( const AircraftData &data )
 TailVer::TailVer( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Vertical Tail" );
+    set_name("Vertical Tail");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

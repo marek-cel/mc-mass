@@ -57,7 +57,7 @@ double RotorDrive::estimateMass( const AircraftData &data )
 RotorDrive::RotorDrive( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Rotor Drive" );
+    set_name("Rotor Drive");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

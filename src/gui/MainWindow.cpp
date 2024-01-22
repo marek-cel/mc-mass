@@ -997,7 +997,7 @@ void MainWindow::updateGUI()
 
     while ( it != components.end() )
     {
-        QString name = (*it)->getName();
+        QString name = (*it)->name();
         _ui->listComponents->addItem( new QListWidgetItem( name, _ui->listComponents ) );
 
         ++it;

@@ -152,7 +152,7 @@ double Fuselage::estimateMass( const AircraftData &data )
 Fuselage::Fuselage( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Fuselage" );
+    set_name("Fuselage");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

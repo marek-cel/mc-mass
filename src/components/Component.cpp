@@ -19,7 +19,7 @@
 
 #include <components/Component.h>
 
-#include <mcutils/physics/Physics.h>
+#include <mcutils/physics/ParallelAxis.h>
 
 #include <DataFile.h>
 
@@ -33,22 +33,17 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Component::Component( const AircraftData *data ) :
-    _data ( data ),
-
-    _m ( 0.0 ),
-    _l ( 0.0 ),
-    _w ( 0.0 ),
-    _h ( 0.0 )
+Component::Component(const AircraftData* data)
+    : _data(data)
 {
-    _name = "";
+    name_ = "";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Component::read( QDomElement *parentNode )
+void Component::read(QDomElement* parentNode)
 {
-    _name = parentNode->attributeNode( "name" ).value().toStdString();
+    name_ = parentNode->attributeNode( "name" ).value().toStdString();
 
     QDomElement nodeMass = parentNode->firstChildElement( "mass" );
 
@@ -60,7 +55,7 @@ void Component::read( QDomElement *parentNode )
     QDomElement nodeW = parentNode->firstChildElement( "width"  );
     QDomElement nodeH = parentNode->firstChildElement( "height" );
 
-    if ( !nodeMass.isNull() ) _m = nodeMass.text().toDouble();
+    if ( !nodeMass.isNull() ) mass_ = mass::kilogram_t(nodeMass.text().toDouble());
 
     if ( !nodeX.isNull() ) _r.x() = nodeX.text().toDouble();
     if ( !nodeY.isNull() ) _r.y() = nodeY.text().toDouble();
@@ -84,14 +79,15 @@ void Component::save( QDomDocument *doc, QDomElement *parentNode )
 
 Matrix3x3 Component::getInertia() const
 {
-    return Physics::ParallelAxisInertia(_m, Cuboid::getInertia(_m, _l, _w, _h), _r);
+    double m = mass_();
+    return ParallelAxisInertia(m, Cuboid::getInertia(m, _l, _w, _h), _r);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Component::setName( const char *name )
+void Component::set_name(const char* name)
 {
-    _name = name;
+    name_ = name;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,9 +99,9 @@ void Component::setPosition( const Vector3 &r )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Component::setMass( double m )
+void Component::set_mass(mass::kilogram_t mass)
 {
-    _m = m;
+    mass_ = mass;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -133,19 +129,19 @@ void Component::setHeight( double h )
 
 void Component::saveParameters( QDomDocument *doc, QDomElement *node )
 {
-    QDomAttr nodeName = doc->createAttribute( "name" );
-    nodeName.setValue( getName() );
-    node->setAttributeNode( nodeName );
+    QDomAttr nodeName = doc->createAttribute("name");
+    nodeName.setValue(name());
+    node->setAttributeNode(nodeName);
 
-    XmlUtils::saveTextNode( doc, node, "mass", _m );
+    XmlUtils::saveTextNode(doc, node, "mass", mass_());
 
-    XmlUtils::saveTextNode( doc, node, "pos_x", _r.x() );
-    XmlUtils::saveTextNode( doc, node, "pos_y", _r.y() );
-    XmlUtils::saveTextNode( doc, node, "pos_z", _r.z() );
+    XmlUtils::saveTextNode(doc, node, "pos_x", _r.x());
+    XmlUtils::saveTextNode(doc, node, "pos_y", _r.y());
+    XmlUtils::saveTextNode(doc, node, "pos_z", _r.z());
 
-    XmlUtils::saveTextNode( doc, node, "length" , _l );
-    XmlUtils::saveTextNode( doc, node, "width"  , _w );
-    XmlUtils::saveTextNode( doc, node, "height" , _h );
+    XmlUtils::saveTextNode(doc, node, "length" , _l);
+    XmlUtils::saveTextNode(doc, node, "width"  , _w);
+    XmlUtils::saveTextNode(doc, node, "height" , _h);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

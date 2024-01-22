@@ -270,20 +270,20 @@ void Aircraft::reset()
 
 void Aircraft::update()
 {
-    double m = 0.0;
+    mass::kilogram_t m = 0.0_kg;
     Vector3 s;
     Matrix3x3 i;
 
     for ( Components::iterator it = _components.begin(); it != _components.end(); ++it )
     {
-        m += (*it)->getMass();
-        s += (*it)->getMass() * (*it)->getPosition();
+        m += (*it)->mass();
+        s += (*it)->mass()() * (*it)->getPosition();
         i += (*it)->getInertia();
     }
 
-    _centerOfMass = ( m > 0.0 ) ? ( s / m ) : Vector3();
+    _centerOfMass = ( m > 0.0_kg ) ? ( s / m() ) : Vector3();
     _inertiaMatrix = i;
-    _massTotal = m;
+    _massTotal = m();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

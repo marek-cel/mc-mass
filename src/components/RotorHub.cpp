@@ -67,7 +67,7 @@ double RotorHub::estimateMass( const AircraftData &data )
 RotorHub::RotorHub( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Main Rotor Hub" );
+    set_name("Main Rotor Hub");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

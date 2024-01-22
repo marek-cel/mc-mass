@@ -121,7 +121,7 @@ double GearMain::estimateMass( const AircraftData &data )
 GearMain::GearMain( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Main Landing Gear" );
+    set_name("Main Landing Gear");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

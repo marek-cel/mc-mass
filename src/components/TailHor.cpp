@@ -132,7 +132,7 @@ double TailHor::estimateMass( const AircraftData &data )
 TailHor::TailHor( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Horizontal Tail" );
+    set_name("Horizontal Tail");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

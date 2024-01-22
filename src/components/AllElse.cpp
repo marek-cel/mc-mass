@@ -70,7 +70,7 @@ double AllElse::estimateMass( const AircraftData &data )
 AllElse::AllElse( const AircraftData *data ) :
     Component( data )
 {
-    setName( "All-else Empty" );
+    set_name("All-else Empty");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

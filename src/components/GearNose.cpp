@@ -106,7 +106,7 @@ double GearNose::estimateMass( const AircraftData &data )
 GearNose::GearNose( const AircraftData *data ) :
     Component( data )
 {
-    setName( "Nose Landing Gear" );
+    set_name("Nose Landing Gear");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

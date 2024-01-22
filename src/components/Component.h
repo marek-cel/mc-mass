@@ -19,12 +19,12 @@
 #ifndef COMPONENTS_COMPONENT_H_
 #define COMPONENTS_COMPONENT_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <string>
 
 #include <QDomDocument>
 #include <QDomElement>
+
+#include <units.h>
 
 #include <mcutils/math/Matrix3x3.h>
 #include <mcutils/math/Vector3.h>
@@ -33,7 +33,8 @@
 
 #include <AircraftData.h>
 
-////////////////////////////////////////////////////////////////////////////////
+using namespace units;
+using namespace units::literals;
 
 namespace mc
 {
@@ -79,11 +80,11 @@ public:
      */
     virtual const char* getXmlTagName() const = 0;
 
-    inline const char* getName() const { return _name.c_str(); }
+    inline const char* name() const { return name_.c_str(); }
 
     inline Vector3 getPosition() const { return _r; }
 
-    inline double getMass   () const { return _m; }
+    inline mass::kilogram_t mass() const { return mass_; }
     inline double getLength () const { return _l; }
     inline double getWidth  () const { return _w; }
     inline double getHeight () const { return _h; }
@@ -98,7 +99,7 @@ public:
      * @brief setName
      * @param name
      */
-    void setName( const char *name );
+    void set_name(const char* name);
 
     /**
      * @brief setPosition
@@ -106,24 +107,26 @@ public:
      */
     void setPosition( const Vector3 &r );
 
-    void setMass   ( double m );
+    void set_mass(mass::kilogram_t mass);
     void setLength ( double l );
     void setWidth  ( double w );
     void setHeight ( double h );
 
 protected:
 
-    const AircraftData *_data;  ///< aircraft data
+    const AircraftData *_data;          ///< aircraft data
 
-    std::string _name;          ///< component name
+    std::string name_;                  ///< component name
 
-    Vector3 _r;                 ///< [m] position
+    Vector3 _r;                         ///< [m] position
 
-    double _m;                  ///< [kg] mass
+    mass::kilogram_t mass_ = 0.0_kg;    ///< [kg] mass
 
-    double _l;                  ///< [m] length
-    double _w;                  ///< [m] width
-    double _h;                  ///< [m] height
+    //double _m;                  ///< [kg] mass
+
+    double _l = 0.0;                  ///< [m] length
+    double _w = 0.0;                  ///< [m] width
+    double _h = 0.0;                  ///< [m] height
 
     virtual void saveParameters( QDomDocument *doc, QDomElement *node );
 };

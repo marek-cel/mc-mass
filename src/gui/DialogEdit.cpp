@@ -48,9 +48,9 @@ DialogEdit::DialogEdit( QWidget *parent, const Component *component ) :
 
     if ( _component )
     {
-        _ui->lineEdit_Name->setText( _component->getName() );
+        _ui->lineEdit_Name->setText( _component->name() );
 
-        _ui->spinBox_Mass->setValue( _component->getMass() );
+        _ui->spinBox_Mass->setValue( _component->mass()() );
 
         _ui->spinBox_X->setValue( _component->getPosition().x() );
         _ui->spinBox_Y->setValue( _component->getPosition().y() );
@@ -77,9 +77,9 @@ void DialogEdit::updateComponent( Component *component )
 {
     if ( component )
     {
-        component->setName( _ui->lineEdit_Name->text().toStdString().c_str() );
+        component->set_name( _ui->lineEdit_Name->text().toStdString().c_str() );
 
-        component->setMass( _ui->spinBox_Mass->value() );
+        component->set_mass( _ui->spinBox_Mass->value() * 1_kg );
 
         Vector3 position;
 

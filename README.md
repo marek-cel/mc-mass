@@ -24,6 +24,7 @@ MC-Mass requires Qt and libmcutil.
 
 * [Qt5](https://www.qt.io/)
 * [libmcutil](https://github.com/marek-cel/libmcutil)
+* [units](https://github.com/nholthaus/units)
 
 #### Linux
 
