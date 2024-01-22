@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <components/Fuselage.h>
+#include <mass/Fuselage.h>
 
 #include <mcutils/misc/Units.h>
 

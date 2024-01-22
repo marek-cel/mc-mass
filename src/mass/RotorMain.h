@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_ROTORTAIL_H_
-#define COMPONENTS_ROTORTAIL_H_
+#ifndef MASS_ROTORMAIN_H_
+#define MASS_ROTORMAIN_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,18 +29,18 @@ namespace mc
 {
 
 /**
- * @brief The RotorTail class.
+ * @brief The RotorMain class.
  *
  * <h3>Refernces:</h3>
  * <ul>
- *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.230</li>
+ *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.228-229</li>
  * </ul>
  */
-class RotorTail : public Component
+class RotorMain : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "rotor_tail" };    ///< component XML tag name
+    static constexpr char xmlTagName[] { "rotor_main" };    ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -53,7 +53,7 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    RotorTail( const AircraftData *data );
+    RotorMain( const AircraftData *data );
 
     /**
      * @brief Returns component estimated mass.
@@ -75,4 +75,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_ROTORTAIL_H_
+#endif // MASS_ROTORMAIN_H_

@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_ROTORMAIN_H_
-#define COMPONENTS_ROTORMAIN_H_
+#ifndef MASS_GEARMAIN_H_
+#define MASS_GEARMAIN_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,18 +29,20 @@ namespace mc
 {
 
 /**
- * @brief The RotorMain class.
+ * @brief The GearMain class.
  *
  * <h3>Refernces:</h3>
  * <ul>
- *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.228-229</li>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407</li>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579</li>
+ *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.233</li>
  * </ul>
  */
-class RotorMain : public Component
+class GearMain : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "rotor_main" };    ///< component XML tag name
+    static constexpr char xmlTagName[] { "gear_main" };     ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -53,7 +55,7 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    RotorMain( const AircraftData *data );
+    GearMain( const AircraftData *data );
 
     /**
      * @brief Returns component estimated mass.
@@ -75,4 +77,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_ROTORMAIN_H_
+#endif // MASS_GEARMAIN_H_

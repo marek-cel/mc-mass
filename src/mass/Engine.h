@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_WING_H_
-#define COMPONENTS_WING_H_
+#ifndef MASS_ENGINE_H_
+#define MASS_ENGINE_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +29,7 @@ namespace mc
 {
 
 /**
- * @brief The Wing class.
+ * @brief The Engine class.
  *
  * <h3>Refernces:</h3>
  * <ul>
@@ -37,11 +37,11 @@ namespace mc
  *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579</li>
  * </ul>
  */
-class Wing : public Component
+class Engine : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "wing" };          ///< component XML tag name
+    static constexpr char xmlTagName[] { "engine" };        ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -54,7 +54,7 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    Wing( const AircraftData *data );
+    Engine( const AircraftData *data );
 
     /**
      * @brief Returns component estimated mass.
@@ -76,4 +76,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_WING_H_
+#endif // MASS_ENGINE_H_

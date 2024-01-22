@@ -90,6 +90,6 @@ RESOURCES += \
 
 ################################################################################
 
-include($$PWD/components/components.pri)
 include($$PWD/gui/gui.pri)
+include($$PWD/mass/mass.pri)
 include($$PWD/utils/utils.pri)

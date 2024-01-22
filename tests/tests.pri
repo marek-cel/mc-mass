@@ -8,4 +8,4 @@ SOURCES += \
 ################################################################################
 
 SOURCES += \
-    $$PWD/components/TestAllElse.cpp
+    $$PWD/mass/TestAllElse.cpp

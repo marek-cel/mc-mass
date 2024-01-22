@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <components/RotorDrive.h>
+#include <mass/RotorMain.h>
 
 #include <mcutils/misc/Units.h>
 
@@ -28,23 +28,29 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-constexpr char RotorDrive::xmlTagName[];
+constexpr char RotorMain::xmlTagName[];
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double RotorDrive::estimateMass( const AircraftData &data )
+double RotorMain::estimateMass( const AircraftData &data )
 {
-    // NASA TP-2015-218751, p.236
+    // NASA TP-2015-218751, p.228
     if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
 
-        double chi = 1.0; // ?? technology factor
+        double r_ft = Units::m2ft( data.rotors.main_r  );
+        double c_ft = Units::m2ft( data.rotors.main_cb );
 
-        double engine_rpm = data.rotors.main_gear_ratio * data.rotors.main_rpm;
+        double v_tip_fps = Units::mps2fps( data.rotors.main_tip_vel );
 
-        double m_lb = chi * 95.7634 * pow( n_rotor, 0.38553 ) * pow( data.rotors.mcp, 0.78137 )
-                * pow( engine_rpm, 0.09899 ) / pow( data.rotors.main_rpm, 0.80686 );
+        double mu_b = 1.0; // ?? flap natural frequency
+
+        double chi_b = 1.0; // ?? technology factor
+
+        double m_lb = chi_b * 0.02606 * n_rotor * pow( static_cast<double>(data.rotors.main_blades), 0.6592 )
+                * pow( r_ft, 1.3371 ) * pow( c_ft, 0.9959 )
+                * pow( v_tip_fps, 0.6682 ) * pow( mu_b, 2.5279 );
 
         return Units::lb2kg( m_lb );
     }
@@ -54,10 +60,10 @@ double RotorDrive::estimateMass( const AircraftData &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-RotorDrive::RotorDrive( const AircraftData *data ) :
+RotorMain::RotorMain( const AircraftData *data ) :
     Component( data )
 {
-    set_name("Rotor Drive");
+    set_name("Main Rotor");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

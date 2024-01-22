@@ -17,9 +17,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <components/RotorMain.h>
+#include <mass/RotorHub.h>
 
 #include <mcutils/misc/Units.h>
+
+#include <mass/RotorMain.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,29 +30,31 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-constexpr char RotorMain::xmlTagName[];
+constexpr char RotorHub::xmlTagName[];
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double RotorMain::estimateMass( const AircraftData &data )
+double RotorHub::estimateMass( const AircraftData &data )
 {
     // NASA TP-2015-218751, p.228
     if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
 
-        double r_ft = Units::m2ft( data.rotors.main_r  );
-        double c_ft = Units::m2ft( data.rotors.main_cb );
+        double r_ft = Units::m2ft( data.rotors.main_r );
 
         double v_tip_fps = Units::mps2fps( data.rotors.main_tip_vel );
 
-        double mu_b = 1.0; // ?? flap natural frequency
+        double mu_h = 1.0; // ?? flap natural frequency
 
-        double chi_b = 1.0; // ?? technology factor
+        double chi_h = 1.0; // ?? technology factor
 
-        double m_lb = chi_b * 0.02606 * n_rotor * pow( static_cast<double>(data.rotors.main_blades), 0.6592 )
-                * pow( r_ft, 1.3371 ) * pow( c_ft, 0.9959 )
-                * pow( v_tip_fps, 0.6682 ) * pow( mu_b, 2.5279 );
+        double w_b = RotorMain::estimateMass( data );
+
+        double m_lb = chi_h * 0.003722 * n_rotor
+                * pow( static_cast<double>(data.rotors.main_blades), 0.2807 )
+                * pow( r_ft, 1.5377 ) * pow( v_tip_fps, 0.429 ) * pow( mu_h, 2.1414 )
+                * pow( w_b / n_rotor, 0.5505 );
 
         return Units::lb2kg( m_lb );
     }
@@ -60,10 +64,10 @@ double RotorMain::estimateMass( const AircraftData &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-RotorMain::RotorMain( const AircraftData *data ) :
+RotorHub::RotorHub( const AircraftData *data ) :
     Component( data )
 {
-    set_name("Main Rotor");
+    set_name("Main Rotor Hub");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

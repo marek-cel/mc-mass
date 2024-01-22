@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_FUSELAGE_H_
-#define COMPONENTS_FUSELAGE_H_
+#ifndef MASS_ROTORDRIVE_H_
+#define MASS_ROTORDRIVE_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,20 +29,18 @@ namespace mc
 {
 
 /**
- * @brief The Fuselage class.
+ * @brief The RotorDrive class.
  *
  * <h3>Refernces:</h3>
  * <ul>
- *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407</li>
- *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579</li>
- *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.231-232</li>
+ *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.236</li>
  * </ul>
  */
-class Fuselage : public Component
+class RotorDrive : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "fuselage" };      ///< component XML tag name
+    static constexpr char xmlTagName[] { "rotor_drive" };   ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -55,7 +53,7 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    Fuselage( const AircraftData *data );
+    RotorDrive( const AircraftData *data );
 
     /**
      * @brief Returns component estimated mass.
@@ -77,4 +75,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_FUSELAGE_H_
+#endif // MASS_ROTORDRIVE_H_

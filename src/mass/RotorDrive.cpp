@@ -17,11 +17,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <components/RotorHub.h>
+#include <mass/RotorDrive.h>
 
 #include <mcutils/misc/Units.h>
-
-#include <components/RotorMain.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -30,31 +28,23 @@ namespace mc
 
 ////////////////////////////////////////////////////////////////////////////////
 
-constexpr char RotorHub::xmlTagName[];
+constexpr char RotorDrive::xmlTagName[];
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double RotorHub::estimateMass( const AircraftData &data )
+double RotorDrive::estimateMass( const AircraftData &data )
 {
-    // NASA TP-2015-218751, p.228
+    // NASA TP-2015-218751, p.236
     if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
 
-        double r_ft = Units::m2ft( data.rotors.main_r );
+        double chi = 1.0; // ?? technology factor
 
-        double v_tip_fps = Units::mps2fps( data.rotors.main_tip_vel );
+        double engine_rpm = data.rotors.main_gear_ratio * data.rotors.main_rpm;
 
-        double mu_h = 1.0; // ?? flap natural frequency
-
-        double chi_h = 1.0; // ?? technology factor
-
-        double w_b = RotorMain::estimateMass( data );
-
-        double m_lb = chi_h * 0.003722 * n_rotor
-                * pow( static_cast<double>(data.rotors.main_blades), 0.2807 )
-                * pow( r_ft, 1.5377 ) * pow( v_tip_fps, 0.429 ) * pow( mu_h, 2.1414 )
-                * pow( w_b / n_rotor, 0.5505 );
+        double m_lb = chi * 95.7634 * pow( n_rotor, 0.38553 ) * pow( data.rotors.mcp, 0.78137 )
+                * pow( engine_rpm, 0.09899 ) / pow( data.rotors.main_rpm, 0.80686 );
 
         return Units::lb2kg( m_lb );
     }
@@ -64,10 +54,10 @@ double RotorHub::estimateMass( const AircraftData &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-RotorHub::RotorHub( const AircraftData *data ) :
+RotorDrive::RotorDrive( const AircraftData *data ) :
     Component( data )
 {
-    set_name("Main Rotor Hub");
+    set_name("Rotor Drive");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -60,5 +60,5 @@ LIBS += \
 
 include($$PWD/tests.pri)
 
-include($$PWD/../src/components/components.pri)
+include($$PWD/../src/mass/mass.pri)
 include($$PWD/../src/utils/utils.pri)

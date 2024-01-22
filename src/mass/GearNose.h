@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_ROTORHUB_H_
-#define COMPONENTS_ROTORHUB_H_
+#ifndef MASS_GEARNOSE_H_
+#define MASS_GEARNOSE_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,18 +29,19 @@ namespace mc
 {
 
 /**
- * @brief The RotorHub class.
+ * @brief The GearNose class.
  *
  * <h3>Refernces:</h3>
  * <ul>
- *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.228-229</li>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407</li>
+ *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579</li>
  * </ul>
  */
-class RotorHub : public Component
+class GearNose : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "rotor_hub" };     ///< component XML tag name
+    static constexpr char xmlTagName[] { "gear_nose" };     ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -53,7 +54,7 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    RotorHub( const AircraftData *data );
+    GearNose( const AircraftData *data );
 
     /**
      * @brief Returns component estimated mass.
@@ -75,4 +76,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_ROTORHUB_H_
+#endif // MASS_GEARNOSE_H_

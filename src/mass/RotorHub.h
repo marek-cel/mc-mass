@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_ROTORDRIVE_H_
-#define COMPONENTS_ROTORDRIVE_H_
+#ifndef MASS_ROTORHUB_H_
+#define MASS_ROTORHUB_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,18 +29,18 @@ namespace mc
 {
 
 /**
- * @brief The RotorDrive class.
+ * @brief The RotorHub class.
  *
  * <h3>Refernces:</h3>
  * <ul>
- *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.236</li>
+ *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.228-229</li>
  * </ul>
  */
-class RotorDrive : public Component
+class RotorHub : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "rotor_drive" };   ///< component XML tag name
+    static constexpr char xmlTagName[] { "rotor_hub" };     ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -53,7 +53,7 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    RotorDrive( const AircraftData *data );
+    RotorHub( const AircraftData *data );
 
     /**
      * @brief Returns component estimated mass.
@@ -75,4 +75,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_ROTORDRIVE_H_
+#endif // MASS_ROTORHUB_H_

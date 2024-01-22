@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <components/AllElse.h>
+#include <mass/AllElse.h>
 
 #include <mcutils/misc/Units.h>
 

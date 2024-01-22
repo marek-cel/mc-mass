@@ -28,18 +28,18 @@
 
 #include <gui/DialogEdit.h>
 
-#include <components/AllElse.h>
-#include <components/Engine.h>
-#include <components/Fuselage.h>
-#include <components/GearMain.h>
-#include <components/GearNose.h>
-#include <components/RotorDrive.h>
-#include <components/RotorHub.h>
-#include <components/RotorMain.h>
-#include <components/RotorTail.h>
-#include <components/TailHor.h>
-#include <components/TailVer.h>
-#include <components/Wing.h>
+#include <mass/AllElse.h>
+#include <mass/Engine.h>
+#include <mass/Fuselage.h>
+#include <mass/GearMain.h>
+#include <mass/GearNose.h>
+#include <mass/RotorDrive.h>
+#include <mass/RotorHub.h>
+#include <mass/RotorMain.h>
+#include <mass/RotorTail.h>
+#include <mass/TailHor.h>
+#include <mass/TailVer.h>
+#include <mass/Wing.h>
 
 namespace mc
 {

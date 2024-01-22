@@ -32,7 +32,7 @@
 #include <mcutils/math/Vector3.h>
 
 #include <Aircraft.h>
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

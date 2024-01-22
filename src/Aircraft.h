@@ -32,7 +32,7 @@
 #include <defs.h>
 #include <AircraftData.h>
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

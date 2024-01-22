@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <components/AllElse.h>
+#include <mass/AllElse.h>
 
 #include <ExampleData.h>
 

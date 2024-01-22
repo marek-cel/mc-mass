@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_TAILHOR_H_
-#define COMPONENTS_TAILHOR_H_
+#ifndef MASS_FUSELAGE_H_
+#define MASS_FUSELAGE_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,20 +29,20 @@ namespace mc
 {
 
 /**
- * @brief The TailHor class.
+ * @brief The Fuselage class.
  *
  * <h3>Refernces:</h3>
  * <ul>
  *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 1992, p.398-407</li>
  *   <li>Raymer D. P.: Aircraft Design: A Conceptual Approach, AIAA, 2018, p.568-579</li>
- *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.230-231</li>
+ *   <li>Johnson W.: NDARC NASA Design and Analysis of Rotorcraft, NASA TP-2015-218751, 2015, p.231-232</li>
  * </ul>
  */
-class TailHor : public Component
+class Fuselage : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "tail_hor" };      ///< component XML tag name
+    static constexpr char xmlTagName[] { "fuselage" };      ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -55,7 +55,7 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    TailHor( const AircraftData *data );
+    Fuselage( const AircraftData *data );
 
     /**
      * @brief Returns component estimated mass.
@@ -77,4 +77,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_TAILHOR_H_
+#endif // MASS_FUSELAGE_H_

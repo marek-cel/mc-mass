@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <components/Component.h>
+#include <mass/Component.h>
 
 #include <mcutils/physics/ParallelAxis.h>
 

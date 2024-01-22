@@ -16,8 +16,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef COMPONENTS_COMPONENT_H_
-#define COMPONENTS_COMPONENT_H_
+#ifndef MASS_COMPONENT_H_
+#define MASS_COMPONENT_H_
 
 #include <string>
 
@@ -135,4 +135,4 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMPONENTS_COMPONENT_H_
+#endif // MASS_COMPONENT_H_

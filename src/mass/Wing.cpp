@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <components/Wing.h>
+#include <mass/Wing.h>
 
 #include <mcutils/misc/Units.h>
 
