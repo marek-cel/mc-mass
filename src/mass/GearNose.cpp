@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,62 +19,48 @@
 
 #include <mass/GearNose.h>
 
-#include <mcutils/misc/Units.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 constexpr char GearNose::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double GearNose::estimateMass( const AircraftData &data )
+units::mass::kilogram_t GearNose::GetEstimatedMass(const AircraftData& data)
 {
-    double w_dg = Units::kg2lb( data.general.mtow );
-    double w_0  = Units::kg2lb( data.general.m_empty );
+    mass::pound_t w_dg = data.general.mtow;
+    mass::pound_t w_0 = data.general.m_empty;
 
-    double m1 = 0.0;
+    mass::pound_t m1 = 0.0_lb;
     {
-        double reduce = data.landing_gear.fixed ? ( 0.014 * w_0 ) : 0.0;
+        double reduction = data.landing_gear.fixed ? (0.014 * w_0()) : 0.0;
 
         // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::FighterAttack )
         {
             double coeff = data.general.navy_ac ? 0.045 : 0.033;
-            m1 = 0.15 * Units::lb2kg( coeff * w_dg - reduce );
+            m1 = 0.15_lb * (coeff * w_dg() - reduction);
         }
 
         // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::CargoTransport )
         {
-            m1 = 0.15 * Units::lb2kg( 0.043 * w_dg - reduce );
+            m1 = 0.15_lb * (0.043 * w_dg() - reduction);
         }
 
         // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::GeneralAviation )
         {
-            m1 = 0.15 * Units::lb2kg( 0.057 * w_dg - reduce );
+            m1 = 0.15_lb * (0.057 * w_dg() - reduction);
         }
     }
 
-    double m2 = 0.0;
+    mass::pound_t m2 = 0.0_lb;
     {
-        double m2_lb = 0.0;
-
-        double w_l = Units::kg2lb( data.general.m_maxLand );
+        mass::pound_t w_l = data.general.m_maxLand;
         double n_l = 1.5 * data.general.nz_maxLand;
-
-        double l_n_in = Units::m2in( data.landing_gear.nose_l );
+        length::inch_t l_n = data.landing_gear.nose_l;
 
         // Rayner: Aircraft Design, p.572, eq.15.3
         if ( data.type == AircraftData::FighterAttack )
         {
-            m2_lb = pow( w_l * n_l, 0.29 ) * pow( l_n_in, 0.5 )
-                  * pow( static_cast<double>(data.landing_gear.nose_wheels), 0.525 );
+            m2 = 1.0_lb * pow(w_l() * n_l, 0.29) * pow(l_n(), 0.5)
+                  * pow(static_cast<double>(data.landing_gear.nose_wheels), 0.525);
         }
 
         // Rayner: Aircraft Design, p.575, eq.15.27
@@ -82,33 +68,23 @@ double GearNose::estimateMass( const AircraftData &data )
         {
             double k_np = data.landing_gear.nose_kneel ? 1.15 : 1.0;
 
-            m2_lb = 0.032 * k_np * pow( w_l, 0.646 ) * pow( n_l, 0.2 ) * pow( l_n_in, 0.5 )
-                    * pow( static_cast<double>(data.landing_gear.nose_wheels), 0.45 );
+            m2 = 0.032_lb * k_np * pow(w_l(), 0.646) * pow(n_l, 0.2) * pow(l_n(), 0.5)
+                    * pow(static_cast<double>(data.landing_gear.nose_wheels), 0.45);
         }
 
         // Rayner: Aircraft Design, p.576, eq.15.48
         if ( data.type == AircraftData::GeneralAviation )
         {
-            m2_lb = 0.125 * pow( n_l * w_l, 0.566 ) * pow( l_n_in / 12.0, 0.845 )
-                    - ( data.landing_gear.fixed ? 0.014 * w_0 : 0.0 );
+            mass::pound_t reduction = mass::pound_t(data.landing_gear.fixed ? 0.014 * w_0() : 0.0);
+            m2 = 0.125_lb * pow(n_l * w_l(), 0.566) * pow(l_n() / 12.0, 0.845) - reduction;
         }
-
-        m2 = Units::lb2kg( m2_lb );
     }
 
-    //std::cout << "GearNose:  " << m1 << "  " << m2 << std::endl;
-
-    return ( m1 + m2 ) / 2.0;
+    return (m1 + m2) / 2.0;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-GearNose::GearNose( const AircraftData *data ) :
-    Component( data )
+GearNose::GearNose(const AircraftData* data)
+    : Component(data)
 {
-    set_name("Nose Landing Gear");
+    SetName("Nose Landing Gear");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

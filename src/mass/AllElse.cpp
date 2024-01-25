@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,60 +19,43 @@
 
 #include <mass/AllElse.h>
 
-#include <mcutils/misc/Units.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 constexpr char AllElse::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double AllElse::estimateMass( const AircraftData &data )
+units::mass::kilogram_t AllElse::GetEstimatedMass(const AircraftData& data)
 {
-    double w_dg = Units::kg2lb( data.general.mtow );
+    mass::pound_t w_dg = data.general.mtow;
 
-    double m = 0.0;
+    mass::pound_t m = 0.0_lb;
 
     // Rayner: Aircraft Design, p.568, table 15.2
     if ( data.type == AircraftData::FighterAttack )
     {
-        m = Units::lb2kg( 0.17 * w_dg );
+        m = 0.17 * w_dg;
     }
 
     // Rayner: Aircraft Design, p.568, table 15.2
     if ( data.type == AircraftData::CargoTransport )
     {
-        m = Units::lb2kg( 0.17 * w_dg );
+        m = 0.17 * w_dg;
     }
 
     // Rayner: Aircraft Design, p.568, table 15.2
     if ( data.type == AircraftData::GeneralAviation )
     {
-        m = Units::lb2kg( 0.1  * w_dg );
+        m = 0.1  * w_dg;
     }
 
     // engineering judgement
     if ( data.type == AircraftData::Helicopter )
     {
-        m = Units::lb2kg( 0.25 * w_dg );
+        m = 0.25 * w_dg;
     }
 
     return m;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-AllElse::AllElse( const AircraftData *data ) :
-    Component( data )
+AllElse::AllElse(const AircraftData* data)
+    : Component(data)
 {
-    set_name("All-else Empty");
+    SetName("All-else Empty");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

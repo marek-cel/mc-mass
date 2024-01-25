@@ -21,13 +21,6 @@
 
 #include <cmath>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 // US Standard Atmosphere 1976, Table 3, p.3
 const double Atmosphere::_m_i[] = {
     28.0134,
@@ -135,53 +128,38 @@ const double Atmosphere::_std_sl_rho = 1.225;
 
 const double Atmosphere::_g = 9.80665;
 
-////////////////////////////////////////////////////////////////////////////////
-
-double Atmosphere::getDensity( double altitude )
+units::density::kilograms_per_cubic_meter_t
+Atmosphere::GetDensity(units::length::meter_t altitude)
 {
     Atmosphere atmosphere;
-    atmosphere.update( altitude );
-    return atmosphere.getDensity();
+    atmosphere.Update(altitude());
+    return units::density::kilograms_per_cubic_meter_t(atmosphere.GetDensity());
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-Atmosphere::Atmosphere()
+void Atmosphere::Update(double altitude)
 {
-    update( 0.0 );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Atmosphere::~Atmosphere() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Atmosphere::update( double altitude )
-{
-    double h_b = _h_b[ 5 ];
-    double p_b = _p_b[ 6 ];
-    double t_b = _t_b[ 6 ];
+    double h_b = _h_b[5];
+    double p_b = _p_b[6];
+    double t_b = _t_b[6];
     double l_b = 0.0;
 
-    if ( altitude < _h_b[ 0 ] )
+    if ( altitude < _h_b[0] )
     {
         h_b = 0.0;
-        p_b = _p_b[ 0 ];
+        p_b = _p_b[0];
         t_b = _std_sl_t;
-        l_b = -( _std_sl_t - _t_b[ 1 ] ) / _h_b[ 0 ];
+        l_b = -( _std_sl_t - _t_b[1] ) / _h_b[0];
     }
     else
     {
         for ( int i = 1; i < 7; i++ )
         {
-            if ( altitude < _h_b[ i ] )
+            if ( altitude < _h_b[i] )
             {
-                h_b = _h_b[ i - 1 ];
-                p_b = _p_b[ i ];
-                t_b = _t_b[ i ];
-                l_b = _l_b[ i ];
-
+                h_b = _h_b[i - 1];
+                p_b = _p_b[i];
+                t_b = _t_b[i];
+                l_b = _l_b[i];
                 break;
             }
         }
@@ -193,33 +171,29 @@ void Atmosphere::update( double altitude )
     _temperature = t_b + l_b * delta_h;
 
     // [Pa] pressure, US Standard Atmosphere 1976, p.12
-    if ( fabs( l_b ) < 1.0e-6 )
+    if ( fabs(l_b) < 1.0e-6 )
     {
-        _pressure = p_b * exp( -( _g * _m * delta_h ) / ( _r * t_b ) );
+        _pressure = p_b * exp(-(_g * _m * delta_h) / (_r * t_b));
     }
     else
     {
-        _pressure = p_b * pow( t_b / _temperature, ( _g * _m ) / ( _r * l_b ) );
+        _pressure = p_b * pow(t_b / _temperature, (_g * _m) / (_r * l_b));
 
-        if ( altitude < _h_b[ 0 ] )
+        if ( altitude < _h_b[0] )
         {
-            _pressure = ( _pressure / _std_sl_p ) * _std_sl_p;
+            _pressure = (_pressure / _std_sl_p) * _std_sl_p;
         }
     }
 
     // [kg/m^3] density, US Standard Atmosphere 1976, p.15
-    _density = ( _pressure * _m ) / ( _r * _temperature );
+    _density = (_pressure * _m) / (_r * _temperature);
 
     // [m/s] speed of sound, US Standard Atmosphere 1976, p.18
-    _speedOfSound = sqrt( ( _gamma * _r * _temperature ) / _m );
+    _speedOfSound = sqrt((_gamma * _r * _temperature) / _m);
 
     // [Pa*s] dynamic viscosity, US Standard Atmosphere 1976, p.19
-    _dynViscosity = _beta * pow( _temperature, 3.0 / 2.0 ) / ( _temperature + _s );
+    _dynViscosity = _beta * pow(_temperature, 3.0 / 2.0) / (_temperature + _s);
 
     // [m^2/s] kinematic viscosity, US Standard Atmosphere 1976, p.19
     _kinViscosity = _dynViscosity / _density;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

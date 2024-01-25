@@ -1,11 +1,9 @@
 HEADERS += \
-    $$PWD/ExampleData.h
 
 SOURCES += \
-    $$PWD/main.cpp \
-    $$PWD/ExampleData.cpp
+    $$PWD/main.cpp
 
 ################################################################################
 
 SOURCES += \
-    $$PWD/mass/TestAllElse.cpp
+

@@ -16,18 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef UTILS_XMLUTILS_H_
-#define UTILS_XMLUTILS_H_
-
-////////////////////////////////////////////////////////////////////////////////
+#ifndef MC_MASS_UTILS_XMLUTILS_H_
+#define MC_MASS_UTILS_XMLUTILS_H_
 
 #include <QDomDocument>
 #include <QDomElement>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
 
 /**
  * @brief The XmlUtils class.
@@ -36,21 +29,17 @@ class XmlUtils
 {
 public:
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, const QString &text );
+    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, const QString &text);
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, double value );
+    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, double value);
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, int value );
+    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, int value);
 
-    static void saveTextNode( QDomDocument *doc, QDomElement *parent,
-                              const char *tag_name, bool value );
+    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                             const char *tag_name, bool value);
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // UTILS_XMLUTILS_H_
+#endif // MC_MASS_UTILS_XMLUTILS_H_

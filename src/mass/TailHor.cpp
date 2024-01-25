@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,94 +19,75 @@
 
 #include <mass/TailHor.h>
 
-#include <mcutils/misc/Units.h>
-
 #include <utils/Atmosphere.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
 
 constexpr char TailHor::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double TailHor::estimateMass( const AircraftData &data )
+units::mass::kilogram_t TailHor::GetEstimatedMass(const AircraftData& data)
 {
-    double s_ht = Units::sqm2sqft( data.hor_tail.area );
+    area::square_foot_t s_ht = data.hor_tail.area;
 
     // Rayner: Aircraft Design, p.568, table 15.2
-    double m1 = 0.0;
+    mass::pound_t m1 = 0.0_lb;
     {
         if ( data.type == AircraftData::FighterAttack )
         {
-            m1 = Units::lb2kg( 4.0 * s_ht );
+            m1 = 4.0_lb * s_ht();
         }
 
         if ( data.type == AircraftData::CargoTransport )
         {
-            m1 = Units::lb2kg( 5.5 * s_ht );
+            m1 = 5.5_lb * s_ht();
         }
 
         if ( data.type == AircraftData::GeneralAviation )
         {
-            m1 = Units::lb2kg( 2.0 * s_ht );
+            m1 = 2.0_lb * s_ht();
         }
     }
 
-    double m2 = 0.0;
+    mass::pound_t m2 = 0.0_lb;
     {
-        double m2_lb = 0.0;
-
-        double w_dg  = Units::kg2lb( data.general.mtow );
-        double n_z   = 1.5 * data.general.nz_max;
-
-        double f_w_ft = Units::m2ft( data.hor_tail.w_f );
-        double b_h_ft = Units::m2ft( data.hor_tail.span );
-
-        double sweep_rad = Units::deg2rad( data.hor_tail.sweep );
+        mass::pound_t w_dg = data.general.mtow;
+        double n_z = 1.5 * data.general.nz_max;
+        length::foot_t f_w = data.hor_tail.w_f;
+        length::foot_t b_h = data.hor_tail.span;
+        angle::radian_t sweep = data.hor_tail.sweep;
 
         // Rayner: Aircraft Design, p.572, eq.15.2
         if ( data.type == AircraftData::FighterAttack )
         {
-            m2_lb = 3.316 * pow( 1 + f_w_ft / b_h_ft, -2.0 )
-                    * pow( w_dg * n_z / 1000.0, 0.26 )
-                    * pow( s_ht, 0.806 );
+            m2 = 3.316_lb * pow(1 + f_w / b_h, -2.0)
+                    * pow(w_dg() * n_z / 1000.0, 0.26)
+                    * pow(s_ht(), 0.806);
         }
 
         // Rayner: Aircraft Design, p.574, eq.15.26
         if ( data.type == AircraftData::CargoTransport )
         {
             double k_uht = data.hor_tail.moving ? 1.143 : 1.0;
+            length::foot_t l_t = data.hor_tail.arm;
+            length::foot_t k_y = 0.3 * l_t;
+            area::square_foot_t s_e = data.hor_tail.elev_area;
 
-            double l_t_ft = Units::m2ft( data.hor_tail.arm );
-            double k_y = 0.3 * l_t_ft;
-
-            double s_e = Units::sqm2sqft( data.hor_tail.elev_area );
-
-            m2_lb = 0.0379 * k_uht * pow( 1.0 + f_w_ft / b_h_ft, -0.25 )
-                    * pow( w_dg, 0.639 ) * pow( n_z, 0.1 ) * pow( s_ht, 0.75 )
-                    * pow( l_t_ft, -1.0 ) * pow( k_y, 0.704 )
-                    * pow( cos( sweep_rad ), -1.0 ) * pow( data.hor_tail.ar, 0.166 )
-                    * pow( 1.0 + s_e / s_ht, 0.1 );
+            m2 = 0.0379_lb * k_uht * pow(1.0 + f_w / b_h, -0.25 )
+                    * pow(w_dg(), 0.639) * pow(n_z, 0.1) * pow(s_ht(), 0.75)
+                    * pow(l_t(), -1.0) * pow(k_y(), 0.704)
+                    * pow(cos(sweep()), -1.0) * pow(data.hor_tail.ar, 0.166)
+                    * pow(1.0 + s_e / s_ht, 0.1);
         }
 
         // Rayner: Aircraft Design, p.576, eq.15.47
         if ( data.type == AircraftData::GeneralAviation )
         {
-            double v_mps = Units::kts2mps( data.general.v_cruise );
-            double h_m   = Units::ft2m( data.general.h_cruise );
-            double rho = Atmosphere::getDensity( h_m );
-            double q = 0.5 * rho * pow( v_mps, 2.0 );
-            double q_psf = Units::pa2psf( q );
+            velocity::meters_per_second_t v = data.general.v_cruise;
+            density::kilograms_per_cubic_meter_t rho = Atmosphere::GetDensity(data.general.h_cruise);
+            pressure::pounds_per_square_foot_t q = 0.5 * rho * v*v;
 
-            m2_lb = 0.016 * pow( n_z * w_dg, 0.414 ) * pow( q_psf, 0.006 )
-                    * pow( data.hor_tail.tr, 0.04 )
-                    * pow( 100.0 * data.hor_tail.t_c / cos( sweep_rad ), -0.3 )
-                    * pow( n_z * w_dg, 0.49 );
+            m2 = 0.016_lb * pow(n_z * w_dg(), 0.414) * pow(q(), 0.006)
+                    * pow(data.hor_tail.tr, 0.04)
+                    * pow(100.0 * data.hor_tail.tc / cos(sweep()), -0.3)
+                    * pow(n_z * w_dg(), 0.49);
         }
 
         // NASA TP-2015-218751, p.230
@@ -114,27 +95,16 @@ double TailHor::estimateMass( const AircraftData &data )
         {
             double chi_ht = 1.0; // ?? technology factor
 
-            m2_lb = chi_ht * 0.7176 * pow( s_ht, 1.1881 ) * pow( data.hor_tail.ar, 0.3173 );
-
-            m1 = Units::lb2kg( m2_lb ); // same as m2
+            m2 = chi_ht * 0.7176_lb * pow(s_ht(), 1.1881) * pow(data.hor_tail.ar, 0.3173);
+            m1 = m2;
         }
-
-        m2 = Units::lb2kg( m2_lb );
     }
 
-    //std::cout << "TailHor:  " << m1 << "  " << m2 << std::endl;
-
-    return ( m1 + m2 ) / 2.0;
+    return (m1 + m2) / 2.0;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-TailHor::TailHor( const AircraftData *data ) :
-    Component( data )
+TailHor::TailHor(const AircraftData* data)
+    : Component(data)
 {
-    set_name("Horizontal Tail");
+    SetName("Horizontal Tail");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

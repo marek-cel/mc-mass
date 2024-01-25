@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -16,26 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef GUI_DIALOGEDIT_H_
-#define GUI_DIALOGEDIT_H_
-
-////////////////////////////////////////////////////////////////////////////////
+#ifndef MC_MASS_GUI_DIALOGEDIT_H_
+#define MC_MASS_GUI_DIALOGEDIT_H_
 
 #include <QDialog>
+#include <QSettings>
 
 #include <mass/Component.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
-{
+namespace Ui {
     class DialogEdit;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
 
 class DialogEdit : public QDialog
 {
@@ -43,34 +34,45 @@ class DialogEdit : public QDialog
 
 public:
 
-    static void edit( QWidget *parent, Component *component );
+    static int edit(QWidget* parent, Component* component);
 
-    explicit DialogEdit( QWidget *parent = Q_NULLPTR, const Component *component = Q_NULLPTR );
+    explicit DialogEdit(QWidget* parent = nullptr, const Component* component = nullptr);
 
     virtual ~DialogEdit();
 
-    void updateComponent( Component *component );
+    void updateComponent(Component* comp);
 
 private:
 
-    Ui::DialogEdit *_ui;            ///<
+    Ui::DialogEdit *ui_;            ///<
 
-    const Component *_component;    ///<
+    const Component *component_;    ///<
+
+    void settingsRead();
+    void settingsRead_UnitsCombos(QSettings &settings);
+
+    void settingsSave();
+    void settingsSave_UnitsCombos(QSettings &settings);
 
     void updateMass();
 
 private slots:
 
-    void on_spinBox_X_valueChanged( double arg1 );
-    void on_spinBox_Y_valueChanged( double arg1 );
-    void on_spinBox_Z_valueChanged( double arg1 );
-    void on_spinBox_L_valueChanged( double arg1 );
-    void on_spinBox_W_valueChanged( double arg1 );
-    void on_spinBox_H_valueChanged( double arg1 );
+    void on_spinBox_X_valueChanged(double arg1);
+    void on_spinBox_Y_valueChanged(double arg1);
+    void on_spinBox_Z_valueChanged(double arg1);
+    void on_spinBox_L_valueChanged(double arg1);
+    void on_spinBox_W_valueChanged(double arg1);
+    void on_spinBox_H_valueChanged(double arg1);
+
+    void on_comboBox_Mass_currentIndexChanged(int index);
+    void on_comboBox_X_currentIndexChanged(int index);
+    void on_comboBox_Y_currentIndexChanged(int index);
+    void on_comboBox_Z_currentIndexChanged(int index);
+    void on_comboBox_L_currentIndexChanged(int index);
+    void on_comboBox_W_currentIndexChanged(int index);
+    void on_comboBox_H_currentIndexChanged(int index);
+    void on_comboBox_EstimatedMass_currentIndexChanged(int index);
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // GUI_DIALOGEDIT_H_
+#endif // MC_MASS_GUI_DIALOGEDIT_H_

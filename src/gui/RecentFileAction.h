@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -16,17 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef GUI_RECENTFILEACTION_H_
-#define GUI_RECENTFILEACTION_H_
-
-////////////////////////////////////////////////////////////////////////////////
+#ifndef MC_MASS_GUI_RECENTFILEACTION_H_
+#define MC_MASS_GUI_RECENTFILEACTION_H_
 
 #include <QAction>
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
 
 class RecentFileAction : public QAction
 {
@@ -34,23 +27,23 @@ class RecentFileAction : public QAction
 
 public:
 
-    RecentFileAction( int id, QString text, QObject *parent );
+    RecentFileAction(QString text, QObject* parent, int id = 0);
+
+    inline void incrementId() { id_++; }
+
+    inline void set_id(int id) { id_ = id; }
 
 private:
 
-    int _id;
+    int id_ = 0;
 
 signals:
 
-    void triggered( int id );
+    void triggered(int id);
 
 private slots:
 
     void trigger();
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // GUI_RECENTFILEACTION_H_
+#endif // MC_MASS_GUI_RECENTFILEACTION_H_

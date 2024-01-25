@@ -19,47 +19,30 @@
 
 #include <utils/XmlUtils.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
+void XmlUtils::SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                            const char *tag_name, const QString &text)
 {
+    QDomElement node = doc->createElement(tag_name);
+    parent->appendChild(node);
 
-////////////////////////////////////////////////////////////////////////////////
-
-void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, const QString &text )
-{
-    QDomElement node = doc->createElement( tag_name );
-    parent->appendChild( node );
-
-    QDomNode textNode = doc->createTextNode( text );
-    node.appendChild( textNode );
+    QDomNode textNode = doc->createTextNode(text);
+    node.appendChild(textNode);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, double value )
+void XmlUtils::SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                            const char *tag_name, double value)
 {
-    saveTextNode( doc, parent, tag_name, QString::number( value, 'f', 6 ) );
+    SaveTextNode(doc, parent, tag_name, QString::number(value, 'f', 6));
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, int value )
+void XmlUtils::SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                            const char *tag_name, int value)
 {
-    saveTextNode( doc, parent, tag_name, QString::number( value ) );
+    SaveTextNode(doc, parent, tag_name, QString::number(value));
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void XmlUtils::saveTextNode( QDomDocument *doc, QDomElement *parent,
-                             const char *tag_name, bool value )
+void XmlUtils::SaveTextNode(QDomDocument *doc, QDomElement *parent,
+                            const char *tag_name, bool value)
 {
-    saveTextNode( doc, parent, tag_name, QString( value ? "1" : "0" ) );
+    SaveTextNode(doc, parent, tag_name, QString(value ? "1" : "0"));
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

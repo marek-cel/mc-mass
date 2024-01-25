@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -16,13 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef AIRCRAFTDATA_H_
-#define AIRCRAFTDATA_H_
+#ifndef MC_MASS_AIRCRAFTDATA_H_
+#define MC_MASS_AIRCRAFTDATA_H_
 
-////////////////////////////////////////////////////////////////////////////////
+#include <units.h>
 
-namespace mc
-{
+#include <QString>
+
+#include <utils/units_extra.h>
+
+using namespace units;
+using namespace units::literals;
 
 /**
  * @brief The AircraftData struct.
@@ -34,10 +38,10 @@ struct AircraftData
      */
     enum Type
     {
-        FighterAttack   = 0,        ///< Fighter/Attack
-        CargoTransport  = 1,        ///< Cargo/Transport/Bombers
-        GeneralAviation = 2,        ///< General Aviation
-        Helicopter      = 3         ///< Helicopter
+        FighterAttack   = 0,                        ///< Fighter/Attack
+        CargoTransport  = 1,                        ///< Cargo/Transport/Bombers
+        GeneralAviation = 2,                        ///< General Aviation
+        Helicopter      = 3                         ///< Helicopter
     };
 
     /**
@@ -45,17 +49,16 @@ struct AircraftData
      */
     struct General
     {
-        double m_empty;             ///< [kg] empty mass
-        double mtow;                ///< [kg] maximum take-off mass
-        double m_maxLand;           ///< [kg] maximum landing mass
-        double nz_max;              ///< [-] Nz max
-        double nz_maxLand;          ///< [-] Nz max (landing)
-        double v_stall;             ///< [kts] stall speed
-        double h_cruise;            ///< [ft]  cruise altitude
-        double v_cruise;            ///< [kts] cruise speed
-        double mach_max;            ///< [-] maximum design Mach number
-
-        bool navy_ac;               ///< specifies if aircraft is navy carrier aircraft
+        mass::kilogram_t m_empty = 0.0_kg;          ///< empty mass
+        mass::kilogram_t mtow = 0.0_kg;             ///< maximum take-off mass
+        mass::kilogram_t m_maxLand = 0.0_kg;        ///< maximum landing mass
+        double nz_max = 0.0;                        ///< Nz max
+        double nz_maxLand = 0.0;                    ///< Nz max (landing)
+        velocity::knot_t v_stall = 0.0_kts;         ///< stall speed
+        length::foot_t h_cruise = 0.0_ft;           ///< cruise altitude
+        velocity::knot_t v_cruise = 0.0_kts;        ///< cruise speed
+        double mach_max = 0.0;                      ///< maximum design Mach number
+        bool navy_ac = false;                       ///< specifies if aircraft is navy carrier aircraft
     };
 
     /**
@@ -68,27 +71,23 @@ struct AircraftData
          */
         enum CargoDoor
         {
-            NoCargoDoor = 0,        ///< no cargo door
-            OneSideCargoDoor,       ///< one side cargo door
-            TwoSideCargoDoor,       ///< two side cargo door
-            AftClamshellDoor,       ///< aft clamshell door
-            TwoSideAndAftDoor       ///< two side and aft clamshell door
+            NoCargoDoor = 0,                        ///< no cargo door
+            OneSideCargoDoor,                       ///< one side cargo door
+            TwoSideCargoDoor,                       ///< two side cargo door
+            AftClamshellDoor,                       ///< aft clamshell door
+            TwoSideAndAftDoor                       ///< two side and aft clamshell door
         };
 
-        CargoDoor cargo_door;       ///< cargo doors type
-
-        double l;                   ///< [m] fuselage length
-        double h;                   ///< [m] fuselage height
-        double w;                   ///< [m] fuselage width
-
-        double l_n;                 ///< [m] nose length
-
-        double wetted_area;         ///< [m^2] fuselage wetted area
-        double press_vol;           ///< [m^3] volume of pressurized section
-
-        bool landing_gear;          ///< specifies if main landing gear is fuselage mounted
-        bool cargo_ramp;            ///< specifies if helicopter has a cargo ramp
-        bool wetted_area_override;  ///< specifies if wetted area override is enabled
+        CargoDoor cargo_door = NoCargoDoor;         ///< cargo doors type
+        length::meter_t l = 0.0_m;                  ///< fuselage length
+        length::meter_t h = 0.0_m;                  ///< fuselage height
+        length::meter_t w = 0.0_m;                  ///< fuselage width
+        length::meter_t l_n = 0.0_m;                ///< nose length
+        area::square_meter_t wetted_area = 0.0_sq_m;///< fuselage wetted area
+        volume::cubic_meter_t press_vol = 0.0_cu_m; ///< volume of pressurized section
+        bool landing_gear = false;                  ///< specifies if main landing gear is fuselage mounted
+        bool cargo_ramp = false;                    ///< specifies if helicopter has a cargo ramp
+        bool wetted_area_override = false;          ///< specifies if wetted area override is enabled
     };
 
     /**
@@ -96,20 +95,19 @@ struct AircraftData
      */
     struct Wing
     {
-        double area;                ///< [m^2] wing area
-        double area_exp;            ///< [m^2] wing exposed area
-        double span;                ///< [m] wing span
-        double sweep;               ///< [deg] wing sweep at 25% chord
-        double c_tip;               ///< [m] wing tip chord
-        double c_root;              ///< [m] wing root chord
-        double ar;                  ///< [-] wing aspect ratio
-        double tr;                  ///< [-] wing taper ratio
-        double t_c;                 ///< [-] wing thickness ratio
-        double fuel;                ///< [kg] wing fuel capacity
-        double ctrl_area;           ///< [m^2] wing mounted control surface area
-
-        bool delta;                 ///< specifies if delta wing
-        bool var_sweep;             ///< specifies if wing has variable sweep
+        area::square_meter_t area = 0.0_sq_m;       ///< wing area
+        area::square_meter_t area_exp = 0.0_sq_m;   ///< wing exposed area
+        length::meter_t span = 0.0_m;               ///< wing span
+        angle::degree_t sweep = 0.0_deg;            ///< wing sweep at 25% chord
+        length::meter_t c_tip  = 0.0_m;             ///< wing tip chord
+        length::meter_t c_root = 0.0_m;             ///< wing root chord
+        double ar = 0.0;                            ///< wing aspect ratio
+        double tr = 0.0;                            ///< wing taper ratio
+        double tc = 0.0;                            ///< wing thickness ratio
+        mass::kilogram_t fuel = 0.0_kg;             ///< wing fuel capacity
+        area::square_meter_t ctrl_area = 0.0_sq_m;  ///< wing mounted control surface area
+        bool delta = false;                         ///< specifies if delta wing
+        bool var_sweep = false;                     ///< specifies if wing has variable sweep
     };
 
     /**
@@ -117,20 +115,19 @@ struct AircraftData
      */
     struct HorizontalTail
     {
-        double area;                ///< [m^2] horizontal tail area
-        double span;                ///< [m] horizontal tail span
-        double sweep;               ///< [deg] horizontal tail sweep at 25% MAC
-        double c_tip;               ///< [m] horizontal tail tip chord
-        double c_root;              ///< [m] horizontal tail root chord
-        double t_c;                 ///< [-] horizontal tail thickness ratio
-        double elev_area;           ///< [m^2] elevator area
-        double w_f;                 ///< [m] fuselage width at horizontal tail intersection
-        double arm;                 ///< [m] horizontal tail arm
-        double ar;                  ///< [-] horizontal tail aspect ratio
-        double tr;                  ///< [-] horizontal tail taper ratio
-
-        bool moving;                ///< specifies if horizontal tail is all moving
-        bool rolling;               ///< specifies if horizontal tail is rolling
+        area::square_meter_t area = 0.0_sq_m;       ///< horizontal tail area
+        length::meter_t span = 0.0_m;               ///< horizontal tail span
+        angle::degree_t sweep = 0.0_deg;            ///< horizontal tail sweep at 25% MAC
+        length::meter_t c_tip  = 0.0_m;             ///< horizontal tail tip chord
+        length::meter_t c_root = 0.0_m;             ///< horizontal tail root chord
+        double tc = 0.0;                            ///< horizontal tail thickness ratio
+        area::square_meter_t elev_area = 0.0_sq_m;  ///< elevator area
+        length::meter_t w_f = 0.0_m;                ///< fuselage width at horizontal tail intersection
+        length::meter_t arm = 0.0_m;                ///< horizontal tail arm
+        double ar = 0.0;                            ///< horizontal tail aspect ratio
+        double tr = 0.0;                            ///< horizontal tail taper ratio
+        bool moving  = false;                       ///< specifies if horizontal tail is all moving
+        bool rolling = false;                       ///< specifies if horizontal tail is rolling
     };
 
     /**
@@ -138,19 +135,18 @@ struct AircraftData
      */
     struct VerticalTail
     {
-        double area;                ///< [m^2] vertical tail area
-        double height;              ///< [m] vertical tail height
-        double sweep;               ///< [deg] vertical tail sweep at 25% MAC
-        double c_tip;               ///< [m] vertical tail tip chord
-        double c_root;              ///< [m] vertical tail root chord
-        double t_c;                 ///< [-] vertical tail thickness ratio
-        double arm;                 ///< [m] vertical tail arm
-        double rudd_area;           ///< [m^2] rudder area
-        double ar;                  ///< [-] vertical tail aspect ratio
-        double tr;                  ///< [-] vertical tail taper ratio
-
-        bool t_tail;                ///< specifies if T-tail
-        bool rotor;                 ///< specifies if tail rotor is mounted on the vertical tail
+        area::square_meter_t area = 0.0_sq_m;       ///< vertical tail area
+        length::meter_t height = 0.0_m;             ///< vertical tail height
+        angle::degree_t sweep = 0.0_deg;            ///< vertical tail sweep at 25% MAC
+        length::meter_t c_tip  = 0.0_m;             ///< vertical tail tip chord
+        length::meter_t c_root = 0.0_m;             ///< vertical tail root chord
+        double tc = 0.0;                            ///< vertical tail thickness ratio
+        length::meter_t arm = 0.0_m;                ///< vertical tail arm
+        area::square_meter_t rudd_area = 0.0_sq_m;  ///< rudder area
+        double ar = 0.0;                            ///< vertical tail aspect ratio
+        double tr = 0.0;                            ///< vertical tail taper ratio
+        bool t_tail = false;                        ///< specifies if T-tail
+        bool rotor  = false;                        ///< specifies if tail rotor is mounted on the vertical tail
     };
 
     /**
@@ -158,19 +154,16 @@ struct AircraftData
      */
     struct LandingGear
     {
-        double main_l;              ///< [m] extended main gear length
-        double nose_l;              ///< [m] extended nose gear length
-
-        int main_wheels;            ///< main gear wheels number
-        int main_struts;            ///< main gear struts number
-        int nose_wheels;            ///< nose gear wheels number
-
-        bool fixed;                 ///< specifies if gear is fixed
-        bool cross;                 ///< specifies if gear has a cross-beam (like F-111)
-        bool tripod;                ///< specifies if gear is a tripod (like A-7)
-
-        bool main_kneel;            ///< specifies if main gear is kneeling
-        bool nose_kneel;            ///< specifies if nose gear is kneeling
+        length::meter_t main_l = 0.0_m;             ///< extended main gear length
+        length::meter_t nose_l = 0.0_m;             ///< extended nose gear length
+        unsigned int main_wheels = 0;               ///< main gear wheels number
+        unsigned int main_struts = 0;               ///< main gear struts number
+        unsigned int nose_wheels = 0;               ///< nose gear wheels number
+        bool fixed  = false;                        ///< specifies if gear is fixed
+        bool cross  = false;                        ///< specifies if gear has a cross-beam (like F-111)
+        bool tripod = false;                        ///< specifies if gear is a tripod (like A-7)
+        bool main_kneel = false;                    ///< specifies if main gear is kneeling
+        bool nose_kneel = false;                    ///< specifies if nose gear is kneeling
     };
 
     /**
@@ -178,7 +171,7 @@ struct AircraftData
      */
     struct Engine
     {
-        double mass;                ///< [kg] engine mass
+        mass::kilogram_t mass = 0.0_kg;             ///< engine mass
     };
 
     /**
@@ -186,18 +179,33 @@ struct AircraftData
      */
     struct Rotors
     {
-        double main_r;              ///< [m]   main rotor radius
-        double main_cb;             ///< [m]   main rotor blades chord
-        double main_rpm;            ///< [rpm] main rotor rotation speed
-        double main_gear_ratio;     ///< [-]   main rotor gearing ratio
-        double tail_r;              ///< [m]   tail rotor radius
-        double mcp;                 ///< [hp]  drive system power limit (MCP - Maximum Continuous Power)
-        double main_tip_vel;        ///< [m/s] main rotor blade tip velocity
-
-        int main_blades;            ///< number of main rotor blades
+        length::meter_t main_r = 0.0_m;             ///< main rotor radius
+        length::meter_t main_cb = 0.0_m;            ///< main rotor blades chord
+        angular_velocity::rpm_t main_rpm = 0.0_rpm; ///< main rotor rotation speed
+        double main_gear_ratio = 0.0;               ///< main rotor gearing ratio
+        length::meter_t tail_r = 0.0_m;             ///< tail rotor radius
+        power::horsepower_t mcp = 0.0_hp;           ///< drive system power limit (MCP - Maximum Continuous Power)
+        velocity::meters_per_second_t main_tip_vel = 0.0_mps;   ///< main rotor blade tip velocity
+        unsigned int main_blades = 0;               ///< number of main rotor blades
     };
 
-    Type           type;            ///< aircraft type
+    /**
+     * @brief The 3D Model struct
+     */
+    struct Model3D
+    {
+        QString file;                               ///<
+        length::meter_t offset_x = 0.0_m;           ///<
+        length::meter_t offset_y = 0.0_m;           ///<
+        length::meter_t offset_z = 0.0_m;           ///<
+        angle::degree_t rotation_x = 0.0_deg;       ///<
+        angle::degree_t rotation_y = 0.0_deg;       ///<
+        angle::degree_t rotation_z = 0.0_deg;       ///<
+        double scale = 1.0;                         ///<
+    };
+
+    Type type = FighterAttack;      ///< aircraft type
+
     General        general;         ///< general aircraft data
     Fuselage       fuselage;        ///< fuselage data
     Wing           wing;            ///< wing data
@@ -206,11 +214,8 @@ struct AircraftData
     LandingGear    landing_gear;    ///< lannding gear data
     Engine         engine;          ///< engine data
     Rotors         rotors;          ///< helicopter rotors data
+    Model3D        model3d;         ///< 3D model data
 
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // AIRCRAFTDATA_H_
+#endif // MC_MASS_AIRCRAFTDATA_H_

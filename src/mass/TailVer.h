@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -16,17 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef MASS_TAILVER_H_
-#define MASS_TAILVER_H_
-
-////////////////////////////////////////////////////////////////////////////////
+#ifndef MC_MASS_MASS_TAILVER_H_
+#define MC_MASS_MASS_TAILVER_H_
 
 #include <mass/Component.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
 
 /**
  * @brief The TailVer class.
@@ -49,32 +42,28 @@ public:
      * @param[in] data aircraft parameters
      * @return [kg] component statistical mass
      */
-    static double estimateMass( const AircraftData &data );
+    static units::mass::kilogram_t GetEstimatedMass(const AircraftData& data);
 
     /**
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    TailVer( const AircraftData *data );
+    TailVer(const AircraftData* data);
 
     /**
      * @brief Returns component estimated mass.
      * @return [kg] component estimated mass
      */
-    inline double getEstimatedMass() const override
+    inline units::mass::kilogram_t GetEstimatedMass() const override
     {
-        return estimateMass( *_data );
+        return GetEstimatedMass(*data_);
     }
 
     /**
      * @brief Returns component XML tag name.
      * @return component XML tag name
      */
-    inline const char* getXmlTagName() const override { return xmlTagName; }
+    inline const char* GetXmlTagName() const override { return xmlTagName; }
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MASS_TAILVER_H_
+#endif // MC_MASS_MASS_TAILVER_H_

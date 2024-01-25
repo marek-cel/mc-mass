@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,53 +19,37 @@
 
 #include <mass/RotorMain.h>
 
-#include <mcutils/misc/Units.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 constexpr char RotorMain::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double RotorMain::estimateMass( const AircraftData &data )
+units::mass::kilogram_t RotorMain::GetEstimatedMass(const AircraftData& data)
 {
     // NASA TP-2015-218751, p.228
     if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
-
-        double r_ft = Units::m2ft( data.rotors.main_r  );
-        double c_ft = Units::m2ft( data.rotors.main_cb );
-
-        double v_tip_fps = Units::mps2fps( data.rotors.main_tip_vel );
-
+        length::foot_t r = data.rotors.main_r;
+        length::foot_t c = data.rotors.main_cb;
+        velocity::feet_per_second_t v_tip = data.rotors.main_tip_vel;
         double mu_b = 1.0; // ?? flap natural frequency
-
         double chi_b = 1.0; // ?? technology factor
 
-        double m_lb = chi_b * 0.02606 * n_rotor * pow( static_cast<double>(data.rotors.main_blades), 0.6592 )
-                * pow( r_ft, 1.3371 ) * pow( c_ft, 0.9959 )
-                * pow( v_tip_fps, 0.6682 ) * pow( mu_b, 2.5279 );
+        mass::pound_t m = chi_b * 0.02606_lb * n_rotor
+                * pow(static_cast<double>(data.rotors.main_blades), 0.6592)
+                * pow(r(), 1.3371)
+                * pow(c(), 0.9959)
+                * pow(v_tip(), 0.6682)
+                * pow(mu_b, 2.5279);
 
-        return Units::lb2kg( m_lb );
+        return m;
     }
 
-    return 0.0;
+    return 0.0_kg;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-RotorMain::RotorMain( const AircraftData *data ) :
-    Component( data )
+RotorMain::RotorMain(const AircraftData* data)
+    : Component(data)
 {
-    set_name("Main Rotor");
+    SetName("Main Rotor");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

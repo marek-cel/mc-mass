@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,94 +19,44 @@
 
 #include <mass/Engine.h>
 
-#include <mcutils/misc/Units.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 constexpr char Engine::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double Engine::estimateMass( const AircraftData &data )
+units::mass::kilogram_t Engine::GetEstimatedMass(const AircraftData& data)
 {
-    double w_en = Units::kg2lb( data.engine.mass );
+    mass::pound_t w_en = data.engine.mass;
 
-    double m1 = 0.0;
+    mass::pound_t m1 = 0.0_lb;
     {
         // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::FighterAttack )
         {
-            m1 = Units::lb2kg( 1.3 * w_en );
+            m1 = 1.3 * w_en;
         }
 
         // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::CargoTransport )
         {
-            m1 = Units::lb2kg( 1.3 * w_en );
+            m1 = 1.3 * w_en;
         }
 
         // Rayner: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::GeneralAviation )
         {
-            m1 = Units::lb2kg( 1.4 * w_en );
+            m1 = 1.4 * w_en;
         }
 
-        // engineering judgement (same as for CargoTransport)
+        // engineering judgement (same as for GeneralAviation)
         if ( data.type == AircraftData::Helicopter )
         {
-            m1 = Units::lb2kg( 1.3 * w_en );
+            m1 = 1.4 * w_en;
         }
     }
 
-    double m2 = 0.0;
-    {
-        double m2_lb = 0.0;
-
-        //
-        if ( data.type == AircraftData::FighterAttack )
-        {
-            m2_lb = Units::kg2lb( m1 );
-        }
-
-        //
-        if ( data.type == AircraftData::CargoTransport )
-        {
-            m2_lb = Units::kg2lb( m1 );
-        }
-
-        //
-        if ( data.type == AircraftData::GeneralAviation )
-        {
-            m2_lb = Units::kg2lb( m1 );
-        }
-
-        //
-        if ( data.type == AircraftData::Helicopter )
-        {
-            m2_lb = Units::kg2lb( m1 );
-        }
-
-        m2 = Units::lb2kg( m2_lb );
-    }
-
-    //std::cout << "Engine:  " << m1 << "  " << m2 << std::endl;
-
-    return ( m1 + m2 ) / 2.0;
+    return m1;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 Engine::Engine(const AircraftData* data)
     : Component(data)
 {
-    set_name("Engine");
+    SetName("Engine");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

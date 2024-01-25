@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -23,50 +23,37 @@
 
 #include <utils/Atmosphere.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 constexpr char Wing::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double Wing::estimateMass( const AircraftData &data )
+units::mass::kilogram_t Wing::GetEstimatedMass(const AircraftData& data)
 {
-    double s_w = Units::sqm2sqft( data.wing.area_exp );
+    area::square_foot_t s_w = data.wing.area_exp;
 
     // Rayner: Aircraft Design, p.568, table 15.2
-    double m1 = 0.0;
+    mass::pound_t m1 = 0.0_lb;
     {
         if ( data.type == AircraftData::FighterAttack )
         {
-            m1 = Units::lb2kg( 9.0 * s_w );
+            m1 = 9.0_lb * s_w();
         }
 
         if ( data.type == AircraftData::CargoTransport )
         {
-            m1 = Units::lb2kg( 10.0 * s_w );
+            m1 = 10.0_lb * s_w();
         }
 
         if ( data.type == AircraftData::GeneralAviation )
         {
-            m1 = Units::lb2kg( 2.5 * s_w );
+            m1 = 2.5_lb * s_w();
         }
     }
 
-    double m2 = 0.0;
+    mass::pound_t m2 = 0.0_lb;
     {
-        double m2_lb = 0.0;
-
-        double w_dg  = Units::kg2lb( data.general.mtow );
-        double n_z   = 1.5 * data.general.nz_max;
-
-        double s_csw = Units::kg2lb( data.wing.ctrl_area );
-
-        double sweep_rad = Units::deg2rad( data.wing.sweep );
+        mass::pound_t w_dg = data.general.mtow;
+        double n_z = 1.5 * data.general.nz_max;
+        area::square_foot_t s_csw = data.wing.ctrl_area;
+        angle::radian_t sweep = data.wing.sweep;
 
         // Rayner: Aircraft Design, p.572, eq.15.1
         if ( data.type == AircraftData::FighterAttack )
@@ -74,55 +61,42 @@ double Wing::estimateMass( const AircraftData &data )
             double k_vs  = data.wing.var_sweep ? 1.19  : 1.0;
             double k_dw  = data.wing.delta     ? 0.768 : 1.0;
 
-            m2_lb = 0.0103 * k_dw * k_vs * pow( w_dg * n_z, 0.5 )
-                    * pow( s_w, 0.622 ) * pow( data.wing.ar, 0.785 ) * pow( data.wing.t_c, -0.4 )
-                    * pow( 1.0 + data.wing.tr, 0.05 ) * pow( cos( sweep_rad ), -1.0 )
-                    * pow( s_csw, 0.04 );
+            m2 = 0.0103_lb * k_dw * k_vs * pow(w_dg() * n_z, 0.5)
+                    * pow(s_w(), 0.622) * pow(data.wing.ar, 0.785) * pow(data.wing.tc, -0.4)
+                    * pow(1.0 + data.wing.tr, 0.05) * pow(cos(sweep()), -1.0)
+                    * pow(s_csw(), 0.04);
         }
 
         // Rayner: Aircraft Design, p.574, eq.15.25
         if ( data.type == AircraftData::CargoTransport )
         {
-            m2_lb = 0.0051 * pow( w_dg * n_z, 0.557 )
-                    * pow( s_w, 0.649 ) * pow( data.wing.ar, 0.5 ) * pow( data.wing.t_c, -0.4 )
-                    * pow( 1.0 + data.wing.tr, 0.1 ) * pow( cos( sweep_rad ), -1.0 )
-                    * pow( s_csw, 0.1 );
+            m2 = 0.0051_lb * pow(w_dg() * n_z, 0.557)
+                    * pow(s_w(), 0.649) * pow(data.wing.ar, 0.5) * pow(data.wing.tc, -0.4)
+                    * pow(1.0 + data.wing.tr, 0.1) * pow(cos(sweep()), -1.0)
+                    * pow(s_csw(), 0.1);
         }
 
         // Rayner: Aircraft Design, p.575, eq.15.46
         if ( data.type == AircraftData::GeneralAviation )
         {
-            double w_fw  = Units::kg2lb( data.wing.fuel );
+            mass::pound_t w_fw = data.wing.fuel;
+            velocity::meters_per_second_t v = data.general.v_cruise;
+            density::kilograms_per_cubic_meter_t rho = Atmosphere::GetDensity(data.general.h_cruise);
+            pressure::pounds_per_square_foot_t q = 0.5 * rho * v*v;
 
-            double v_mps = Units::kts2mps( data.general.v_cruise );
-            double h_m   = Units::ft2m( data.general.h_cruise );
-            double rho = Atmosphere::getDensity( h_m );
-            double q = 0.5 * rho * pow( v_mps, 2.0 );
-            double q_psf = Units::pa2psf( q );
-
-            m2_lb = 0.036 * pow( s_w, 0.758 ) * pow( w_fw, 0.0035 )
-                    * pow( data.wing.ar / pow( cos( sweep_rad ), 2.0 ), 0.6 )
-                    * pow( q_psf, 0.006 ) * pow( data.wing.tr, 0.04 )
-                    * pow( 100 * data.wing.t_c / cos( sweep_rad ), -0.3 )
-                    * pow( w_dg * n_z, 0.49 );
+            m2 = 0.036_lb * pow(s_w(), 0.758) * pow(w_fw(), 0.0035)
+                    * pow(data.wing.ar / pow(cos(sweep()), 2.0), 0.6)
+                    * pow(q(), 0.006) * pow(data.wing.tr, 0.04)
+                    * pow(100 * data.wing.tc / cos(sweep()), -0.3)
+                    * pow(w_dg() * n_z, 0.49);
         }
-
-        m2 = Units::lb2kg( m2_lb );
     }
 
-    //std::cout << "Wing:  " << m1 << "  " << m2 << std::endl;
-
-    return ( m1 + m2 ) / 2.0;
+    return (m1 + m2) / 2.0;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-Wing::Wing( const AircraftData *data ) :
-    Component( data )
+Wing::Wing(const AircraftData* data)
+    : Component(data)
 {
-    set_name("Wing");
+    SetName("Wing");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

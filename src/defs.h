@@ -16,44 +16,19 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef DEFS_H_
-#define DEFS_H_
-
-////////////////////////////////////////////////////////////////////////////////
+#ifndef MC_MASS_DEFS_H_
+#define MC_MASS_DEFS_H_
 
 #include <iostream>
 
-////////////////////////////////////////////////////////////////////////////////
-
 #define APP_NAME   "mc-mass"
-#define APP_VER    "1.0"
+#define APP_VER    "2.0"
 #define ORG_NAME   "Marek_Cel"
 #define ORG_DOMAIN "marekcel.pl"
 
-////////////////////////////////////////////////////////////////////////////////
-
 #define APP_TITLE "MC-Mass"
 
-////////////////////////////////////////////////////////////////////////////////
+#define CGI_HUD_Y 200.0
+#define CGI_HUD_Y_2 ( CGI_HUD_Y / 2.0 )
 
-#ifndef DELPTR
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = nullptr; \
-}
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef DELTAB
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = nullptr; \
-}
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // DEFS_H_
+#endif // MC_MASS_DEFS_H_

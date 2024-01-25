@@ -16,18 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef UTILS_CUBOID_H_
-#define UTILS_CUBOID_H_
+#ifndef MC_MASS_UTILS_CUBOID_H_
+#define MC_MASS_UTILS_CUBOID_H_
 
-////////////////////////////////////////////////////////////////////////////////
+#include <units.h>
 
-#include <mcutils/math/Matrix3x3.h>
-#include <mcutils/math/Vector3.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+#include <utils/InertiaMatrix.h>
 
 /**
  * @brief The Cuboid class.
@@ -49,11 +43,10 @@ public:
      * @param h [m] height (dimension z-component)
      * @return matrix of inertia [kg*m^2]
      */
-    static Matrix3x3 getInertia( double m, double l, double w, double h );
+    static InertiaMatrix GetInertiaMatrix(units::mass::kilogram_t m,
+                                          units::length::meter_t l,
+                                          units::length::meter_t w,
+                                          units::length::meter_t h );
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // UTILS_CUBOID_H_
+#endif // MC_MASS_UTILS_CUBOID_H_

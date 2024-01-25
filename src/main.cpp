@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -23,22 +23,20 @@
 
 #include <gui/MainWindow.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    setlocale( LC_ALL, "C" );
+    setlocale(LC_ALL, "C");
 
-    QLocale::setDefault( QLocale::system() );
+    QLocale::setDefault(QLocale::system());
 
-    QApplication *app = new QApplication( argc, argv );
+    QApplication* app = new QApplication(argc, argv);
 
-    app->setApplicationName    ( APP_NAME   );
-    app->setApplicationVersion ( APP_VER    );
-    app->setOrganizationDomain ( ORG_DOMAIN );
-    app->setOrganizationName   ( ORG_NAME   );
+    app->setApplicationName(APP_NAME);
+    app->setApplicationVersion(APP_VER);
+    app->setOrganizationDomain(ORG_DOMAIN);
+    app->setOrganizationName(ORG_NAME);
 
-    mc::MainWindow *win = new mc::MainWindow();
+    MainWindow* win = new MainWindow();
     win->show();
     
     int result = app->exec();

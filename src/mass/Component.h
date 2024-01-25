@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -16,28 +16,24 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef MASS_COMPONENT_H_
-#define MASS_COMPONENT_H_
+#ifndef MC_MASS_MASS_COMPONENT_H_
+#define MC_MASS_MASS_COMPONENT_H_
 
 #include <string>
+
+#include <units.h>
 
 #include <QDomDocument>
 #include <QDomElement>
 
-#include <units.h>
-
-#include <mcutils/math/Matrix3x3.h>
-#include <mcutils/math/Vector3.h>
+#include <utils/InertiaMatrix.h>
+#include <utils/PositionVector.h>
 
 #include <defs.h>
 
 #include <AircraftData.h>
 
-using namespace units;
 using namespace units::literals;
-
-namespace mc
-{
 
 /**
  * @brief The Component class.
@@ -50,89 +46,84 @@ public:
      * @brief Constructor.
      * @param data aircraft data struct
      */
-    Component( const AircraftData *data );
+    Component(const AircraftData* data);
 
     /** @brief Destructor. */
     virtual ~Component() = default;
 
     /**
      * @brief Returns component estimated mass.
-     * @return [kg] component estimated mass
+     * @return component estimated mass
      */
-    virtual double getEstimatedMass() const = 0;
+    virtual units::mass::kilogram_t GetEstimatedMass() const = 0;
 
     /**
      * @brief Reads component data.
      * @param parentNode XML parent node
      */
-    void read( QDomElement *parentNode );
+    void Read(QDomElement* parentNode);
 
     /**
      * @brief Saves component data.
      * @param doc XML document
      * @param parentNode XML parent node
      */
-    void save( QDomDocument *doc, QDomElement *parentNode );
+    void Save(QDomDocument* doc, QDomElement* parentNode);
 
     /**
      * @brief Returns component XML tag name.
      * @return component XML tag name
      */
-    virtual const char* getXmlTagName() const = 0;
+    virtual const char* GetXmlTagName() const = 0;
 
-    inline const char* name() const { return name_.c_str(); }
+    inline const char* GetName() const { return name_.c_str(); }
 
-    inline Vector3 getPosition() const { return _r; }
+    inline PositionVector GetPosition() const { return r_; }
 
-    inline mass::kilogram_t mass() const { return mass_; }
-    inline double getLength () const { return _l; }
-    inline double getWidth  () const { return _w; }
-    inline double getHeight () const { return _h; }
+    inline units::mass::kilogram_t GetMass() const { return m_; }
+
+    inline units::length::meter_t GetLength () const { return l_; }
+    inline units::length::meter_t GetWidth  () const { return w_; }
+    inline units::length::meter_t GetHeight () const { return h_; }
 
     /**
      * @brief getInertia
      * @return
      */
-    virtual Matrix3x3 getInertia() const;
+    virtual InertiaMatrix GetInertia() const;
 
     /**
      * @brief setName
      * @param name
      */
-    void set_name(const char* name);
+    void SetName(const char* name);
 
     /**
      * @brief setPosition
      * @param r
      */
-    void setPosition( const Vector3 &r );
+    void SetPosition(const PositionVector& r);
 
-    void set_mass(mass::kilogram_t mass);
-    void setLength ( double l );
-    void setWidth  ( double w );
-    void setHeight ( double h );
+    void SetMass(units::mass::kilogram_t m);
+    void SetLength(units::length::meter_t l);
+    void SetWidth(units::length::meter_t w);
+    void SetHeight(units::length::meter_t h);
 
 protected:
 
-    const AircraftData *_data;          ///< aircraft data
+    const AircraftData *data_;  ///< aircraft data
 
-    std::string name_;                  ///< component name
+    std::string name_;          ///< component name
 
-    Vector3 _r;                         ///< [m] position
+    PositionVector r_;          ///< position
 
-    mass::kilogram_t mass_ = 0.0_kg;    ///< [kg] mass
+    units::mass::kilogram_t m_ = 0.0_kg;    ///< [kg] mass
 
-    //double _m;                  ///< [kg] mass
+    units::length::meter_t l_ = 0.0_m;      ///< length
+    units::length::meter_t w_ = 0.0_m;      ///< width
+    units::length::meter_t h_ = 0.0_m;      ///< height
 
-    double _l = 0.0;                  ///< [m] length
-    double _w = 0.0;                  ///< [m] width
-    double _h = 0.0;                  ///< [m] height
-
-    virtual void saveParameters( QDomDocument *doc, QDomElement *node );
+    virtual void SaveParameters(QDomDocument* doc, QDomElement* node);
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MASS_COMPONENT_H_
+#endif // MC_MASS_MASS_COMPONENT_H_

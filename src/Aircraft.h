@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -16,28 +16,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef AIRCRAFT_H_
-#define AIRCRAFT_H_
-
-////////////////////////////////////////////////////////////////////////////////
+#ifndef MC_MASS_AIRCRAFT_H_
+#define MC_MASS_AIRCRAFT_H_
 
 #include <vector>
 
 #include <QDomDocument>
 #include <QDomElement>
 
-#include <mcutils/math/Matrix3x3.h>
-#include <mcutils/math/Vector3.h>
-
 #include <defs.h>
 #include <AircraftData.h>
 
 #include <mass/Component.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
 
 /**
  * @brief The Aircraft class.
@@ -46,7 +36,7 @@ class Aircraft
 {
 public:
 
-    typedef std::vector< Component* > Components;
+    typedef std::vector<Component*> Components;
 
     Aircraft();
 
@@ -57,81 +47,81 @@ public:
      * @param parentNode
      * @return returns true on success and false on failure
      */
-    bool read( QDomElement *parentNode );
+    bool Read(QDomElement* parentNode);
 
     /**
      * Saves aircraft data.
      * @param doc
      * @param parentNode
      */
-    void save( QDomDocument *doc, QDomElement *parentNode );
+    void Save(QDomDocument* doc, QDomElement* parentNode);
 
     /**
      * @brief Resets aircraft data. Removes all components.
      */
-    void reset();
+    void Reset();
 
     /**
      * @brief Updates output data (total mass, cg position, inertia).
      */
-    void update();
+    void Update();
 
-    inline const Components& getComponents() const { return _components; }
+    inline const Components& GetComponents() const { return components_; }
 
-    Component* getComponent( int index );
-    void addComponent( Component *component );
-    void delComponent( int index );
+    Component* GetComponent(int index);
+    void AddComponent(Component* component);
+    void DeleteComponent(int index);
 
-    inline Vector3   getCenterOfMass  () const { return _centerOfMass;  }
-    inline Matrix3x3 getInertiaMatrix () const { return _inertiaMatrix; }
-    inline double    getMassTotal     () const { return _massTotal;     }
+    inline PositionVector GetCenterOfMass() const { return centerOfMass_;  }
+    inline InertiaMatrix GetInertiaMatrix() const { return inertiaMatrix_; }
+    inline units::mass::kilogram_t GetTotalEmptyMass() const { return totalEmptyMass_; }
 
-    inline       AircraftData* getData()       { return &_data; }
-    inline const AircraftData* getData() const { return &_data; }
+    inline       AircraftData* GetData()       { return &data_; }
+    inline const AircraftData* GetData() const { return &data_; }
 
-    void setData( const AircraftData &data );
+    void SetData(const AircraftData& data);
 
     /** */
-    std::string toString() const;
+    std::string ToString() const;
 
 private:
 
-    AircraftData _data;         ///< aircraft data
+    AircraftData data_;             ///< aircraft data
 
-    Components _components;     ///< mass components
+    Components components_;         ///< mass components
 
-    Vector3   _centerOfMass;    ///< [m] center of mass position
-    Matrix3x3 _inertiaMatrix;   ///< [kg*m^2] inertia
-    double _massTotal;          ///< [kg]
+    PositionVector centerOfMass_;   ///< [m] center of mass position
+    InertiaMatrix inertiaMatrix_;   ///< [kg*m^2] inertia
+    units::mass::kilogram_t totalEmptyMass_ = 0.0_kg;    ///< total mass
 
+    void DeleteAllComponents();
 
-    void deleteAllComponents();
+    bool ReadData(QDomElement* dataNode);
 
-    bool readData( QDomElement *dataNode );
+    bool ReadDataGeneral(QDomElement* parentNode);
+    bool ReadDataFuselage(QDomElement* parentNode);
+    bool ReadDataWing(QDomElement* parentNode);
+    bool ReadDataHorTail(QDomElement* parentNode);
+    bool ReadDataVerTail(QDomElement* parentNode);
+    bool ReadDataLandingGear(QDomElement* parentNode);
+    bool ReadDataEngine(QDomElement* parentNode);
+    bool ReadDataRotors(QDomElement* parentNode);
+    bool ReadDataModel3D(QDomElement* parentNode);
 
-    bool readDataGeneral     ( QDomElement *parentNode );
-    bool readDataFuselage    ( QDomElement *parentNode );
-    bool readDataWing        ( QDomElement *parentNode );
-    bool readDataHorTail     ( QDomElement *parentNode );
-    bool readDataVerTail     ( QDomElement *parentNode );
-    bool readDataLandingGear ( QDomElement *parentNode );
-    bool readDataEngine      ( QDomElement *parentNode );
-    bool readDataRotors      ( QDomElement *parentNode );
+    bool ReadComponents(QDomElement* componentsNode);
 
-    bool readComponents( QDomElement *componentsNode );
+    void SaveDataGeneral(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataFuselage(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataWing(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataHorTail(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataVerTail(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataLandingGear(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataEngine(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataRotors(QDomDocument* doc, QDomElement* parentNode);
+    void SaveDataModel3D(QDomDocument* doc, QDomElement* parentNode);
 
-    void saveDataGeneral     ( QDomDocument *doc, QDomElement *parentNode );
-    void saveDataFuselage    ( QDomDocument *doc, QDomElement *parentNode );
-    void saveDataWing        ( QDomDocument *doc, QDomElement *parentNode );
-    void saveDataHorTail     ( QDomDocument *doc, QDomElement *parentNode );
-    void saveDataVerTail     ( QDomDocument *doc, QDomElement *parentNode );
-    void saveDataLandingGear ( QDomDocument *doc, QDomElement *parentNode );
-    void saveDataEngine      ( QDomDocument *doc, QDomElement *parentNode );
-    void saveDataRotors      ( QDomDocument *doc, QDomElement *parentNode );
+    std::string ToStringMetric() const;
+    std::string ToStringImperial() const;
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // AIRCRAFT_H_
+#endif // MC_MASS_AIRCRAFT_H_

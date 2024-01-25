@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,25 +19,14 @@
 
 #include <gui/RecentFileAction.h>
 
-namespace mc
+RecentFileAction::RecentFileAction(QString text, QObject* parent, int id)
+    : QAction(text, parent)
+    , id_(id)
 {
-
-////////////////////////////////////////////////////////////////////////////////
-
-RecentFileAction::RecentFileAction( int id, QString text, QObject *parent ) :
-    QAction( text, parent )
-{
-    _id = id;
-    connect( this, SIGNAL(triggered()), this, SLOT(trigger()) );
+    connect(this, SIGNAL(triggered()), this, SLOT(trigger()));
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void RecentFileAction::trigger()
 {
-    emit(triggered(_id));
+    emit(triggered(id_));
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

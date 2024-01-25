@@ -16,13 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef UTILS_ATMOSPHERE_H_
-#define UTILS_ATMOSPHERE_H_
+#ifndef MC_MASS_UTILS_ATMOSPHERE_H_
+#define MC_MASS_UTILS_ATMOSPHERE_H_
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
+#include <units.h>
 
 /**
  * @brief US Standard Atmosphere class.
@@ -77,26 +74,21 @@ public:
 
     static const double _g;             ///< [m/s^2] standard gravitional acceleration
 
-    static double getDensity( double altitude );
-
-    /** @brief Constructor. */
-    Atmosphere();
-
-    /** @brief Destructor. */
-    virtual ~Atmosphere();
+    static units::density::kilograms_per_cubic_meter_t
+    GetDensity(units::length::meter_t altitude);
 
     /**
      * @brief Updates atmosphere due to altitude.
      * @param altitude [m] altitude above sea level
      */
-    virtual void update( double altitude );
+    virtual void Update( double altitude );
 
-    inline double getTemperature()  const { return _temperature;  }
-    inline double getPressure()     const { return _pressure;     }
-    inline double getDensity()      const { return _density;      }
-    inline double getSpeedOfSound() const { return _speedOfSound; }
-    inline double getDynViscosity() const { return _dynViscosity; }
-    inline double getKinViscosity() const { return _kinViscosity; }
+    inline double GetTemperature()  const { return _temperature;  }
+    inline double GetPressure()     const { return _pressure;     }
+    inline double GetDensity()      const { return _density;      }
+    inline double GetSpeedOfSound() const { return _speedOfSound; }
+    inline double GetDynViscosity() const { return _dynViscosity; }
+    inline double GetKinViscosity() const { return _kinViscosity; }
 
 private:
 
@@ -108,8 +100,4 @@ private:
     double _kinViscosity;       ///< [m^2/s] kinematic viscosity
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // UTILS_ATMOSPHERE_H_
+#endif // MC_MASS_UTILS_ATMOSPHERE_H_

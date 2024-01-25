@@ -1,4 +1,4 @@
-QT += core gui xml
+QT += core gui opengl xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,7 +11,7 @@ TARGET = mc-mass
 
 ################################################################################
 
-CONFIG += c++17
+CONFIG += c++17 object_parallel_to_source
 
 ################################################################################
 
@@ -55,22 +55,46 @@ unix: DEFINES += _LINUX_
 INCLUDEPATH += ./src
 
 unix: INCLUDEPATH += \
-    /usr/local/include \
-    /usr/local/include/mcutils
+    /usr/local/include
 
 ################################################################################
 
-LIBS += \
-    -lmcutils
+win32: LIBS += \
+    -L$(OSG_ROOT)/lib \
+    -lopengl32
 
 win32: CONFIG(release, debug|release): LIBS += \
+    -lOpenThreads \
+    -losg \
+    -losgDB \
+    -losgGA \
+    -losgText \
+    -losgUtil \
+    -losgViewer \
+    -losgWidget
 
 win32: CONFIG(debug, debug|release): LIBS += \
+    -lOpenThreadsd \
+    -losgd \
+    -losgDBd \
+    -losgGAd \
+    -losgTextd \
+    -losgUtild \
+    -losgViewerd \
+    -losgWidgetd
 
 unix: LIBS += \
-    -L/lib \
-    -L/usr/lib \
-    -L/usr/local/lib
+    -L/lib
+
+unix: LIBS += \
+    -lOpenThreads \
+    -losg \
+    -losgDB \
+    -losgGA \
+    -losgText \
+    -losgUtil \
+    -losgViewer \
+    -losgWidget
 
 ################################################################################
 
@@ -78,18 +102,19 @@ HEADERS += \
     $$PWD/defs.h \
     $$PWD/Aircraft.h \
     $$PWD/AircraftData.h \
-    $$PWD/DataFile.h
+    $$PWD/AircraftFile.h
 
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/Aircraft.cpp \
-    $$PWD/DataFile.cpp
+    $$PWD/AircraftFile.cpp
 
 RESOURCES += \
     $$PWD/mc-mass.qrc
 
 ################################################################################
 
+include($$PWD/cgi/cgi.pri)
 include($$PWD/gui/gui.pri)
 include($$PWD/mass/mass.pri)
 include($$PWD/utils/utils.pri)

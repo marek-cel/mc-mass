@@ -50,7 +50,6 @@ unix: LIBS += \
 ################################################################################
 
 LIBS += \
-    -lmcutils \
     -lgcov --coverage \
     -lgtest \
     -lgtest_main \

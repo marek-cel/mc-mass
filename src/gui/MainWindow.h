@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -16,70 +16,58 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef GUI_MAINWINDOW_H_
-#define GUI_MAINWINDOW_H_
-
-////////////////////////////////////////////////////////////////////////////////
+#ifndef MC_MASS_GUI_MAINWINDOW_H_
+#define MC_MASS_GUI_MAINWINDOW_H_
 
 #include <QMainWindow>
 #include <QSettings>
 #include <QShortcut>
 
-#include <defs.h>
+#include <AircraftFile.h>
 
-#include <DataFile.h>
-
+#include <gui/DockWidgetParams.h>
+#include <gui/DockWidgetComponents.h>
+#include <gui/DockWidgetResults.h>
 #include <gui/RecentFileAction.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
-{
-    class MainWindow;
+namespace Ui {
+class MainWindow;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-/**
- * @brief Main window class.
- */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
 
-    typedef std::vector< RecentFileAction* > RecentFilesActions;
+    using RecentFilesActions = QVector<RecentFileAction*>;
 
-    /** @brief Constructor. */
-    explicit MainWindow( QWidget *parent = Q_NULLPTR );
-
-    /** @brief Destructor. */
-    virtual ~MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
 protected:
 
-    /** */
-    void closeEvent( QCloseEvent *event );
+    void closeEvent(QCloseEvent* event) override;
 
 private:
 
-    Ui::MainWindow *_ui;                        ///< UI object
+    Ui::MainWindow* ui_;
 
-    QShortcut *_scSave;                         ///< key shortcut - save
-    QShortcut *_scExport;                       ///< key shortcut - export
+    DockWidgetParams*     dockParams_     = nullptr;
+    DockWidgetComponents* dockComponents_ = nullptr;
+    DockWidgetResults*    dockResults_    = nullptr;
 
-    DataFile _dataFile;                         ///< data file
+    QShortcut* sc_save_   = nullptr;
+    QShortcut* sc_export_ = nullptr;
 
-    bool _saved;                                ///<
+    AircraftFile aircraftFile_;
 
-    QString _currentFile;                       ///<
+    QString currentFile_;
 
-    QStringList _recentFilesList;               ///<
-    RecentFilesActions _recentFilesActions;     ///<
+    QStringList recentFilesList_;
+    RecentFilesActions recentFilesActions_;
+
+    bool saved_ = true;
 
     void askIfSave();
 
@@ -89,36 +77,29 @@ private:
     void saveFileAs();
     void exportFileAs();
 
-    void readFile( QString fileName );
-    void saveFile( QString fileName );
-    void exportAs( QString fileName );
+    void readFile(QString fileName);
+    void saveFile(QString fileName);
+    void exportAs(QString fileName);
+
+    void setCurrentFile(const QString& currentFile);
+
+    void setSideDockAreasFullHeight(bool left, bool rght);
 
     void settingsRead();
-    void settingsRead_RecentFiles( QSettings &settings );
+    void settingsRead_RecentFiles(QSettings &settings);
 
     void settingsSave();
-    void settingsSave_RecentFiles( QSettings &settings );
-
-    void addComponent();
-    void editComponent();
-
-    void setAircraftType( AircraftData::Type type );
+    void settingsSave_RecentFiles(QSettings &settings);
 
     void updateGUI();
     void updateTitleBar();
 
-    void updateWettedArea();
-    void updateWingAR();
-    void updateWingTR();
-    void updateHorTailAR();
-    void updateHorTailTR();
-    void updateVerTailAR();
-    void updateVerTailTR();
-    void updateRotorTipVel();
-
-    void updateRecentFiles( QString file = "" );
+    void updateRecentFiles(QString file = "");
 
 private slots:
+
+    void on_aircraftChanged();
+    void on_currentComponentChanged();
 
     void on_actionNew_triggered();
     void on_actionOpen_triggered();
@@ -129,108 +110,19 @@ private slots:
 
     void on_actionClearRecent_triggered();
 
-    void recentFile_triggered( int id );
+    void recentFile_triggered(int id);
+
+    void on_actionShowGrid_toggled(bool checked);
+    void on_actionViewDefault_triggered();
+    void on_actionViewTop_triggered();
+    void on_actionViewBottom_triggered();
+    void on_actionViewBack_triggered();
+    void on_actionViewFront_triggered();
+    void on_actionViewLeft_triggered();
+    void on_actionViewRight_triggered();
 
     void on_actionAbout_triggered();
-
-    void on_listComponents_currentRowChanged( int currentRow );
-    void on_listComponents_doubleClicked( const QModelIndex & );
-
-    void on_pushButtonAdd_clicked();
-    void on_pushButtonDel_clicked();
-    void on_pushButtonEdit_clicked();
-
-    void on_comboBoxAircraftType_currentIndexChanged( int index );
-
-    void on_spinBoxMassEmpty_valueChanged   ( double arg1 );
-    void on_spinBoxMTOW_valueChanged        ( double arg1 );
-    void on_spinBoxMassMaxLand_valueChanged ( double arg1 );
-    void on_spinBoxMaxNz_valueChanged       ( double arg1 );
-    void on_spinBoxMaxNzLand_valueChanged   ( double arg1 );
-    void on_spinBoxStallV_valueChanged      ( double arg1 );
-    void on_spinBoxCruiseV_valueChanged     ( double arg1 );
-    void on_spinBoxCruiseH_valueChanged     ( double arg1 );
-    void on_spinBoxMachMax_valueChanged     ( double arg1 );
-    void on_checkBoxNavyAircraft_toggled ( bool checked );
-
-    void on_comboBoxCargoDoor_currentIndexChanged( int index );
-    void on_spinBoxFuseLength_valueChanged ( double arg1 );
-    void on_spinBoxFuseHeight_valueChanged ( double arg1 );
-    void on_spinBoxFuseWidth_valueChanged  ( double arg1 );
-    void on_spinBoxNoseLength_valueChanged ( double arg1 );
-    void on_spinBoxPressVol_valueChanged   ( double arg1 );
-    void on_spinBoxWettedAreaEstimated_valueChanged ( double arg1 );
-    void on_spinBoxWettedAreaReal_valueChanged ( double arg1 );
-    void on_checkBoxFuselageLG_toggled ( bool checked );
-    void on_checkBoxCargoRamp_toggled  ( bool checked );
-    void on_checkBoxWettedAreaOverride_toggled( bool checked );
-
-    void on_spinBoxWingArea_valueChanged    ( double arg1 );
-    void on_spinBoxWingAreaExp_valueChanged ( double arg1 );
-    void on_spinBoxWingSpan_valueChanged    ( double arg1 );
-    void on_spinBoxWingSweep_valueChanged   ( double arg1 );
-    void on_spinBoxWingCRoot_valueChanged   ( double arg1 );
-    void on_spinBoxWingCTip_valueChanged    ( double arg1 );
-    void on_spinBoxWingTC_valueChanged      ( double arg1 );
-    void on_spinBoxWingFuel_valueChanged    ( double arg1 );
-    void on_spinBoxCtrlArea_valueChanged    ( double arg1 );
-    void on_spinBoxWingAR_valueChanged      ( double arg1 );
-    void on_spinBoxWingTR_valueChanged      ( double arg1 );
-    void on_checkBoxWingDelta_toggled    ( bool checked );
-    void on_checkBoxWingVarSweep_toggled ( bool checked );
-
-    void on_spinBoxHorTailArea_valueChanged  ( double arg1 );
-    void on_spinBoxHorTailSpan_valueChanged  ( double arg1 );
-    void on_spinBoxHorTailSweep_valueChanged ( double arg1 );
-    void on_spinBoxHorTailCRoot_valueChanged ( double arg1 );
-    void on_spinBoxHorTailCTip_valueChanged  ( double arg1 );
-    void on_spinBoxHorTailTC_valueChanged    ( double arg1 );
-    void on_spinBoxElevArea_valueChanged     ( double arg1 );
-    void on_spinBoxHorTailWF_valueChanged    ( double arg1 );
-    void on_spinBoxHorTailArm_valueChanged   ( double arg1 );
-    void on_spinBoxHorTailAR_valueChanged    ( double arg1 );
-    void on_spinBoxHorTailTR_valueChanged    ( double arg1 );
-    void on_checkBoxHorTailMoving_toggled  ( bool checked );
-    void on_checkBoxHorTailRolling_toggled ( bool checked );
-
-    void on_spinBoxVerTailArea_valueChanged   ( double arg1 );
-    void on_spinBoxVerTailHeight_valueChanged ( double arg1 );
-    void on_spinBoxVerTailSweep_valueChanged  ( double arg1 );
-    void on_spinBoxVerTailCRoot_valueChanged  ( double arg1 );
-    void on_spinBoxVerTailCTip_valueChanged   ( double arg1 );
-    void on_spinBoxVerTailTC_valueChanged     ( double arg1 );
-    void on_spinBoxVerTailArm_valueChanged    ( double arg1 );
-    void on_spinBoxRuddArea_valueChanged      ( double arg1 );
-    void on_spinBoxVerTailAR_valueChanged     ( double arg1 );
-    void on_spinBoxVerTailTR_valueChanged     ( double arg1 );
-    void on_checkBoxTailT_toggled        ( bool checked );
-    void on_checkBoxVerTailRotor_toggled ( bool checked );
-
-    void on_spinBoxMainGearLength_valueChanged ( double arg1 );
-    void on_spinBoxNoseGearLength_valueChanged ( double arg1 );
-    void on_spinBoxMainGearWheels_valueChanged ( int arg1 );
-    void on_spinBoxMainGearStruts_valueChanged ( int arg1 );
-    void on_spinBoxNoseGearWheels_valueChanged ( int arg1 );
-    void on_checkBoxGearFixed_toggled  ( bool checked );
-    void on_checkBoxGearCross_toggled  ( bool checked );
-    void on_checkBoxGearTripod_toggled ( bool checked );
-    void on_checkBoxGearMainKneel_toggled ( bool checked );
-    void on_checkBoxGearNoseKneel_toggled ( bool checked );
-
-    void on_spinBoxEngineMass_valueChanged( double arg1 );
-
-    void on_spinBoxMainRotorDiameter_valueChanged ( double arg1 );
-    void on_spinBoxMainRotorChord_valueChanged    ( double arg1 );
-    void on_spinBoxMainRotorRPM_valueChanged      ( double arg1 );
-    void on_spinBoxTailRotorDiameter_valueChanged ( double arg1 );
-    void on_spinBoxMainRotorGear_valueChanged     ( double arg1 );
-    void on_spinBoxPowerLimit_valueChanged        ( double arg1 );
-    void on_spinBoxMainRotorTipVel_valueChanged   ( double arg1 );
-    void on_spinBoxMainRotorBlades_valueChanged ( int arg1 );
+    void on_actionAboutQt_triggered();
 };
 
-} // namespace mc
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // GUI_MAINWINDOW_H_
+#endif // MC_MASS_GUI_MAINWINDOW_H_

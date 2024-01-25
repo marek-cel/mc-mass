@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -21,45 +21,32 @@
 
 #include <mcutils/misc/Units.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 constexpr char RotorDrive::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double RotorDrive::estimateMass( const AircraftData &data )
+units::mass::kilogram_t RotorDrive::GetEstimatedMass(const AircraftData& data)
 {
     // NASA TP-2015-218751, p.236
     if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
-
         double chi = 1.0; // ?? technology factor
+        angular_velocity::rpm_t rotor_rpm = data.rotors.main_rpm;
+        angular_velocity::rpm_t engine_rpm = data.rotors.main_gear_ratio * rotor_rpm;
+        power::horsepower_t mcp = data.rotors.mcp;
 
-        double engine_rpm = data.rotors.main_gear_ratio * data.rotors.main_rpm;
+        mass::pound_t m = chi * 95.7634_lb
+                * pow(n_rotor, 0.38553)
+                * pow(mcp(), 0.78137)
+                * pow(engine_rpm(), 0.09899) / pow(rotor_rpm(), 0.80686);
 
-        double m_lb = chi * 95.7634 * pow( n_rotor, 0.38553 ) * pow( data.rotors.mcp, 0.78137 )
-                * pow( engine_rpm, 0.09899 ) / pow( data.rotors.main_rpm, 0.80686 );
-
-        return Units::lb2kg( m_lb );
+        return m;
     }
 
-    return 0.0;
+    return 0.0_kg;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-RotorDrive::RotorDrive( const AircraftData *data ) :
-    Component( data )
+RotorDrive::RotorDrive(const AircraftData* data)
+    : Component(data)
 {
-    set_name("Rotor Drive");
+    SetName("Rotor Drive");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

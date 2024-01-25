@@ -19,32 +19,24 @@
 
 #include <utils/Cuboid.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
+InertiaMatrix Cuboid::GetInertiaMatrix(units::mass::kilogram_t m,
+                                       units::length::meter_t l,
+                                       units::length::meter_t w,
+                                       units::length::meter_t h)
 {
+    InertiaMatrix result;
 
-////////////////////////////////////////////////////////////////////////////////
+//    result.ixx() = m * (w*w + h*h) / 12.0;
+//    result.ixy() = 0.0_kg_m2;
+//    result.ixz() = 0.0_kg_m2;
 
-Matrix3x3 Cuboid::getInertia( double m, double l, double w, double h )
-{
-    Matrix3x3 result;
+//    result.iyx() = 0.0_kg_m2;
+//    result.iyy() = m * (l*l + h*h) / 12.0;
+//    result.iyz() = 0.0_kg_m2;
 
-    result.xx() = m * ( w*w + h*h ) / 12.0;
-    result.xy() = 0.0;
-    result.xz() = 0.0;
-
-    result.yx() = 0.0;
-    result.yy() = m * ( l*l + h*h ) / 12.0;
-    result.yz() = 0.0;
-
-    result.zx() = 0.0;
-    result.zy() = 0.0;
-    result.zz() = m * ( l*l + w*w ) / 12.0;
+//    result.izx() = 0.0_kg_m2;
+//    result.izy() = 0.0_kg_m2;
+//    result.izz() = m * (l*l + w*w) / 12.0;
 
     return result;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

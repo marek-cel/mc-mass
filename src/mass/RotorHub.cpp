@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,57 +19,37 @@
 
 #include <mass/RotorHub.h>
 
-#include <mcutils/misc/Units.h>
-
 #include <mass/RotorMain.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
 
 constexpr char RotorHub::xmlTagName[];
 
-////////////////////////////////////////////////////////////////////////////////
-
-double RotorHub::estimateMass( const AircraftData &data )
+units::mass::kilogram_t RotorHub::GetEstimatedMass(const AircraftData& data)
 {
     // NASA TP-2015-218751, p.228
     if ( data.type == AircraftData::Helicopter )
     {
         double n_rotor = 1.0; // number of rotors
-
-        double r_ft = Units::m2ft( data.rotors.main_r );
-
-        double v_tip_fps = Units::mps2fps( data.rotors.main_tip_vel );
-
+        length::foot_t r = data.rotors.main_r;
+        velocity::feet_per_second_t v_tip = data.rotors.main_tip_vel;
         double mu_h = 1.0; // ?? flap natural frequency
-
         double chi_h = 1.0; // ?? technology factor
+        mass::pound_t w_b = RotorMain::GetEstimatedMass(data);
 
-        double w_b = RotorMain::estimateMass( data );
+        mass::pound_t m = chi_h * 0.003722_lb * n_rotor
+                * pow(static_cast<double>(data.rotors.main_blades), 0.2807)
+                * pow(r(), 1.5377)
+                * pow(v_tip(), 0.429)
+                * pow(mu_h, 2.1414)
+                * pow(w_b() / n_rotor, 0.5505);
 
-        double m_lb = chi_h * 0.003722 * n_rotor
-                * pow( static_cast<double>(data.rotors.main_blades), 0.2807 )
-                * pow( r_ft, 1.5377 ) * pow( v_tip_fps, 0.429 ) * pow( mu_h, 2.1414 )
-                * pow( w_b / n_rotor, 0.5505 );
-
-        return Units::lb2kg( m_lb );
+        return m;
     }
 
-    return 0.0;
+    return 0.0_kg;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-RotorHub::RotorHub( const AircraftData *data ) :
-    Component( data )
+RotorHub::RotorHub(const AircraftData* data)
+    : Component(data)
 {
-    set_name("Main Rotor Hub");
+    SetName("Main Rotor Hub");
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc

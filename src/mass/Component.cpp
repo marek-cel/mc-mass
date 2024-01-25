@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2024 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -19,131 +19,98 @@
 
 #include <mass/Component.h>
 
-#include <mcutils/physics/ParallelAxis.h>
-
-#include <DataFile.h>
+#include <AircraftFile.h>
 
 #include <utils/Cuboid.h>
+#include <utils/ParallelAxisInertia.h>
 #include <utils/XmlUtils.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-namespace mc
-{
-
-////////////////////////////////////////////////////////////////////////////////
-
 Component::Component(const AircraftData* data)
-    : _data(data)
+    : data_(data)
 {
     name_ = "";
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::read(QDomElement* parentNode)
+void Component::Read(QDomElement* parentNode)
 {
-    name_ = parentNode->attributeNode( "name" ).value().toStdString();
+    name_ = parentNode->attributeNode("name").value().toStdString();
 
-    QDomElement nodeMass = parentNode->firstChildElement( "mass" );
+    QDomElement nodeMass = parentNode->firstChildElement("mass");
 
-    QDomElement nodeX = parentNode->firstChildElement( "pos_x" );
-    QDomElement nodeY = parentNode->firstChildElement( "pos_y" );
-    QDomElement nodeZ = parentNode->firstChildElement( "pos_z" );
+    QDomElement nodeX = parentNode->firstChildElement("pos_x");
+    QDomElement nodeY = parentNode->firstChildElement("pos_y");
+    QDomElement nodeZ = parentNode->firstChildElement("pos_z");
 
-    QDomElement nodeL = parentNode->firstChildElement( "length" );
-    QDomElement nodeW = parentNode->firstChildElement( "width"  );
-    QDomElement nodeH = parentNode->firstChildElement( "height" );
+    QDomElement nodeL = parentNode->firstChildElement("length");
+    QDomElement nodeW = parentNode->firstChildElement("width");
+    QDomElement nodeH = parentNode->firstChildElement("height");
 
-    if ( !nodeMass.isNull() ) mass_ = mass::kilogram_t(nodeMass.text().toDouble());
+    if ( !nodeMass.isNull() ) m_ = units::mass::kilogram_t(nodeMass.text().toDouble());
 
-    if ( !nodeX.isNull() ) _r.x() = nodeX.text().toDouble();
-    if ( !nodeY.isNull() ) _r.y() = nodeY.text().toDouble();
-    if ( !nodeZ.isNull() ) _r.z() = nodeZ.text().toDouble();
+    if ( !nodeX.isNull() ) r_.x() = units::length::meter_t(nodeX.text().toDouble());
+    if ( !nodeY.isNull() ) r_.y() = units::length::meter_t(nodeY.text().toDouble());
+    if ( !nodeZ.isNull() ) r_.z() = units::length::meter_t(nodeZ.text().toDouble());
 
-    if ( !nodeL.isNull() ) _l = nodeL.text().toDouble();
-    if ( !nodeW.isNull() ) _w = nodeW.text().toDouble();
-    if ( !nodeH.isNull() ) _h = nodeH.text().toDouble();
+    if ( !nodeL.isNull() ) l_ = units::length::meter_t(nodeL.text().toDouble());
+    if ( !nodeW.isNull() ) w_ = units::length::meter_t(nodeW.text().toDouble());
+    if ( !nodeH.isNull() ) h_ = units::length::meter_t(nodeH.text().toDouble());
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::save( QDomDocument *doc, QDomElement *parentNode )
+void Component::Save(QDomDocument* doc, QDomElement* parentNode)
 {
-    QDomElement node = doc->createElement( getXmlTagName() );
-    parentNode->appendChild( node );
-    saveParameters( doc, &node );
+    QDomElement node = doc->createElement(GetXmlTagName());
+    parentNode->appendChild(node);
+    SaveParameters(doc, &node);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-Matrix3x3 Component::getInertia() const
+InertiaMatrix Component::GetInertia() const
 {
-    double m = mass_();
-    return ParallelAxisInertia(m, Cuboid::getInertia(m, _l, _w, _h), _r);
+    return GetParallelAxisInertia(m_, Cuboid::GetInertiaMatrix(m_, l_, w_, h_), r_);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::set_name(const char* name)
+void Component::SetName(const char* name)
 {
     name_ = name;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::setPosition( const Vector3 &r )
+void Component::SetPosition(const PositionVector& r)
 {
-    _r = r;
+    r_ = r;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::set_mass(mass::kilogram_t mass)
+void Component::SetMass(units::mass::kilogram_t m)
 {
-    mass_ = mass;
+    m_ = m;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::setLength( double l )
+void Component::SetLength(units::length::meter_t l)
 {
-    _l = l;
+    l_ = l;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::setWidth( double w )
+void Component::SetWidth(units::length::meter_t w)
 {
-    _w = w;
+    w_ = w;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::setHeight( double h )
+void Component::SetHeight(units::length::meter_t h)
 {
-    _h = h;
+    h_ = h;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Component::saveParameters( QDomDocument *doc, QDomElement *node )
+void Component::SaveParameters(QDomDocument* doc, QDomElement* node)
 {
     QDomAttr nodeName = doc->createAttribute("name");
-    nodeName.setValue(name());
+    nodeName.setValue(GetName());
     node->setAttributeNode(nodeName);
 
-    XmlUtils::saveTextNode(doc, node, "mass", mass_());
+    XmlUtils::SaveTextNode(doc, node, "mass", m_());
 
-    XmlUtils::saveTextNode(doc, node, "pos_x", _r.x());
-    XmlUtils::saveTextNode(doc, node, "pos_y", _r.y());
-    XmlUtils::saveTextNode(doc, node, "pos_z", _r.z());
+    XmlUtils::SaveTextNode(doc, node, "pos_x", r_.x()());
+    XmlUtils::SaveTextNode(doc, node, "pos_y", r_.y()());
+    XmlUtils::SaveTextNode(doc, node, "pos_z", r_.z()());
 
-    XmlUtils::saveTextNode(doc, node, "length" , _l);
-    XmlUtils::saveTextNode(doc, node, "width"  , _w);
-    XmlUtils::saveTextNode(doc, node, "height" , _h);
+    XmlUtils::SaveTextNode(doc, node, "length" , l_());
+    XmlUtils::SaveTextNode(doc, node, "width"  , w_());
+    XmlUtils::SaveTextNode(doc, node, "height" , h_());
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-} // namespace mc
