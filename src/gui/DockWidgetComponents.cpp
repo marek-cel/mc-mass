@@ -61,6 +61,12 @@ void DockWidgetComponents::updateGUI()
         QString name = component->GetName();
         ui_->listComponents->addItem(new QListWidgetItem(name, ui_->listComponents));
     }
+
+    if ( previousComponentIndex_ >= 0 && previousComponentIndex_ < ui_->listComponents->count() )
+    {
+        ui_->listComponents->setCurrentRow(previousComponentIndex_);
+        previousComponentIndex_ = -1;
+    }
 }
 
 void DockWidgetComponents::addComponent()
@@ -132,6 +138,7 @@ void DockWidgetComponents::editComponent()
         if ( QDialog::Accepted == DialogEdit::edit(this, component) )
         {
             aircraft_->Update();
+            previousComponentIndex_ = index;
             emit(aircraftChanged());
         }
     }

@@ -53,6 +53,7 @@ private:
     Aircraft* aircraft_ = nullptr;
 
     int currentComponentIndex_ = -1;
+    int previousComponentIndex_ = -1;
 
     void addComponent();
     void editComponent();
