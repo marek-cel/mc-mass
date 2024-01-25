@@ -87,9 +87,9 @@ void DialogEdit::updateComponent(Component *component)
 
         PositionVector position;
 
-        double x_m = ui_->comboBox_X->invert(ui_->spinBox_Z->value());
+        double x_m = ui_->comboBox_X->invert(ui_->spinBox_X->value());
         double y_m = ui_->comboBox_Y->invert(ui_->spinBox_Y->value());
-        double z_m = ui_->comboBox_Z->invert(ui_->spinBox_X->value());
+        double z_m = ui_->comboBox_Z->invert(ui_->spinBox_Z->value());
         position.x() = length::meter_t(x_m);
         position.y() = length::meter_t(y_m);
         position.z() = length::meter_t(z_m);
