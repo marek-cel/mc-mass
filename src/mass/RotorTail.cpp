@@ -52,5 +52,5 @@ RotorTail::RotorTail(const AircraftData* data)
 
 InertiaMatrix RotorTail::GetInertia() const
 {
-    return GetParallelAxisInertia(m_, InertiaMatrix(), r_);
+    return InertiaMatrix(); // ??
 }

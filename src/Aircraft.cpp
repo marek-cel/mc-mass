@@ -37,6 +37,7 @@
 
 #include <utils/units_extra.h>
 
+#include <utils/ParallelAxisInertia.h>
 #include <utils/XmlUtils.h>
 
 using namespace units::literals;
@@ -382,7 +383,7 @@ void Aircraft::Update()
 
         m += mc;
         s += sc;
-        i += ic;
+        i += GetParallelAxisInertia(mc, ic, rc);
     }
 
     centerOfMass_ = ( m > 0.0_kg ) ? ( s / m ) : PositionVector();

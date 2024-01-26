@@ -368,7 +368,7 @@ void MainWindow::updateRecentFiles(QString file)
     {
         recentFilesList_.push_front(file);
 
-        while ( recentFilesList_.size() > 4 )
+        while ( recentFilesList_.size() > 5 )
         {
             recentFilesList_.removeLast();
         }

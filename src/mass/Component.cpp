@@ -22,7 +22,6 @@
 #include <AircraftFile.h>
 
 #include <utils/Cuboid.h>
-#include <utils/ParallelAxisInertia.h>
 #include <utils/XmlUtils.h>
 
 units::mass::kilogram_t Component::GetDesignGrossWeight(const AircraftData& data)
@@ -76,8 +75,7 @@ void Component::Save(QDomDocument* doc, QDomElement* parentNode)
 
 InertiaMatrix Component::GetInertia() const
 {
-    return GetParallelAxisInertia(m_, Cuboid::GetInertiaMatrix(m_, l_, w_, h_), r_);
-    //return GetParallelAxisInertia(m_, InertiaMatrix(), r_);
+    return Cuboid::GetInertiaMatrix(m_, l_, w_, h_);
 }
 
 void Component::SetName(const char* name)
