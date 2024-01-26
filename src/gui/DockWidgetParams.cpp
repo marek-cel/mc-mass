@@ -57,6 +57,7 @@ void DockWidgetParams::updateGUI()
     ui_->spinBoxMassEmpty   ->setValue(ui_->comboBoxMassEmpty   ->convert(data->general.m_empty   ()));
     ui_->spinBoxMTOW        ->setValue(ui_->comboBoxMTOW        ->convert(data->general.mtow      ()));
     ui_->spinBoxMassMaxLand ->setValue(ui_->comboBoxMassMaxLand ->convert(data->general.m_maxLand ()));
+    ui_->spinBoxMaxFuel     ->setValue(ui_->comboBoxMaxFuel     ->convert(data->general.m_maxFuel ()));
 
     ui_->spinBoxMaxNz     ->setValue( data->general.nz_max     );
     ui_->spinBoxMaxNzLand ->setValue( data->general.nz_maxLand );
@@ -343,6 +344,7 @@ void DockWidgetParams::setAircraftType(AircraftData::Type type)
     ui_->labelMassEmpty   ->setEnabled(false);
     ui_->labelMTOW        ->setEnabled(false);
     ui_->labelMassMaxLand ->setEnabled(false);
+    ui_->labelMaxFuel     ->setEnabled(false);
     ui_->labelMaxNz       ->setEnabled(false);
     ui_->labelMaxNzLand   ->setEnabled(false);
     ui_->labelStallV      ->setEnabled(false);
@@ -356,6 +358,7 @@ void DockWidgetParams::setAircraftType(AircraftData::Type type)
     ui_->spinBoxMassEmpty   ->setEnabled(false);
     ui_->spinBoxMTOW        ->setEnabled(false);
     ui_->spinBoxMassMaxLand ->setEnabled(false);
+    ui_->spinBoxMaxFuel     ->setEnabled(false);
     ui_->spinBoxMaxNz       ->setEnabled(false);
     ui_->spinBoxMaxNzLand   ->setEnabled(false);
     ui_->spinBoxStallV      ->setEnabled(false);
@@ -366,6 +369,7 @@ void DockWidgetParams::setAircraftType(AircraftData::Type type)
     ui_->comboBoxMassEmpty   ->setEnabled(false);
     ui_->comboBoxMTOW        ->setEnabled(false);
     ui_->comboBoxMassMaxLand ->setEnabled(false);
+    ui_->comboBoxMaxFuel     ->setEnabled(false);
     ui_->comboBoxStallV      ->setEnabled(false);
     ui_->comboBoxCruiseH     ->setEnabled(false);
     ui_->comboBoxCruiseV     ->setEnabled(false);
@@ -670,12 +674,14 @@ void DockWidgetParams::setAircraftType(AircraftData::Type type)
         ui_->labelMassEmpty   ->setEnabled(true);
         ui_->labelMTOW        ->setEnabled(true);
         ui_->labelMassMaxLand ->setEnabled(true);
+        ui_->labelMaxFuel     ->setEnabled(true);
         ui_->labelMaxNz       ->setEnabled(true);
         ui_->labelMaxNzLand   ->setEnabled(true);
 
         ui_->spinBoxMassEmpty   ->setEnabled(true);
         ui_->spinBoxMTOW        ->setEnabled(true);
         ui_->spinBoxMassMaxLand ->setEnabled(true);
+        ui_->spinBoxMaxFuel     ->setEnabled(true);
         ui_->spinBoxMaxNz       ->setEnabled(true);
         ui_->spinBoxMaxNzLand   ->setEnabled(true);
 
@@ -685,6 +691,7 @@ void DockWidgetParams::setAircraftType(AircraftData::Type type)
         ui_->comboBoxMassEmpty   ->setEnabled(true);
         ui_->comboBoxMTOW        ->setEnabled(true);
         ui_->comboBoxMassMaxLand ->setEnabled(true);
+        ui_->comboBoxMaxFuel     ->setEnabled(true);
 
         // data - fuselage
         ui_->labelFuseLength ->setEnabled(true);
@@ -1101,6 +1108,13 @@ void DockWidgetParams::on_spinBoxMassMaxLand_valueChanged(double arg1)
 {
     double arg1_raw = ui_->comboBoxMassMaxLand->invert(arg1);
     aircraft_->GetData()->general.m_maxLand = units::mass::kilogram_t(arg1_raw);
+    emit(aircraftChanged());
+}
+
+void DockWidgetParams::on_spinBoxMaxFuel_valueChanged(double arg1)
+{
+    double arg1_raw = ui_->comboBoxMaxFuel->invert(arg1);
+    aircraft_->GetData()->general.m_maxFuel = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
@@ -1743,6 +1757,11 @@ void DockWidgetParams::on_comboBoxMTOW_currentIndexChanged(int /*index*/)
 void DockWidgetParams::on_comboBoxMassMaxLand_currentIndexChanged(int /*index*/)
 {
     ComboUnits::switchUnits(ui_->spinBoxMassMaxLand, ui_->comboBoxMassMaxLand);
+}
+
+void DockWidgetParams::on_comboBoxMaxFuel_currentIndexChanged(int /*index*/)
+{
+    ComboUnits::switchUnits(ui_->spinBoxMaxFuel, ui_->comboBoxMaxFuel);
 }
 
 void DockWidgetParams::on_comboBoxStallV_currentIndexChanged(int /*index*/)

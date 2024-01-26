@@ -349,11 +349,40 @@ void Aircraft::Update()
     FirstMomentOfMass s;
     InertiaMatrix i;
 
+    if ( verbose_ )
+    {
+        std::cout << std::endl;
+    }
+
     for ( auto component : components_ )
     {
-        m += component->GetMass();
-        s += component->GetMass() * component->GetPosition();
-        i += component->GetInertia();
+        units::mass::kilogram_t mc = component->GetMass();
+        PositionVector rc = component->GetPosition();
+        FirstMomentOfMass sc = component->GetMass() * rc;
+        InertiaMatrix ic = component->GetInertia();
+
+        if ( verbose_ )
+        {
+            std::cout << "\"" << component->GetName() << "\"\t";
+            std::cout << mc() << "\t";
+            std::cout << rc.x()() << "\t";
+            std::cout << rc.y()() << "\t";
+            std::cout << rc.z()() << "\t";
+            std::cout << sc.sx()() << "\t";
+            std::cout << sc.sy()() << "\t";
+            std::cout << sc.sz()() << "\t";
+            std::cout << ic.ixx()() << "\t";
+            std::cout << ic.iyy()() << "\t";
+            std::cout << ic.izz()() << "\t";
+            std::cout << ic.ixy()() << "\t";
+            std::cout << ic.ixz()() << "\t";
+            std::cout << ic.iyz()() << "\t";
+            std::cout << std::endl;
+        }
+
+        m += mc;
+        s += sc;
+        i += ic;
     }
 
     centerOfMass_ = ( m > 0.0_kg ) ? ( s / m ) : PositionVector();
@@ -463,6 +492,7 @@ bool Aircraft::ReadDataGeneral(QDomElement* parentNode)
     QDomElement nodeM_empty = parentNode->firstChildElement("m_empty");
     QDomElement nodeMTOW = parentNode->firstChildElement("mtow");
     QDomElement nodeM_maxLand = parentNode->firstChildElement("m_max_land");
+    QDomElement nodeMaxFuel = parentNode->firstChildElement("max_fuel");
     QDomElement nodeNzMax = parentNode->firstChildElement("nz_max");
     QDomElement nodeNzMaxLand = parentNode->firstChildElement("nz_max_land");
     QDomElement nodeStallV = parentNode->firstChildElement("stall_v");
@@ -474,6 +504,7 @@ bool Aircraft::ReadDataGeneral(QDomElement* parentNode)
     if ( !nodeM_empty.isNull()
       && !nodeMTOW.isNull()
       && !nodeM_maxLand.isNull()
+      && !nodeMaxFuel.isNull()
       && !nodeNzMax.isNull()
       && !nodeNzMaxLand.isNull()
       && !nodeStallV.isNull()
@@ -486,6 +517,7 @@ bool Aircraft::ReadDataGeneral(QDomElement* parentNode)
         data_.general.m_empty = units::mass::kilogram_t(nodeM_empty.text().toDouble());
         data_.general.mtow = units::mass::kilogram_t(nodeMTOW.text().toDouble());
         data_.general.m_maxLand = units::mass::kilogram_t(nodeM_maxLand.text().toDouble());
+        data_.general.m_maxFuel = units::mass::kilogram_t(nodeMaxFuel.text().toDouble());
         data_.general.nz_max = nodeNzMax.text().toDouble();
         data_.general.nz_maxLand = nodeNzMaxLand.text().toDouble();
         data_.general.v_stall = units::velocity::knot_t(nodeStallV.text().toDouble());
@@ -916,6 +948,7 @@ void Aircraft::SaveDataGeneral(QDomDocument* doc, QDomElement* parentNode)
     XmlUtils::SaveTextNode(doc, parentNode, "m_empty", data_.general.m_empty());
     XmlUtils::SaveTextNode(doc, parentNode, "mtow", data_.general.mtow());
     XmlUtils::SaveTextNode(doc, parentNode, "m_max_land", data_.general.m_maxLand());
+    XmlUtils::SaveTextNode(doc, parentNode, "max_fuel", data_.general.m_maxFuel());
     XmlUtils::SaveTextNode(doc, parentNode, "nz_max", data_.general.nz_max);
     XmlUtils::SaveTextNode(doc, parentNode, "nz_max_land", data_.general.nz_maxLand);
     XmlUtils::SaveTextNode(doc, parentNode, "stall_v", data_.general.v_stall());

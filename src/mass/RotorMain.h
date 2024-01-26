@@ -62,6 +62,8 @@ public:
      * @return component XML tag name
      */
     inline const char* GetXmlTagName() const override { return xmlTagName; }
+
+    InertiaMatrix GetInertia() const override;
 };
 
 #endif // MC_MASS_MASS_ROTORMAIN_H_

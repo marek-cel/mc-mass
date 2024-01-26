@@ -19,6 +19,8 @@
 
 #include <mass/RotorTail.h>
 
+#include <utils/ParallelAxisInertia.h>
+
 constexpr char RotorTail::xmlTagName[];
 
 units::mass::kilogram_t RotorTail::GetEstimatedMass(const AircraftData& data)
@@ -46,4 +48,9 @@ RotorTail::RotorTail(const AircraftData* data)
     : Component(data)
 {
     SetName("Tail Rotor");
+}
+
+InertiaMatrix RotorTail::GetInertia() const
+{
+    return GetParallelAxisInertia(m_, InertiaMatrix(), r_);
 }

@@ -27,19 +27,19 @@ units::mass::kilogram_t Engine::GetEstimatedMass(const AircraftData& data)
 
     mass::pound_t m1 = 0.0_lb;
     {
-        // Rayner: Aircraft Design, p.568, table 15.2
+        // Rayner2018: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::FighterAttack )
         {
             m1 = 1.3 * w_en;
         }
 
-        // Rayner: Aircraft Design, p.568, table 15.2
+        // Rayner2018: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::CargoTransport )
         {
             m1 = 1.3 * w_en;
         }
 
-        // Rayner: Aircraft Design, p.568, table 15.2
+        // Rayner2018: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::GeneralAviation )
         {
             m1 = 1.4 * w_en;

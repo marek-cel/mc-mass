@@ -25,6 +25,17 @@
 #include <utils/ParallelAxisInertia.h>
 #include <utils/XmlUtils.h>
 
+units::mass::kilogram_t Component::GetDesignGrossWeight(const AircraftData& data)
+{
+    // Rayner2018: Aircraft Design, p.565,p.570
+    if ( data.type == AircraftData::FighterAttack )
+    {
+        return data.general.mtow - 0.5 * data.general.m_maxFuel;
+    }
+
+    return data.general.mtow;
+}
+
 Component::Component(const AircraftData* data)
     : data_(data)
 {
@@ -66,6 +77,7 @@ void Component::Save(QDomDocument* doc, QDomElement* parentNode)
 InertiaMatrix Component::GetInertia() const
 {
     return GetParallelAxisInertia(m_, Cuboid::GetInertiaMatrix(m_, l_, w_, h_), r_);
+    //return GetParallelAxisInertia(m_, InertiaMatrix(), r_);
 }
 
 void Component::SetName(const char* name)

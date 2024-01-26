@@ -23,30 +23,30 @@ constexpr char GearNose::xmlTagName[];
 
 units::mass::kilogram_t GearNose::GetEstimatedMass(const AircraftData& data)
 {
-    mass::pound_t w_dg = data.general.mtow;
+    constexpr double coef_n = 0.15;
+    mass::pound_t w_dg = GetDesignGrossWeight(data);
     mass::pound_t w_0 = data.general.m_empty;
+    mass::pound_t reduction = coef_n * data.landing_gear.fixed ? (0.014 * w_0) : 0.0_lb;
 
     mass::pound_t m1 = 0.0_lb;
     {
-        double reduction = data.landing_gear.fixed ? (0.014 * w_0()) : 0.0;
-
-        // Rayner: Aircraft Design, p.568, table 15.2
+        // Rayner2018: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::FighterAttack )
         {
             double coeff = data.general.navy_ac ? 0.045 : 0.033;
-            m1 = 0.15_lb * (coeff * w_dg() - reduction);
+            m1 = coef_n * 1.0_lb * coeff * w_dg() - reduction;
         }
 
-        // Rayner: Aircraft Design, p.568, table 15.2
+        // Rayner2018: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::CargoTransport )
         {
-            m1 = 0.15_lb * (0.043 * w_dg() - reduction);
+            m1 = coef_n * 0.043_lb * w_dg() - reduction;
         }
 
-        // Rayner: Aircraft Design, p.568, table 15.2
+        // Rayner2018: Aircraft Design, p.568, table 15.2
         if ( data.type == AircraftData::GeneralAviation )
         {
-            m1 = 0.15_lb * (0.057 * w_dg() - reduction);
+            m1 = coef_n * 0.057_lb * w_dg() - reduction;
         }
     }
 
@@ -56,27 +56,34 @@ units::mass::kilogram_t GearNose::GetEstimatedMass(const AircraftData& data)
         double n_l = 1.5 * data.general.nz_maxLand;
         length::inch_t l_n = data.landing_gear.nose_l;
 
-        // Rayner: Aircraft Design, p.572, eq.15.3
+        // Rayner2018: Aircraft Design, p.572, eq.15.3
         if ( data.type == AircraftData::FighterAttack )
         {
-            m2 = 1.0_lb * pow(w_l() * n_l, 0.29) * pow(l_n(), 0.5)
-                  * pow(static_cast<double>(data.landing_gear.nose_wheels), 0.525);
+            m2 = 1.0_lb
+                    * pow(w_l() * n_l, 0.29)
+                    * pow(l_n(), 0.5)
+                    * pow(static_cast<double>(data.landing_gear.nose_wheels), 0.525);
         }
 
-        // Rayner: Aircraft Design, p.575, eq.15.27
+        // Rayner2018: Aircraft Design, p.575, eq.15.27
         if ( data.type == AircraftData::CargoTransport )
         {
-            double k_np = data.landing_gear.nose_kneel ? 1.15 : 1.0;
+            double k_np = data.landing_gear.nose_kneel ? 1.15 : 1.0; // p.577
 
-            m2 = 0.032_lb * k_np * pow(w_l(), 0.646) * pow(n_l, 0.2) * pow(l_n(), 0.5)
+            m2 = 0.032_lb * k_np
+                    * pow(w_l(), 0.646)
+                    * pow(n_l, 0.2)
+                    * pow(l_n(), 0.5)
                     * pow(static_cast<double>(data.landing_gear.nose_wheels), 0.45);
         }
 
-        // Rayner: Aircraft Design, p.576, eq.15.48
+        // Rayner2018: Aircraft Design, p.576, eq.15.48
         if ( data.type == AircraftData::GeneralAviation )
         {
-            mass::pound_t reduction = mass::pound_t(data.landing_gear.fixed ? 0.014 * w_0() : 0.0);
-            m2 = 0.125_lb * pow(n_l * w_l(), 0.566) * pow(l_n() / 12.0, 0.845) - reduction;
+            m2 = 0.125_lb
+                    * pow(n_l * w_l(), 0.566)
+                    * pow(l_n() / 12.0, 0.845)
+                    - reduction;
         }
     }
 

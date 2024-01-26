@@ -94,6 +94,8 @@ private:
     InertiaMatrix inertiaMatrix_;   ///< [kg*m^2] inertia
     units::mass::kilogram_t totalEmptyMass_ = 0.0_kg;    ///< total mass
 
+    bool verbose_ = false;
+
     void DeleteAllComponents();
 
     bool ReadData(QDomElement* dataNode);

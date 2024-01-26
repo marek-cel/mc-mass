@@ -23,23 +23,23 @@ constexpr char AllElse::xmlTagName[];
 
 units::mass::kilogram_t AllElse::GetEstimatedMass(const AircraftData& data)
 {
-    mass::pound_t w_dg = data.general.mtow;
+    mass::pound_t w_dg = GetDesignGrossWeight(data);
 
     mass::pound_t m = 0.0_lb;
 
-    // Rayner: Aircraft Design, p.568, table 15.2
+    // Rayner2018: Aircraft Design, p.568, table 15.2
     if ( data.type == AircraftData::FighterAttack )
     {
         m = 0.17 * w_dg;
     }
 
-    // Rayner: Aircraft Design, p.568, table 15.2
+    // Rayner2018: Aircraft Design, p.568, table 15.2
     if ( data.type == AircraftData::CargoTransport )
     {
         m = 0.17 * w_dg;
     }
 
-    // Rayner: Aircraft Design, p.568, table 15.2
+    // Rayner2018: Aircraft Design, p.568, table 15.2
     if ( data.type == AircraftData::GeneralAviation )
     {
         m = 0.1  * w_dg;

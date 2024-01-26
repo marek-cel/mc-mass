@@ -74,6 +74,7 @@ private slots:
     void on_spinBoxMassEmpty_valueChanged   (double arg1);
     void on_spinBoxMTOW_valueChanged        (double arg1);
     void on_spinBoxMassMaxLand_valueChanged (double arg1);
+    void on_spinBoxMaxFuel_valueChanged     (double arg1);
     void on_spinBoxMaxNz_valueChanged       (double arg1);
     void on_spinBoxMaxNzLand_valueChanged   (double arg1);
     void on_spinBoxStallV_valueChanged      (double arg1);
@@ -171,6 +172,7 @@ private slots:
     void on_comboBoxMassEmpty_currentIndexChanged(int index);
     void on_comboBoxMTOW_currentIndexChanged(int index);
     void on_comboBoxMassMaxLand_currentIndexChanged(int index);
+    void on_comboBoxMaxFuel_currentIndexChanged(int index);
     void on_comboBoxStallV_currentIndexChanged(int index);
     void on_comboBoxCruiseV_currentIndexChanged(int index);
     void on_comboBoxCruiseH_currentIndexChanged(int index);

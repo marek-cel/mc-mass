@@ -19,6 +19,8 @@
 
 #include <mass/RotorMain.h>
 
+#include <utils/ParallelAxisInertia.h>
+
 constexpr char RotorMain::xmlTagName[];
 
 units::mass::kilogram_t RotorMain::GetEstimatedMass(const AircraftData& data)
@@ -46,10 +48,13 @@ units::mass::kilogram_t RotorMain::GetEstimatedMass(const AircraftData& data)
     return 0.0_kg;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 RotorMain::RotorMain(const AircraftData* data)
     : Component(data)
 {
     SetName("Main Rotor");
+}
+
+InertiaMatrix RotorMain::GetInertia() const
+{
+    return GetParallelAxisInertia(m_, InertiaMatrix(), r_);
 }

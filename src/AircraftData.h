@@ -52,6 +52,7 @@ struct AircraftData
         mass::kilogram_t m_empty = 0.0_kg;          ///< empty mass
         mass::kilogram_t mtow = 0.0_kg;             ///< maximum take-off mass
         mass::kilogram_t m_maxLand = 0.0_kg;        ///< maximum landing mass
+        mass::kilogram_t m_maxFuel = 0.0_kg;        ///< maximum internal fuel
         double nz_max = 0.0;                        ///< Nz max
         double nz_maxLand = 0.0;                    ///< Nz max (landing)
         velocity::knot_t v_stall = 0.0_kts;         ///< stall speed
@@ -79,9 +80,9 @@ struct AircraftData
         };
 
         CargoDoor cargo_door = NoCargoDoor;         ///< cargo doors type
-        length::meter_t l = 0.0_m;                  ///< fuselage length
-        length::meter_t h = 0.0_m;                  ///< fuselage height
-        length::meter_t w = 0.0_m;                  ///< fuselage width
+        length::meter_t l = 0.0_m;                  ///< fuselage structural length (excludes radome cowling, tail cap)
+        length::meter_t h = 0.0_m;                  ///< fuselage structural height
+        length::meter_t w = 0.0_m;                  ///< fuselage structural width
         length::meter_t l_n = 0.0_m;                ///< nose length
         area::square_meter_t wetted_area = 0.0_sq_m;///< fuselage wetted area
         volume::cubic_meter_t press_vol = 0.0_cu_m; ///< volume of pressurized section
@@ -103,7 +104,7 @@ struct AircraftData
         length::meter_t c_root = 0.0_m;             ///< wing root chord
         double ar = 0.0;                            ///< wing aspect ratio
         double tr = 0.0;                            ///< wing taper ratio
-        double tc = 0.0;                            ///< wing thickness ratio
+        double tc = 0.0;                            ///< wing thickness to chord ratio at root
         mass::kilogram_t fuel = 0.0_kg;             ///< wing fuel capacity
         area::square_meter_t ctrl_area = 0.0_sq_m;  ///< wing mounted control surface area
         bool delta = false;                         ///< specifies if delta wing
@@ -120,7 +121,7 @@ struct AircraftData
         angle::degree_t sweep = 0.0_deg;            ///< horizontal tail sweep at 25% MAC
         length::meter_t c_tip  = 0.0_m;             ///< horizontal tail tip chord
         length::meter_t c_root = 0.0_m;             ///< horizontal tail root chord
-        double tc = 0.0;                            ///< horizontal tail thickness ratio
+        double tc = 0.0;                            ///< horizontal tail thickness to chord ratio
         area::square_meter_t elev_area = 0.0_sq_m;  ///< elevator area
         length::meter_t w_f = 0.0_m;                ///< fuselage width at horizontal tail intersection
         length::meter_t arm = 0.0_m;                ///< horizontal tail arm
@@ -140,7 +141,7 @@ struct AircraftData
         angle::degree_t sweep = 0.0_deg;            ///< vertical tail sweep at 25% MAC
         length::meter_t c_tip  = 0.0_m;             ///< vertical tail tip chord
         length::meter_t c_root = 0.0_m;             ///< vertical tail root chord
-        double tc = 0.0;                            ///< vertical tail thickness ratio
+        double tc = 0.0;                            ///< vertical tail thickness to chord ratio
         length::meter_t arm = 0.0_m;                ///< vertical tail arm
         area::square_meter_t rudd_area = 0.0_sq_m;  ///< rudder area
         double ar = 0.0;                            ///< vertical tail aspect ratio

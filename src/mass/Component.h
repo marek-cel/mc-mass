@@ -42,6 +42,8 @@ class Component
 {
 public:
 
+    static units::mass::kilogram_t GetDesignGrossWeight(const AircraftData& data);
+
     /**
      * @brief Constructor.
      * @param data aircraft data struct
