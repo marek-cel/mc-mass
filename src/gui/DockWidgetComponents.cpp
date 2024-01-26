@@ -169,6 +169,21 @@ void DockWidgetComponents::on_listComponents_doubleClicked(const QModelIndex&)
     editComponent();
 }
 
+void DockWidgetComponents::on_listComponents_itemSelectionChanged()
+{
+    QList<QListWidgetItem*> selectdItems = ui_->listComponents->selectedItems();
+    if ( selectdItems.count() == 0 )
+    {
+        currentComponentIndex_ = -1;
+    }
+    else
+    {
+        currentComponentIndex_ = ui_->listComponents->currentRow();
+    }
+
+    emit(currentComponentChanged());
+}
+
 void DockWidgetComponents::on_pushButtonAdd_clicked()
 {
     addComponent();

@@ -62,6 +62,7 @@ private slots:
 
     void on_listComponents_currentRowChanged(int currentRow);
     void on_listComponents_doubleClicked(const QModelIndex &);
+    void on_listComponents_itemSelectionChanged();
 
     void on_pushButtonAdd_clicked();
     void on_pushButtonDel_clicked();
