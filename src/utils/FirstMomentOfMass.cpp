@@ -25,9 +25,9 @@ FirstMomentOfMass FirstMomentOfMass::operator+(const FirstMomentOfMass& vect) co
 {
     FirstMomentOfMass result;
 
-    result.sz_ = sz_ + vect.sx_;
+    result.sx_ = sx_ + vect.sx_;
     result.sy_ = sy_ + vect.sy_;
-    result.sx_ = sx_ + vect.sz_;
+    result.sz_ = sz_ + vect.sz_;
 
     return result;
 }
