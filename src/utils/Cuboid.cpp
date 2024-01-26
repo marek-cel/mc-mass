@@ -26,17 +26,17 @@ InertiaMatrix Cuboid::GetInertiaMatrix(units::mass::kilogram_t m,
 {
     InertiaMatrix result;
 
-//    result.ixx() = m * (w*w + h*h) / 12.0;
-//    result.ixy() = 0.0_kg_m2;
-//    result.ixz() = 0.0_kg_m2;
+    result.ixx() = m * (w*w + h*h) / 12.0;
+    result.ixy() = 0.0_kg_m2;
+    result.ixz() = 0.0_kg_m2;
 
-//    result.iyx() = 0.0_kg_m2;
-//    result.iyy() = m * (l*l + h*h) / 12.0;
-//    result.iyz() = 0.0_kg_m2;
+    result.iyx() = 0.0_kg_m2;
+    result.iyy() = m * (l*l + h*h) / 12.0;
+    result.iyz() = 0.0_kg_m2;
 
-//    result.izx() = 0.0_kg_m2;
-//    result.izy() = 0.0_kg_m2;
-//    result.izz() = m * (l*l + w*w) / 12.0;
+    result.izx() = 0.0_kg_m2;
+    result.izy() = 0.0_kg_m2;
+    result.izz() = m * (l*l + w*w) / 12.0;
 
     return result;
 }
