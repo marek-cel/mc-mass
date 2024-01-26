@@ -6,6 +6,7 @@
     <m_empty>10500.000000</m_empty>
     <mtow>14600.000000</mtow>
     <m_max_land>0.000000</m_max_land>
+    <max_fuel>0.000000</max_fuel>
     <nz_max>4.400000</nz_max>
     <nz_max_land>4.400000</nz_max_land>
     <stall_v>0.000000</stall_v>
@@ -109,64 +110,64 @@
   <components>
    <fuselage name="Fuselage">
     <mass>2452.000000</mass>
-    <pos_x>0.700000</pos_x>
+    <pos_x>0.000000</pos_x>
     <pos_y>0.000000</pos_y>
     <pos_z>-0.800000</pos_z>
-    <length>19.300000</length>
+    <length>12.000000</length>
     <width>4.340000</width>
-    <height>3.840000</height>
+    <height>3.000000</height>
    </fuselage>
    <gear_main name="Main Landing Gear">
     <mass>489.000000</mass>
-    <pos_x>0.000000</pos_x>
+    <pos_x>1.400000</pos_x>
     <pos_y>0.000000</pos_y>
-    <pos_z>0.000000</pos_z>
+    <pos_z>1.000000</pos_z>
     <length>7.600000</length>
     <width>4.100000</width>
     <height>0.800000</height>
    </gear_main>
    <tail_hor name="Horizontal Tail">
     <mass>24.000000</mass>
-    <pos_x>0.000000</pos_x>
-    <pos_y>0.000000</pos_y>
-    <pos_z>0.000000</pos_z>
-    <length>0.000000</length>
-    <width>0.000000</width>
-    <height>0.000000</height>
+    <pos_x>-11.000000</pos_x>
+    <pos_y>1.200000</pos_y>
+    <pos_z>-1.000000</pos_z>
+    <length>1.500000</length>
+    <width>3.000000</width>
+    <height>0.200000</height>
    </tail_hor>
    <tail_ver name="Vertical Tail">
     <mass>36.000000</mass>
-    <pos_x>0.000000</pos_x>
+    <pos_x>-11.000000</pos_x>
     <pos_y>0.000000</pos_y>
-    <pos_z>0.000000</pos_z>
-    <length>0.000000</length>
-    <width>0.000000</width>
-    <height>0.000000</height>
+    <pos_z>-2.500000</pos_z>
+    <length>2.000000</length>
+    <width>0.500000</width>
+    <height>2.500000</height>
    </tail_ver>
    <engine name="Engine 1">
-    <mass>286.000000</mass>
+    <mass>308.000000</mass>
     <pos_x>0.000000</pos_x>
     <pos_y>-1.000000</pos_y>
     <pos_z>-2.300000</pos_z>
-    <length>1.200000</length>
+    <length>2.000000</length>
     <width>0.700000</width>
     <height>0.700000</height>
    </engine>
    <engine name="Engine 2">
-    <mass>286.000000</mass>
+    <mass>308.000000</mass>
     <pos_x>0.000000</pos_x>
     <pos_y>0.000000</pos_y>
     <pos_z>-2.700000</pos_z>
-    <length>1.200000</length>
+    <length>2.000000</length>
     <width>0.700000</width>
     <height>0.700000</height>
    </engine>
    <engine name="Engine 3">
-    <mass>286.000000</mass>
+    <mass>308.000000</mass>
     <pos_x>0.000000</pos_x>
     <pos_y>1.000000</pos_y>
     <pos_z>-2.300000</pos_z>
-    <length>1.200000</length>
+    <length>2.000000</length>
     <width>0.700000</width>
     <height>0.700000</height>
    </engine>
@@ -175,12 +176,12 @@
     <pos_x>0.000000</pos_x>
     <pos_y>0.000000</pos_y>
     <pos_z>-2.400000</pos_z>
-    <length>0.000000</length>
-    <width>0.000000</width>
-    <height>0.000000</height>
+    <length>1.000000</length>
+    <width>1.000000</width>
+    <height>1.000000</height>
    </rotor_drive>
    <rotor_hub name="Main Rotor Hub">
-    <mass>222.000000</mass>
+    <mass>344.000000</mass>
     <pos_x>0.000000</pos_x>
     <pos_y>0.000000</pos_y>
     <pos_z>-3.580000</pos_z>
@@ -193,27 +194,27 @@
     <pos_x>0.000000</pos_x>
     <pos_y>0.000000</pos_y>
     <pos_z>-3.580000</pos_z>
-    <length>0.000000</length>
-    <width>0.000000</width>
-    <height>0.000000</height>
+    <length>15.000000</length>
+    <width>15.000000</width>
+    <height>0.500000</height>
    </rotor_main>
    <rotor_tail name="Tail Rotor">
     <mass>112.000000</mass>
     <pos_x>-11.500000</pos_x>
-    <pos_y>0.000000</pos_y>
+    <pos_y>-1.000000</pos_y>
     <pos_z>-3.340000</pos_z>
-    <length>0.000000</length>
-    <width>0.000000</width>
-    <height>0.000000</height>
+    <length>3.000000</length>
+    <width>0.500000</width>
+    <height>3.000000</height>
    </rotor_tail>
    <all_else name="All-else Empty">
-    <mass>4525.000000</mass>
-    <pos_x>0.000000</pos_x>
+    <mass>3650.000000</mass>
+    <pos_x>0.500000</pos_x>
     <pos_y>0.000000</pos_y>
-    <pos_z>-0.500000</pos_z>
-    <length>0.000000</length>
-    <width>0.000000</width>
-    <height>0.000000</height>
+    <pos_z>-0.700000</pos_z>
+    <length>8.000000</length>
+    <width>1.000000</width>
+    <height>2.000000</height>
    </all_else>
   </components>
  </aircraft>

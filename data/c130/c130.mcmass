@@ -6,6 +6,7 @@
     <m_empty>34686.000000</m_empty>
     <mtow>70310.000000</mtow>
     <m_max_land>59000.000000</m_max_land>
+    <max_fuel>0.000000</max_fuel>
     <nz_max>4.400000</nz_max>
     <nz_max_land>4.400000</nz_max_land>
     <stall_v>100.000000</stall_v>
