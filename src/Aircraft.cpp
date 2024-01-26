@@ -386,7 +386,7 @@ void Aircraft::Update()
         i += GetParallelAxisInertia(mc, ic, rc);
     }
 
-    centerOfMass_ = ( m > 0.0_kg ) ? ( s / m ) : PositionVector();
+    centerOfMass_ = ( m > 0.0_kg ) ? (s / m) : PositionVector();
     inertiaMatrix_ = i;
     totalEmptyMass_ = m;
 }
