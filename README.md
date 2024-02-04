@@ -10,7 +10,7 @@ Documentation is available [here](https://github.com/marek-cel/mc-mass/docs/mc-m
 
 ### Linux
 
-Linux [dpkg package](https://github.com/marek-cel/mc-mass/releases/download/1.0/mc-mass_1.0_focal_amd64.deb) is provided for Ubuntu 20.04 LTS / LinuxMint 20.x.
+Linux [dpkg package](https://github.com/marek-cel/mc-mass/releases/download/1.0/mc-mass_1.0_focal_amd64.deb) is provided for Ubuntu 22.04 LTS.
 
 ### Windows
 
@@ -23,14 +23,15 @@ Windows [zip package](https://github.com/marek-cel/mc-mass/releases/download/1.0
 MC-Mass requires Qt and libmcutil.
 
 * [Qt5](https://www.qt.io/)
-* [libmcutil](https://github.com/marek-cel/libmcutil)
+* [OpenSceneGraph](https://www.openscenegraph.com/)
+* [GoogleTest](https://github.com/google/googletest)
 * [units](https://github.com/nholthaus/units)
 
 #### Linux
 
-On Ubuntu based Linux distributions Qt can be installed with the following command:
+On Ubuntu based Linux distributions Qt, OpenSceneGraph amd GoogleTest can be installed with the following command:
 
-```apt install libqt5svg5-dev qtbase5-dev```
+```apt install libqt5svg5-dev qtbase5-dev libopenscenegraph-dev libgmock-dev libgtest-dev```
 
 #### Windows
 
