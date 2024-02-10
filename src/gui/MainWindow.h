@@ -64,10 +64,13 @@ private:
 
     QString currentFile_;
 
-    QStringList recentFilesList_;
-    RecentFilesActions recentFilesActions_;
+    RecentFilesActions recent_actions_;
+
+    int recent_files_max_ = 10;
 
     bool saved_ = true;
+
+    void addRecentFile(QString file = "");
 
     void askIfSave();
 
@@ -94,8 +97,6 @@ private:
     void updateGUI();
     void updateTitleBar();
 
-    void updateRecentFiles(QString file = "");
-
 private slots:
 
     void on_aircraftChanged();
@@ -110,8 +111,6 @@ private slots:
 
     void on_actionClearRecent_triggered();
 
-    void recentFile_triggered(int id);
-
     void on_actionShowGrid_toggled(bool checked);
     void on_actionViewDefault_triggered();
     void on_actionViewTop_triggered();
@@ -123,6 +122,8 @@ private slots:
 
     void on_actionAbout_triggered();
     void on_actionAboutQt_triggered();
+
+    void recentFile_triggered(RecentFileAction* action);
 };
 
 #endif // MC_MASS_GUI_MAINWINDOW_H_

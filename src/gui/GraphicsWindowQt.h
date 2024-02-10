@@ -90,7 +90,7 @@ private:
 
         GLWidget(const QGLFormat &format,
                  QWidget *parent = nullptr, const QGLWidget *shareWidget = nullptr,
-                 Qt::WindowFlags flags = 0);
+                 Qt::WindowFlags flags = Qt::Widget);
 
         virtual ~GLWidget();
 

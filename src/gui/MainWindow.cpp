@@ -81,6 +81,44 @@ void MainWindow::closeEvent(QCloseEvent* event)
     /////////////////////////////////
 }
 
+void MainWindow::addRecentFile(QString file)
+{
+    QStringList recent_files;
+    for ( auto action : recent_actions_ )
+    {
+        action->disconnect();
+        recent_files.push_back(action->file());
+    }
+
+    recent_actions_.clear();
+    ui_->menuRecentFiles->clear();
+
+    if ( file.length() > 0 )
+    {
+#       ifdef WIN32
+        if ( recent_files.contains(file, Qt::CaseInsensitive) )
+#       else
+        if ( recent_files.contains(file, Qt::CaseSensitive) )
+#       endif
+        {
+            recent_files.move(recent_files.indexOf(file),0);
+        }
+        else
+        {
+            recent_files.push_front(file);
+        }
+    }
+
+    for ( int i = 0; i < recent_files.size() && i < recent_files_max_; ++i )
+    {
+        RecentFileAction* action = new RecentFileAction(recent_files.at(i), ui_->menuRecentFiles);
+        recent_actions_.push_back(action);
+
+        connect(action, SIGNAL(triggered(RecentFileAction*)), SLOT(recentFile_triggered(RecentFileAction*)));
+        ui_->menuRecentFiles->addAction(action);
+    }
+}
+
 void MainWindow::askIfSave()
 {
     if ( !saved_ )
@@ -130,7 +168,7 @@ void MainWindow::openFile()
         QDir proj_dir = QFileInfo(file).absoluteDir();
         file = proj_dir.absoluteFilePath(file);
         setCurrentFile(file);
-        updateRecentFiles(currentFile_);
+        addRecentFile(currentFile_);
         readFile(currentFile_);
     }
 
@@ -211,6 +249,7 @@ void MainWindow::readFile(QString fileName)
         else
         {
             setCurrentFile(fileName);
+            addRecentFile(fileName);
         }
     }
 
@@ -298,8 +337,14 @@ void MainWindow::settingsRead()
 
 void MainWindow::settingsRead_RecentFiles(QSettings& settings)
 {
-    recentFilesList_ = settings.value("recent_files").toStringList();
-    updateRecentFiles();
+    QStringList recent_files = settings.value("recent_files").toStringList();
+    for ( auto file : recent_files )
+    {
+        RecentFileAction* action = new RecentFileAction(file, ui_->menuRecentFiles);
+        recent_actions_.push_back(action);
+        connect(action, SIGNAL(triggered(RecentFileAction*)), SLOT(recentFile_triggered(RecentFileAction*)));
+        ui_->menuRecentFiles->addAction(action);
+    }
 }
 
 void MainWindow::settingsSave()
@@ -320,7 +365,13 @@ void MainWindow::settingsSave()
 
 void MainWindow::settingsSave_RecentFiles(QSettings& settings)
 {
-    settings.setValue("recent_files", recentFilesList_);
+    QStringList recent_files;
+    for ( auto action : recent_actions_ )
+    {
+        recent_files.push_back(action->file());
+    }
+
+    settings.setValue("recent_files", recent_files);
 }
 
 void MainWindow::updateGUI()
@@ -354,37 +405,6 @@ void MainWindow::updateTitleBar()
     if ( !saved_ ) title += " (*)";
 
     setWindowTitle(title);
-}
-
-void MainWindow::updateRecentFiles(QString file)
-{
-    for ( auto recentFilesAction : recentFilesActions_ )
-    {
-        disconnect(recentFilesAction, SIGNAL(triggered(int)), this, SLOT(recentFile_triggered(int)));
-    }
-    recentFilesActions_.clear();
-
-    if ( file.length() > 0 )
-    {
-        recentFilesList_.push_front(file);
-
-        while ( recentFilesList_.size() > 5 )
-        {
-            recentFilesList_.removeLast();
-        }
-    }
-
-    ui_->menuRecentFiles->clear();
-
-    int id = 0;
-    for ( auto recentFile : recentFilesList_ )
-    {
-        RecentFileAction* action = new RecentFileAction(recentFile, ui_->menuRecentFiles, id);
-        recentFilesActions_.push_back(action);
-        connect(action, SIGNAL(triggered(int)), this, SLOT(recentFile_triggered(int)));
-        ui_->menuRecentFiles->addAction(action);
-        id++;
-    }
 }
 
 void MainWindow::on_aircraftChanged()
@@ -451,15 +471,12 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionClearRecent_triggered()
 {
-    recentFilesList_.clear();
-    recentFilesActions_.clear();
-    updateRecentFiles();
-}
-
-void MainWindow::recentFile_triggered(int id)
-{
-    currentFile_ = recentFilesList_.at(id);
-    readFile(currentFile_);
+    for ( auto action : recent_actions_ )
+    {
+        action->disconnect(this, SLOT(recentFile_triggered(RecentFileAction*)));
+    }
+    recent_actions_.clear();
+    ui_->menuRecentFiles->clear();
 }
 
 void MainWindow::on_actionShowGrid_toggled(bool checked)
@@ -523,4 +540,10 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionAboutQt_triggered()
 {
     QMessageBox::aboutQt(this);
+}
+
+void MainWindow::recentFile_triggered(RecentFileAction* action)
+{
+    askIfSave();
+    readFile(action->file());
 }

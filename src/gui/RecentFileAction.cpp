@@ -19,14 +19,14 @@
 
 #include <gui/RecentFileAction.h>
 
-RecentFileAction::RecentFileAction(QString text, QObject* parent, int id)
-    : QAction(text, parent)
-    , id_(id)
+RecentFileAction::RecentFileAction(QString file, QObject* parent)
+    : QAction(file, parent)
+    , file_(file)
 {
     connect(this, SIGNAL(triggered()), this, SLOT(trigger()));
 }
 
 void RecentFileAction::trigger()
 {
-    emit(triggered(id_));
+    emit(triggered(this));
 }
