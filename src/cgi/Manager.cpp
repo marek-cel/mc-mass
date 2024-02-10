@@ -23,8 +23,6 @@
 
 namespace cgi {
 
-////////////////////////////////////////////////////////////////////////////////
-
 Manager::Manager()
 {
     data_ = std::make_shared<Data>();
@@ -124,7 +122,5 @@ void Manager::SetHighlightData(bool highlight,
     data_->highlight_w = highlight_w;
     data_->highlight_h = highlight_h;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace cgi

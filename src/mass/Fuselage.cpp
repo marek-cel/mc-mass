@@ -146,8 +146,6 @@ units::mass::kilogram_t Fuselage::GetEstimatedMass(const AircraftData& data)
     return (m1 + m2) / 2.0;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 Fuselage::Fuselage(const AircraftData* data)
     : Component(data)
 {

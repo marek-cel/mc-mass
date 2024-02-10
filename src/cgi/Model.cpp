@@ -88,6 +88,4 @@ void Model::UpdateTransformations(double offset_x, double offset_y, double offse
     pat_->setScale(s);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 } // namespace cgi

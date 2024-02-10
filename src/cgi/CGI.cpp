@@ -21,8 +21,6 @@
 
 namespace cgi {
 
-////////////////////////////////////////////////////////////////////////////////
-
 CGI::CGI(std::shared_ptr<Data> data)
     : Component(data)
 {
@@ -38,7 +36,5 @@ CGI::CGI(std::shared_ptr<Data> data)
     rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
     rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace cgi

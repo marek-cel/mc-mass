@@ -26,8 +26,6 @@
 
 namespace cgi {
 
-////////////////////////////////////////////////////////////////////////////////
-
 void Builder::BuildCGI(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
 {
     // grid
@@ -49,7 +47,5 @@ void Builder::BuildHUD(std::shared_ptr<Data> data, std::shared_ptr<Component> ro
     std::shared_ptr<ViewGizmo> gizmo = std::make_shared<ViewGizmo>(data);
     root->AddChild(gizmo);
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace cgi

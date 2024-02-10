@@ -21,8 +21,6 @@
 
 namespace cgi {
 
-////////////////////////////////////////////////////////////////////////////////
-
 const osg::Vec3 Colors::black = osg::Vec3(0.00f, 0.00f, 0.00f);
 const osg::Vec3 Colors::white = osg::Vec3(1.00f, 1.00f, 1.00f);
 
@@ -45,7 +43,5 @@ const osg::Vec3 Colors::amber   = osg::Vec3(1.00f, 0.75f, 0.00f);
 const osg::Vec3 Colors::scarlet = osg::Vec3(1.00f, 0.14f, 0.00f);
 
 const osg::Vec3 Colors::orangeRed = osg::Vec3(1.00f, 0.27f, 0.00f);
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace cgi

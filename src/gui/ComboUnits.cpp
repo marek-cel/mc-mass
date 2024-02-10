@@ -47,28 +47,20 @@ double ComboUnits::convert(double value) const
     return value * factor_;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double ComboUnits::convertPrev(double value) const
 {
     return value * factor_prev_;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 double ComboUnits::invert(double value) const
 {
     return value / factor_;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 double ComboUnits::invertPrev(double value) const
 {
     return value / factor_prev_;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 double ComboUnits::getCoef(int index) const
 {
@@ -79,8 +71,6 @@ double ComboUnits::getCoef(int index) const
 
     return std::numeric_limits<double>::quiet_NaN();
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 void ComboUnits::on_currentIndexChanged( int index )
 {

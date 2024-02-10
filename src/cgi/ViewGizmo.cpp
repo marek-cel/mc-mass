@@ -28,8 +28,6 @@
 
 namespace cgi {
 
-////////////////////////////////////////////////////////////////////////////////
-
 ViewGizmo::ViewGizmo(std::shared_ptr<Data> data)
     : Component(data)
 {
@@ -174,7 +172,5 @@ void ViewGizmo::CreateGizmoLabel()
     text->setAlignment(osgText::Text::CENTER_CENTER);
     text->setText("X");
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 } // namespace cgi

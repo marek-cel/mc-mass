@@ -124,7 +124,4 @@ void Highlight::RewriteHighlight(double x, double y, double z,
     stateSet->setRenderBinDetails( 20, "DepthSortedBin" );
 }
 
-
-////////////////////////////////////////////////////////////////////////////////
-
 } // namespace cgi
