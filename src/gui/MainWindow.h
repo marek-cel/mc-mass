@@ -45,6 +45,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void openFileFromCommandLine(QString filename);
+
 protected:
 
     void closeEvent(QCloseEvent* event) override;

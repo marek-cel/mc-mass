@@ -18,6 +18,7 @@
  ******************************************************************************/
 
 #include <QApplication>
+#include <QSharedPointer>
 
 #include <defs.h>
 
@@ -29,20 +30,22 @@ int main(int argc, char* argv[])
 
     QLocale::setDefault(QLocale::system());
 
-    QApplication* app = new QApplication(argc, argv);
+    QSharedPointer<QApplication> app(new QApplication(argc, argv));
 
     app->setApplicationName(APP_NAME);
     app->setApplicationVersion(APP_VER);
     app->setOrganizationDomain(ORG_DOMAIN);
     app->setOrganizationName(ORG_NAME);
 
-    MainWindow* win = new MainWindow();
+    QSharedPointer<MainWindow> win(new MainWindow());
     win->show();
+
+    if ( argc > 1 )
+    {
+        win->openFileFromCommandLine(argv[1]);
+    }
     
     int result = app->exec();
-
-    if ( win ) { delete win; } win = nullptr;
-    if ( app ) { delete app; } app = nullptr;
 
     return result;
 }

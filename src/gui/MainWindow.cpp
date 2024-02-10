@@ -72,6 +72,11 @@ MainWindow::~MainWindow()
     if ( ui_ ) { delete ui_; } ui_ = nullptr;
 }
 
+void MainWindow::openFileFromCommandLine(QString filename)
+{
+    readFile(filename);
+}
+
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     askIfSave();
@@ -236,20 +241,21 @@ void MainWindow::readFile(QString fileName)
 {
     if ( QFileInfo(fileName).suffix() == QString("mcmass") )
     {
-        QDir proj_dir = QFileInfo(fileName).absoluteDir();
-        fileName = proj_dir.absoluteFilePath(fileName);
+        QFileInfo fileInfo(fileName);
+        QDir proj_dir = fileInfo.absoluteDir();
+        QString fileFullPath = proj_dir.absoluteFilePath(fileInfo.fileName());
 
-        if ( !aircraftFile_.ReadFile(fileName.toStdString().c_str()) )
+        if ( !aircraftFile_.ReadFile(fileFullPath.toStdString().c_str()) )
         {
             QMessageBox::warning(
                 this, APP_TITLE,
-                tr("Cannot read file %1.").arg(fileName)
+                tr("Cannot read file %1.").arg(fileFullPath)
             );
         }
         else
         {
-            setCurrentFile(fileName);
-            addRecentFile(fileName);
+            setCurrentFile(fileFullPath);
+            addRecentFile(fileFullPath);
         }
     }
 
