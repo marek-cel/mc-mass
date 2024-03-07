@@ -66,7 +66,7 @@ void Highlight::RewriteHighlight(double x, double y, double z,
     switch_->removeChildren(0, switch_->getNumChildren());
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    switch_->addChild( geode.get() );
+    switch_->addChild(geode.get());
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -74,8 +74,8 @@ void Highlight::RewriteHighlight(double x, double y, double z,
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
     osg::ref_ptr<osg::Vec3Array> p = new osg::Vec3Array();
 
-    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
-    c->push_back( osg::Vec4(Colors::magenta, 1.0) );
+    n->push_back(osg::Vec3(0.0, 0.0, 1.0));
+    c->push_back(osg::Vec4(Colors::magenta, 1.0));
 
     p->push_back(osg::Vec3d(x - 0.5 * l, y - 0.5 * w, z - 0.5 * h));
     p->push_back(osg::Vec3d(x + 0.5 * l, y - 0.5 * w, z - 0.5 * h));
@@ -102,26 +102,26 @@ void Highlight::RewriteHighlight(double x, double y, double z,
     p->push_back(osg::Vec3d(x + 0.5 * l, y + 0.5 * w, z - 0.5 * h));
     p->push_back(osg::Vec3d(x + 0.5 * l, y + 0.5 * w, z + 0.5 * h));
 
-    geometry->setVertexArray( p.get() );
-    geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, p->size() ) );
+    geometry->setVertexArray(p.get());
+    geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, p->size()));
 
-    geometry->setNormalArray( n.get() );
-    geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    geometry->setNormalArray(n.get());
+    geometry->setNormalBinding(osg::Geometry::BIND_OVERALL);
 
     geometry->setColorArray( c.get() );
-    geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
+    geometry->setColorBinding(osg::Geometry::BIND_OVERALL);
 
-    geode->addDrawable( geometry.get() );
+    geode->addDrawable(geometry.get());
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
     osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
-    lineWidth->setWidth( 3.0f );
+    lineWidth->setWidth(2.0);
 
-    stateSet->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
-    stateSet->setMode( GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE );
-    stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE );
-    stateSet->setRenderBinDetails( 20, "DepthSortedBin" );
+    stateSet->setAttributeAndModes(lineWidth, osg::StateAttribute::ON);
+    stateSet->setMode(GL_LIGHTING   , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);
+    stateSet->setMode(GL_DEPTH_TEST , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);
+    stateSet->setRenderBinDetails(99, "DepthSortedBin");
 }
 
 } // namespace cgi
