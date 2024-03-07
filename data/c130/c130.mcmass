@@ -101,9 +101,9 @@
     <offset_x>0.000000</offset_x>
     <offset_y>0.000000</offset_y>
     <offset_z>0.000000</offset_z>
-    <rotation_x>0.000000</rotation_x>
+    <rotation_x>180.000000</rotation_x>
     <rotation_y>0.000000</rotation_y>
-    <rotation_z>0.000000</rotation_z>
+    <rotation_z>180.000000</rotation_z>
     <scale>1.000000</scale>
    </model3d>
   </data>
