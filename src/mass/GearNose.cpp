@@ -26,7 +26,7 @@ units::mass::kilogram_t GearNose::GetEstimatedMass(const AircraftData& data)
     constexpr double coef_n = 0.15;
     mass::pound_t w_dg = GetDesignGrossWeight(data);
     mass::pound_t w_0 = data.general.m_empty;
-    mass::pound_t reduction = coef_n * data.landing_gear.fixed ? (0.014 * w_0) : 0.0_lb;
+    mass::pound_t reduction = coef_n * ( data.landing_gear.fixed ? (0.014 * w_0) : 0.0_lb );
 
     mass::pound_t m1 = 0.0_lb;
     {

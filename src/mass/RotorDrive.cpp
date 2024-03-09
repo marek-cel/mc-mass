@@ -19,8 +19,6 @@
 
 #include <mass/RotorDrive.h>
 
-#include <mcutils/misc/Units.h>
-
 constexpr char RotorDrive::xmlTagName[];
 
 units::mass::kilogram_t RotorDrive::GetEstimatedMass(const AircraftData& data)

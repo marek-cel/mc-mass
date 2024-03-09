@@ -19,8 +19,6 @@
 
 #include <mass/Wing.h>
 
-#include <mcutils/misc/Units.h>
-
 #include <utils/Atmosphere.h>
 
 constexpr char Wing::xmlTagName[];
