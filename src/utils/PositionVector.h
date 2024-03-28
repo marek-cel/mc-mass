@@ -29,21 +29,21 @@ class PositionVector
 {
 public:
 
-    units::length::meter_t x() const { return x_; }
-    units::length::meter_t y() const { return y_; }
-    units::length::meter_t z() const { return z_; }
+    units::length::meter_t x() const { return _x; }
+    units::length::meter_t y() const { return _y; }
+    units::length::meter_t z() const { return _z; }
 
-    inline units::length::meter_t& x() { return x_; }
-    inline units::length::meter_t& y() { return y_; }
-    inline units::length::meter_t& z() { return z_; }
+    inline units::length::meter_t& x() { return _x; }
+    inline units::length::meter_t& y() { return _y; }
+    inline units::length::meter_t& z() { return _z; }
 
     FirstMomentOfMass operator*(units::mass::kilogram_t m) const;
 
 private:
 
-    units::length::meter_t x_ = 0.0_m;
-    units::length::meter_t y_ = 0.0_m;
-    units::length::meter_t z_ = 0.0_m;
+    units::length::meter_t _x = 0.0_m;
+    units::length::meter_t _y = 0.0_m;
+    units::length::meter_t _z = 0.0_m;
 };
 
 inline FirstMomentOfMass operator*(units::mass::kilogram_t m, const PositionVector& pos)

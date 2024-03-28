@@ -26,14 +26,14 @@ using namespace units::literals;
 ComboUnitsVolume::ComboUnitsVolume(QWidget* parent)
     : ComboUnits(parent)
 {
-    coefs_.push_back(1.0);
-    names_.push_back(QString(tr("cu m")));
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("cu m")));
 
-    coefs_.push_back(1_cu_m / 1_cu_ft);
-    names_.push_back(QString(tr("cu ft")));
+    _coefs.push_back(1_cu_m / 1_cu_ft);
+    _names.push_back(QString(tr("cu ft")));
 
-    for ( int i = 0; i < names_.size(); i++ )
+    for ( int i = 0; i < _names.size(); i++ )
     {
-        addItem(names_[i]);
+        addItem(_names[i]);
     }
 }

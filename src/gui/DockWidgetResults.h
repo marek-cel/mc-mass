@@ -41,9 +41,9 @@ public:
 
 private:
 
-    Ui::DockWidgetResults* ui_;
-    AircraftFile* aircraftFile_ = nullptr;
-    Aircraft* aircraft_ = nullptr;
+    Ui::DockWidgetResults* _ui;
+    AircraftFile* _aircraftFile = nullptr;
+    Aircraft* _aircraft = nullptr;
 
     void setEmptyMass();
     void setCenterOfMass();

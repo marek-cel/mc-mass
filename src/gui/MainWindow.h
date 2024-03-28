@@ -53,24 +53,24 @@ protected:
 
 private:
 
-    Ui::MainWindow* ui_;
+    Ui::MainWindow* _ui;
 
-    DockWidgetParams*     dockParams_     = nullptr;
-    DockWidgetComponents* dockComponents_ = nullptr;
-    DockWidgetResults*    dockResults_    = nullptr;
+    DockWidgetParams*     _dockParams     = nullptr;
+    DockWidgetComponents* _dockComponents = nullptr;
+    DockWidgetResults*    _dockResults    = nullptr;
 
-    QShortcut* sc_save_   = nullptr;
-    QShortcut* sc_export_ = nullptr;
+    QShortcut* _sc_save   = nullptr;
+    QShortcut* _sc_export = nullptr;
 
-    AircraftFile aircraftFile_;
+    AircraftFile _aircraftFile;
 
-    QString currentFile_;
+    QString _currentFile;
 
-    RecentFilesActions recent_actions_;
+    RecentFilesActions _recentActions;
 
-    int recent_files_max_ = 10;
+    int _recentFilesMax = 10;
 
-    bool saved_ = true;
+    bool _saved = true;
 
     void addRecentFile(QString file = "");
 

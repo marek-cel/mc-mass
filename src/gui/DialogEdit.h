@@ -37,16 +37,15 @@ public:
     static int edit(QWidget* parent, Component* component);
 
     explicit DialogEdit(QWidget* parent = nullptr, const Component* component = nullptr);
-
     virtual ~DialogEdit();
 
     void updateComponent(Component* comp);
 
 private:
 
-    Ui::DialogEdit *ui_;            ///<
+    Ui::DialogEdit* _ui;            ///<
 
-    const Component *component_;    ///<
+    const Component* _component;    ///<
 
     void settingsRead();
     void settingsRead_UnitsCombos(QSettings &settings);

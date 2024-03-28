@@ -41,12 +41,12 @@ public:
     struct WinData : public osg::Referenced
     {
         WinData(GLWidget *widget = nullptr, QWidget *parent = nullptr)
-            : _widget( widget )
-            , _parent( parent )
+            : _widget(widget)
+            , _parent(parent)
         {}
 
-        GLWidget *_widget;      ///<
-        QWidget  *_parent;      ///<
+        GLWidget* _widget;
+        QWidget*  _parent;
     };
 
     /**

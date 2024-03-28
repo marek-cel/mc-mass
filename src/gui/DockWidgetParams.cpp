@@ -27,12 +27,12 @@
 
 DockWidgetParams::DockWidgetParams(AircraftFile* aircraftFile, QWidget* parent)
     : QDockWidget(parent)
-    , ui_(new Ui::DockWidgetParams)
-    , aircraftFile_(aircraftFile)
+    , _ui(new Ui::DockWidgetParams)
+    , _aircraftFile(aircraftFile)
 {
-    ui_->setupUi(this);
+    _ui->setupUi(this);
 
-    aircraft_ = aircraftFile_->GetAircraft();
+    _aircraft = _aircraftFile->GetAircraft();
 
     setAircraftType(AircraftData::FighterAttack);
     updateGUI();
@@ -44,135 +44,135 @@ DockWidgetParams::~DockWidgetParams()
 {
     settingsSave();
 
-    if ( ui_ ) { delete ui_; } ui_ = nullptr;
+    if ( _ui ) { delete _ui; } _ui = nullptr;
 }
 
 void DockWidgetParams::updateGUI()
 {
-    const AircraftData* data = aircraft_->GetData();
+    const AircraftData* data = _aircraft->GetData();
 
     // general
-    ui_->comboBoxAircraftType->setCurrentIndex(data->type);
+    _ui->comboBoxAircraftType->setCurrentIndex(data->type);
 
-    ui_->spinBoxMassEmpty   ->setValue(ui_->comboBoxMassEmpty   ->convert(data->general.m_empty   ()));
-    ui_->spinBoxMTOW        ->setValue(ui_->comboBoxMTOW        ->convert(data->general.mtow      ()));
-    ui_->spinBoxMassMaxLand ->setValue(ui_->comboBoxMassMaxLand ->convert(data->general.m_maxLand ()));
-    ui_->spinBoxMaxFuel     ->setValue(ui_->comboBoxMaxFuel     ->convert(data->general.m_maxFuel ()));
+    _ui->spinBoxMassEmpty   ->setValue(_ui->comboBoxMassEmpty   ->convert(data->general.m_empty   ()));
+    _ui->spinBoxMTOW        ->setValue(_ui->comboBoxMTOW        ->convert(data->general.mtow      ()));
+    _ui->spinBoxMassMaxLand ->setValue(_ui->comboBoxMassMaxLand ->convert(data->general.m_maxLand ()));
+    _ui->spinBoxMaxFuel     ->setValue(_ui->comboBoxMaxFuel     ->convert(data->general.m_maxFuel ()));
 
-    ui_->spinBoxMaxNz     ->setValue( data->general.nz_max     );
-    ui_->spinBoxMaxNzLand ->setValue( data->general.nz_maxLand );
+    _ui->spinBoxMaxNz     ->setValue( data->general.nz_max     );
+    _ui->spinBoxMaxNzLand ->setValue( data->general.nz_maxLand );
 
-    ui_->spinBoxStallV  ->setValue( ui_->comboBoxStallV  ->convert(data->general.v_stall  ()));
-    ui_->spinBoxCruiseH ->setValue( ui_->comboBoxCruiseH ->convert(data->general.h_cruise ()));
-    ui_->spinBoxCruiseV ->setValue( ui_->comboBoxCruiseV ->convert(data->general.v_cruise ()));
-    ui_->spinBoxMachMax ->setValue(data->general.mach_max);
+    _ui->spinBoxStallV  ->setValue( _ui->comboBoxStallV  ->convert(data->general.v_stall  ()));
+    _ui->spinBoxCruiseH ->setValue( _ui->comboBoxCruiseH ->convert(data->general.h_cruise ()));
+    _ui->spinBoxCruiseV ->setValue( _ui->comboBoxCruiseV ->convert(data->general.v_cruise ()));
+    _ui->spinBoxMachMax ->setValue(data->general.mach_max);
 
-    ui_->checkBoxNavyAircraft->setChecked(data->general.navy_ac);
+    _ui->checkBoxNavyAircraft->setChecked(data->general.navy_ac);
 
     // fuselage
-    ui_->comboBoxCargoDoor->setCurrentIndex(data->fuselage.cargo_door);
+    _ui->comboBoxCargoDoor->setCurrentIndex(data->fuselage.cargo_door);
 
-    ui_->spinBoxFuseLength ->setValue(ui_->comboBoxFuseLength ->convert(data->fuselage.l()));
-    ui_->spinBoxFuseHeight ->setValue(ui_->comboBoxFuseHeight ->convert(data->fuselage.h()));
-    ui_->spinBoxFuseWidth  ->setValue(ui_->comboBoxFuseWidth  ->convert(data->fuselage.w()));
+    _ui->spinBoxFuseLength ->setValue(_ui->comboBoxFuseLength ->convert(data->fuselage.l()));
+    _ui->spinBoxFuseHeight ->setValue(_ui->comboBoxFuseHeight ->convert(data->fuselage.h()));
+    _ui->spinBoxFuseWidth  ->setValue(_ui->comboBoxFuseWidth  ->convert(data->fuselage.w()));
 
-    ui_->spinBoxNoseLength->setValue(ui_->comboBoxNoseLength->convert(data->fuselage.l_n()));
+    _ui->spinBoxNoseLength->setValue(_ui->comboBoxNoseLength->convert(data->fuselage.l_n()));
 
-    ui_->spinBoxPressVol    ->setValue(ui_->comboBoxPressVol    ->convert(data->fuselage.press_vol   ()));
-    ui_->spinBoxWetAreaReal ->setValue(ui_->comboBoxWetAreaReal ->convert(data->fuselage.wetted_area ()));
+    _ui->spinBoxPressVol    ->setValue(_ui->comboBoxPressVol    ->convert(data->fuselage.press_vol   ()));
+    _ui->spinBoxWetAreaReal ->setValue(_ui->comboBoxWetAreaReal ->convert(data->fuselage.wetted_area ()));
 
-    ui_->checkBoxFuselageLG ->setChecked( data->fuselage.landing_gear );
-    ui_->checkBoxCargoRamp  ->setChecked( data->fuselage.cargo_ramp   );
-    ui_->checkBoxWettedAreaOverride->setChecked(data->fuselage.wetted_area_override);
+    _ui->checkBoxFuselageLG ->setChecked( data->fuselage.landing_gear );
+    _ui->checkBoxCargoRamp  ->setChecked( data->fuselage.cargo_ramp   );
+    _ui->checkBoxWettedAreaOverride->setChecked(data->fuselage.wetted_area_override);
 
     // wing
-    ui_->spinBoxWingArea    ->setValue(ui_->comboBoxWingArea    ->convert(data->wing.area      ()));
-    ui_->spinBoxWingAreaExp ->setValue(ui_->comboBoxWingAreaExp ->convert(data->wing.area_exp  ()));
-    ui_->spinBoxWingSpan    ->setValue(ui_->comboBoxWingSpan    ->convert(data->wing.span      ()));
-    ui_->spinBoxWingSweep   ->setValue(ui_->comboBoxWingSweep   ->convert(data->wing.sweep     ()));
-    ui_->spinBoxWingCRoot   ->setValue(ui_->comboBoxWingCRoot   ->convert(data->wing.c_root    ()));
-    ui_->spinBoxWingCTip    ->setValue(ui_->comboBoxWingCTip    ->convert(data->wing.c_tip     ()));
-    ui_->spinBoxWingFuel    ->setValue(ui_->comboBoxCtrlArea    ->convert(data->wing.fuel      ()));
-    ui_->spinBoxCtrlArea    ->setValue(ui_->comboBoxWingFuel    ->convert(data->wing.ctrl_area ()));
+    _ui->spinBoxWingArea    ->setValue(_ui->comboBoxWingArea    ->convert(data->wing.area      ()));
+    _ui->spinBoxWingAreaExp ->setValue(_ui->comboBoxWingAreaExp ->convert(data->wing.area_exp  ()));
+    _ui->spinBoxWingSpan    ->setValue(_ui->comboBoxWingSpan    ->convert(data->wing.span      ()));
+    _ui->spinBoxWingSweep   ->setValue(_ui->comboBoxWingSweep   ->convert(data->wing.sweep     ()));
+    _ui->spinBoxWingCRoot   ->setValue(_ui->comboBoxWingCRoot   ->convert(data->wing.c_root    ()));
+    _ui->spinBoxWingCTip    ->setValue(_ui->comboBoxWingCTip    ->convert(data->wing.c_tip     ()));
+    _ui->spinBoxWingFuel    ->setValue(_ui->comboBoxCtrlArea    ->convert(data->wing.fuel      ()));
+    _ui->spinBoxCtrlArea    ->setValue(_ui->comboBoxWingFuel    ->convert(data->wing.ctrl_area ()));
 
-    ui_->spinBoxWingTC->setValue(data->wing.tc);
-    ui_->spinBoxWingAR->setValue(data->wing.ar);
-    ui_->spinBoxWingTR->setValue(data->wing.tr);
+    _ui->spinBoxWingTC->setValue(data->wing.tc);
+    _ui->spinBoxWingAR->setValue(data->wing.ar);
+    _ui->spinBoxWingTR->setValue(data->wing.tr);
 
-    ui_->checkBoxWingDelta    ->setChecked( data->wing.delta     );
-    ui_->checkBoxWingVarSweep ->setChecked( data->wing.var_sweep );
+    _ui->checkBoxWingDelta    ->setChecked( data->wing.delta     );
+    _ui->checkBoxWingVarSweep ->setChecked( data->wing.var_sweep );
 
     // horizontal tail
-    ui_->spinBoxHorTailArea  ->setValue(ui_->comboBoxHorTailArea  ->convert(data->hor_tail.area      ()));
-    ui_->spinBoxHorTailSpan  ->setValue(ui_->comboBoxHorTailSpan  ->convert(data->hor_tail.span      ()));
-    ui_->spinBoxHorTailSweep ->setValue(ui_->comboBoxHorTailSweep ->convert(data->hor_tail.sweep     ()));
-    ui_->spinBoxHorTailCRoot ->setValue(ui_->comboBoxHorTailCRoot ->convert(data->hor_tail.c_root    ()));
-    ui_->spinBoxHorTailCTip  ->setValue(ui_->comboBoxHorTailCTip  ->convert(data->hor_tail.c_tip     ()));
-    ui_->spinBoxElevArea     ->setValue(ui_->comboBoxElevArea     ->convert(data->hor_tail.elev_area ()));
-    ui_->spinBoxHorTailWF    ->setValue(ui_->comboBoxHorTailWF    ->convert(data->hor_tail.w_f       ()));
-    ui_->spinBoxHorTailArm   ->setValue(ui_->comboBoxHorTailArm   ->convert(data->hor_tail.arm       ()));
+    _ui->spinBoxHorTailArea  ->setValue(_ui->comboBoxHorTailArea  ->convert(data->hor_tail.area      ()));
+    _ui->spinBoxHorTailSpan  ->setValue(_ui->comboBoxHorTailSpan  ->convert(data->hor_tail.span      ()));
+    _ui->spinBoxHorTailSweep ->setValue(_ui->comboBoxHorTailSweep ->convert(data->hor_tail.sweep     ()));
+    _ui->spinBoxHorTailCRoot ->setValue(_ui->comboBoxHorTailCRoot ->convert(data->hor_tail.c_root    ()));
+    _ui->spinBoxHorTailCTip  ->setValue(_ui->comboBoxHorTailCTip  ->convert(data->hor_tail.c_tip     ()));
+    _ui->spinBoxElevArea     ->setValue(_ui->comboBoxElevArea     ->convert(data->hor_tail.elev_area ()));
+    _ui->spinBoxHorTailWF    ->setValue(_ui->comboBoxHorTailWF    ->convert(data->hor_tail.w_f       ()));
+    _ui->spinBoxHorTailArm   ->setValue(_ui->comboBoxHorTailArm   ->convert(data->hor_tail.arm       ()));
 
-    ui_->spinBoxHorTailTC->setValue(data->hor_tail.tc);
-    ui_->spinBoxHorTailAR->setValue(data->hor_tail.ar);
-    ui_->spinBoxHorTailTR->setValue(data->hor_tail.tr);
+    _ui->spinBoxHorTailTC->setValue(data->hor_tail.tc);
+    _ui->spinBoxHorTailAR->setValue(data->hor_tail.ar);
+    _ui->spinBoxHorTailTR->setValue(data->hor_tail.tr);
 
-    ui_->checkBoxHorTailMoving  ->setChecked( data->hor_tail.moving  );
-    ui_->checkBoxHorTailRolling ->setChecked( data->hor_tail.rolling );
+    _ui->checkBoxHorTailMoving  ->setChecked( data->hor_tail.moving  );
+    _ui->checkBoxHorTailRolling ->setChecked( data->hor_tail.rolling );
 
     // vertical tail
-    ui_->spinBoxVerTailArea   ->setValue(ui_->comboBoxVerTailArea   ->convert(data->ver_tail.area      ()));
-    ui_->spinBoxVerTailHeight ->setValue(ui_->comboBoxVerTailHeight ->convert(data->ver_tail.height    ()));
-    ui_->spinBoxVerTailSweep  ->setValue(ui_->comboBoxVerTailSweep  ->convert(data->ver_tail.sweep     ()));
-    ui_->spinBoxVerTailCRoot  ->setValue(ui_->comboBoxVerTailCRoot  ->convert(data->ver_tail.c_root    ()));
-    ui_->spinBoxVerTailCTip   ->setValue(ui_->comboBoxVerTailCTip   ->convert(data->ver_tail.c_tip     ()));
-    ui_->spinBoxVerTailArm    ->setValue(ui_->comboBoxVerTailArm    ->convert(data->ver_tail.arm       ()));
-    ui_->spinBoxRuddArea      ->setValue(ui_->comboBoxRuddArea      ->convert(data->ver_tail.rudd_area ()));
+    _ui->spinBoxVerTailArea   ->setValue(_ui->comboBoxVerTailArea   ->convert(data->ver_tail.area      ()));
+    _ui->spinBoxVerTailHeight ->setValue(_ui->comboBoxVerTailHeight ->convert(data->ver_tail.height    ()));
+    _ui->spinBoxVerTailSweep  ->setValue(_ui->comboBoxVerTailSweep  ->convert(data->ver_tail.sweep     ()));
+    _ui->spinBoxVerTailCRoot  ->setValue(_ui->comboBoxVerTailCRoot  ->convert(data->ver_tail.c_root    ()));
+    _ui->spinBoxVerTailCTip   ->setValue(_ui->comboBoxVerTailCTip   ->convert(data->ver_tail.c_tip     ()));
+    _ui->spinBoxVerTailArm    ->setValue(_ui->comboBoxVerTailArm    ->convert(data->ver_tail.arm       ()));
+    _ui->spinBoxRuddArea      ->setValue(_ui->comboBoxRuddArea      ->convert(data->ver_tail.rudd_area ()));
 
-    ui_->spinBoxVerTailTC->setValue(data->ver_tail.tc);
-    ui_->spinBoxVerTailAR->setValue(data->ver_tail.ar);
-    ui_->spinBoxVerTailTR->setValue(data->ver_tail.tr);
+    _ui->spinBoxVerTailTC->setValue(data->ver_tail.tc);
+    _ui->spinBoxVerTailAR->setValue(data->ver_tail.ar);
+    _ui->spinBoxVerTailTR->setValue(data->ver_tail.tr);
 
-    ui_->checkBoxTailT        ->setChecked( data->ver_tail.t_tail );
-    ui_->checkBoxVerTailRotor ->setChecked( data->ver_tail.rotor  );
+    _ui->checkBoxTailT        ->setChecked( data->ver_tail.t_tail );
+    _ui->checkBoxVerTailRotor ->setChecked( data->ver_tail.rotor  );
 
     // landing gear
-    ui_->spinBoxMainGearLength->setValue(ui_->comboBoxMainGearLength->convert(data->landing_gear.main_l()));
-    ui_->spinBoxNoseGearLength->setValue(ui_->comboBoxNoseGearLength->convert(data->landing_gear.nose_l()));
+    _ui->spinBoxMainGearLength->setValue(_ui->comboBoxMainGearLength->convert(data->landing_gear.main_l()));
+    _ui->spinBoxNoseGearLength->setValue(_ui->comboBoxNoseGearLength->convert(data->landing_gear.nose_l()));
 
-    ui_->spinBoxMainGearWheels->setValue(data->landing_gear.main_wheels);
-    ui_->spinBoxMainGearStruts->setValue(data->landing_gear.main_struts);
-    ui_->spinBoxNoseGearWheels->setValue(data->landing_gear.nose_wheels);
+    _ui->spinBoxMainGearWheels->setValue(data->landing_gear.main_wheels);
+    _ui->spinBoxMainGearStruts->setValue(data->landing_gear.main_struts);
+    _ui->spinBoxNoseGearWheels->setValue(data->landing_gear.nose_wheels);
 
-    ui_->checkBoxGearFixed  ->setChecked( data->landing_gear.fixed  );
-    ui_->checkBoxGearCross  ->setChecked( data->landing_gear.cross  );
-    ui_->checkBoxGearTripod ->setChecked( data->landing_gear.tripod );
+    _ui->checkBoxGearFixed  ->setChecked( data->landing_gear.fixed  );
+    _ui->checkBoxGearCross  ->setChecked( data->landing_gear.cross  );
+    _ui->checkBoxGearTripod ->setChecked( data->landing_gear.tripod );
 
-    ui_->checkBoxGearMainKneel->setChecked(data->landing_gear.main_kneel);
-    ui_->checkBoxGearNoseKneel->setChecked(data->landing_gear.nose_kneel);
+    _ui->checkBoxGearMainKneel->setChecked(data->landing_gear.main_kneel);
+    _ui->checkBoxGearNoseKneel->setChecked(data->landing_gear.nose_kneel);
 
     // engine
-    ui_->spinBoxEngineMass->setValue(ui_->comboBoxEngineMass->convert(data->engine.mass()));
+    _ui->spinBoxEngineMass->setValue(_ui->comboBoxEngineMass->convert(data->engine.mass()));
 
     // rotors
-    ui_->spinBoxMainRotorDiameter ->setValue(ui_->comboBoxMainRotorDiameter ->convert(data->rotors.main_r      ()) * 2.0);
-    ui_->spinBoxMainRotorChord    ->setValue(ui_->comboBoxMainRotorChord    ->convert(data->rotors.main_cb     ()));
-    ui_->spinBoxTailRotorDiameter ->setValue(ui_->comboBoxTailRotorDiameter ->convert(data->rotors.tail_r      ()) * 2.0);
-    ui_->spinBoxPowerLimit        ->setValue(ui_->comboBoxPowerLimit        ->convert(data->rotors.mcp         ()));
-    ui_->spinBoxMainRotorTipVel   ->setValue(ui_->comboBoxMainRotorTipVel   ->convert(data->rotors.main_tip_vel()));
+    _ui->spinBoxMainRotorDiameter ->setValue(_ui->comboBoxMainRotorDiameter ->convert(data->rotors.main_r      ()) * 2.0);
+    _ui->spinBoxMainRotorChord    ->setValue(_ui->comboBoxMainRotorChord    ->convert(data->rotors.main_cb     ()));
+    _ui->spinBoxTailRotorDiameter ->setValue(_ui->comboBoxTailRotorDiameter ->convert(data->rotors.tail_r      ()) * 2.0);
+    _ui->spinBoxPowerLimit        ->setValue(_ui->comboBoxPowerLimit        ->convert(data->rotors.mcp         ()));
+    _ui->spinBoxMainRotorTipVel   ->setValue(_ui->comboBoxMainRotorTipVel   ->convert(data->rotors.main_tip_vel()));
 
-    ui_->spinBoxMainRotorRPM    ->setValue( data->rotors.main_rpm()      );
-    ui_->spinBoxMainRotorGear   ->setValue( data->rotors.main_gear_ratio );
-    ui_->spinBoxMainRotorBlades ->setValue( data->rotors.main_blades     );
+    _ui->spinBoxMainRotorRPM    ->setValue( data->rotors.main_rpm()      );
+    _ui->spinBoxMainRotorGear   ->setValue( data->rotors.main_gear_ratio );
+    _ui->spinBoxMainRotorBlades ->setValue( data->rotors.main_blades     );
 
     // model 3D
-    ui_->lineEditModelFile->setText(data->model3d.file);
-    ui_->spinBox_OffsetX->setValue(ui_->comboBox_OffsetX->convert(data->model3d.offset_x()));
-    ui_->spinBox_OffsetY->setValue(ui_->comboBox_OffsetY->convert(data->model3d.offset_y()));
-    ui_->spinBox_OffsetZ->setValue(ui_->comboBox_OffsetZ->convert(data->model3d.offset_z()));
-    ui_->spinBox_RotationX->setValue(data->model3d.rotation_x());
-    ui_->spinBox_RotationY->setValue(data->model3d.rotation_y());
-    ui_->spinBox_RotationZ->setValue(data->model3d.rotation_z());
-    ui_->spinBox_Scale->setValue(data->model3d.scale);
+    _ui->lineEditModelFile->setText(data->model3d.file);
+    _ui->spinBox_OffsetX->setValue(_ui->comboBox_OffsetX->convert(data->model3d.offset_x()));
+    _ui->spinBox_OffsetY->setValue(_ui->comboBox_OffsetY->convert(data->model3d.offset_y()));
+    _ui->spinBox_OffsetZ->setValue(_ui->comboBox_OffsetZ->convert(data->model3d.offset_z()));
+    _ui->spinBox_RotationX->setValue(data->model3d.rotation_x());
+    _ui->spinBox_RotationY->setValue(data->model3d.rotation_y());
+    _ui->spinBox_RotationZ->setValue(data->model3d.rotation_z());
+    _ui->spinBox_Scale->setValue(data->model3d.scale);
 }
 
 void DockWidgetParams::settingsRead()
@@ -189,69 +189,69 @@ void DockWidgetParams::settingsRead_UnitsCombos(QSettings& settings)
     settings.beginGroup("units_combos");
 
     // general
-    ui_->comboBoxMassEmpty        ->setCurrentIndex(settings.value("mass_empty"   , 0).toInt());
-    ui_->comboBoxMTOW             ->setCurrentIndex(settings.value("mtow"         , 0).toInt());
-    ui_->comboBoxMassMaxLand      ->setCurrentIndex(settings.value("mass_landing" , 0).toInt());
-    ui_->comboBoxStallV           ->setCurrentIndex(settings.value("stall_speed"  , 0).toInt());
-    ui_->comboBoxCruiseV          ->setCurrentIndex(settings.value("cruise_speed" , 0).toInt());
-    ui_->comboBoxCruiseH          ->setCurrentIndex(settings.value("cruise_alt"   , 0).toInt());
+    _ui->comboBoxMassEmpty        ->setCurrentIndex(settings.value("mass_empty"   , 0).toInt());
+    _ui->comboBoxMTOW             ->setCurrentIndex(settings.value("mtow"         , 0).toInt());
+    _ui->comboBoxMassMaxLand      ->setCurrentIndex(settings.value("mass_landing" , 0).toInt());
+    _ui->comboBoxStallV           ->setCurrentIndex(settings.value("stall_speed"  , 0).toInt());
+    _ui->comboBoxCruiseV          ->setCurrentIndex(settings.value("cruise_speed" , 0).toInt());
+    _ui->comboBoxCruiseH          ->setCurrentIndex(settings.value("cruise_alt"   , 0).toInt());
 
     // fuselage
-    ui_->comboBoxFuseLength       ->setCurrentIndex(settings.value("fuselage_l"   , 0).toInt());
-    ui_->comboBoxFuseWidth        ->setCurrentIndex(settings.value("fuselage_w"   , 0).toInt());
-    ui_->comboBoxFuseHeight       ->setCurrentIndex(settings.value("fuselage_h"   , 0).toInt());
-    ui_->comboBoxNoseLength       ->setCurrentIndex(settings.value("nose_length"  , 0).toInt());
-    ui_->comboBoxPressVol         ->setCurrentIndex(settings.value("press_vol"    , 0).toInt());
-    ui_->comboBoxWetAreaEst       ->setCurrentIndex(settings.value("wet_area_est" , 0).toInt());
-    ui_->comboBoxWetAreaReal      ->setCurrentIndex(settings.value("wet_area_real", 0).toInt());
+    _ui->comboBoxFuseLength       ->setCurrentIndex(settings.value("fuselage_l"   , 0).toInt());
+    _ui->comboBoxFuseWidth        ->setCurrentIndex(settings.value("fuselage_w"   , 0).toInt());
+    _ui->comboBoxFuseHeight       ->setCurrentIndex(settings.value("fuselage_h"   , 0).toInt());
+    _ui->comboBoxNoseLength       ->setCurrentIndex(settings.value("nose_length"  , 0).toInt());
+    _ui->comboBoxPressVol         ->setCurrentIndex(settings.value("press_vol"    , 0).toInt());
+    _ui->comboBoxWetAreaEst       ->setCurrentIndex(settings.value("wet_area_est" , 0).toInt());
+    _ui->comboBoxWetAreaReal      ->setCurrentIndex(settings.value("wet_area_real", 0).toInt());
 
     // wing
-    ui_->comboBoxWingArea         ->setCurrentIndex(settings.value("wing_area"    , 0).toInt());
-    ui_->comboBoxWingAreaExp      ->setCurrentIndex(settings.value("wing_area_exp", 0).toInt());
-    ui_->comboBoxWingSpan         ->setCurrentIndex(settings.value("wing_span"    , 0).toInt());
-    ui_->comboBoxWingSweep        ->setCurrentIndex(settings.value("wing_sweep"   , 0).toInt());
-    ui_->comboBoxWingCRoot        ->setCurrentIndex(settings.value("wing_c_root"  , 0).toInt());
-    ui_->comboBoxWingCTip         ->setCurrentIndex(settings.value("wing_c_tip"   , 0).toInt());
-    ui_->comboBoxWingFuel         ->setCurrentIndex(settings.value("wing_fuel"    , 0).toInt());
-    ui_->comboBoxCtrlArea         ->setCurrentIndex(settings.value("wing_ctr_area", 0).toInt());
+    _ui->comboBoxWingArea         ->setCurrentIndex(settings.value("wing_area"    , 0).toInt());
+    _ui->comboBoxWingAreaExp      ->setCurrentIndex(settings.value("wing_area_exp", 0).toInt());
+    _ui->comboBoxWingSpan         ->setCurrentIndex(settings.value("wing_span"    , 0).toInt());
+    _ui->comboBoxWingSweep        ->setCurrentIndex(settings.value("wing_sweep"   , 0).toInt());
+    _ui->comboBoxWingCRoot        ->setCurrentIndex(settings.value("wing_c_root"  , 0).toInt());
+    _ui->comboBoxWingCTip         ->setCurrentIndex(settings.value("wing_c_tip"   , 0).toInt());
+    _ui->comboBoxWingFuel         ->setCurrentIndex(settings.value("wing_fuel"    , 0).toInt());
+    _ui->comboBoxCtrlArea         ->setCurrentIndex(settings.value("wing_ctr_area", 0).toInt());
 
     // horizontal tail
-    ui_->comboBoxHorTailArea      ->setCurrentIndex(settings.value("htail_area"   , 0).toInt());
-    ui_->comboBoxHorTailSpan      ->setCurrentIndex(settings.value("htail_span"   , 0).toInt());
-    ui_->comboBoxHorTailSweep     ->setCurrentIndex(settings.value("htail_sweep"  , 0).toInt());
-    ui_->comboBoxHorTailCRoot     ->setCurrentIndex(settings.value("htail_c_root" , 0).toInt());
-    ui_->comboBoxHorTailCTip      ->setCurrentIndex(settings.value("htail_c_tip"  , 0).toInt());
-    ui_->comboBoxHorTailArm       ->setCurrentIndex(settings.value("htail_arm"    , 0).toInt());
-    ui_->comboBoxElevArea         ->setCurrentIndex(settings.value("elev_area"    , 0).toInt());
-    ui_->comboBoxHorTailWF        ->setCurrentIndex(settings.value("htail_wf"     , 0).toInt());
+    _ui->comboBoxHorTailArea      ->setCurrentIndex(settings.value("htail_area"   , 0).toInt());
+    _ui->comboBoxHorTailSpan      ->setCurrentIndex(settings.value("htail_span"   , 0).toInt());
+    _ui->comboBoxHorTailSweep     ->setCurrentIndex(settings.value("htail_sweep"  , 0).toInt());
+    _ui->comboBoxHorTailCRoot     ->setCurrentIndex(settings.value("htail_c_root" , 0).toInt());
+    _ui->comboBoxHorTailCTip      ->setCurrentIndex(settings.value("htail_c_tip"  , 0).toInt());
+    _ui->comboBoxHorTailArm       ->setCurrentIndex(settings.value("htail_arm"    , 0).toInt());
+    _ui->comboBoxElevArea         ->setCurrentIndex(settings.value("elev_area"    , 0).toInt());
+    _ui->comboBoxHorTailWF        ->setCurrentIndex(settings.value("htail_wf"     , 0).toInt());
 
     // vertical tail
-    ui_->comboBoxVerTailArea      ->setCurrentIndex(settings.value("vtail_area"   , 0).toInt());
-    ui_->comboBoxVerTailHeight    ->setCurrentIndex(settings.value("vtail_height" , 0).toInt());
-    ui_->comboBoxVerTailSweep     ->setCurrentIndex(settings.value("vtail_sweep"  , 0).toInt());
-    ui_->comboBoxVerTailCRoot     ->setCurrentIndex(settings.value("vtail_c_root" , 0).toInt());
-    ui_->comboBoxVerTailCTip      ->setCurrentIndex(settings.value("vtail_c_tip"  , 0).toInt());
-    ui_->comboBoxVerTailArm       ->setCurrentIndex(settings.value("vtail_arm"    , 0).toInt());
-    ui_->comboBoxRuddArea         ->setCurrentIndex(settings.value("rudd_area"    , 0).toInt());
+    _ui->comboBoxVerTailArea      ->setCurrentIndex(settings.value("vtail_area"   , 0).toInt());
+    _ui->comboBoxVerTailHeight    ->setCurrentIndex(settings.value("vtail_height" , 0).toInt());
+    _ui->comboBoxVerTailSweep     ->setCurrentIndex(settings.value("vtail_sweep"  , 0).toInt());
+    _ui->comboBoxVerTailCRoot     ->setCurrentIndex(settings.value("vtail_c_root" , 0).toInt());
+    _ui->comboBoxVerTailCTip      ->setCurrentIndex(settings.value("vtail_c_tip"  , 0).toInt());
+    _ui->comboBoxVerTailArm       ->setCurrentIndex(settings.value("vtail_arm"    , 0).toInt());
+    _ui->comboBoxRuddArea         ->setCurrentIndex(settings.value("rudd_area"    , 0).toInt());
 
     // landing gear
-    ui_->comboBoxMainGearLength   ->setCurrentIndex(settings.value("lg_main_l"    , 0).toInt());
-    ui_->comboBoxNoseGearLength   ->setCurrentIndex(settings.value("lg_nose_l"    , 0).toInt());
+    _ui->comboBoxMainGearLength   ->setCurrentIndex(settings.value("lg_main_l"    , 0).toInt());
+    _ui->comboBoxNoseGearLength   ->setCurrentIndex(settings.value("lg_nose_l"    , 0).toInt());
 
     // engine
-    ui_->comboBoxEngineMass       ->setCurrentIndex(settings.value("engine_mass"  , 0).toInt());
+    _ui->comboBoxEngineMass       ->setCurrentIndex(settings.value("engine_mass"  , 0).toInt());
 
     // rotors
-    ui_->comboBoxMainRotorDiameter->setCurrentIndex(settings.value("main_rotor_d" , 0).toInt());
-    ui_->comboBoxMainRotorChord   ->setCurrentIndex(settings.value("main_rotor_c" , 0).toInt());
-    ui_->comboBoxTailRotorDiameter->setCurrentIndex(settings.value("tail_rotor_d" , 0).toInt());
-    ui_->comboBoxPowerLimit       ->setCurrentIndex(settings.value("rotor_mcp"    , 0).toInt());
-    ui_->comboBoxMainRotorTipVel  ->setCurrentIndex(settings.value("main_rotor_tv", 0).toInt());
+    _ui->comboBoxMainRotorDiameter->setCurrentIndex(settings.value("main_rotor_d" , 0).toInt());
+    _ui->comboBoxMainRotorChord   ->setCurrentIndex(settings.value("main_rotor_c" , 0).toInt());
+    _ui->comboBoxTailRotorDiameter->setCurrentIndex(settings.value("tail_rotor_d" , 0).toInt());
+    _ui->comboBoxPowerLimit       ->setCurrentIndex(settings.value("rotor_mcp"    , 0).toInt());
+    _ui->comboBoxMainRotorTipVel  ->setCurrentIndex(settings.value("main_rotor_tv", 0).toInt());
 
     // 3D model
-    ui_->comboBox_OffsetX->setCurrentIndex(settings.value("model_offset_x", 0).toInt());
-    ui_->comboBox_OffsetY->setCurrentIndex(settings.value("model_offset_y", 0).toInt());
-    ui_->comboBox_OffsetZ->setCurrentIndex(settings.value("model_offset_z", 0).toInt());
+    _ui->comboBox_OffsetX->setCurrentIndex(settings.value("model_offset_x", 0).toInt());
+    _ui->comboBox_OffsetY->setCurrentIndex(settings.value("model_offset_y", 0).toInt());
+    _ui->comboBox_OffsetZ->setCurrentIndex(settings.value("model_offset_z", 0).toInt());
 
 
     settings.endGroup();
@@ -271,69 +271,69 @@ void DockWidgetParams::settingsSave_UnitsCombos(QSettings& settings)
     settings.beginGroup("units_combos");
 
     // general
-    settings.setValue("main_rotor_tv", ui_->comboBoxMassEmpty        ->currentIndex());
-    settings.setValue("rotor_mcp"    , ui_->comboBoxMTOW             ->currentIndex());
-    settings.setValue("tail_rotor_d" , ui_->comboBoxMassMaxLand      ->currentIndex());
-    settings.setValue("main_rotor_c" , ui_->comboBoxStallV           ->currentIndex());
-    settings.setValue("main_rotor_d" , ui_->comboBoxCruiseV          ->currentIndex());
-    settings.setValue("engine_mass"  , ui_->comboBoxCruiseH          ->currentIndex());
+    settings.setValue("main_rotor_tv", _ui->comboBoxMassEmpty        ->currentIndex());
+    settings.setValue("rotor_mcp"    , _ui->comboBoxMTOW             ->currentIndex());
+    settings.setValue("tail_rotor_d" , _ui->comboBoxMassMaxLand      ->currentIndex());
+    settings.setValue("main_rotor_c" , _ui->comboBoxStallV           ->currentIndex());
+    settings.setValue("main_rotor_d" , _ui->comboBoxCruiseV          ->currentIndex());
+    settings.setValue("engine_mass"  , _ui->comboBoxCruiseH          ->currentIndex());
 
     // fuselage
-    settings.setValue("lg_nose_l"    , ui_->comboBoxFuseLength       ->currentIndex());
-    settings.setValue("lg_main_l"    , ui_->comboBoxFuseWidth        ->currentIndex());
-    settings.setValue("rudd_area"    , ui_->comboBoxFuseHeight       ->currentIndex());
-    settings.setValue("vtail_arm"    , ui_->comboBoxNoseLength       ->currentIndex());
-    settings.setValue("vtail_c_tip"  , ui_->comboBoxPressVol         ->currentIndex());
-    settings.setValue("vtail_c_root" , ui_->comboBoxWetAreaEst       ->currentIndex());
-    settings.setValue("vtail_sweep"  , ui_->comboBoxWetAreaReal      ->currentIndex());
+    settings.setValue("lg_nose_l"    , _ui->comboBoxFuseLength       ->currentIndex());
+    settings.setValue("lg_main_l"    , _ui->comboBoxFuseWidth        ->currentIndex());
+    settings.setValue("rudd_area"    , _ui->comboBoxFuseHeight       ->currentIndex());
+    settings.setValue("vtail_arm"    , _ui->comboBoxNoseLength       ->currentIndex());
+    settings.setValue("vtail_c_tip"  , _ui->comboBoxPressVol         ->currentIndex());
+    settings.setValue("vtail_c_root" , _ui->comboBoxWetAreaEst       ->currentIndex());
+    settings.setValue("vtail_sweep"  , _ui->comboBoxWetAreaReal      ->currentIndex());
 
     // wing
-    settings.setValue("vtail_height" , ui_->comboBoxWingArea         ->currentIndex());
-    settings.setValue("vtail_area"   , ui_->comboBoxWingAreaExp      ->currentIndex());
-    settings.setValue("htail_wf"     , ui_->comboBoxWingSpan         ->currentIndex());
-    settings.setValue("elev_area"    , ui_->comboBoxWingSweep        ->currentIndex());
-    settings.setValue("htail_arm"    , ui_->comboBoxWingCRoot        ->currentIndex());
-    settings.setValue("htail_c_tip"  , ui_->comboBoxWingCTip         ->currentIndex());
-    settings.setValue("htail_c_root" , ui_->comboBoxWingFuel         ->currentIndex());
-    settings.setValue("htail_sweep"  , ui_->comboBoxCtrlArea         ->currentIndex());
+    settings.setValue("vtail_height" , _ui->comboBoxWingArea         ->currentIndex());
+    settings.setValue("vtail_area"   , _ui->comboBoxWingAreaExp      ->currentIndex());
+    settings.setValue("htail_wf"     , _ui->comboBoxWingSpan         ->currentIndex());
+    settings.setValue("elev_area"    , _ui->comboBoxWingSweep        ->currentIndex());
+    settings.setValue("htail_arm"    , _ui->comboBoxWingCRoot        ->currentIndex());
+    settings.setValue("htail_c_tip"  , _ui->comboBoxWingCTip         ->currentIndex());
+    settings.setValue("htail_c_root" , _ui->comboBoxWingFuel         ->currentIndex());
+    settings.setValue("htail_sweep"  , _ui->comboBoxCtrlArea         ->currentIndex());
 
     // horizontal tail
-    settings.setValue("htail_span"   , ui_->comboBoxHorTailArea      ->currentIndex());
-    settings.setValue("htail_area"   , ui_->comboBoxHorTailSpan      ->currentIndex());
-    settings.setValue("wing_ctr_area", ui_->comboBoxHorTailSweep     ->currentIndex());
-    settings.setValue("wing_fuel"    , ui_->comboBoxHorTailCRoot     ->currentIndex());
-    settings.setValue("wing_c_tip"   , ui_->comboBoxHorTailCTip      ->currentIndex());
-    settings.setValue("wing_c_root"  , ui_->comboBoxHorTailArm       ->currentIndex());
-    settings.setValue("wing_sweep"   , ui_->comboBoxElevArea         ->currentIndex());
-    settings.setValue("wing_span"    , ui_->comboBoxHorTailWF        ->currentIndex());
+    settings.setValue("htail_span"   , _ui->comboBoxHorTailArea      ->currentIndex());
+    settings.setValue("htail_area"   , _ui->comboBoxHorTailSpan      ->currentIndex());
+    settings.setValue("wing_ctr_area", _ui->comboBoxHorTailSweep     ->currentIndex());
+    settings.setValue("wing_fuel"    , _ui->comboBoxHorTailCRoot     ->currentIndex());
+    settings.setValue("wing_c_tip"   , _ui->comboBoxHorTailCTip      ->currentIndex());
+    settings.setValue("wing_c_root"  , _ui->comboBoxHorTailArm       ->currentIndex());
+    settings.setValue("wing_sweep"   , _ui->comboBoxElevArea         ->currentIndex());
+    settings.setValue("wing_span"    , _ui->comboBoxHorTailWF        ->currentIndex());
 
     // vertical tail
-    settings.setValue("wing_area_exp", ui_->comboBoxVerTailArea      ->currentIndex());
-    settings.setValue("wing_area"    , ui_->comboBoxVerTailHeight    ->currentIndex());
-    settings.setValue("wet_area_real", ui_->comboBoxVerTailSweep     ->currentIndex());
-    settings.setValue("wet_area_est" , ui_->comboBoxVerTailCRoot     ->currentIndex());
-    settings.setValue("press_vol"    , ui_->comboBoxVerTailCTip      ->currentIndex());
-    settings.setValue("nose_length"  , ui_->comboBoxVerTailArm       ->currentIndex());
-    settings.setValue("fuselage_h"   , ui_->comboBoxRuddArea         ->currentIndex());
+    settings.setValue("wing_area_exp", _ui->comboBoxVerTailArea      ->currentIndex());
+    settings.setValue("wing_area"    , _ui->comboBoxVerTailHeight    ->currentIndex());
+    settings.setValue("wet_area_real", _ui->comboBoxVerTailSweep     ->currentIndex());
+    settings.setValue("wet_area_est" , _ui->comboBoxVerTailCRoot     ->currentIndex());
+    settings.setValue("press_vol"    , _ui->comboBoxVerTailCTip      ->currentIndex());
+    settings.setValue("nose_length"  , _ui->comboBoxVerTailArm       ->currentIndex());
+    settings.setValue("fuselage_h"   , _ui->comboBoxRuddArea         ->currentIndex());
 
     // landing gear
-    settings.setValue("fuselage_w"   , ui_->comboBoxMainGearLength   ->currentIndex());
-    settings.setValue("fuselage_l"   , ui_->comboBoxNoseGearLength   ->currentIndex());
+    settings.setValue("fuselage_w"   , _ui->comboBoxMainGearLength   ->currentIndex());
+    settings.setValue("fuselage_l"   , _ui->comboBoxNoseGearLength   ->currentIndex());
 
     // engine
-    settings.setValue("cruise_alt"   , ui_->comboBoxEngineMass       ->currentIndex());
+    settings.setValue("cruise_alt"   , _ui->comboBoxEngineMass       ->currentIndex());
 
     // rotors
-    settings.setValue("cruise_speed" , ui_->comboBoxMainRotorDiameter->currentIndex());
-    settings.setValue("stall_speed"  , ui_->comboBoxMainRotorChord   ->currentIndex());
-    settings.setValue("mass_landing" , ui_->comboBoxTailRotorDiameter->currentIndex());
-    settings.setValue("mtow"         , ui_->comboBoxPowerLimit       ->currentIndex());
-    settings.setValue("mass_empty"   , ui_->comboBoxMainRotorTipVel  ->currentIndex());
+    settings.setValue("cruise_speed" , _ui->comboBoxMainRotorDiameter->currentIndex());
+    settings.setValue("stall_speed"  , _ui->comboBoxMainRotorChord   ->currentIndex());
+    settings.setValue("mass_landing" , _ui->comboBoxTailRotorDiameter->currentIndex());
+    settings.setValue("mtow"         , _ui->comboBoxPowerLimit       ->currentIndex());
+    settings.setValue("mass_empty"   , _ui->comboBoxMainRotorTipVel  ->currentIndex());
 
     // 3D model
-    settings.setValue("model_offset_x", ui_->comboBox_OffsetX->currentIndex());
-    settings.setValue("model_offset_y", ui_->comboBox_OffsetY->currentIndex());
-    settings.setValue("model_offset_z", ui_->comboBox_OffsetZ->currentIndex());
+    settings.setValue("model_offset_x", _ui->comboBox_OffsetX->currentIndex());
+    settings.setValue("model_offset_y", _ui->comboBox_OffsetY->currentIndex());
+    settings.setValue("model_offset_z", _ui->comboBox_OffsetZ->currentIndex());
 
     settings.endGroup();
 }
@@ -341,616 +341,616 @@ void DockWidgetParams::settingsSave_UnitsCombos(QSettings& settings)
 void DockWidgetParams::setAircraftType(AircraftData::Type type)
 {
     // data - general
-    ui_->labelMassEmpty   ->setEnabled(false);
-    ui_->labelMTOW        ->setEnabled(false);
-    ui_->labelMassMaxLand ->setEnabled(false);
-    ui_->labelMaxFuel     ->setEnabled(false);
-    ui_->labelMaxNz       ->setEnabled(false);
-    ui_->labelMaxNzLand   ->setEnabled(false);
-    ui_->labelStallV      ->setEnabled(false);
-    ui_->labelCruiseH     ->setEnabled(false);
-    ui_->labelCruiseV     ->setEnabled(false);
-    ui_->labelMachMax     ->setEnabled(false);
+    _ui->labelMassEmpty   ->setEnabled(false);
+    _ui->labelMTOW        ->setEnabled(false);
+    _ui->labelMassMaxLand ->setEnabled(false);
+    _ui->labelMaxFuel     ->setEnabled(false);
+    _ui->labelMaxNz       ->setEnabled(false);
+    _ui->labelMaxNzLand   ->setEnabled(false);
+    _ui->labelStallV      ->setEnabled(false);
+    _ui->labelCruiseH     ->setEnabled(false);
+    _ui->labelCruiseV     ->setEnabled(false);
+    _ui->labelMachMax     ->setEnabled(false);
 
-    ui_->labelMaxNzUnit->setEnabled(false);
-    ui_->labelMaxNzLandUnit->setEnabled(false);
+    _ui->labelMaxNzUnit->setEnabled(false);
+    _ui->labelMaxNzLandUnit->setEnabled(false);
 
-    ui_->spinBoxMassEmpty   ->setEnabled(false);
-    ui_->spinBoxMTOW        ->setEnabled(false);
-    ui_->spinBoxMassMaxLand ->setEnabled(false);
-    ui_->spinBoxMaxFuel     ->setEnabled(false);
-    ui_->spinBoxMaxNz       ->setEnabled(false);
-    ui_->spinBoxMaxNzLand   ->setEnabled(false);
-    ui_->spinBoxStallV      ->setEnabled(false);
-    ui_->spinBoxCruiseH     ->setEnabled(false);
-    ui_->spinBoxCruiseV     ->setEnabled(false);
-    ui_->spinBoxMachMax     ->setEnabled(false);
+    _ui->spinBoxMassEmpty   ->setEnabled(false);
+    _ui->spinBoxMTOW        ->setEnabled(false);
+    _ui->spinBoxMassMaxLand ->setEnabled(false);
+    _ui->spinBoxMaxFuel     ->setEnabled(false);
+    _ui->spinBoxMaxNz       ->setEnabled(false);
+    _ui->spinBoxMaxNzLand   ->setEnabled(false);
+    _ui->spinBoxStallV      ->setEnabled(false);
+    _ui->spinBoxCruiseH     ->setEnabled(false);
+    _ui->spinBoxCruiseV     ->setEnabled(false);
+    _ui->spinBoxMachMax     ->setEnabled(false);
 
-    ui_->comboBoxMassEmpty   ->setEnabled(false);
-    ui_->comboBoxMTOW        ->setEnabled(false);
-    ui_->comboBoxMassMaxLand ->setEnabled(false);
-    ui_->comboBoxMaxFuel     ->setEnabled(false);
-    ui_->comboBoxStallV      ->setEnabled(false);
-    ui_->comboBoxCruiseH     ->setEnabled(false);
-    ui_->comboBoxCruiseV     ->setEnabled(false);
+    _ui->comboBoxMassEmpty   ->setEnabled(false);
+    _ui->comboBoxMTOW        ->setEnabled(false);
+    _ui->comboBoxMassMaxLand ->setEnabled(false);
+    _ui->comboBoxMaxFuel     ->setEnabled(false);
+    _ui->comboBoxStallV      ->setEnabled(false);
+    _ui->comboBoxCruiseH     ->setEnabled(false);
+    _ui->comboBoxCruiseV     ->setEnabled(false);
 
-    ui_->checkBoxNavyAircraft->setEnabled(false);
+    _ui->checkBoxNavyAircraft->setEnabled(false);
 
     // data - fuselage
-    ui_->comboBoxCargoDoor->setEnabled(false);
+    _ui->comboBoxCargoDoor->setEnabled(false);
 
-    ui_->labelFuseLength ->setEnabled(false);
-    ui_->labelFuseHeight ->setEnabled(false);
-    ui_->labelFuseWidth  ->setEnabled(false);
-    ui_->labelNoseLength ->setEnabled(false);
+    _ui->labelFuseLength ->setEnabled(false);
+    _ui->labelFuseHeight ->setEnabled(false);
+    _ui->labelFuseWidth  ->setEnabled(false);
+    _ui->labelNoseLength ->setEnabled(false);
 
-    ui_->spinBoxFuseLength ->setEnabled(false);
-    ui_->spinBoxFuseHeight ->setEnabled(false);
-    ui_->spinBoxFuseWidth  ->setEnabled(false);
-    ui_->spinBoxNoseLength ->setEnabled(false);
+    _ui->spinBoxFuseLength ->setEnabled(false);
+    _ui->spinBoxFuseHeight ->setEnabled(false);
+    _ui->spinBoxFuseWidth  ->setEnabled(false);
+    _ui->spinBoxNoseLength ->setEnabled(false);
 
-    ui_->comboBoxFuseLength ->setEnabled(false);
-    ui_->comboBoxFuseHeight ->setEnabled(false);
-    ui_->comboBoxFuseWidth  ->setEnabled(false);
-    ui_->comboBoxNoseLength ->setEnabled(false);
+    _ui->comboBoxFuseLength ->setEnabled(false);
+    _ui->comboBoxFuseHeight ->setEnabled(false);
+    _ui->comboBoxFuseWidth  ->setEnabled(false);
+    _ui->comboBoxNoseLength ->setEnabled(false);
 
-    ui_->spinBoxWetAreaEst  ->setEnabled(false);
-    ui_->spinBoxWetAreaReal ->setEnabled(false);
-    ui_->spinBoxPressVol    ->setEnabled(false);
+    _ui->spinBoxWetAreaEst  ->setEnabled(false);
+    _ui->spinBoxWetAreaReal ->setEnabled(false);
+    _ui->spinBoxPressVol    ->setEnabled(false);
 
-    ui_->comboBoxWetAreaEst  ->setEnabled(false);
-    ui_->comboBoxWetAreaReal ->setEnabled(false);
-    ui_->comboBoxPressVol    ->setEnabled(false);
+    _ui->comboBoxWetAreaEst  ->setEnabled(false);
+    _ui->comboBoxWetAreaReal ->setEnabled(false);
+    _ui->comboBoxPressVol    ->setEnabled(false);
 
-    ui_->labelCargoDoor->setEnabled(false);
+    _ui->labelCargoDoor->setEnabled(false);
 
-    ui_->labelWetAreaEst->setEnabled(false);
-    ui_->labelWettedAreaReal->setEnabled(false);
-    ui_->labelPressVol->setEnabled(false);
+    _ui->labelWetAreaEst->setEnabled(false);
+    _ui->labelWettedAreaReal->setEnabled(false);
+    _ui->labelPressVol->setEnabled(false);
 
-    ui_->checkBoxFuselageLG->setEnabled(false);
-    ui_->checkBoxCargoRamp->setEnabled(false);
-    ui_->checkBoxWettedAreaOverride->setEnabled(false);
+    _ui->checkBoxFuselageLG->setEnabled(false);
+    _ui->checkBoxCargoRamp->setEnabled(false);
+    _ui->checkBoxWettedAreaOverride->setEnabled(false);
 
     // data - wing
-    ui_->labelWingArea    ->setEnabled(false);
-    ui_->labelWingAreaExp ->setEnabled(false);
-    ui_->labelWingSpan    ->setEnabled(false);
-    ui_->labelWingSweep   ->setEnabled(false);
-    ui_->labelWingCRoot   ->setEnabled(false);
-    ui_->labelWingCTip    ->setEnabled(false);
-    ui_->labelWingTC      ->setEnabled(false);
-    ui_->labelWingFuel    ->setEnabled(false);
-    ui_->labelCtrlArea    ->setEnabled(false);
-    ui_->labelWingAR      ->setEnabled(false);
-    ui_->labelWingTR      ->setEnabled(false);
+    _ui->labelWingArea    ->setEnabled(false);
+    _ui->labelWingAreaExp ->setEnabled(false);
+    _ui->labelWingSpan    ->setEnabled(false);
+    _ui->labelWingSweep   ->setEnabled(false);
+    _ui->labelWingCRoot   ->setEnabled(false);
+    _ui->labelWingCTip    ->setEnabled(false);
+    _ui->labelWingTC      ->setEnabled(false);
+    _ui->labelWingFuel    ->setEnabled(false);
+    _ui->labelCtrlArea    ->setEnabled(false);
+    _ui->labelWingAR      ->setEnabled(false);
+    _ui->labelWingTR      ->setEnabled(false);
 
-    ui_->spinBoxWingArea    ->setEnabled(false);
-    ui_->spinBoxWingAreaExp ->setEnabled(false);
-    ui_->spinBoxWingSpan    ->setEnabled(false);
-    ui_->spinBoxWingSweep   ->setEnabled(false);
-    ui_->spinBoxWingCRoot   ->setEnabled(false);
-    ui_->spinBoxWingCTip    ->setEnabled(false);
-    ui_->spinBoxWingTC      ->setEnabled(false);
-    ui_->spinBoxWingFuel    ->setEnabled(false);
-    ui_->spinBoxCtrlArea    ->setEnabled(false);
-    ui_->spinBoxWingAR      ->setEnabled(false);
-    ui_->spinBoxWingTR      ->setEnabled(false);
+    _ui->spinBoxWingArea    ->setEnabled(false);
+    _ui->spinBoxWingAreaExp ->setEnabled(false);
+    _ui->spinBoxWingSpan    ->setEnabled(false);
+    _ui->spinBoxWingSweep   ->setEnabled(false);
+    _ui->spinBoxWingCRoot   ->setEnabled(false);
+    _ui->spinBoxWingCTip    ->setEnabled(false);
+    _ui->spinBoxWingTC      ->setEnabled(false);
+    _ui->spinBoxWingFuel    ->setEnabled(false);
+    _ui->spinBoxCtrlArea    ->setEnabled(false);
+    _ui->spinBoxWingAR      ->setEnabled(false);
+    _ui->spinBoxWingTR      ->setEnabled(false);
 
-    ui_->comboBoxWingArea    ->setEnabled(false);
-    ui_->comboBoxWingAreaExp ->setEnabled(false);
-    ui_->comboBoxWingSpan    ->setEnabled(false);
-    ui_->comboBoxWingSweep   ->setEnabled(false);
-    ui_->comboBoxWingCRoot   ->setEnabled(false);
-    ui_->comboBoxWingCTip    ->setEnabled(false);
-    ui_->comboBoxWingFuel    ->setEnabled(false);
-    ui_->comboBoxCtrlArea    ->setEnabled(false);
+    _ui->comboBoxWingArea    ->setEnabled(false);
+    _ui->comboBoxWingAreaExp ->setEnabled(false);
+    _ui->comboBoxWingSpan    ->setEnabled(false);
+    _ui->comboBoxWingSweep   ->setEnabled(false);
+    _ui->comboBoxWingCRoot   ->setEnabled(false);
+    _ui->comboBoxWingCTip    ->setEnabled(false);
+    _ui->comboBoxWingFuel    ->setEnabled(false);
+    _ui->comboBoxCtrlArea    ->setEnabled(false);
 
-    ui_->labelWingTCUnit->setEnabled(false);
+    _ui->labelWingTCUnit->setEnabled(false);
 
-    ui_->labelWingARUnit->setEnabled(false);
-    ui_->labelWingTRUnit->setEnabled(false);
+    _ui->labelWingARUnit->setEnabled(false);
+    _ui->labelWingTRUnit->setEnabled(false);
 
-    ui_->checkBoxWingDelta    ->setEnabled(false);
-    ui_->checkBoxWingVarSweep ->setEnabled(false);
+    _ui->checkBoxWingDelta    ->setEnabled(false);
+    _ui->checkBoxWingVarSweep ->setEnabled(false);
 
     // data - horizontal tail
-    ui_->labelHorTailArea  ->setEnabled(false);
-    ui_->labelHorTailSpan  ->setEnabled(false);
-    ui_->labelHorTailSweep ->setEnabled(false);
-    ui_->labelHorTailCRoot ->setEnabled(false);
-    ui_->labelHorTailCTip  ->setEnabled(false);
-    ui_->labelHorTailTC    ->setEnabled(false);
-    ui_->labelElevArea     ->setEnabled(false);
-    ui_->labelHorTailWF    ->setEnabled(false);
-    ui_->labelHorTailArm   ->setEnabled(false);
-    ui_->labelHorTailAR    ->setEnabled(false);
-    ui_->labelHorTailTR    ->setEnabled(false);
+    _ui->labelHorTailArea  ->setEnabled(false);
+    _ui->labelHorTailSpan  ->setEnabled(false);
+    _ui->labelHorTailSweep ->setEnabled(false);
+    _ui->labelHorTailCRoot ->setEnabled(false);
+    _ui->labelHorTailCTip  ->setEnabled(false);
+    _ui->labelHorTailTC    ->setEnabled(false);
+    _ui->labelElevArea     ->setEnabled(false);
+    _ui->labelHorTailWF    ->setEnabled(false);
+    _ui->labelHorTailArm   ->setEnabled(false);
+    _ui->labelHorTailAR    ->setEnabled(false);
+    _ui->labelHorTailTR    ->setEnabled(false);
 
-    ui_->spinBoxHorTailArea  ->setEnabled(false);
-    ui_->spinBoxHorTailSpan  ->setEnabled(false);
-    ui_->spinBoxHorTailSweep ->setEnabled(false);
-    ui_->spinBoxHorTailCRoot ->setEnabled(false);
-    ui_->spinBoxHorTailCTip  ->setEnabled(false);
-    ui_->spinBoxHorTailTC    ->setEnabled(false);
-    ui_->spinBoxElevArea     ->setEnabled(false);
-    ui_->spinBoxHorTailWF    ->setEnabled(false);
-    ui_->spinBoxHorTailArm   ->setEnabled(false);
-    ui_->spinBoxHorTailAR    ->setEnabled(false);
-    ui_->spinBoxHorTailTR    ->setEnabled(false);
+    _ui->spinBoxHorTailArea  ->setEnabled(false);
+    _ui->spinBoxHorTailSpan  ->setEnabled(false);
+    _ui->spinBoxHorTailSweep ->setEnabled(false);
+    _ui->spinBoxHorTailCRoot ->setEnabled(false);
+    _ui->spinBoxHorTailCTip  ->setEnabled(false);
+    _ui->spinBoxHorTailTC    ->setEnabled(false);
+    _ui->spinBoxElevArea     ->setEnabled(false);
+    _ui->spinBoxHorTailWF    ->setEnabled(false);
+    _ui->spinBoxHorTailArm   ->setEnabled(false);
+    _ui->spinBoxHorTailAR    ->setEnabled(false);
+    _ui->spinBoxHorTailTR    ->setEnabled(false);
 
-    ui_->comboBoxHorTailArea  ->setEnabled(false);
-    ui_->comboBoxHorTailSpan  ->setEnabled(false);
-    ui_->comboBoxHorTailSweep ->setEnabled(false);
-    ui_->comboBoxHorTailCRoot ->setEnabled(false);
-    ui_->comboBoxHorTailCTip  ->setEnabled(false);
-    ui_->comboBoxElevArea     ->setEnabled(false);
-    ui_->comboBoxHorTailWF    ->setEnabled(false);
-    ui_->comboBoxHorTailArm   ->setEnabled(false);
+    _ui->comboBoxHorTailArea  ->setEnabled(false);
+    _ui->comboBoxHorTailSpan  ->setEnabled(false);
+    _ui->comboBoxHorTailSweep ->setEnabled(false);
+    _ui->comboBoxHorTailCRoot ->setEnabled(false);
+    _ui->comboBoxHorTailCTip  ->setEnabled(false);
+    _ui->comboBoxElevArea     ->setEnabled(false);
+    _ui->comboBoxHorTailWF    ->setEnabled(false);
+    _ui->comboBoxHorTailArm   ->setEnabled(false);
 
-    ui_->checkBoxHorTailMoving  ->setEnabled(false);
-    ui_->checkBoxHorTailRolling ->setEnabled(false);
+    _ui->checkBoxHorTailMoving  ->setEnabled(false);
+    _ui->checkBoxHorTailRolling ->setEnabled(false);
 
     // data - vertical tail
-    ui_->labelVerTailArea   ->setEnabled(false);
-    ui_->labelVerTailHeight ->setEnabled(false);
-    ui_->labelVerTailSweep  ->setEnabled(false);
-    ui_->labelVerTailCRoot  ->setEnabled(false);
-    ui_->labelVerTailCTip   ->setEnabled(false);
-    ui_->labelVerTailTC     ->setEnabled(false);
-    ui_->labelVerTailArm    ->setEnabled(false);
-    ui_->labelRuddArea      ->setEnabled(false);
-    ui_->labelVerTailAR     ->setEnabled(false);
-    ui_->labelVerTailTR     ->setEnabled(false);
+    _ui->labelVerTailArea   ->setEnabled(false);
+    _ui->labelVerTailHeight ->setEnabled(false);
+    _ui->labelVerTailSweep  ->setEnabled(false);
+    _ui->labelVerTailCRoot  ->setEnabled(false);
+    _ui->labelVerTailCTip   ->setEnabled(false);
+    _ui->labelVerTailTC     ->setEnabled(false);
+    _ui->labelVerTailArm    ->setEnabled(false);
+    _ui->labelRuddArea      ->setEnabled(false);
+    _ui->labelVerTailAR     ->setEnabled(false);
+    _ui->labelVerTailTR     ->setEnabled(false);
 
-    ui_->spinBoxVerTailArea   ->setEnabled(false);
-    ui_->spinBoxVerTailHeight ->setEnabled(false);
-    ui_->spinBoxVerTailSweep  ->setEnabled(false);
-    ui_->spinBoxVerTailCRoot  ->setEnabled(false);
-    ui_->spinBoxVerTailCTip   ->setEnabled(false);
-    ui_->spinBoxVerTailTC     ->setEnabled(false);
-    ui_->spinBoxVerTailArm    ->setEnabled(false);
-    ui_->spinBoxRuddArea      ->setEnabled(false);
-    ui_->spinBoxVerTailAR     ->setEnabled(false);
-    ui_->spinBoxVerTailTR     ->setEnabled(false);
+    _ui->spinBoxVerTailArea   ->setEnabled(false);
+    _ui->spinBoxVerTailHeight ->setEnabled(false);
+    _ui->spinBoxVerTailSweep  ->setEnabled(false);
+    _ui->spinBoxVerTailCRoot  ->setEnabled(false);
+    _ui->spinBoxVerTailCTip   ->setEnabled(false);
+    _ui->spinBoxVerTailTC     ->setEnabled(false);
+    _ui->spinBoxVerTailArm    ->setEnabled(false);
+    _ui->spinBoxRuddArea      ->setEnabled(false);
+    _ui->spinBoxVerTailAR     ->setEnabled(false);
+    _ui->spinBoxVerTailTR     ->setEnabled(false);
 
-    ui_->comboBoxVerTailArea   ->setEnabled(false);
-    ui_->comboBoxVerTailHeight ->setEnabled(false);
-    ui_->comboBoxVerTailSweep  ->setEnabled(false);
-    ui_->comboBoxVerTailCRoot  ->setEnabled(false);
-    ui_->comboBoxVerTailCTip   ->setEnabled(false);
-    ui_->comboBoxVerTailArm    ->setEnabled(false);
-    ui_->comboBoxRuddArea      ->setEnabled(false);
+    _ui->comboBoxVerTailArea   ->setEnabled(false);
+    _ui->comboBoxVerTailHeight ->setEnabled(false);
+    _ui->comboBoxVerTailSweep  ->setEnabled(false);
+    _ui->comboBoxVerTailCRoot  ->setEnabled(false);
+    _ui->comboBoxVerTailCTip   ->setEnabled(false);
+    _ui->comboBoxVerTailArm    ->setEnabled(false);
+    _ui->comboBoxRuddArea      ->setEnabled(false);
 
-    ui_->checkBoxTailT        ->setEnabled(false);
-    ui_->checkBoxVerTailRotor ->setEnabled(false);
+    _ui->checkBoxTailT        ->setEnabled(false);
+    _ui->checkBoxVerTailRotor ->setEnabled(false);
 
     // data - landing gear
-    ui_->labelMainGearLength ->setEnabled(false);
-    ui_->labelNoseGearLength ->setEnabled(false);
+    _ui->labelMainGearLength ->setEnabled(false);
+    _ui->labelNoseGearLength ->setEnabled(false);
 
-    ui_->labelMainGearWheels ->setEnabled(false);
-    ui_->labelMainGearStruts ->setEnabled(false);
-    ui_->labelNoseGearWheels ->setEnabled(false);
+    _ui->labelMainGearWheels ->setEnabled(false);
+    _ui->labelMainGearStruts ->setEnabled(false);
+    _ui->labelNoseGearWheels ->setEnabled(false);
 
-    ui_->spinBoxMainGearLength ->setEnabled(false);
-    ui_->spinBoxNoseGearLength ->setEnabled(false);
+    _ui->spinBoxMainGearLength ->setEnabled(false);
+    _ui->spinBoxNoseGearLength ->setEnabled(false);
 
-    ui_->comboBoxMainGearLength ->setEnabled(false);
-    ui_->comboBoxNoseGearLength ->setEnabled(false);
+    _ui->comboBoxMainGearLength ->setEnabled(false);
+    _ui->comboBoxNoseGearLength ->setEnabled(false);
 
-    ui_->spinBoxMainGearWheels ->setEnabled(false);
-    ui_->spinBoxMainGearStruts ->setEnabled(false);
-    ui_->spinBoxNoseGearWheels ->setEnabled(false);
+    _ui->spinBoxMainGearWheels ->setEnabled(false);
+    _ui->spinBoxMainGearStruts ->setEnabled(false);
+    _ui->spinBoxNoseGearWheels ->setEnabled(false);
 
-    ui_->checkBoxGearFixed  ->setEnabled(false);
-    ui_->checkBoxGearCross  ->setEnabled(false);
-    ui_->checkBoxGearTripod ->setEnabled(false);
+    _ui->checkBoxGearFixed  ->setEnabled(false);
+    _ui->checkBoxGearCross  ->setEnabled(false);
+    _ui->checkBoxGearTripod ->setEnabled(false);
 
-    ui_->checkBoxGearMainKneel ->setEnabled(false);
-    ui_->checkBoxGearNoseKneel ->setEnabled(false);
+    _ui->checkBoxGearMainKneel ->setEnabled(false);
+    _ui->checkBoxGearNoseKneel ->setEnabled(false);
 
     // data - rotors
-    ui_->labelMainRotorDiameter  ->setEnabled(false);
-    ui_->labelMainRotorChord     ->setEnabled(false);
-    ui_->labelMainRotorRPM       ->setEnabled(false);
-    ui_->labelTailRotorDiameter  ->setEnabled(false);
-    ui_->labelMainRotorGear      ->setEnabled(false);
-    ui_->labelPowerLimit         ->setEnabled(false);
-    ui_->labelMainRotorTipVel    ->setEnabled(false);
-    ui_->labelMainRotorBlades    ->setEnabled(false);
+    _ui->labelMainRotorDiameter  ->setEnabled(false);
+    _ui->labelMainRotorChord     ->setEnabled(false);
+    _ui->labelMainRotorRPM       ->setEnabled(false);
+    _ui->labelTailRotorDiameter  ->setEnabled(false);
+    _ui->labelMainRotorGear      ->setEnabled(false);
+    _ui->labelPowerLimit         ->setEnabled(false);
+    _ui->labelMainRotorTipVel    ->setEnabled(false);
+    _ui->labelMainRotorBlades    ->setEnabled(false);
 
-    ui_->spinBoxMainRotorDiameter  ->setEnabled(false);
-    ui_->spinBoxMainRotorChord     ->setEnabled(false);
-    ui_->spinBoxMainRotorRPM       ->setEnabled(false);
-    ui_->spinBoxTailRotorDiameter  ->setEnabled(false);
-    ui_->spinBoxMainRotorGear      ->setEnabled(false);
-    ui_->spinBoxPowerLimit         ->setEnabled(false);
-    ui_->spinBoxMainRotorTipVel    ->setEnabled(false);
-    ui_->spinBoxMainRotorBlades    ->setEnabled(false);
+    _ui->spinBoxMainRotorDiameter  ->setEnabled(false);
+    _ui->spinBoxMainRotorChord     ->setEnabled(false);
+    _ui->spinBoxMainRotorRPM       ->setEnabled(false);
+    _ui->spinBoxTailRotorDiameter  ->setEnabled(false);
+    _ui->spinBoxMainRotorGear      ->setEnabled(false);
+    _ui->spinBoxPowerLimit         ->setEnabled(false);
+    _ui->spinBoxMainRotorTipVel    ->setEnabled(false);
+    _ui->spinBoxMainRotorBlades    ->setEnabled(false);
 
-    ui_->comboBoxMainRotorDiameter  ->setEnabled(false);
-    ui_->comboBoxMainRotorChord     ->setEnabled(false);
-    ui_->comboBoxTailRotorDiameter  ->setEnabled(false);
-    ui_->comboBoxPowerLimit         ->setEnabled(false);
-    ui_->comboBoxMainRotorTipVel    ->setEnabled(false);
+    _ui->comboBoxMainRotorDiameter  ->setEnabled(false);
+    _ui->comboBoxMainRotorChord     ->setEnabled(false);
+    _ui->comboBoxTailRotorDiameter  ->setEnabled(false);
+    _ui->comboBoxPowerLimit         ->setEnabled(false);
+    _ui->comboBoxMainRotorTipVel    ->setEnabled(false);
 
     if ( type == AircraftData::Helicopter )
     {
         // data - general
-        ui_->labelMassEmpty   ->setEnabled(true);
-        ui_->labelMTOW        ->setEnabled(true);
-        ui_->labelMaxNz       ->setEnabled(true);
-        ui_->labelMaxNzLand   ->setEnabled(true);
+        _ui->labelMassEmpty   ->setEnabled(true);
+        _ui->labelMTOW        ->setEnabled(true);
+        _ui->labelMaxNz       ->setEnabled(true);
+        _ui->labelMaxNzLand   ->setEnabled(true);
 
-        ui_->spinBoxMassEmpty   ->setEnabled(true);
-        ui_->spinBoxMTOW        ->setEnabled(true);
-        ui_->spinBoxMaxNz       ->setEnabled(true);
-        ui_->spinBoxMaxNzLand   ->setEnabled(true);
+        _ui->spinBoxMassEmpty   ->setEnabled(true);
+        _ui->spinBoxMTOW        ->setEnabled(true);
+        _ui->spinBoxMaxNz       ->setEnabled(true);
+        _ui->spinBoxMaxNzLand   ->setEnabled(true);
 
-        ui_->comboBoxMassEmpty   ->setEnabled(true);
-        ui_->comboBoxMTOW        ->setEnabled(true);
+        _ui->comboBoxMassEmpty   ->setEnabled(true);
+        _ui->comboBoxMTOW        ->setEnabled(true);
 
-        ui_->labelMaxNzUnit->setEnabled(true);
-        ui_->labelMaxNzLandUnit->setEnabled(true);
+        _ui->labelMaxNzUnit->setEnabled(true);
+        _ui->labelMaxNzLandUnit->setEnabled(true);
 
         // data - fuselage
-        ui_->labelFuseLength ->setEnabled(true);
-        ui_->labelFuseHeight ->setEnabled(true);
-        ui_->labelFuseWidth  ->setEnabled(true);
-        ui_->labelNoseLength ->setEnabled(true);
+        _ui->labelFuseLength ->setEnabled(true);
+        _ui->labelFuseHeight ->setEnabled(true);
+        _ui->labelFuseWidth  ->setEnabled(true);
+        _ui->labelNoseLength ->setEnabled(true);
 
-        ui_->spinBoxFuseLength ->setEnabled(true);
-        ui_->spinBoxFuseHeight ->setEnabled(true);
-        ui_->spinBoxFuseWidth  ->setEnabled(true);
-        ui_->spinBoxNoseLength ->setEnabled(true);
+        _ui->spinBoxFuseLength ->setEnabled(true);
+        _ui->spinBoxFuseHeight ->setEnabled(true);
+        _ui->spinBoxFuseWidth  ->setEnabled(true);
+        _ui->spinBoxNoseLength ->setEnabled(true);
 
-        ui_->comboBoxFuseLength ->setEnabled(true);
-        ui_->comboBoxFuseHeight ->setEnabled(true);
-        ui_->comboBoxFuseWidth  ->setEnabled(true);
-        ui_->comboBoxNoseLength ->setEnabled(true);
+        _ui->comboBoxFuseLength ->setEnabled(true);
+        _ui->comboBoxFuseHeight ->setEnabled(true);
+        _ui->comboBoxFuseWidth  ->setEnabled(true);
+        _ui->comboBoxNoseLength ->setEnabled(true);
 
-        ui_->labelWetAreaEst->setEnabled(true);
-        ui_->spinBoxWetAreaEst->setEnabled(true);
-        ui_->comboBoxWetAreaEst->setEnabled(true);
+        _ui->labelWetAreaEst->setEnabled(true);
+        _ui->spinBoxWetAreaEst->setEnabled(true);
+        _ui->comboBoxWetAreaEst->setEnabled(true);
 
-        ui_->checkBoxCargoRamp->setEnabled(true);
-        ui_->checkBoxWettedAreaOverride->setEnabled(true);
+        _ui->checkBoxCargoRamp->setEnabled(true);
+        _ui->checkBoxWettedAreaOverride->setEnabled(true);
 
         // data - horizontal tail
-        ui_->labelHorTailArea ->setEnabled(true);
-        ui_->labelHorTailSpan ->setEnabled(true);
-        ui_->labelHorTailAR   ->setEnabled(true);
+        _ui->labelHorTailArea ->setEnabled(true);
+        _ui->labelHorTailSpan ->setEnabled(true);
+        _ui->labelHorTailAR   ->setEnabled(true);
 
-        ui_->spinBoxHorTailArea ->setEnabled(true);
-        ui_->spinBoxHorTailSpan ->setEnabled(true);
-        ui_->spinBoxHorTailAR   ->setEnabled(true);
+        _ui->spinBoxHorTailArea ->setEnabled(true);
+        _ui->spinBoxHorTailSpan ->setEnabled(true);
+        _ui->spinBoxHorTailAR   ->setEnabled(true);
 
-        ui_->comboBoxHorTailArea ->setEnabled(true);
-        ui_->comboBoxHorTailSpan ->setEnabled(true);
+        _ui->comboBoxHorTailArea ->setEnabled(true);
+        _ui->comboBoxHorTailSpan ->setEnabled(true);
 
         // data - vertical tail
-        ui_->labelVerTailArea   ->setEnabled(true);
-        ui_->labelVerTailHeight ->setEnabled(true);
-        ui_->labelVerTailAR     ->setEnabled(true);
+        _ui->labelVerTailArea   ->setEnabled(true);
+        _ui->labelVerTailHeight ->setEnabled(true);
+        _ui->labelVerTailAR     ->setEnabled(true);
 
-        ui_->spinBoxVerTailArea   ->setEnabled(true);
-        ui_->spinBoxVerTailHeight ->setEnabled(true);
-        ui_->spinBoxVerTailAR     ->setEnabled(true);
+        _ui->spinBoxVerTailArea   ->setEnabled(true);
+        _ui->spinBoxVerTailHeight ->setEnabled(true);
+        _ui->spinBoxVerTailAR     ->setEnabled(true);
 
-        ui_->comboBoxVerTailArea   ->setEnabled(true);
-        ui_->comboBoxVerTailHeight ->setEnabled(true);
+        _ui->comboBoxVerTailArea   ->setEnabled(true);
+        _ui->comboBoxVerTailHeight ->setEnabled(true);
 
-        ui_->checkBoxVerTailRotor ->setEnabled(true);
+        _ui->checkBoxVerTailRotor ->setEnabled(true);
 
         // data - rotors
-        ui_->labelMainRotorDiameter  ->setEnabled(true);
-        ui_->labelMainRotorChord     ->setEnabled(true);
-        ui_->labelMainRotorRPM       ->setEnabled(true);
-        ui_->labelTailRotorDiameter  ->setEnabled(true);
-        ui_->labelMainRotorGear      ->setEnabled(true);
-        ui_->labelPowerLimit         ->setEnabled(true);
-        ui_->labelMainRotorTipVel    ->setEnabled(true);
-        ui_->labelMainRotorBlades    ->setEnabled(true);
+        _ui->labelMainRotorDiameter  ->setEnabled(true);
+        _ui->labelMainRotorChord     ->setEnabled(true);
+        _ui->labelMainRotorRPM       ->setEnabled(true);
+        _ui->labelTailRotorDiameter  ->setEnabled(true);
+        _ui->labelMainRotorGear      ->setEnabled(true);
+        _ui->labelPowerLimit         ->setEnabled(true);
+        _ui->labelMainRotorTipVel    ->setEnabled(true);
+        _ui->labelMainRotorBlades    ->setEnabled(true);
 
-        ui_->spinBoxMainRotorDiameter  ->setEnabled(true);
-        ui_->spinBoxMainRotorChord     ->setEnabled(true);
-        ui_->spinBoxMainRotorRPM       ->setEnabled(true);
-        ui_->spinBoxTailRotorDiameter  ->setEnabled(true);
-        ui_->spinBoxMainRotorGear      ->setEnabled(true);
-        ui_->spinBoxPowerLimit         ->setEnabled(true);
-        ui_->spinBoxMainRotorTipVel    ->setEnabled(true);
-        ui_->spinBoxMainRotorBlades    ->setEnabled(true);
+        _ui->spinBoxMainRotorDiameter  ->setEnabled(true);
+        _ui->spinBoxMainRotorChord     ->setEnabled(true);
+        _ui->spinBoxMainRotorRPM       ->setEnabled(true);
+        _ui->spinBoxTailRotorDiameter  ->setEnabled(true);
+        _ui->spinBoxMainRotorGear      ->setEnabled(true);
+        _ui->spinBoxPowerLimit         ->setEnabled(true);
+        _ui->spinBoxMainRotorTipVel    ->setEnabled(true);
+        _ui->spinBoxMainRotorBlades    ->setEnabled(true);
 
-        ui_->comboBoxMainRotorDiameter  ->setEnabled(true);
-        ui_->comboBoxMainRotorChord     ->setEnabled(true);
-        ui_->comboBoxTailRotorDiameter  ->setEnabled(true);
-        ui_->comboBoxPowerLimit         ->setEnabled(true);
-        ui_->comboBoxMainRotorTipVel    ->setEnabled(true);
+        _ui->comboBoxMainRotorDiameter  ->setEnabled(true);
+        _ui->comboBoxMainRotorChord     ->setEnabled(true);
+        _ui->comboBoxTailRotorDiameter  ->setEnabled(true);
+        _ui->comboBoxPowerLimit         ->setEnabled(true);
+        _ui->comboBoxMainRotorTipVel    ->setEnabled(true);
     }
     else
     {
         // data - general
-        ui_->labelMassEmpty   ->setEnabled(true);
-        ui_->labelMTOW        ->setEnabled(true);
-        ui_->labelMassMaxLand ->setEnabled(true);
-        ui_->labelMaxFuel     ->setEnabled(true);
-        ui_->labelMaxNz       ->setEnabled(true);
-        ui_->labelMaxNzLand   ->setEnabled(true);
+        _ui->labelMassEmpty   ->setEnabled(true);
+        _ui->labelMTOW        ->setEnabled(true);
+        _ui->labelMassMaxLand ->setEnabled(true);
+        _ui->labelMaxFuel     ->setEnabled(true);
+        _ui->labelMaxNz       ->setEnabled(true);
+        _ui->labelMaxNzLand   ->setEnabled(true);
 
-        ui_->spinBoxMassEmpty   ->setEnabled(true);
-        ui_->spinBoxMTOW        ->setEnabled(true);
-        ui_->spinBoxMassMaxLand ->setEnabled(true);
-        ui_->spinBoxMaxFuel     ->setEnabled(true);
-        ui_->spinBoxMaxNz       ->setEnabled(true);
-        ui_->spinBoxMaxNzLand   ->setEnabled(true);
+        _ui->spinBoxMassEmpty   ->setEnabled(true);
+        _ui->spinBoxMTOW        ->setEnabled(true);
+        _ui->spinBoxMassMaxLand ->setEnabled(true);
+        _ui->spinBoxMaxFuel     ->setEnabled(true);
+        _ui->spinBoxMaxNz       ->setEnabled(true);
+        _ui->spinBoxMaxNzLand   ->setEnabled(true);
 
-        ui_->labelMaxNzUnit->setEnabled(true);
-        ui_->labelMaxNzLandUnit->setEnabled(true);
+        _ui->labelMaxNzUnit->setEnabled(true);
+        _ui->labelMaxNzLandUnit->setEnabled(true);
 
-        ui_->comboBoxMassEmpty   ->setEnabled(true);
-        ui_->comboBoxMTOW        ->setEnabled(true);
-        ui_->comboBoxMassMaxLand ->setEnabled(true);
-        ui_->comboBoxMaxFuel     ->setEnabled(true);
+        _ui->comboBoxMassEmpty   ->setEnabled(true);
+        _ui->comboBoxMTOW        ->setEnabled(true);
+        _ui->comboBoxMassMaxLand ->setEnabled(true);
+        _ui->comboBoxMaxFuel     ->setEnabled(true);
 
         // data - fuselage
-        ui_->labelFuseLength ->setEnabled(true);
-        ui_->labelFuseHeight ->setEnabled(true);
-        ui_->labelFuseWidth  ->setEnabled(true);
-        ui_->labelNoseLength ->setEnabled(true);
+        _ui->labelFuseLength ->setEnabled(true);
+        _ui->labelFuseHeight ->setEnabled(true);
+        _ui->labelFuseWidth  ->setEnabled(true);
+        _ui->labelNoseLength ->setEnabled(true);
 
-        ui_->spinBoxFuseLength ->setEnabled(true);
-        ui_->spinBoxFuseHeight ->setEnabled(true);
-        ui_->spinBoxFuseWidth  ->setEnabled(true);
-        ui_->spinBoxNoseLength ->setEnabled(true);
+        _ui->spinBoxFuseLength ->setEnabled(true);
+        _ui->spinBoxFuseHeight ->setEnabled(true);
+        _ui->spinBoxFuseWidth  ->setEnabled(true);
+        _ui->spinBoxNoseLength ->setEnabled(true);
 
-        ui_->comboBoxFuseLength ->setEnabled(true);
-        ui_->comboBoxFuseHeight ->setEnabled(true);
-        ui_->comboBoxFuseWidth  ->setEnabled(true);
-        ui_->comboBoxNoseLength ->setEnabled(true);
+        _ui->comboBoxFuseLength ->setEnabled(true);
+        _ui->comboBoxFuseHeight ->setEnabled(true);
+        _ui->comboBoxFuseWidth  ->setEnabled(true);
+        _ui->comboBoxNoseLength ->setEnabled(true);
 
-        ui_->labelWetAreaEst->setEnabled(true);
-        ui_->spinBoxWetAreaEst->setEnabled(true);
-        ui_->comboBoxWetAreaEst->setEnabled(true);
-        ui_->checkBoxWettedAreaOverride->setEnabled(true);
+        _ui->labelWetAreaEst->setEnabled(true);
+        _ui->spinBoxWetAreaEst->setEnabled(true);
+        _ui->comboBoxWetAreaEst->setEnabled(true);
+        _ui->checkBoxWettedAreaOverride->setEnabled(true);
 
         // data - wing
-        ui_->labelWingArea    ->setEnabled(true);
-        ui_->labelWingAreaExp ->setEnabled(true);
-        ui_->labelWingSpan    ->setEnabled(true);
-        ui_->labelWingSweep   ->setEnabled(true);
-        ui_->labelWingCRoot   ->setEnabled(true);
-        ui_->labelWingCTip    ->setEnabled(true);
-        ui_->labelWingTC      ->setEnabled(true);
-        ui_->labelWingAR      ->setEnabled(true);
-        ui_->labelWingTR      ->setEnabled(true);
+        _ui->labelWingArea    ->setEnabled(true);
+        _ui->labelWingAreaExp ->setEnabled(true);
+        _ui->labelWingSpan    ->setEnabled(true);
+        _ui->labelWingSweep   ->setEnabled(true);
+        _ui->labelWingCRoot   ->setEnabled(true);
+        _ui->labelWingCTip    ->setEnabled(true);
+        _ui->labelWingTC      ->setEnabled(true);
+        _ui->labelWingAR      ->setEnabled(true);
+        _ui->labelWingTR      ->setEnabled(true);
 
-        ui_->spinBoxWingArea    ->setEnabled(true);
-        ui_->spinBoxWingAreaExp ->setEnabled(true);
-        ui_->spinBoxWingSpan    ->setEnabled(true);
-        ui_->spinBoxWingSweep   ->setEnabled(true);
-        ui_->spinBoxWingCRoot   ->setEnabled(true);
-        ui_->spinBoxWingCTip    ->setEnabled(true);
-        ui_->spinBoxWingTC      ->setEnabled(true);
-        ui_->spinBoxWingAR      ->setEnabled(true);
-        ui_->spinBoxWingTR      ->setEnabled(true);
+        _ui->spinBoxWingArea    ->setEnabled(true);
+        _ui->spinBoxWingAreaExp ->setEnabled(true);
+        _ui->spinBoxWingSpan    ->setEnabled(true);
+        _ui->spinBoxWingSweep   ->setEnabled(true);
+        _ui->spinBoxWingCRoot   ->setEnabled(true);
+        _ui->spinBoxWingCTip    ->setEnabled(true);
+        _ui->spinBoxWingTC      ->setEnabled(true);
+        _ui->spinBoxWingAR      ->setEnabled(true);
+        _ui->spinBoxWingTR      ->setEnabled(true);
 
-        ui_->labelWingTCUnit->setEnabled(true);
+        _ui->labelWingTCUnit->setEnabled(true);
 
-        ui_->comboBoxWingArea    ->setEnabled(true);
-        ui_->comboBoxWingAreaExp ->setEnabled(true);
-        ui_->comboBoxWingSpan    ->setEnabled(true);
-        ui_->comboBoxWingSweep   ->setEnabled(true);
-        ui_->comboBoxWingCRoot   ->setEnabled(true);
-        ui_->comboBoxWingCTip    ->setEnabled(true);
+        _ui->comboBoxWingArea    ->setEnabled(true);
+        _ui->comboBoxWingAreaExp ->setEnabled(true);
+        _ui->comboBoxWingSpan    ->setEnabled(true);
+        _ui->comboBoxWingSweep   ->setEnabled(true);
+        _ui->comboBoxWingCRoot   ->setEnabled(true);
+        _ui->comboBoxWingCTip    ->setEnabled(true);
 
-        ui_->labelWingARUnit->setEnabled(true);
-        ui_->labelWingTRUnit->setEnabled(true);
+        _ui->labelWingARUnit->setEnabled(true);
+        _ui->labelWingTRUnit->setEnabled(true);
 
         // data - horizontal tail
-        ui_->labelHorTailArea ->setEnabled(true);
-        ui_->labelHorTailAR   ->setEnabled(true);
-        ui_->labelHorTailTR   ->setEnabled(true);
+        _ui->labelHorTailArea ->setEnabled(true);
+        _ui->labelHorTailAR   ->setEnabled(true);
+        _ui->labelHorTailTR   ->setEnabled(true);
 
-        ui_->spinBoxHorTailArea ->setEnabled(true);
-        ui_->spinBoxHorTailAR   ->setEnabled(true);
-        ui_->spinBoxHorTailTR   ->setEnabled(true);
+        _ui->spinBoxHorTailArea ->setEnabled(true);
+        _ui->spinBoxHorTailAR   ->setEnabled(true);
+        _ui->spinBoxHorTailTR   ->setEnabled(true);
 
-        ui_->comboBoxHorTailArea ->setEnabled(true);
+        _ui->comboBoxHorTailArea ->setEnabled(true);
 
         // data - vertical tail
-        ui_->labelVerTailArea   ->setEnabled(true);
-        ui_->labelVerTailHeight ->setEnabled(true);
-        ui_->labelVerTailSweep  ->setEnabled(true);
-        ui_->labelVerTailAR     ->setEnabled(true);
-        ui_->labelVerTailTR     ->setEnabled(true);
+        _ui->labelVerTailArea   ->setEnabled(true);
+        _ui->labelVerTailHeight ->setEnabled(true);
+        _ui->labelVerTailSweep  ->setEnabled(true);
+        _ui->labelVerTailAR     ->setEnabled(true);
+        _ui->labelVerTailTR     ->setEnabled(true);
 
-        ui_->spinBoxVerTailArea   ->setEnabled(true);
-        ui_->spinBoxVerTailHeight ->setEnabled(true);
-        ui_->spinBoxVerTailSweep  ->setEnabled(true);
-        ui_->spinBoxVerTailAR     ->setEnabled(true);
-        ui_->spinBoxVerTailTR     ->setEnabled(true);
+        _ui->spinBoxVerTailArea   ->setEnabled(true);
+        _ui->spinBoxVerTailHeight ->setEnabled(true);
+        _ui->spinBoxVerTailSweep  ->setEnabled(true);
+        _ui->spinBoxVerTailAR     ->setEnabled(true);
+        _ui->spinBoxVerTailTR     ->setEnabled(true);
 
-        ui_->comboBoxVerTailArea   ->setEnabled(true);
-        ui_->comboBoxVerTailHeight ->setEnabled(true);
-        ui_->comboBoxVerTailSweep  ->setEnabled(true);
+        _ui->comboBoxVerTailArea   ->setEnabled(true);
+        _ui->comboBoxVerTailHeight ->setEnabled(true);
+        _ui->comboBoxVerTailSweep  ->setEnabled(true);
 
-        ui_->checkBoxTailT->setEnabled(true);
+        _ui->checkBoxTailT->setEnabled(true);
 
         // data - landing gear
-        ui_->labelMainGearLength ->setEnabled(true);
-        ui_->labelNoseGearLength ->setEnabled(true);
+        _ui->labelMainGearLength ->setEnabled(true);
+        _ui->labelNoseGearLength ->setEnabled(true);
 
-        ui_->spinBoxMainGearLength ->setEnabled(true);
-        ui_->spinBoxNoseGearLength ->setEnabled(true);
+        _ui->spinBoxMainGearLength ->setEnabled(true);
+        _ui->spinBoxNoseGearLength ->setEnabled(true);
 
-        ui_->comboBoxMainGearLength ->setEnabled(true);
-        ui_->comboBoxNoseGearLength ->setEnabled(true);
+        _ui->comboBoxMainGearLength ->setEnabled(true);
+        _ui->comboBoxNoseGearLength ->setEnabled(true);
 
-        ui_->checkBoxGearFixed  ->setEnabled(true);
+        _ui->checkBoxGearFixed  ->setEnabled(true);
 
         if ( type == AircraftData::FighterAttack )
         {
             // data - general
-            ui_->labelMachMax->setEnabled(true);
-            ui_->spinBoxMachMax->setEnabled(true);
+            _ui->labelMachMax->setEnabled(true);
+            _ui->spinBoxMachMax->setEnabled(true);
 
-            ui_->checkBoxNavyAircraft->setEnabled(true);
+            _ui->checkBoxNavyAircraft->setEnabled(true);
 
             // data - wing
-            ui_->labelCtrlArea  ->setEnabled(true);
-            ui_->spinBoxCtrlArea  ->setEnabled(true);
-            ui_->comboBoxCtrlArea  ->setEnabled(true);
+            _ui->labelCtrlArea  ->setEnabled(true);
+            _ui->spinBoxCtrlArea  ->setEnabled(true);
+            _ui->comboBoxCtrlArea  ->setEnabled(true);
 
-            ui_->checkBoxWingDelta    ->setEnabled(true);
-            ui_->checkBoxWingVarSweep ->setEnabled(true);
+            _ui->checkBoxWingDelta    ->setEnabled(true);
+            _ui->checkBoxWingVarSweep ->setEnabled(true);
 
             // data - horizontal tail
-            ui_->labelHorTailSpan  ->setEnabled(true);
-            ui_->labelHorTailWF    ->setEnabled(true);
+            _ui->labelHorTailSpan  ->setEnabled(true);
+            _ui->labelHorTailWF    ->setEnabled(true);
 
-            ui_->spinBoxHorTailSpan  ->setEnabled(true);
-            ui_->spinBoxHorTailWF    ->setEnabled(true);
+            _ui->spinBoxHorTailSpan  ->setEnabled(true);
+            _ui->spinBoxHorTailWF    ->setEnabled(true);
 
-            ui_->comboBoxHorTailSpan  ->setEnabled(true);
-            ui_->comboBoxHorTailWF    ->setEnabled(true);
+            _ui->comboBoxHorTailSpan  ->setEnabled(true);
+            _ui->comboBoxHorTailWF    ->setEnabled(true);
 
-            ui_->checkBoxHorTailRolling ->setEnabled(true);
+            _ui->checkBoxHorTailRolling ->setEnabled(true);
 
             // data - vertical tail
-            ui_->labelVerTailArm    ->setEnabled(true);
-            ui_->labelVerTailCRoot  ->setEnabled(true);
-            ui_->labelVerTailCTip   ->setEnabled(true);
-            ui_->labelRuddArea      ->setEnabled(true);
+            _ui->labelVerTailArm    ->setEnabled(true);
+            _ui->labelVerTailCRoot  ->setEnabled(true);
+            _ui->labelVerTailCTip   ->setEnabled(true);
+            _ui->labelRuddArea      ->setEnabled(true);
 
-            ui_->spinBoxVerTailArm    ->setEnabled(true);
-            ui_->spinBoxVerTailCRoot  ->setEnabled(true);
-            ui_->spinBoxVerTailCTip   ->setEnabled(true);
-            ui_->spinBoxRuddArea      ->setEnabled(true);
+            _ui->spinBoxVerTailArm    ->setEnabled(true);
+            _ui->spinBoxVerTailCRoot  ->setEnabled(true);
+            _ui->spinBoxVerTailCTip   ->setEnabled(true);
+            _ui->spinBoxRuddArea      ->setEnabled(true);
 
-            ui_->comboBoxVerTailArm    ->setEnabled(true);
-            ui_->comboBoxVerTailCRoot  ->setEnabled(true);
-            ui_->comboBoxVerTailCTip   ->setEnabled(true);
-            ui_->comboBoxRuddArea      ->setEnabled(true);
+            _ui->comboBoxVerTailArm    ->setEnabled(true);
+            _ui->comboBoxVerTailCRoot  ->setEnabled(true);
+            _ui->comboBoxVerTailCTip   ->setEnabled(true);
+            _ui->comboBoxRuddArea      ->setEnabled(true);
 
             // data - landing gear
-            ui_->labelNoseGearWheels ->setEnabled(true);
-            ui_->spinBoxNoseGearWheels ->setEnabled(true);
+            _ui->labelNoseGearWheels ->setEnabled(true);
+            _ui->spinBoxNoseGearWheels ->setEnabled(true);
 
-            ui_->checkBoxGearCross  ->setEnabled(true);
-            ui_->checkBoxGearTripod ->setEnabled(true);
+            _ui->checkBoxGearCross  ->setEnabled(true);
+            _ui->checkBoxGearTripod ->setEnabled(true);
         }
         else if ( type == AircraftData::CargoTransport )
         {
             // data - general
-            ui_->labelStallV->setEnabled(true);
-            ui_->spinBoxStallV->setEnabled(true);
-            ui_->comboBoxStallV->setEnabled(true);
+            _ui->labelStallV->setEnabled(true);
+            _ui->spinBoxStallV->setEnabled(true);
+            _ui->comboBoxStallV->setEnabled(true);
 
             // data - fuselage
-            ui_->labelCargoDoor->setEnabled(true);
-            ui_->comboBoxCargoDoor->setEnabled(true);
+            _ui->labelCargoDoor->setEnabled(true);
+            _ui->comboBoxCargoDoor->setEnabled(true);
 
-            ui_->checkBoxFuselageLG->setEnabled(true);
+            _ui->checkBoxFuselageLG->setEnabled(true);
 
             // data - wing
-            ui_->labelCtrlArea  ->setEnabled(true);
-            ui_->spinBoxCtrlArea  ->setEnabled(true);
-            ui_->comboBoxCtrlArea  ->setEnabled(true);
+            _ui->labelCtrlArea  ->setEnabled(true);
+            _ui->spinBoxCtrlArea  ->setEnabled(true);
+            _ui->comboBoxCtrlArea  ->setEnabled(true);
 
             // data - horizontal tail
-            ui_->labelHorTailSpan  ->setEnabled(true);
-            ui_->labelHorTailSweep ->setEnabled(true);
-            ui_->labelHorTailArm   ->setEnabled(true);
-            ui_->labelElevArea     ->setEnabled(true);
-            ui_->labelHorTailWF    ->setEnabled(true);
+            _ui->labelHorTailSpan  ->setEnabled(true);
+            _ui->labelHorTailSweep ->setEnabled(true);
+            _ui->labelHorTailArm   ->setEnabled(true);
+            _ui->labelElevArea     ->setEnabled(true);
+            _ui->labelHorTailWF    ->setEnabled(true);
 
-            ui_->spinBoxHorTailSpan  ->setEnabled(true);
-            ui_->spinBoxHorTailSweep ->setEnabled(true);
-            ui_->spinBoxHorTailArm   ->setEnabled(true);
-            ui_->spinBoxElevArea     ->setEnabled(true);
-            ui_->spinBoxHorTailWF    ->setEnabled(true);
+            _ui->spinBoxHorTailSpan  ->setEnabled(true);
+            _ui->spinBoxHorTailSweep ->setEnabled(true);
+            _ui->spinBoxHorTailArm   ->setEnabled(true);
+            _ui->spinBoxElevArea     ->setEnabled(true);
+            _ui->spinBoxHorTailWF    ->setEnabled(true);
 
-            ui_->comboBoxHorTailSpan  ->setEnabled(true);
-            ui_->comboBoxHorTailSweep ->setEnabled(true);
-            ui_->comboBoxHorTailArm   ->setEnabled(true);
-            ui_->comboBoxElevArea     ->setEnabled(true);
-            ui_->comboBoxHorTailWF    ->setEnabled(true);
+            _ui->comboBoxHorTailSpan  ->setEnabled(true);
+            _ui->comboBoxHorTailSweep ->setEnabled(true);
+            _ui->comboBoxHorTailArm   ->setEnabled(true);
+            _ui->comboBoxElevArea     ->setEnabled(true);
+            _ui->comboBoxHorTailWF    ->setEnabled(true);
 
-            ui_->checkBoxHorTailMoving  ->setEnabled(true);
+            _ui->checkBoxHorTailMoving  ->setEnabled(true);
 
             // data - vertical tail
-            ui_->labelVerTailArm    ->setEnabled(true);
-            ui_->labelVerTailTC     ->setEnabled(true);
+            _ui->labelVerTailArm    ->setEnabled(true);
+            _ui->labelVerTailTC     ->setEnabled(true);
 
-            ui_->spinBoxVerTailArm    ->setEnabled(true);
-            ui_->spinBoxVerTailTC     ->setEnabled(true);
+            _ui->spinBoxVerTailArm    ->setEnabled(true);
+            _ui->spinBoxVerTailTC     ->setEnabled(true);
 
-            ui_->comboBoxVerTailArm    ->setEnabled(true);
+            _ui->comboBoxVerTailArm    ->setEnabled(true);
 
             // data - landing gear
-            ui_->labelMainGearWheels ->setEnabled(true);
-            ui_->labelMainGearStruts ->setEnabled(true);
-            ui_->labelNoseGearWheels ->setEnabled(true);
+            _ui->labelMainGearWheels ->setEnabled(true);
+            _ui->labelMainGearStruts ->setEnabled(true);
+            _ui->labelNoseGearWheels ->setEnabled(true);
 
-            ui_->spinBoxMainGearWheels ->setEnabled(true);
-            ui_->spinBoxMainGearStruts ->setEnabled(true);
-            ui_->spinBoxNoseGearWheels ->setEnabled(true);
+            _ui->spinBoxMainGearWheels ->setEnabled(true);
+            _ui->spinBoxMainGearStruts ->setEnabled(true);
+            _ui->spinBoxNoseGearWheels ->setEnabled(true);
 
-            ui_->checkBoxGearMainKneel ->setEnabled(true);
-            ui_->checkBoxGearNoseKneel ->setEnabled(true);
+            _ui->checkBoxGearMainKneel ->setEnabled(true);
+            _ui->checkBoxGearNoseKneel ->setEnabled(true);
         }
         else if ( type == AircraftData::GeneralAviation )
         {
             // data - general
-            ui_->labelCruiseH->setEnabled(true);
-            ui_->labelCruiseV->setEnabled(true);
+            _ui->labelCruiseH->setEnabled(true);
+            _ui->labelCruiseV->setEnabled(true);
 
-            ui_->spinBoxCruiseH->setEnabled(true);
-            ui_->spinBoxCruiseV->setEnabled(true);
+            _ui->spinBoxCruiseH->setEnabled(true);
+            _ui->spinBoxCruiseV->setEnabled(true);
 
-            ui_->comboBoxCruiseH->setEnabled(true);
-            ui_->comboBoxCruiseV->setEnabled(true);
+            _ui->comboBoxCruiseH->setEnabled(true);
+            _ui->comboBoxCruiseV->setEnabled(true);
 
             // data - fuselage
-            ui_->labelPressVol->setEnabled(true);
-            ui_->spinBoxPressVol->setEnabled(true);
-            ui_->comboBoxPressVol->setEnabled(true);
+            _ui->labelPressVol->setEnabled(true);
+            _ui->spinBoxPressVol->setEnabled(true);
+            _ui->comboBoxPressVol->setEnabled(true);
 
             // data - wing
-            ui_->spinBoxWingFuel->setEnabled(true);
-            ui_->comboBoxWingFuel->setEnabled(true);
-            ui_->labelWingFuel->setEnabled(true);
+            _ui->spinBoxWingFuel->setEnabled(true);
+            _ui->comboBoxWingFuel->setEnabled(true);
+            _ui->labelWingFuel->setEnabled(true);
 
             // data - horizontal tail
-            ui_->labelHorTailSweep ->setEnabled(true);
-            ui_->labelHorTailArm   ->setEnabled(true);
-            ui_->labelHorTailCRoot ->setEnabled(true);
-            ui_->labelHorTailCTip  ->setEnabled(true);
-            ui_->labelHorTailTC    ->setEnabled(true);
+            _ui->labelHorTailSweep ->setEnabled(true);
+            _ui->labelHorTailArm   ->setEnabled(true);
+            _ui->labelHorTailCRoot ->setEnabled(true);
+            _ui->labelHorTailCTip  ->setEnabled(true);
+            _ui->labelHorTailTC    ->setEnabled(true);
 
-            ui_->spinBoxHorTailSweep ->setEnabled(true);
-            ui_->spinBoxHorTailArm   ->setEnabled(true);
-            ui_->spinBoxHorTailCRoot ->setEnabled(true);
-            ui_->spinBoxHorTailCTip  ->setEnabled(true);
-            ui_->spinBoxHorTailTC    ->setEnabled(true);
+            _ui->spinBoxHorTailSweep ->setEnabled(true);
+            _ui->spinBoxHorTailArm   ->setEnabled(true);
+            _ui->spinBoxHorTailCRoot ->setEnabled(true);
+            _ui->spinBoxHorTailCTip  ->setEnabled(true);
+            _ui->spinBoxHorTailTC    ->setEnabled(true);
 
-            ui_->comboBoxHorTailSweep ->setEnabled(true);
-            ui_->comboBoxHorTailArm   ->setEnabled(true);
-            ui_->comboBoxHorTailCRoot ->setEnabled(true);
-            ui_->comboBoxHorTailCTip  ->setEnabled(true);
+            _ui->comboBoxHorTailSweep ->setEnabled(true);
+            _ui->comboBoxHorTailArm   ->setEnabled(true);
+            _ui->comboBoxHorTailCRoot ->setEnabled(true);
+            _ui->comboBoxHorTailCTip  ->setEnabled(true);
 
             // data - vertical tail
-            ui_->spinBoxVerTailCRoot ->setEnabled(true);
-            ui_->spinBoxVerTailCTip  ->setEnabled(true);
-            ui_->spinBoxVerTailTC    ->setEnabled(true);
+            _ui->spinBoxVerTailCRoot ->setEnabled(true);
+            _ui->spinBoxVerTailCTip  ->setEnabled(true);
+            _ui->spinBoxVerTailTC    ->setEnabled(true);
 
-            ui_->comboBoxVerTailCRoot ->setEnabled(true);
-            ui_->comboBoxVerTailCTip  ->setEnabled(true);
+            _ui->comboBoxVerTailCRoot ->setEnabled(true);
+            _ui->comboBoxVerTailCTip  ->setEnabled(true);
 
-            ui_->labelVerTailCRoot ->setEnabled(true);
-            ui_->labelVerTailCTip  ->setEnabled(true);
-            ui_->labelVerTailTC    ->setEnabled(true);
+            _ui->labelVerTailCRoot ->setEnabled(true);
+            _ui->labelVerTailCTip  ->setEnabled(true);
+            _ui->labelVerTailTC    ->setEnabled(true);
 
             // data - landing gear
         }
@@ -959,10 +959,10 @@ void DockWidgetParams::setAircraftType(AircraftData::Type type)
 
 void DockWidgetParams::updateWettedArea()
 {
-    double l_fuse = ui_->comboBoxFuseLength ->invert(ui_->spinBoxFuseLength ->value());
-    double w_fuse = ui_->comboBoxFuseWidth  ->invert(ui_->spinBoxFuseWidth  ->value());
-    double h_fuse = ui_->comboBoxFuseHeight ->invert(ui_->spinBoxFuseHeight ->value());
-    double l_nose = ui_->comboBoxNoseLength ->invert(ui_->spinBoxNoseLength ->value());
+    double l_fuse = _ui->comboBoxFuseLength ->invert(_ui->spinBoxFuseLength ->value());
+    double w_fuse = _ui->comboBoxFuseWidth  ->invert(_ui->spinBoxFuseWidth  ->value());
+    double h_fuse = _ui->comboBoxFuseHeight ->invert(_ui->spinBoxFuseHeight ->value());
+    double l_nose = _ui->comboBoxNoseLength ->invert(_ui->spinBoxNoseLength ->value());
 
     double a_top  = w_fuse * (l_fuse - l_nose) + 0.5 * w_fuse * l_nose;
     double a_side = h_fuse * (l_fuse - l_nose) + 0.5 * h_fuse * l_nose;
@@ -970,99 +970,99 @@ void DockWidgetParams::updateWettedArea()
     // Raymer: Aircraft Design, p.205, eq. 7.13
     double s_wet = 3.4 * ((a_top + a_side) / 2.0);
 
-    ui_->spinBoxWetAreaEst->setValue(ui_->comboBoxWetAreaEst->convert(s_wet));
+    _ui->spinBoxWetAreaEst->setValue(_ui->comboBoxWetAreaEst->convert(s_wet));
 }
 
 void DockWidgetParams::updateWingAR()
 {
-    const AircraftData* data = aircraft_->GetData();
+    const AircraftData* data = _aircraft->GetData();
     if ( data->wing.area > 0.0_sq_m )
     {
         double ar = pow(data->wing.span(), 2.0) / data->wing.area();
-        ui_->spinBoxWingAR->setValue(ar);
+        _ui->spinBoxWingAR->setValue(ar);
     }
     else
     {
-        ui_->spinBoxWingAR->setValue(0.0);
+        _ui->spinBoxWingAR->setValue(0.0);
     }
 }
 
 void DockWidgetParams::updateWingTR()
 {
-    const AircraftData* data = aircraft_->GetData();
+    const AircraftData* data = _aircraft->GetData();
     if ( data->wing.c_root > 0.0_m )
     {
         double tr = data->wing.c_tip / data->wing.c_root;
-        ui_->spinBoxWingTR->setValue(tr);
+        _ui->spinBoxWingTR->setValue(tr);
     }
     else
     {
-        ui_->spinBoxWingTR->setValue(0.0);
+        _ui->spinBoxWingTR->setValue(0.0);
     }
 }
 
 void DockWidgetParams::updateHorTailAR()
 {
-    const AircraftData* data = aircraft_->GetData();
+    const AircraftData* data = _aircraft->GetData();
     if ( data->hor_tail.area > 0.0_sq_m )
     {
         double ar = pow(data->hor_tail.span(), 2.0) / data->hor_tail.area();
-        ui_->spinBoxHorTailAR->setValue(ar);
+        _ui->spinBoxHorTailAR->setValue(ar);
     }
     else
     {
-        ui_->spinBoxHorTailAR->setValue(0.0);
+        _ui->spinBoxHorTailAR->setValue(0.0);
     }
 }
 
 void DockWidgetParams::updateHorTailTR()
 {
-    const AircraftData* data = aircraft_->GetData();
+    const AircraftData* data = _aircraft->GetData();
     if ( data->hor_tail.c_root > 0.0_m )
     {
         double tr = data->hor_tail.c_tip / data->hor_tail.c_root;
-        ui_->spinBoxHorTailTR->setValue(tr);
+        _ui->spinBoxHorTailTR->setValue(tr);
     }
     else
     {
-        ui_->spinBoxHorTailTR->setValue(0.0);
+        _ui->spinBoxHorTailTR->setValue(0.0);
     }
 }
 
 void DockWidgetParams::updateVerTailAR()
 {
-    const AircraftData* data = aircraft_->GetData();
+    const AircraftData* data = _aircraft->GetData();
     if ( data->ver_tail.area > 0.0_sq_m )
     {
         double ar = pow(data->ver_tail.height(), 2.0) / data->ver_tail.area();
-        ui_->spinBoxVerTailAR->setValue(ar);
+        _ui->spinBoxVerTailAR->setValue(ar);
     }
     else
     {
-        ui_->spinBoxVerTailAR->setValue(0.0);
+        _ui->spinBoxVerTailAR->setValue(0.0);
     }
 }
 
 void DockWidgetParams::updateVerTailTR()
 {
-    const AircraftData* data = aircraft_->GetData();
+    const AircraftData* data = _aircraft->GetData();
     if ( data->ver_tail.c_root > 0.0_m )
     {
         double tr = data->ver_tail.c_tip / data->ver_tail.c_root;
-        ui_->spinBoxVerTailTR->setValue(tr);
+        _ui->spinBoxVerTailTR->setValue(tr);
     }
     else
     {
-        ui_->spinBoxVerTailTR->setValue(0.0);
+        _ui->spinBoxVerTailTR->setValue(0.0);
     }
 }
 
 void DockWidgetParams::updateRotorTipVel()
 {
-    double omg = 2.0 * M_PI * ui_->spinBoxMainRotorRPM->value() / 60.0;
-    double rad = 0.5 * ui_->comboBoxMainRotorDiameter->invert(ui_->spinBoxMainRotorDiameter->value());
+    double omg = 2.0 * M_PI * _ui->spinBoxMainRotorRPM->value() / 60.0;
+    double rad = 0.5 * _ui->comboBoxMainRotorDiameter->invert(_ui->spinBoxMainRotorDiameter->value());
     double vel = omg * rad;
-    ui_->spinBoxMainRotorTipVel->setValue(ui_->comboBoxMainRotorTipVel->convert(vel));
+    _ui->spinBoxMainRotorTipVel->setValue(_ui->comboBoxMainRotorTipVel->convert(vel));
 }
 
 void DockWidgetParams::on_comboBoxAircraftType_currentIndexChanged(int index)
@@ -1085,81 +1085,81 @@ void DockWidgetParams::on_comboBoxAircraftType_currentIndexChanged(int index)
     }
 
     setAircraftType(type);
-    aircraft_->GetData()->type = type;
+    _aircraft->GetData()->type = type;
 
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMassEmpty_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMassEmpty->invert(arg1);
-    aircraft_->GetData()->general.m_empty = units::mass::kilogram_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMassEmpty->invert(arg1);
+    _aircraft->GetData()->general.m_empty = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMTOW_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMTOW->invert(arg1);
-    aircraft_->GetData()->general.mtow =  units::mass::kilogram_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMTOW->invert(arg1);
+    _aircraft->GetData()->general.mtow =  units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMassMaxLand_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMassMaxLand->invert(arg1);
-    aircraft_->GetData()->general.m_maxLand = units::mass::kilogram_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMassMaxLand->invert(arg1);
+    _aircraft->GetData()->general.m_maxLand = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMaxFuel_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMaxFuel->invert(arg1);
-    aircraft_->GetData()->general.m_maxFuel = units::mass::kilogram_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMaxFuel->invert(arg1);
+    _aircraft->GetData()->general.m_maxFuel = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMaxNz_valueChanged(double arg1)
 {
-    aircraft_->GetData()->general.nz_max = arg1;
+    _aircraft->GetData()->general.nz_max = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMaxNzLand_valueChanged(double arg1)
 {
-    aircraft_->GetData()->general.nz_maxLand = arg1;
+    _aircraft->GetData()->general.nz_maxLand = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxStallV_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxStallV->invert(arg1);
-    aircraft_->GetData()->general.v_stall = units::velocity::knot_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxStallV->invert(arg1);
+    _aircraft->GetData()->general.v_stall = units::velocity::knot_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxCruiseV_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxCruiseV->invert(arg1);
-    aircraft_->GetData()->general.v_cruise = units::velocity::knot_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxCruiseV->invert(arg1);
+    _aircraft->GetData()->general.v_cruise = units::velocity::knot_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxCruiseH_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxCruiseH->invert(arg1);
-    aircraft_->GetData()->general.h_cruise = units::length::foot_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxCruiseH->invert(arg1);
+    _aircraft->GetData()->general.h_cruise = units::length::foot_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMachMax_valueChanged(double arg1)
 {
-    aircraft_->GetData()->general.mach_max = arg1;
+    _aircraft->GetData()->general.mach_max = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxNavyAircraft_toggled(bool checked)
 {
-    aircraft_->GetData()->general.navy_ac = checked;
+    _aircraft->GetData()->general.navy_ac = checked;
     emit(aircraftChanged());
 }
 
@@ -1185,88 +1185,88 @@ void DockWidgetParams::on_comboBoxCargoDoor_currentIndexChanged(int index)
         break;
     }
 
-    aircraft_->GetData()->fuselage.cargo_door = door;
+    _aircraft->GetData()->fuselage.cargo_door = door;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxFuseLength_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxFuseLength->invert(arg1);
-    aircraft_->GetData()->fuselage.l = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxFuseLength->invert(arg1);
+    _aircraft->GetData()->fuselage.l = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
 
 void DockWidgetParams::on_spinBoxFuseHeight_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxFuseHeight->invert(arg1);
-    aircraft_->GetData()->fuselage.h = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxFuseHeight->invert(arg1);
+    _aircraft->GetData()->fuselage.h = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
 
 void DockWidgetParams::on_spinBoxFuseWidth_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxFuseWidth->invert(arg1);
-    aircraft_->GetData()->fuselage.w = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxFuseWidth->invert(arg1);
+    _aircraft->GetData()->fuselage.w = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
 
 void DockWidgetParams::on_spinBoxNoseLength_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxNoseLength->invert(arg1);
-    aircraft_->GetData()->fuselage.l_n = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxNoseLength->invert(arg1);
+    _aircraft->GetData()->fuselage.l_n = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
 
 void DockWidgetParams::on_spinBoxPressVol_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxPressVol->invert(arg1);
-    aircraft_->GetData()->fuselage.press_vol = units::volume::cubic_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxPressVol->invert(arg1);
+    _aircraft->GetData()->fuselage.press_vol = units::volume::cubic_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWetAreaEst_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWetAreaEst->invert(arg1);
-    if ( !aircraft_->GetData()->fuselage.wetted_area_override )
+    double arg1_raw = _ui->comboBoxWetAreaEst->invert(arg1);
+    if ( !_aircraft->GetData()->fuselage.wetted_area_override )
     {
-        ui_->spinBoxWetAreaReal->setValue(ui_->comboBoxWetAreaReal->convert(arg1_raw));
+        _ui->spinBoxWetAreaReal->setValue(_ui->comboBoxWetAreaReal->convert(arg1_raw));
     }
 }
 
 void DockWidgetParams::on_spinBoxWetAreaReal_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWetAreaReal->invert(arg1);
-    aircraft_->GetData()->fuselage.wetted_area = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWetAreaReal->invert(arg1);
+    _aircraft->GetData()->fuselage.wetted_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxFuselageLG_toggled(bool checked)
 {
-    aircraft_->GetData()->fuselage.landing_gear = checked;
+    _aircraft->GetData()->fuselage.landing_gear = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxCargoRamp_toggled(bool checked)
 {
-    aircraft_->GetData()->fuselage.cargo_ramp = checked;
+    _aircraft->GetData()->fuselage.cargo_ramp = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxWettedAreaOverride_toggled(bool checked)
 {
-    aircraft_->GetData()->fuselage.wetted_area_override = checked;
-    ui_->labelWettedAreaReal->setEnabled(checked);
-    ui_->spinBoxWetAreaReal->setEnabled(checked);
-    ui_->comboBoxWetAreaReal->setEnabled(checked);
+    _aircraft->GetData()->fuselage.wetted_area_override = checked;
+    _ui->labelWettedAreaReal->setEnabled(checked);
+    _ui->spinBoxWetAreaReal->setEnabled(checked);
+    _ui->comboBoxWetAreaReal->setEnabled(checked);
 
     if ( !checked )
     {
-        double arg1_raw = ui_->comboBoxWetAreaEst->invert(ui_->spinBoxWetAreaEst->value());
-        ui_->spinBoxWetAreaReal->setValue(ui_->comboBoxWetAreaReal->convert(arg1_raw));
+        double arg1_raw = _ui->comboBoxWetAreaEst->invert(_ui->spinBoxWetAreaEst->value());
+        _ui->spinBoxWetAreaReal->setValue(_ui->comboBoxWetAreaReal->convert(arg1_raw));
     }
 
     emit(aircraftChanged());
@@ -1274,395 +1274,395 @@ void DockWidgetParams::on_checkBoxWettedAreaOverride_toggled(bool checked)
 
 void DockWidgetParams::on_spinBoxWingArea_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWingArea->invert(arg1);
-    aircraft_->GetData()->wing.area = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWingArea->invert(arg1);
+    _aircraft->GetData()->wing.area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingAR();
 }
 
 void DockWidgetParams::on_spinBoxWingAreaExp_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWingAreaExp->invert(arg1);
-    aircraft_->GetData()->wing.area_exp = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWingAreaExp->invert(arg1);
+    _aircraft->GetData()->wing.area_exp = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingSpan_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWingSpan->invert(arg1);
-    aircraft_->GetData()->wing.span = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWingSpan->invert(arg1);
+    _aircraft->GetData()->wing.span = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingAR();
 }
 
 void DockWidgetParams::on_spinBoxWingSweep_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWingSweep->invert(arg1);
-    aircraft_->GetData()->wing.sweep = units::angle::degree_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWingSweep->invert(arg1);
+    _aircraft->GetData()->wing.sweep = units::angle::degree_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingCRoot_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWingCRoot->invert(arg1);
-    aircraft_->GetData()->wing.c_root = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWingCRoot->invert(arg1);
+    _aircraft->GetData()->wing.c_root = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingTR();
 }
 
 void DockWidgetParams::on_spinBoxWingCTip_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWingCTip->invert(arg1);
-    aircraft_->GetData()->wing.c_tip = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWingCTip->invert(arg1);
+    _aircraft->GetData()->wing.c_tip = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingTR();
 }
 
 void DockWidgetParams::on_spinBoxWingTC_valueChanged(double arg1)
 {
-    aircraft_->GetData()->wing.tc = arg1;
+    _aircraft->GetData()->wing.tc = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingFuel_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxWingFuel->invert(arg1);
-    aircraft_->GetData()->wing.fuel = units::mass::kilogram_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxWingFuel->invert(arg1);
+    _aircraft->GetData()->wing.fuel = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxCtrlArea_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxCtrlArea->invert(arg1);
-    aircraft_->GetData()->wing.ctrl_area = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxCtrlArea->invert(arg1);
+    _aircraft->GetData()->wing.ctrl_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingAR_valueChanged(double arg1)
 {
-    aircraft_->GetData()->wing.ar = arg1;
+    _aircraft->GetData()->wing.ar = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingTR_valueChanged(double arg1)
 {
-    aircraft_->GetData()->wing.tr = arg1;
+    _aircraft->GetData()->wing.tr = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxWingDelta_toggled(bool checked)
 {
-    aircraft_->GetData()->wing.delta = checked;
+    _aircraft->GetData()->wing.delta = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxWingVarSweep_toggled(bool checked)
 {
-    aircraft_->GetData()->wing.var_sweep = checked;
+    _aircraft->GetData()->wing.var_sweep = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailArea_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxHorTailArea->invert(arg1);
-    aircraft_->GetData()->hor_tail.area = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxHorTailArea->invert(arg1);
+    _aircraft->GetData()->hor_tail.area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailAR();
 }
 
 void DockWidgetParams::on_spinBoxHorTailSpan_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxHorTailSpan->invert(arg1);
-    aircraft_->GetData()->hor_tail.span = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxHorTailSpan->invert(arg1);
+    _aircraft->GetData()->hor_tail.span = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailAR();
 }
 
 void DockWidgetParams::on_spinBoxHorTailSweep_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxHorTailSweep->invert(arg1);
-    aircraft_->GetData()->hor_tail.sweep = units::angle::degree_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxHorTailSweep->invert(arg1);
+    _aircraft->GetData()->hor_tail.sweep = units::angle::degree_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailCRoot_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxHorTailCRoot->invert(arg1);
-    aircraft_->GetData()->hor_tail.c_root = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxHorTailCRoot->invert(arg1);
+    _aircraft->GetData()->hor_tail.c_root = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailTR();
 }
 
 void DockWidgetParams::on_spinBoxHorTailCTip_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxHorTailCTip->invert(arg1);
-    aircraft_->GetData()->hor_tail.c_tip = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxHorTailCTip->invert(arg1);
+    _aircraft->GetData()->hor_tail.c_tip = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailTR();
 }
 
 void DockWidgetParams::on_spinBoxHorTailTC_valueChanged(double arg1)
 {
-    aircraft_->GetData()->hor_tail.tc = arg1;
+    _aircraft->GetData()->hor_tail.tc = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxElevArea_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxElevArea->invert(arg1);
-    aircraft_->GetData()->hor_tail.elev_area = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxElevArea->invert(arg1);
+    _aircraft->GetData()->hor_tail.elev_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailWF_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxHorTailWF->invert(arg1);
-    aircraft_->GetData()->hor_tail.w_f = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxHorTailWF->invert(arg1);
+    _aircraft->GetData()->hor_tail.w_f = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailArm_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxHorTailArm->invert(arg1);
-    aircraft_->GetData()->hor_tail.arm = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxHorTailArm->invert(arg1);
+    _aircraft->GetData()->hor_tail.arm = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailAR_valueChanged(double arg1)
 {
-    aircraft_->GetData()->hor_tail.ar = arg1;
+    _aircraft->GetData()->hor_tail.ar = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailTR_valueChanged(double arg1)
 {
-    aircraft_->GetData()->hor_tail.tr = arg1;
+    _aircraft->GetData()->hor_tail.tr = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxHorTailMoving_toggled(bool checked)
 {
-    aircraft_->GetData()->hor_tail.moving = checked;
+    _aircraft->GetData()->hor_tail.moving = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxHorTailRolling_toggled(bool checked)
 {
-    aircraft_->GetData()->hor_tail.rolling = checked;
+    _aircraft->GetData()->hor_tail.rolling = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailArea_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxVerTailArea->invert(arg1);
-    aircraft_->GetData()->ver_tail.area = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxVerTailArea->invert(arg1);
+    _aircraft->GetData()->ver_tail.area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailAR();
 }
 
 void DockWidgetParams::on_spinBoxVerTailHeight_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxVerTailHeight->invert(arg1);
-    aircraft_->GetData()->ver_tail.height = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxVerTailHeight->invert(arg1);
+    _aircraft->GetData()->ver_tail.height = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailAR();
 }
 
 void DockWidgetParams::on_spinBoxVerTailSweep_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxVerTailSweep->invert(arg1);
-    aircraft_->GetData()->ver_tail.sweep = units::angle::degree_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxVerTailSweep->invert(arg1);
+    _aircraft->GetData()->ver_tail.sweep = units::angle::degree_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailCRoot_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxVerTailCRoot->invert(arg1);
-    aircraft_->GetData()->ver_tail.c_root = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxVerTailCRoot->invert(arg1);
+    _aircraft->GetData()->ver_tail.c_root = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailTR();
 }
 
 void DockWidgetParams::on_spinBoxVerTailCTip_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxVerTailCTip->invert(arg1);
-    aircraft_->GetData()->ver_tail.c_tip = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxVerTailCTip->invert(arg1);
+    _aircraft->GetData()->ver_tail.c_tip = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailTR();
 }
 
 void DockWidgetParams::on_spinBoxVerTailTC_valueChanged(double arg1)
 {
-    aircraft_->GetData()->ver_tail.tc = arg1;
+    _aircraft->GetData()->ver_tail.tc = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailArm_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxVerTailArm->invert(arg1);
-    aircraft_->GetData()->ver_tail.arm = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxVerTailArm->invert(arg1);
+    _aircraft->GetData()->ver_tail.arm = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxRuddArea_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxRuddArea->invert(arg1);
-    aircraft_->GetData()->ver_tail.rudd_area = units::area::square_meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxRuddArea->invert(arg1);
+    _aircraft->GetData()->ver_tail.rudd_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailAR_valueChanged(double arg1)
 {
-    aircraft_->GetData()->ver_tail.ar = arg1;
+    _aircraft->GetData()->ver_tail.ar = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailTR_valueChanged(double arg1)
 {
-    aircraft_->GetData()->ver_tail.tr = arg1;
+    _aircraft->GetData()->ver_tail.tr = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxTailT_toggled(bool checked)
 {
-    aircraft_->GetData()->ver_tail.t_tail = checked;
+    _aircraft->GetData()->ver_tail.t_tail = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxVerTailRotor_toggled(bool checked)
 {
-    aircraft_->GetData()->ver_tail.rotor = checked;
+    _aircraft->GetData()->ver_tail.rotor = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainGearLength_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMainGearLength->invert(arg1);
-    aircraft_->GetData()->landing_gear.main_l = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMainGearLength->invert(arg1);
+    _aircraft->GetData()->landing_gear.main_l = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxNoseGearLength_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxNoseGearLength->invert(arg1);
-    aircraft_->GetData()->landing_gear.nose_l = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxNoseGearLength->invert(arg1);
+    _aircraft->GetData()->landing_gear.nose_l = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainGearWheels_valueChanged(int arg1)
 {
-    aircraft_->GetData()->landing_gear.main_wheels = arg1;
+    _aircraft->GetData()->landing_gear.main_wheels = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainGearStruts_valueChanged(int arg1)
 {
-    aircraft_->GetData()->landing_gear.main_struts = arg1;
+    _aircraft->GetData()->landing_gear.main_struts = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxNoseGearWheels_valueChanged(int arg1)
 {
-    aircraft_->GetData()->landing_gear.nose_wheels = arg1;
+    _aircraft->GetData()->landing_gear.nose_wheels = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearFixed_toggled(bool checked)
 {
-    aircraft_->GetData()->landing_gear.fixed = checked;
+    _aircraft->GetData()->landing_gear.fixed = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearCross_toggled(bool checked)
 {
-    aircraft_->GetData()->landing_gear.cross = checked;
+    _aircraft->GetData()->landing_gear.cross = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearTripod_toggled(bool checked)
 {
-    aircraft_->GetData()->landing_gear.tripod = checked;
+    _aircraft->GetData()->landing_gear.tripod = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearMainKneel_toggled(bool checked)
 {
-    aircraft_->GetData()->landing_gear.main_kneel = checked;
+    _aircraft->GetData()->landing_gear.main_kneel = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearNoseKneel_toggled(bool checked)
 {
-    aircraft_->GetData()->landing_gear.nose_kneel = checked;
+    _aircraft->GetData()->landing_gear.nose_kneel = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxEngineMass_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxEngineMass->invert(arg1);
-    aircraft_->GetData()->engine.mass = units::mass::kilogram_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxEngineMass->invert(arg1);
+    _aircraft->GetData()->engine.mass = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorDiameter_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMainRotorDiameter->invert(arg1);
-    aircraft_->GetData()->rotors.main_r = 0.5 * units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMainRotorDiameter->invert(arg1);
+    _aircraft->GetData()->rotors.main_r = 0.5 * units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateRotorTipVel();
 }
 
 void DockWidgetParams::on_spinBoxMainRotorChord_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMainRotorChord->invert(arg1);
-    aircraft_->GetData()->rotors.main_cb = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMainRotorChord->invert(arg1);
+    _aircraft->GetData()->rotors.main_cb = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorRPM_valueChanged(double arg1)
 {
-    aircraft_->GetData()->rotors.main_rpm = units::angular_velocity::rpm_t(arg1);
+    _aircraft->GetData()->rotors.main_rpm = units::angular_velocity::rpm_t(arg1);
     emit(aircraftChanged());
     updateRotorTipVel();
 }
 
 void DockWidgetParams::on_spinBoxTailRotorDiameter_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxTailRotorDiameter->invert(arg1);
-    aircraft_->GetData()->rotors.tail_r = 0.5 * units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxTailRotorDiameter->invert(arg1);
+    _aircraft->GetData()->rotors.tail_r = 0.5 * units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorGear_valueChanged(double arg1)
 {
-    aircraft_->GetData()->rotors.main_gear_ratio = arg1;
+    _aircraft->GetData()->rotors.main_gear_ratio = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxPowerLimit_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxPowerLimit->invert(arg1);
-    aircraft_->GetData()->rotors.mcp = units::power::horsepower_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxPowerLimit->invert(arg1);
+    _aircraft->GetData()->rotors.mcp = units::power::horsepower_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorTipVel_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBoxMainRotorTipVel->invert(arg1);
-    aircraft_->GetData()->rotors.main_tip_vel = units::velocity::meters_per_second_t(arg1_raw);
+    double arg1_raw = _ui->comboBoxMainRotorTipVel->invert(arg1);
+    _aircraft->GetData()->rotors.main_tip_vel = units::velocity::meters_per_second_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorBlades_valueChanged(int arg1)
 {
-    aircraft_->GetData()->rotors.main_blades = arg1;
+    _aircraft->GetData()->rotors.main_blades = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_toolButtonBrowse_clicked()
 {
-    QDir proj_dir = QFileInfo(aircraftFile_->GetFile()).absoluteDir();
-    QString file = proj_dir.absoluteFilePath(ui_->lineEditModelFile->text());
+    QDir proj_dir = QFileInfo(_aircraftFile->GetFile()).absoluteDir();
+    QString file = proj_dir.absoluteFilePath(_ui->lineEditModelFile->text());
 
     QString caption = "Browse";
     QString dir = ( file.length() > 0 ) ? QFileInfo(file).path() : ".";
@@ -1685,301 +1685,301 @@ void DockWidgetParams::on_toolButtonBrowse_clicked()
 
     if ( new_file.length() > 0 )
     {
-        QDir proj_dir = QFileInfo(aircraftFile_->GetFile()).absoluteDir();
+        QDir proj_dir = QFileInfo(_aircraftFile->GetFile()).absoluteDir();
         new_file = proj_dir.relativeFilePath(new_file);
 
-        ui_->lineEditModelFile->setText(new_file);
+        _ui->lineEditModelFile->setText(new_file);
     }
 }
 
 void DockWidgetParams::on_lineEditModelFile_textChanged(const QString &arg1)
 {
-    aircraft_->GetData()->model3d.file = arg1;
+    _aircraft->GetData()->model3d.file = arg1;
     emit(aircraftChanged());
 }
 
 
 void DockWidgetParams::on_spinBox_OffsetX_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBox_OffsetX->invert(arg1);
-    aircraft_->GetData()->model3d.offset_x = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBox_OffsetX->invert(arg1);
+    _aircraft->GetData()->model3d.offset_x = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_OffsetY_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBox_OffsetY->invert(arg1);
-    aircraft_->GetData()->model3d.offset_y = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBox_OffsetY->invert(arg1);
+    _aircraft->GetData()->model3d.offset_y = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_OffsetZ_valueChanged(double arg1)
 {
-    double arg1_raw = ui_->comboBox_OffsetZ->invert(arg1);
-    aircraft_->GetData()->model3d.offset_z = units::length::meter_t(arg1_raw);
+    double arg1_raw = _ui->comboBox_OffsetZ->invert(arg1);
+    _aircraft->GetData()->model3d.offset_z = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_RotationX_valueChanged(double arg1)
 {
-    aircraft_->GetData()->model3d.rotation_x = units::angle::degree_t(arg1);
+    _aircraft->GetData()->model3d.rotation_x = units::angle::degree_t(arg1);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_RotationY_valueChanged(double arg1)
 {
-    aircraft_->GetData()->model3d.rotation_y = units::angle::degree_t(arg1);
+    _aircraft->GetData()->model3d.rotation_y = units::angle::degree_t(arg1);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_RotationZ_valueChanged(double arg1)
 {
-    aircraft_->GetData()->model3d.rotation_z = units::angle::degree_t(arg1);
+    _aircraft->GetData()->model3d.rotation_z = units::angle::degree_t(arg1);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_Scale_valueChanged(double arg1)
 {
-    aircraft_->GetData()->model3d.scale = arg1;
+    _aircraft->GetData()->model3d.scale = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_comboBoxMassEmpty_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMassEmpty, ui_->comboBoxMassEmpty);
+    ComboUnits::switchUnits(_ui->spinBoxMassEmpty, _ui->comboBoxMassEmpty);
 }
 
 void DockWidgetParams::on_comboBoxMTOW_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMTOW, ui_->comboBoxMTOW);
+    ComboUnits::switchUnits(_ui->spinBoxMTOW, _ui->comboBoxMTOW);
 }
 
 void DockWidgetParams::on_comboBoxMassMaxLand_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMassMaxLand, ui_->comboBoxMassMaxLand);
+    ComboUnits::switchUnits(_ui->spinBoxMassMaxLand, _ui->comboBoxMassMaxLand);
 }
 
 void DockWidgetParams::on_comboBoxMaxFuel_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMaxFuel, ui_->comboBoxMaxFuel);
+    ComboUnits::switchUnits(_ui->spinBoxMaxFuel, _ui->comboBoxMaxFuel);
 }
 
 void DockWidgetParams::on_comboBoxStallV_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxStallV, ui_->comboBoxStallV);
+    ComboUnits::switchUnits(_ui->spinBoxStallV, _ui->comboBoxStallV);
 }
 
 void DockWidgetParams::on_comboBoxCruiseV_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxCruiseV, ui_->comboBoxCruiseV);
+    ComboUnits::switchUnits(_ui->spinBoxCruiseV, _ui->comboBoxCruiseV);
 }
 
 void DockWidgetParams::on_comboBoxCruiseH_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxCruiseH, ui_->comboBoxCruiseH);
+    ComboUnits::switchUnits(_ui->spinBoxCruiseH, _ui->comboBoxCruiseH);
 }
 
 void DockWidgetParams::on_comboBoxFuseLength_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxFuseLength, ui_->comboBoxFuseLength);
+    ComboUnits::switchUnits(_ui->spinBoxFuseLength, _ui->comboBoxFuseLength);
 }
 
 void DockWidgetParams::on_comboBoxFuseWidth_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxFuseWidth, ui_->comboBoxFuseWidth);
+    ComboUnits::switchUnits(_ui->spinBoxFuseWidth, _ui->comboBoxFuseWidth);
 }
 
 void DockWidgetParams::on_comboBoxFuseHeight_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxFuseHeight, ui_->comboBoxFuseHeight);
+    ComboUnits::switchUnits(_ui->spinBoxFuseHeight, _ui->comboBoxFuseHeight);
 }
 
 void DockWidgetParams::on_comboBoxNoseLength_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxNoseLength, ui_->comboBoxNoseLength);
+    ComboUnits::switchUnits(_ui->spinBoxNoseLength, _ui->comboBoxNoseLength);
 }
 
 void DockWidgetParams::on_comboBoxPressVol_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxPressVol, ui_->comboBoxPressVol);
+    ComboUnits::switchUnits(_ui->spinBoxPressVol, _ui->comboBoxPressVol);
 }
 
 void DockWidgetParams::on_comboBoxWetAreaEst_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWetAreaEst, ui_->comboBoxWetAreaEst);
+    ComboUnits::switchUnits(_ui->spinBoxWetAreaEst, _ui->comboBoxWetAreaEst);
 }
 
 void DockWidgetParams::on_comboBoxWetAreaReal_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWetAreaReal, ui_->comboBoxWetAreaReal);
+    ComboUnits::switchUnits(_ui->spinBoxWetAreaReal, _ui->comboBoxWetAreaReal);
 }
 
 void DockWidgetParams::on_comboBoxWingArea_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWingArea, ui_->comboBoxWingArea);
+    ComboUnits::switchUnits(_ui->spinBoxWingArea, _ui->comboBoxWingArea);
 }
 
 void DockWidgetParams::on_comboBoxWingAreaExp_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWingAreaExp, ui_->comboBoxWingAreaExp);
+    ComboUnits::switchUnits(_ui->spinBoxWingAreaExp, _ui->comboBoxWingAreaExp);
 }
 
 void DockWidgetParams::on_comboBoxWingSpan_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWingSpan, ui_->comboBoxWingSpan);
+    ComboUnits::switchUnits(_ui->spinBoxWingSpan, _ui->comboBoxWingSpan);
 }
 
 void DockWidgetParams::on_comboBoxWingSweep_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWingSweep, ui_->comboBoxWingSweep);
+    ComboUnits::switchUnits(_ui->spinBoxWingSweep, _ui->comboBoxWingSweep);
 }
 
 void DockWidgetParams::on_comboBoxWingCRoot_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWingCRoot, ui_->comboBoxWingCRoot);
+    ComboUnits::switchUnits(_ui->spinBoxWingCRoot, _ui->comboBoxWingCRoot);
 }
 
 void DockWidgetParams::on_comboBoxWingCTip_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWingCTip, ui_->comboBoxWingCTip);
+    ComboUnits::switchUnits(_ui->spinBoxWingCTip, _ui->comboBoxWingCTip);
 }
 
 void DockWidgetParams::on_comboBoxWingFuel_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxWingFuel, ui_->comboBoxWingFuel);
+    ComboUnits::switchUnits(_ui->spinBoxWingFuel, _ui->comboBoxWingFuel);
 }
 
 void DockWidgetParams::on_comboBoxCtrlArea_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxCtrlArea, ui_->comboBoxCtrlArea);
+    ComboUnits::switchUnits(_ui->spinBoxCtrlArea, _ui->comboBoxCtrlArea);
 }
 
 void DockWidgetParams::on_comboBoxHorTailArea_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxHorTailArea, ui_->comboBoxHorTailArea);
+    ComboUnits::switchUnits(_ui->spinBoxHorTailArea, _ui->comboBoxHorTailArea);
 }
 
 void DockWidgetParams::on_comboBoxHorTailSpan_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxHorTailSpan, ui_->comboBoxHorTailSpan);
+    ComboUnits::switchUnits(_ui->spinBoxHorTailSpan, _ui->comboBoxHorTailSpan);
 }
 
 void DockWidgetParams::on_comboBoxHorTailSweep_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxHorTailSweep, ui_->comboBoxHorTailSweep);
+    ComboUnits::switchUnits(_ui->spinBoxHorTailSweep, _ui->comboBoxHorTailSweep);
 }
 
 void DockWidgetParams::on_comboBoxHorTailCRoot_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxHorTailCRoot, ui_->comboBoxHorTailCRoot);
+    ComboUnits::switchUnits(_ui->spinBoxHorTailCRoot, _ui->comboBoxHorTailCRoot);
 }
 
 void DockWidgetParams::on_comboBoxHorTailCTip_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxHorTailCTip, ui_->comboBoxHorTailCTip);
+    ComboUnits::switchUnits(_ui->spinBoxHorTailCTip, _ui->comboBoxHorTailCTip);
 }
 
 void DockWidgetParams::on_comboBoxHorTailArm_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxHorTailArm, ui_->comboBoxHorTailArm);
+    ComboUnits::switchUnits(_ui->spinBoxHorTailArm, _ui->comboBoxHorTailArm);
 }
 
 void DockWidgetParams::on_comboBoxElevArea_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxElevArea, ui_->comboBoxElevArea);
+    ComboUnits::switchUnits(_ui->spinBoxElevArea, _ui->comboBoxElevArea);
 }
 
 void DockWidgetParams::on_comboBoxHorTailWF_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxHorTailWF, ui_->comboBoxHorTailWF);
+    ComboUnits::switchUnits(_ui->spinBoxHorTailWF, _ui->comboBoxHorTailWF);
 }
 
 void DockWidgetParams::on_comboBoxVerTailArea_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxVerTailArea, ui_->comboBoxVerTailArea);
+    ComboUnits::switchUnits(_ui->spinBoxVerTailArea, _ui->comboBoxVerTailArea);
 }
 
 void DockWidgetParams::on_comboBoxVerTailHeight_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxVerTailHeight, ui_->comboBoxVerTailHeight);
+    ComboUnits::switchUnits(_ui->spinBoxVerTailHeight, _ui->comboBoxVerTailHeight);
 }
 
 void DockWidgetParams::on_comboBoxVerTailSweep_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxVerTailSweep, ui_->comboBoxVerTailSweep);
+    ComboUnits::switchUnits(_ui->spinBoxVerTailSweep, _ui->comboBoxVerTailSweep);
 }
 
 void DockWidgetParams::on_comboBoxVerTailCRoot_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxVerTailCRoot, ui_->comboBoxVerTailCRoot);
+    ComboUnits::switchUnits(_ui->spinBoxVerTailCRoot, _ui->comboBoxVerTailCRoot);
 }
 
 void DockWidgetParams::on_comboBoxVerTailCTip_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxVerTailCTip, ui_->comboBoxVerTailCTip);
+    ComboUnits::switchUnits(_ui->spinBoxVerTailCTip, _ui->comboBoxVerTailCTip);
 }
 
 void DockWidgetParams::on_comboBoxVerTailArm_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxVerTailArm, ui_->comboBoxVerTailArm);
+    ComboUnits::switchUnits(_ui->spinBoxVerTailArm, _ui->comboBoxVerTailArm);
 }
 
 void DockWidgetParams::on_comboBoxRuddArea_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxRuddArea, ui_->comboBoxRuddArea);
+    ComboUnits::switchUnits(_ui->spinBoxRuddArea, _ui->comboBoxRuddArea);
 }
 
 void DockWidgetParams::on_comboBoxMainGearLength_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMainGearLength, ui_->comboBoxMainGearLength);
+    ComboUnits::switchUnits(_ui->spinBoxMainGearLength, _ui->comboBoxMainGearLength);
 }
 
 void DockWidgetParams::on_comboBoxNoseGearLength_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxNoseGearLength, ui_->comboBoxNoseGearLength);
+    ComboUnits::switchUnits(_ui->spinBoxNoseGearLength, _ui->comboBoxNoseGearLength);
 }
 
 void DockWidgetParams::on_comboBoxEngineMass_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxEngineMass, ui_->comboBoxEngineMass);
+    ComboUnits::switchUnits(_ui->spinBoxEngineMass, _ui->comboBoxEngineMass);
 }
 
 void DockWidgetParams::on_comboBoxMainRotorDiameter_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMainRotorDiameter, ui_->comboBoxMainRotorDiameter);
+    ComboUnits::switchUnits(_ui->spinBoxMainRotorDiameter, _ui->comboBoxMainRotorDiameter);
 }
 
 void DockWidgetParams::on_comboBoxMainRotorChord_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMainRotorChord, ui_->comboBoxMainRotorChord);
+    ComboUnits::switchUnits(_ui->spinBoxMainRotorChord, _ui->comboBoxMainRotorChord);
 }
 
 void DockWidgetParams::on_comboBoxTailRotorDiameter_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxTailRotorDiameter, ui_->comboBoxTailRotorDiameter);
+    ComboUnits::switchUnits(_ui->spinBoxTailRotorDiameter, _ui->comboBoxTailRotorDiameter);
 }
 
 void DockWidgetParams::on_comboBoxPowerLimit_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxPowerLimit, ui_->comboBoxPowerLimit);
+    ComboUnits::switchUnits(_ui->spinBoxPowerLimit, _ui->comboBoxPowerLimit);
 }
 
 void DockWidgetParams::on_comboBoxMainRotorTipVel_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxMainRotorTipVel, ui_->comboBoxMainRotorTipVel);
+    ComboUnits::switchUnits(_ui->spinBoxMainRotorTipVel, _ui->comboBoxMainRotorTipVel);
 }
 
 void DockWidgetParams::on_comboBox_OffsetX_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_OffsetX, ui_->comboBox_OffsetX);
+    ComboUnits::switchUnits(_ui->spinBox_OffsetX, _ui->comboBox_OffsetX);
 }
 
 void DockWidgetParams::on_comboBox_OffsetY_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_OffsetY, ui_->comboBox_OffsetY);
+    ComboUnits::switchUnits(_ui->spinBox_OffsetY, _ui->comboBox_OffsetY);
 }
 
 void DockWidgetParams::on_comboBox_OffsetZ_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_OffsetZ, ui_->comboBox_OffsetZ);
+    ComboUnits::switchUnits(_ui->spinBox_OffsetZ, _ui->comboBox_OffsetZ);
 }

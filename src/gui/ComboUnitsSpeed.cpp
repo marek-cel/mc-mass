@@ -26,14 +26,14 @@ using namespace units::literals;
 ComboUnitsSpeed::ComboUnitsSpeed(QWidget* parent)
     : ComboUnits(parent)
 {
-    coefs_.push_back(1.0);
-    names_.push_back(QString(tr("kts")));
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("kts")));
 
-    coefs_.push_back(1_kts / 1_kph);
-    names_.push_back(QString(tr("km/h")));
+    _coefs.push_back(1_kts / 1_kph);
+    _names.push_back(QString(tr("km/h")));
 
-    for ( int i = 0; i < names_.size(); i++ )
+    for ( int i = 0; i < _names.size(); i++ )
     {
-        addItem(names_[i]);
+        addItem(_names[i]);
     }
 }

@@ -35,7 +35,6 @@ class DockWidgetParams : public QDockWidget
 public:
 
     explicit DockWidgetParams(AircraftFile* aircraftFile, QWidget *parent = nullptr);
-
     ~DockWidgetParams();
 
     void updateGUI();
@@ -46,9 +45,9 @@ signals:
 
 private:
 
-    Ui::DockWidgetParams* ui_;
-    AircraftFile* aircraftFile_ = nullptr;
-    Aircraft* aircraft_ = nullptr;
+    Ui::DockWidgetParams* _ui;
+    AircraftFile* _aircraftFile = nullptr;
+    Aircraft* _aircraft = nullptr;
 
     void settingsRead();
     void settingsRead_UnitsCombos(QSettings &settings);

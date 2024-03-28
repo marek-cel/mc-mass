@@ -36,10 +36,7 @@ public:
 
     static void switchUnits(QDoubleSpinBox* spinBox, ComboUnits* comboUnits);
 
-    /** @brief Constructor. */
     explicit ComboUnits(QWidget* parent = nullptr);
-    
-    /** @brief Destructor. */
     virtual ~ComboUnits();
 
     virtual double convert(double value) const;
@@ -50,22 +47,21 @@ public:
 
     virtual double getCoef(int index) const;
 
-    inline double getFactor() const { return factor_; }
+    inline double getFactor() const { return _factor; }
 
 protected:
 
-    double factor_ = 1.0;       ///< [-]
-    double factor_prev_ = 1.0;  ///< [-]
+    double _factor = 1.0;       ///< [-]
+    double _factor_prev = 1.0;  ///< [-]
 
-    int index_;                 ///<
-    int index_prev_;            ///<
+    int _index;                 ///<
+    int _index_prev;            ///<
 
-    QVector<double>  coefs_;    ///< [-] convertion factors
-    QVector<QString> names_;    ///< units names
+    QVector<double>  _coefs;    ///< [-] convertion factors
+    QVector<QString> _names;    ///< units names
 
 public slots:
 
-    /** */
     virtual void on_currentIndexChanged(int index);
 };
 

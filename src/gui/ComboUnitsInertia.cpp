@@ -26,14 +26,14 @@ using namespace units::literals;
 ComboUnitsInertia::ComboUnitsInertia(QWidget* parent)
     : ComboUnits(parent)
 {
-    coefs_.push_back(1.0);
-    names_.push_back(QString(tr("kg*m^2")));
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("kg*m^2")));
 
-    coefs_.push_back(1_kg_m2 / 1_slug_ft2);
-    names_.push_back(QString(tr("slug*ft^2")));
+    _coefs.push_back(1_kg_m2 / 1_slug_ft2);
+    _names.push_back(QString(tr("slug*ft^2")));
 
-    for ( int i = 0; i < names_.size(); i++ )
+    for ( int i = 0; i < _names.size(); i++ )
     {
-        addItem(names_[i]);
+        addItem(_names[i]);
     }
 }

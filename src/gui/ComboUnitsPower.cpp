@@ -26,14 +26,14 @@ using namespace units::literals;
 ComboUnitsPower::ComboUnitsPower(QWidget* parent)
     : ComboUnits(parent)
 {
-    coefs_.push_back(1.0);
-    names_.push_back(QString(tr("hp")));
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("hp")));
 
-    coefs_.push_back(1_hp/ 1_kW);
-    names_.push_back(QString(tr("kW")));
+    _coefs.push_back(1_hp/ 1_kW);
+    _names.push_back(QString(tr("kW")));
 
-    for ( int i = 0; i < names_.size(); i++ )
+    for ( int i = 0; i < _names.size(); i++ )
     {
-        addItem(names_[i]);
+        addItem(_names[i]);
     }
 }

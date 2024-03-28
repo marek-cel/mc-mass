@@ -36,41 +36,26 @@ class AircraftFile
 {
 public:
 
-    /**
-     * @brief Constructor.
-     */
     AircraftFile();
-
-    /**
-     * @brief Destructor.
-     */
     virtual ~AircraftFile();
 
-    /** */
-    void NewEmpty();
+    void newEmpty();
+    bool exportAs(const QString& fileName);
+    bool readFile(const QString& fileName);
+    bool saveFile(const QString& fileName);
 
-    /** */
-    bool ExportAs(const QString& fileName);
+    inline QString getFile() const { return _fileName; }
 
-    /** */
-    bool ReadFile(const QString& fileName);
+    inline       Aircraft* getAircraft()       { return &_aircraft; }
+    inline const Aircraft* getAircraft() const { return &_aircraft; }
 
-    /** */
-    bool SaveFile(const QString& fileName);
-
-    inline QString GetFile() const { return fileName_; }
-
-    inline       Aircraft* GetAircraft()       { return &aircraft_; }
-    inline const Aircraft* GetAircraft() const { return &aircraft_; }
-
-    inline       AircraftData* GetAircraftData()       { return aircraft_.GetData(); }
-    inline const AircraftData* GetAircraftData() const { return aircraft_.GetData(); }
+    inline       AircraftData* getAircraftData()       { return _aircraft.getData(); }
+    inline const AircraftData* getAircraftData() const { return _aircraft.getData(); }
 
 private:
 
-    Aircraft aircraft_;     ///<
-
-    QString fileName_;
+    Aircraft _aircraft;
+    QString _fileName;
 };
 
 #endif // MC_MASS_AIRCRAFTFILE_H_

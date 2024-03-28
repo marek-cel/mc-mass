@@ -26,29 +26,25 @@
 namespace cgi
 {
 
-/** */
 class Model : public Component
 {
 public:
 
-    /** */
     Model(std::shared_ptr<Data> data);
-
-    /** */
     virtual ~Model();
 
-    virtual void Update() override;
+    virtual void update() override;
 
 private:
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> pat_;
-    osg::ref_ptr<osg::Group> model_;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
+    osg::ref_ptr<osg::Group> _model;
 
-    QString model_file_;
-    QString project_dir_;
+    QString _model_file;
+    QString _project_dir;
 
-    void UpdateModel(const QString& model_file, const QString& project_dir);
-    void UpdateTransformations(double offset_x, double offset_y, double offset_z,
+    void updateModel(const QString& model_file, const QString& project_dir);
+    void updateTransformations(double offset_x, double offset_y, double offset_z,
                                double rotation_x, double rotation_y, double rotation_z,
                                double scale);
 };

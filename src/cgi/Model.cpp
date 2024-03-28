@@ -29,51 +29,51 @@ namespace cgi
 Model::Model(std::shared_ptr<Data> data)
     : Component(data)
 {
-    pat_ = new osg::PositionAttitudeTransform();
-    root_->addChild(pat_.get());
+    _pat = new osg::PositionAttitudeTransform();
+    _root->addChild(_pat.get());
 
-    model_ = new osg::Group();
-    pat_->addChild(model_.get());
+    _model = new osg::Group();
+    _pat->addChild(_model.get());
 }
 
 Model::~Model() {}
 
-void Model::Update()
+void Model::update()
 {
-    if ( !data_.expired() )
+    if ( !_data.expired() )
     {
-        std::shared_ptr<Data> data = data_.lock();
+        std::shared_ptr<Data> data = _data.lock();
 
-        UpdateModel(data->modelFile, data->projectDir);
-        UpdateTransformations(data->offset_x, data->offset_y, data->offset_z,
+        updateModel(data->modelFile, data->projectDir);
+        updateTransformations(data->offset_x, data->offset_y, data->offset_z,
                               data->rotation_x, data->rotation_y, data->rotation_z,
                               data->scale);
     }
 }
 
-void Model::UpdateModel(const QString& model_file, const QString& project_dir)
+void Model::updateModel(const QString& model_file, const QString& project_dir)
 {
-    if ( model_file_ != model_file || project_dir_ != project_dir )
+    if ( _model_file != model_file || _project_dir != project_dir )
     {
-        model_file_ = model_file;
-        project_dir_ = project_dir;
+        _model_file = model_file;
+        _project_dir = project_dir;
 
-        QDir dir(project_dir);
-        QString file_path = dir.absoluteFilePath(model_file_);
+        QDir dir(_project_dir);
+        QString file_path = dir.absoluteFilePath(_model_file);
 
-        model_->removeChildren(0, model_->getNumChildren());
+        _model->removeChildren(0, _model->getNumChildren());
 
         //std::cout << "file_path.toStdString() " << file_path.toStdString() << std::endl;
 
         osg::ref_ptr<osg::Node> model = osgDB::readNodeFile(file_path.toStdString());
         if ( model.valid() )
         {
-            model_->addChild(model);
+            _model->addChild(model);
         }
     }
 }
 
-void Model::UpdateTransformations(double offset_x, double offset_y, double offset_z,
+void Model::updateTransformations(double offset_x, double offset_y, double offset_z,
                                   double rotation_x, double rotation_y, double rotation_z,
                                   double scale)
 {
@@ -83,9 +83,9 @@ void Model::UpdateTransformations(double offset_x, double offset_y, double offse
                 rotation_z, osg::Z_AXIS);
     osg::Vec3 s(scale, scale, scale);
 
-    pat_->setPosition(r);
-    pat_->setAttitude(q);
-    pat_->setScale(s);
+    _pat->setPosition(r);
+    _pat->setAttitude(q);
+    _pat->setScale(s);
 }
 
 } // namespace cgi

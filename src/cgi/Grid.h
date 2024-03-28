@@ -30,23 +30,21 @@ class Grid : public Component
 {
 public:
 
-    static constexpr int size_ = 10;
-    static constexpr int step_ = 1;
+    static constexpr int kSize = 10;
+    static constexpr int kStep = 1;
 
-    /** */
     Grid(std::shared_ptr<Data> data);
 
-    void Update() override;
+    void update() override;
 
 private:
 
-    osg::ref_ptr<osg::Switch> switch_;
+    osg::ref_ptr<osg::Switch> _switch;
+    bool _grid_visible = true;
 
-    bool grid_visible_ = true;
-
-    void CreateGrid();
-    void CreateGridAuxLines();
-    void CreateGridMainLines();
+    void createGrid();
+    void createGridAuxLines();
+    void createGridMainLines();
 };
 
 } // namespace cgi

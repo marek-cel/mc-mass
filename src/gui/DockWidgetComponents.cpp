@@ -37,35 +37,35 @@
 
 DockWidgetComponents::DockWidgetComponents(AircraftFile* aircraftFile, QWidget *parent)
     : QDockWidget(parent)
-    , ui_(new Ui::DockWidgetComponents)
-    , aircraftFile_(aircraftFile)
+    , _ui(new Ui::DockWidgetComponents)
+    , _aircraftFile(aircraftFile)
 {
-    ui_->setupUi(this);
+    _ui->setupUi(this);
 
-    aircraft_ = aircraftFile_->GetAircraft();
+    _aircraft = _aircraftFile->GetAircraft();
     updateGUI();
 }
 
 DockWidgetComponents::~DockWidgetComponents()
 {
-    if ( ui_ ) { delete ui_; } ui_ = nullptr;
+    if ( _ui ) { delete _ui; } _ui = nullptr;
 }
 
 void DockWidgetComponents::updateGUI()
 {
-    ui_->listComponents->clear();
+    _ui->listComponents->clear();
 
-    Aircraft::Components components = aircraft_->GetComponents();
+    Aircraft::Components components = _aircraft->GetComponents();
     for ( auto component : components )
     {
         QString name = component->GetName();
-        ui_->listComponents->addItem(new QListWidgetItem(name, ui_->listComponents));
+        _ui->listComponents->addItem(new QListWidgetItem(name, _ui->listComponents));
     }
 
-    if ( previousComponentIndex_ >= 0 && previousComponentIndex_ < ui_->listComponents->count() )
+    if ( _previousComponentIndex >= 0 && _previousComponentIndex < _ui->listComponents->count() )
     {
-        ui_->listComponents->setCurrentRow(previousComponentIndex_);
-        previousComponentIndex_ = -1;
+        _ui->listComponents->setCurrentRow(_previousComponentIndex);
+        _previousComponentIndex = -1;
     }
 }
 
@@ -73,72 +73,72 @@ void DockWidgetComponents::addComponent()
 {
     Component* component = nullptr;
 
-    if ( ui_->comboBoxComponents->currentIndex() == 0 )
+    if ( _ui->comboBoxComponents->currentIndex() == 0 )
     {
-        component = new Fuselage(aircraft_->GetData());
+        component = new Fuselage(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 1 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 1 )
     {
-        component = new Wing(aircraft_->GetData());
+        component = new Wing(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 2 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 2 )
     {
-        component = new TailHor(aircraft_->GetData());
+        component = new TailHor(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 3 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 3 )
     {
-        component = new TailVer(aircraft_->GetData());
+        component = new TailVer(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 4 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 4 )
     {
-        component = new GearMain(aircraft_->GetData());
+        component = new GearMain(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 5 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 5 )
     {
-        component = new GearNose(aircraft_->GetData());
+        component = new GearNose(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 6 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 6 )
     {
-        component = new Engine(aircraft_->GetData());
+        component = new Engine(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 7 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 7 )
     {
-        component = new RotorDrive(aircraft_->GetData());
+        component = new RotorDrive(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 8 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 8 )
     {
-        component = new RotorHub(aircraft_->GetData());
+        component = new RotorHub(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 9 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 9 )
     {
-        component = new RotorMain(aircraft_->GetData());
+        component = new RotorMain(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 10 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 10 )
     {
-        component = new RotorTail(aircraft_->GetData());
+        component = new RotorTail(_aircraft->GetData());
     }
-    else if ( ui_->comboBoxComponents->currentIndex() == 11 )
+    else if ( _ui->comboBoxComponents->currentIndex() == 11 )
     {
-        component = new AllElse(aircraft_->GetData());
+        component = new AllElse(_aircraft->GetData());
     }
 
     if ( component )
     {
-        aircraft_->AddComponent(component);
+        _aircraft->AddComponent(component);
         emit(aircraftChanged());
     }
 }
 
 void DockWidgetComponents::editComponent()
 {
-    int index = ui_->listComponents->currentRow();
-    Component* component = aircraft_->GetComponent(index);
+    int index = _ui->listComponents->currentRow();
+    Component* component = _aircraft->GetComponent(index);
     if ( component )
     {
         if ( QDialog::Accepted == DialogEdit::edit(this, component) )
         {
-            aircraft_->Update();
-            previousComponentIndex_ = index;
+            _aircraft->Update();
+            _previousComponentIndex = index;
             emit(aircraftChanged());
         }
     }
@@ -146,19 +146,19 @@ void DockWidgetComponents::editComponent()
 
 void DockWidgetComponents::on_listComponents_currentRowChanged(int currentRow)
 {
-    currentComponentIndex_ = currentRow;
+    _currentComponentIndex = currentRow;
 
-    Aircraft::Components components = aircraft_->GetComponents();
+    Aircraft::Components components = _aircraft->GetComponents();
 
     if ( currentRow >=0 && currentRow < static_cast<int>(components.size()) )
     {
-        ui_->pushButtonDel  ->setEnabled(true);
-        ui_->pushButtonEdit ->setEnabled(true);
+        _ui->pushButtonDel  ->setEnabled(true);
+        _ui->pushButtonEdit ->setEnabled(true);
     }
     else
     {
-        ui_->pushButtonDel  ->setEnabled(false);
-        ui_->pushButtonEdit ->setEnabled(false);
+        _ui->pushButtonDel  ->setEnabled(false);
+        _ui->pushButtonEdit ->setEnabled(false);
     }
 
     emit(currentComponentChanged());
@@ -171,14 +171,14 @@ void DockWidgetComponents::on_listComponents_doubleClicked(const QModelIndex&)
 
 void DockWidgetComponents::on_listComponents_itemSelectionChanged()
 {
-    QList<QListWidgetItem*> selectdItems = ui_->listComponents->selectedItems();
+    QList<QListWidgetItem*> selectdItems = _ui->listComponents->selectedItems();
     if ( selectdItems.count() == 0 )
     {
-        currentComponentIndex_ = -1;
+        _currentComponentIndex = -1;
     }
     else
     {
-        currentComponentIndex_ = ui_->listComponents->currentRow();
+        _currentComponentIndex = _ui->listComponents->currentRow();
     }
 
     emit(currentComponentChanged());
@@ -191,12 +191,12 @@ void DockWidgetComponents::on_pushButtonAdd_clicked()
 
 void DockWidgetComponents::on_pushButtonDel_clicked()
 {
-    Aircraft::Components components = aircraft_->GetComponents();
-    int currentRow = ui_->listComponents->currentRow();
+    Aircraft::Components components = _aircraft->GetComponents();
+    int currentRow = _ui->listComponents->currentRow();
 
     if ( currentRow >=0 && currentRow < static_cast<int>(components.size()) )
     {
-        aircraft_->DeleteComponent(currentRow);
+        _aircraft->DeleteComponent(currentRow);
     }
 
     emit(aircraftChanged());

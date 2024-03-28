@@ -29,7 +29,7 @@ public:
 
     RecentFileAction(QString file, QObject* parent);
 
-    inline QString file() { return file_; }
+    inline QString file() { return _file; }
 
 signals:
 
@@ -37,7 +37,7 @@ signals:
 
 private:
 
-    QString file_ = "";
+    QString _file = "";
 
 private slots:
 

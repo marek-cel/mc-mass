@@ -31,22 +31,22 @@ namespace cgi
 Highlight::Highlight(std::shared_ptr<Data> data)
     : Component(data)
 {
-    switch_ = new osg::Switch();
-    root_->addChild(switch_.get());
+    _switch = new osg::Switch();
+    _root->addChild(_switch.get());
 }
 
 Highlight::~Highlight() {}
 
-void Highlight::Update()
+void Highlight::update()
 {
-    if ( !data_.expired() )
+    if ( !_data.expired() )
     {
-        std::shared_ptr<Data> data = data_.lock();
+        std::shared_ptr<Data> data = _data.lock();
 
         if ( data->highlight )
         {
-            switch_->setAllChildrenOn();
-            RewriteHighlight(data->highlight_x,
+            _switch->setAllChildrenOn();
+            rewriteHighlight(data->highlight_x,
                              data->highlight_y,
                              data->highlight_z,
                              data->highlight_l,
@@ -55,18 +55,18 @@ void Highlight::Update()
         }
         else
         {
-            switch_->setAllChildrenOff();
+            _switch->setAllChildrenOff();
         }
     }
 }
 
-void Highlight::RewriteHighlight(double x, double y, double z,
+void Highlight::rewriteHighlight(double x, double y, double z,
                                  double l, double w, double h)
 {
-    switch_->removeChildren(0, switch_->getNumChildren());
+    _switch->removeChildren(0, _switch->getNumChildren());
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    switch_->addChild(geode.get());
+    _switch->addChild(geode.get());
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 

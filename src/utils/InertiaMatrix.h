@@ -27,40 +27,40 @@ class InertiaMatrix
 {
 public:
 
-    inline units::moment_of_inertia::kilogram_square_meter_t ixx() const { return ixx_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t ixy() const { return ixy_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t ixz() const { return ixz_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t iyx() const { return iyx_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t iyy() const { return iyy_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t iyz() const { return iyz_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t izx() const { return izx_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t izy() const { return izy_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t izz() const { return izz_; }
+    inline units::moment_of_inertia::kilogram_square_meter_t ixx() const { return _ixx; }
+    inline units::moment_of_inertia::kilogram_square_meter_t ixy() const { return _ixy; }
+    inline units::moment_of_inertia::kilogram_square_meter_t ixz() const { return _ixz; }
+    inline units::moment_of_inertia::kilogram_square_meter_t iyx() const { return _iyx; }
+    inline units::moment_of_inertia::kilogram_square_meter_t iyy() const { return _iyy; }
+    inline units::moment_of_inertia::kilogram_square_meter_t iyz() const { return _iyz; }
+    inline units::moment_of_inertia::kilogram_square_meter_t izx() const { return _izx; }
+    inline units::moment_of_inertia::kilogram_square_meter_t izy() const { return _izy; }
+    inline units::moment_of_inertia::kilogram_square_meter_t izz() const { return _izz; }
 
-    inline units::moment_of_inertia::kilogram_square_meter_t& ixx() { return ixx_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& ixy() { return ixy_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& ixz() { return ixz_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& iyx() { return iyx_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& iyy() { return iyy_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& iyz() { return iyz_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& izx() { return izx_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& izy() { return izy_; }
-    inline units::moment_of_inertia::kilogram_square_meter_t& izz() { return izz_; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& ixx() { return _ixx; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& ixy() { return _ixy; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& ixz() { return _ixz; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& iyx() { return _iyx; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& iyy() { return _iyy; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& iyz() { return _iyz; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& izx() { return _izx; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& izy() { return _izy; }
+    inline units::moment_of_inertia::kilogram_square_meter_t& izz() { return _izz; }
 
     InertiaMatrix operator+(const InertiaMatrix& matrix) const;
     InertiaMatrix& operator+=(const InertiaMatrix& matrix);
 
 private:
 
-    units::moment_of_inertia::kilogram_square_meter_t ixx_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t ixy_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t ixz_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t iyx_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t iyy_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t iyz_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t izx_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t izy_ = 0.0_kg_m2;
-    units::moment_of_inertia::kilogram_square_meter_t izz_ = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _ixx = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _ixy = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _ixz = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _iyx = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _iyy = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _iyz = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _izx = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _izy = 0.0_kg_m2;
+    units::moment_of_inertia::kilogram_square_meter_t _izz = 0.0_kg_m2;
 };
 
 #endif // MC_MASS_UTILS_INERTIAMATRIX_H_

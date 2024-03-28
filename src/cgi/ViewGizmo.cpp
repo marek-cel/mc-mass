@@ -31,23 +31,23 @@ namespace cgi {
 ViewGizmo::ViewGizmo(std::shared_ptr<Data> data)
     : Component(data)
 {
-    osg::ref_ptr<osg::StateSet> rootStateSet = root_->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
     rootStateSet->setMode(GL_LIGHT0   , osg::StateAttribute::OFF);
     rootStateSet->setMode(GL_LIGHT1   , osg::StateAttribute::OFF);
     rootStateSet->setMode(GL_LIGHTING , osg::StateAttribute::OFF);
 
-    CreateGizmo();
+    createGizmo();
 }
 
-void ViewGizmo::Update()
+void ViewGizmo::update()
 {
     ////////////////////
-    Component::Update();
+    Component::update();
     ////////////////////
 
-    if ( !data_.expired() )
+    if ( !_data.expired() )
     {
-        std::shared_ptr<Data> data = data_.lock();
+        std::shared_ptr<Data> data = _data.lock();
 
         osg::Quat q(data->camera_x,
                     data->camera_y,
@@ -57,23 +57,23 @@ void ViewGizmo::Update()
         double w2h = static_cast<double>(data->win_width)
                    / static_cast<double>(data->win_height);
 
-        double x = -w2h * CGI_HUD_Y_2 + offset_x_;
-        double y = -CGI_HUD_Y_2 + offset_y_;
+        double x = -w2h * CGI_HUD_Y_2 + kOffset_x;
+        double y = -CGI_HUD_Y_2 + kOffset_y;
 
         q = q.inverse();
 
-        pat_->setAttitude(q);
-        pat_->setPosition(osg::Vec3d(x, y, 0.0));
+        _pat->setAttitude(q);
+        _pat->setPosition(osg::Vec3d(x, y, 0.0));
     }
 }
 
-void ViewGizmo::CreateGizmo()
+void ViewGizmo::createGizmo()
 {
-    pat_ = new osg::PositionAttitudeTransform();
-    root_->addChild(pat_.get());
+    _pat = new osg::PositionAttitudeTransform();
+    _root->addChild(_pat.get());
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    pat_->addChild(geode.get());
+    _pat->addChild(geode.get());
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -82,17 +82,17 @@ void ViewGizmo::CreateGizmo()
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
     v->push_back(osg::Vec3d(0.0, 0.0, 0.0));
-    v->push_back(osg::Vec3d(size, 0.0, 0.0));
+    v->push_back(osg::Vec3d(kSize, 0.0, 0.0));
     c->push_back(osg::Vec4(Colors::red, 1.0));
     c->push_back(osg::Vec4(Colors::red, 1.0));
 
     v->push_back(osg::Vec3d(0.0, 0.0, 0.0));
-    v->push_back(osg::Vec3d(0.0, size, 0.0));
+    v->push_back(osg::Vec3d(0.0, kSize, 0.0));
     c->push_back(osg::Vec4(Colors::lime, 1.0));
     c->push_back(osg::Vec4(Colors::lime, 1.0));
 
     v->push_back(osg::Vec3d(0.0, 0.0, 0.0));
-    v->push_back(osg::Vec3d(0.0, 0.0, size));
+    v->push_back(osg::Vec3d(0.0, 0.0, kSize));
     c->push_back(osg::Vec4(Colors::blue, 1.0));
     c->push_back(osg::Vec4(Colors::blue, 1.0));
 
@@ -120,11 +120,11 @@ void ViewGizmo::CreateGizmo()
 //    CreateGizmoLabel();
 }
 
-void ViewGizmo::CreateGizmoLabel(osg::Vec3d pos, osg::Vec3d color, const char* str,
+void ViewGizmo::createGizmoLabel(osg::Vec3d pos, osg::Vec3d color, const char* str,
                                  osgText::TextBase::AxisAlignment alignment)
 {
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    pat_->addChild(pat.get());
+    _pat->addChild(pat.get());
 
     pat->setPosition(pos);
 
@@ -143,12 +143,12 @@ void ViewGizmo::CreateGizmoLabel(osg::Vec3d pos, osg::Vec3d color, const char* s
     text->setText(str);
 }
 
-void ViewGizmo::CreateGizmoLabel()
+void ViewGizmo::createGizmoLabel()
 {
-    double offset = size + 3.0;
+    double offset = kSize + 3.0;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    pat_->addChild(pat.get());
+    _pat->addChild(pat.get());
 
     pat->setPosition(osg::Vec3d(offset, 0.0, 0.0));
 

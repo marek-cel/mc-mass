@@ -29,16 +29,16 @@ class XmlUtils
 {
 public:
 
-    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+    static void saveTextNode(QDomDocument *doc, QDomElement *parent,
                              const char *tag_name, const QString &text);
 
-    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+    static void saveTextNode(QDomDocument *doc, QDomElement *parent,
                              const char *tag_name, double value);
 
-    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+    static void saveTextNode(QDomDocument *doc, QDomElement *parent,
                              const char *tag_name, int value);
 
-    static void SaveTextNode(QDomDocument *doc, QDomElement *parent,
+    static void saveTextNode(QDomDocument *doc, QDomElement *parent,
                              const char *tag_name, bool value);
 };
 

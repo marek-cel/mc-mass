@@ -26,14 +26,14 @@ using namespace units::literals;
 ComboUnitsMass::ComboUnitsMass(QWidget* parent)
     : ComboUnits(parent)
 {
-    coefs_.push_back(1.0);
-    names_.push_back(QString(tr("kg")));
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("kg")));
 
-    coefs_.push_back(1_kg / 1_lb);
-    names_.push_back(QString(tr("lb")));
+    _coefs.push_back(1_kg / 1_lb);
+    _names.push_back(QString(tr("lb")));
 
-    for ( int i = 0; i < names_.size(); i++ )
+    for ( int i = 0; i < _names.size(); i++ )
     {
-        addItem(names_[i]);
+        addItem(_names[i]);
     }
 }

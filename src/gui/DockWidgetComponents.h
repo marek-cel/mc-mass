@@ -38,7 +38,7 @@ public:
 
     void updateGUI();
 
-    int getCurrentComponentIndex() const { return currentComponentIndex_; }
+    int getCurrentComponentIndex() const { return _currentComponentIndex; }
 
 signals:
 
@@ -48,12 +48,12 @@ signals:
 
 private:
 
-    Ui::DockWidgetComponents* ui_;
-    AircraftFile* aircraftFile_ = nullptr;
-    Aircraft* aircraft_ = nullptr;
+    Ui::DockWidgetComponents* _ui;
+    AircraftFile* _aircraftFile = nullptr;
+    Aircraft* _aircraft = nullptr;
 
-    int currentComponentIndex_ = -1;
-    int previousComponentIndex_ = -1;
+    int _currentComponentIndex = -1;
+    int _previousComponentIndex = -1;
 
     void addComponent();
     void editComponent();

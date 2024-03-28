@@ -38,31 +38,31 @@ int DialogEdit::edit(QWidget* parent, Component* component)
 
 DialogEdit::DialogEdit(QWidget* parent, const Component* component)
     : QDialog(parent)
-    , ui_(new Ui::DialogEdit)
-    , component_(component)
+    , _ui(new Ui::DialogEdit)
+    , _component(component)
 {
-    ui_->setupUi(this);
+    _ui->setupUi(this);
 
-    if ( component_ )
+    if ( _component )
     {
-        ui_->lineEdit_Name->setText(component_->GetName());
+        _ui->lineEdit_Name->setText(_component->GetName());
 
-        double m_kg = component_->GetMass()();
-        ui_->spinBox_Mass->setValue(ui_->comboBox_Mass->convert(m_kg));
+        double m_kg = _component->GetMass()();
+        _ui->spinBox_Mass->setValue(_ui->comboBox_Mass->convert(m_kg));
 
-        double x_m = component_->GetPosition().x()();
-        double y_m = component_->GetPosition().y()();
-        double z_m = component_->GetPosition().z()();
-        ui_->spinBox_X->setValue(ui_->comboBox_X->convert(x_m));
-        ui_->spinBox_Y->setValue(ui_->comboBox_Y->convert(y_m));
-        ui_->spinBox_Z->setValue(ui_->comboBox_Z->convert(z_m));
+        double x_m = _component->GetPosition().x()();
+        double y_m = _component->GetPosition().y()();
+        double z_m = _component->GetPosition().z()();
+        _ui->spinBox_X->setValue(_ui->comboBox_X->convert(x_m));
+        _ui->spinBox_Y->setValue(_ui->comboBox_Y->convert(y_m));
+        _ui->spinBox_Z->setValue(_ui->comboBox_Z->convert(z_m));
 
-        double l_m = component_->GetLength()();
-        double w_m = component_->GetWidth()();
-        double h_m = component_->GetHeight()();
-        ui_->spinBox_L->setValue(ui_->comboBox_L->convert(l_m));
-        ui_->spinBox_W->setValue(ui_->comboBox_W->convert(w_m));
-        ui_->spinBox_H->setValue(ui_->comboBox_H->convert(h_m));
+        double l_m = _component->GetLength()();
+        double w_m = _component->GetWidth()();
+        double h_m = _component->GetHeight()();
+        _ui->spinBox_L->setValue(_ui->comboBox_L->convert(l_m));
+        _ui->spinBox_W->setValue(_ui->comboBox_W->convert(w_m));
+        _ui->spinBox_H->setValue(_ui->comboBox_H->convert(h_m));
 
         updateMass();
     }
@@ -73,32 +73,32 @@ DialogEdit::DialogEdit(QWidget* parent, const Component* component)
 DialogEdit::~DialogEdit()
 {
     settingsSave();
-    if ( ui_ ) { delete ui_; } ui_ = nullptr;
+    if ( _ui ) { delete _ui; } _ui = nullptr;
 }
 
 void DialogEdit::updateComponent(Component *component)
 {
     if ( component )
     {
-        component->SetName(ui_->lineEdit_Name->text().toStdString().c_str());
+        component->SetName(_ui->lineEdit_Name->text().toStdString().c_str());
 
-        double m_kg = ui_->comboBox_Mass->invert(ui_->spinBox_Mass->value());
+        double m_kg = _ui->comboBox_Mass->invert(_ui->spinBox_Mass->value());
         component->SetMass(units::mass::kilogram_t(m_kg));
 
         PositionVector position;
 
-        double x_m = ui_->comboBox_X->invert(ui_->spinBox_X->value());
-        double y_m = ui_->comboBox_Y->invert(ui_->spinBox_Y->value());
-        double z_m = ui_->comboBox_Z->invert(ui_->spinBox_Z->value());
+        double x_m = _ui->comboBox_X->invert(_ui->spinBox_X->value());
+        double y_m = _ui->comboBox_Y->invert(_ui->spinBox_Y->value());
+        double z_m = _ui->comboBox_Z->invert(_ui->spinBox_Z->value());
         position.x() = length::meter_t(x_m);
         position.y() = length::meter_t(y_m);
         position.z() = length::meter_t(z_m);
 
         component->SetPosition(position);
 
-        double l_m = ui_->comboBox_L->invert(ui_->spinBox_L->value());
-        double w_m = ui_->comboBox_W->invert(ui_->spinBox_W->value());
-        double h_m = ui_->comboBox_H->invert(ui_->spinBox_H->value());
+        double l_m = _ui->comboBox_L->invert(_ui->spinBox_L->value());
+        double w_m = _ui->comboBox_W->invert(_ui->spinBox_W->value());
+        double h_m = _ui->comboBox_H->invert(_ui->spinBox_H->value());
         component->SetLength(units::length::meter_t(l_m));
         component->SetWidth(units::length::meter_t(w_m));
         component->SetHeight(units::length::meter_t(h_m));
@@ -118,14 +118,14 @@ void DialogEdit::settingsRead_UnitsCombos(QSettings& settings)
 {
     settings.beginGroup("units_combos");
 
-    ui_->comboBox_Mass->setCurrentIndex(settings.value("mass", 0).toInt());
-    ui_->comboBox_X->setCurrentIndex(settings.value("x", 0).toInt());
-    ui_->comboBox_Y->setCurrentIndex(settings.value("y", 0).toInt());
-    ui_->comboBox_Z->setCurrentIndex(settings.value("z", 0).toInt());
-    ui_->comboBox_L->setCurrentIndex(settings.value("l", 0).toInt());
-    ui_->comboBox_W->setCurrentIndex(settings.value("w", 0).toInt());
-    ui_->comboBox_H->setCurrentIndex(settings.value("h", 0).toInt());
-    ui_->comboBox_EstimatedMass->setCurrentIndex(settings.value("h", 0).toInt());
+    _ui->comboBox_Mass->setCurrentIndex(settings.value("mass", 0).toInt());
+    _ui->comboBox_X->setCurrentIndex(settings.value("x", 0).toInt());
+    _ui->comboBox_Y->setCurrentIndex(settings.value("y", 0).toInt());
+    _ui->comboBox_Z->setCurrentIndex(settings.value("z", 0).toInt());
+    _ui->comboBox_L->setCurrentIndex(settings.value("l", 0).toInt());
+    _ui->comboBox_W->setCurrentIndex(settings.value("w", 0).toInt());
+    _ui->comboBox_H->setCurrentIndex(settings.value("h", 0).toInt());
+    _ui->comboBox_EstimatedMass->setCurrentIndex(settings.value("h", 0).toInt());
 
     settings.endGroup();
 }
@@ -143,22 +143,22 @@ void DialogEdit::settingsSave_UnitsCombos(QSettings& settings)
 {
     settings.beginGroup("units_combos");
 
-    settings.setValue("mass", ui_->comboBox_Mass->currentIndex());
-    settings.setValue("x", ui_->comboBox_X->currentIndex());
-    settings.setValue("y", ui_->comboBox_Y->currentIndex());
-    settings.setValue("z", ui_->comboBox_Z->currentIndex());
-    settings.setValue("l", ui_->comboBox_L->currentIndex());
-    settings.setValue("w", ui_->comboBox_W->currentIndex());
-    settings.setValue("h", ui_->comboBox_H->currentIndex());
-    settings.setValue("h", ui_->comboBox_EstimatedMass->currentIndex());
+    settings.setValue("mass", _ui->comboBox_Mass->currentIndex());
+    settings.setValue("x", _ui->comboBox_X->currentIndex());
+    settings.setValue("y", _ui->comboBox_Y->currentIndex());
+    settings.setValue("z", _ui->comboBox_Z->currentIndex());
+    settings.setValue("l", _ui->comboBox_L->currentIndex());
+    settings.setValue("w", _ui->comboBox_W->currentIndex());
+    settings.setValue("h", _ui->comboBox_H->currentIndex());
+    settings.setValue("h", _ui->comboBox_EstimatedMass->currentIndex());
 
     settings.endGroup();
 }
 
 void DialogEdit::updateMass()
 {
-    units::mass::kilogram_t m_kg = component_->GetEstimatedMass();
-    ui_->spinBoxEstimatedMass->setValue(m_kg());
+    units::mass::kilogram_t m_kg = _component->GetEstimatedMass();
+    _ui->spinBoxEstimatedMass->setValue(m_kg());
 }
 
 void DialogEdit::on_spinBox_X_valueChanged(double /*arg1*/)
@@ -193,48 +193,48 @@ void DialogEdit::on_spinBox_H_valueChanged(double /*arg1*/)
 
 void DialogEdit::on_comboBox_Mass_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_Mass, ui_->comboBox_Mass);
+    ComboUnits::switchUnits(_ui->spinBox_Mass, _ui->comboBox_Mass);
 }
 
 
 void DialogEdit::on_comboBox_X_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_X, ui_->comboBox_X);
+    ComboUnits::switchUnits(_ui->spinBox_X, _ui->comboBox_X);
 }
 
 
 void DialogEdit::on_comboBox_Y_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_Y, ui_->comboBox_Y);
+    ComboUnits::switchUnits(_ui->spinBox_Y, _ui->comboBox_Y);
 }
 
 
 void DialogEdit::on_comboBox_Z_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_Z, ui_->comboBox_Z);
+    ComboUnits::switchUnits(_ui->spinBox_Z, _ui->comboBox_Z);
 }
 
 
 void DialogEdit::on_comboBox_L_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_L, ui_->comboBox_L);
+    ComboUnits::switchUnits(_ui->spinBox_L, _ui->comboBox_L);
 }
 
 
 void DialogEdit::on_comboBox_W_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_W, ui_->comboBox_W);
+    ComboUnits::switchUnits(_ui->spinBox_W, _ui->comboBox_W);
 }
 
 
 void DialogEdit::on_comboBox_H_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBox_H, ui_->comboBox_H);
+    ComboUnits::switchUnits(_ui->spinBox_H, _ui->comboBox_H);
 }
 
 
 void DialogEdit::on_comboBox_EstimatedMass_currentIndexChanged(int /*index*/)
 {
-    ComboUnits::switchUnits(ui_->spinBoxEstimatedMass, ui_->comboBox_EstimatedMass);
+    ComboUnits::switchUnits(_ui->spinBoxEstimatedMass, _ui->comboBox_EstimatedMass);
 }
 

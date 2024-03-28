@@ -27,41 +27,41 @@
 WidgetCGI::WidgetCGI(QWidget* parent)
     : WidgetOSG(parent)
 {
-    manager_cgi_ = new cgi::Manager();
+    _manager_cgi = new cgi::Manager();
 
-    QWidget *widget = addViewWidget();
+    QWidget* widget = addViewWidget();
 
-    layout_ = new QGridLayout(this);
-    layout_->setContentsMargins(1, 1, 1, 1);
-    layout_->addWidget(widget, 0, 0);
+    _layout = new QGridLayout(this);
+    _layout->setContentsMargins(1, 1, 1, 1);
+    _layout->addWidget(widget, 0, 0);
 
-    setLayout(layout_);
+    setLayout(_layout);
 
-    shortcut_view_default_ = new QShortcut( QKeySequence(Qt::Key_0), this, SLOT(resetView()) );
-    shortcut_view_top_     = new QShortcut( QKeySequence(Qt::Key_7), this, SLOT(topView())   );
-    shortcut_view_back_    = new QShortcut( QKeySequence(Qt::Key_3), this, SLOT(backView())   );
-    shortcut_view_left_    = new QShortcut( QKeySequence(Qt::Key_1), this, SLOT(leftView())   );
-    shortcut_view_bottom_  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_7), this, SLOT(bottomView()) );
-    shortcut_view_front_   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_3), this, SLOT(frontView()) );
-    shortcut_view_right_   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_1), this, SLOT(rightView()) );
+    _sc_view_default = new QShortcut( QKeySequence(Qt::Key_0), this, SLOT(resetView()) );
+    _sc_view_top     = new QShortcut( QKeySequence(Qt::Key_7), this, SLOT(topView())   );
+    _sc_view_back    = new QShortcut( QKeySequence(Qt::Key_3), this, SLOT(backView())   );
+    _sc_view_left    = new QShortcut( QKeySequence(Qt::Key_1), this, SLOT(leftView())   );
+    _sc_view_bottom  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_7), this, SLOT(bottomView()) );
+    _sc_view_front   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_3), this, SLOT(frontView()) );
+    _sc_view_right   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_1), this, SLOT(rightView()) );
 
     setCameraManipulatorOrbit();
     resetView();
 
-    timer_id_ = startTimer(1000.0 / 60.0);
+    _timerId = startTimer(1000.0 / 60.0);
 }
 
 WidgetCGI::~WidgetCGI()
 {
-    if ( timer_id_ ) killTimer( timer_id_ );
+    if ( _timerId ) killTimer( _timerId );
 
-    if ( manager_cgi_ ) { delete manager_cgi_; } manager_cgi_ = nullptr;
+    if ( _manager_cgi ) { delete _manager_cgi; } _manager_cgi = nullptr;
 }
 
 void WidgetCGI::resetView()
 {
     osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(manager_cgi_->GetCameraManipulator());
+            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -76,7 +76,7 @@ void WidgetCGI::resetView()
 void WidgetCGI::topView()
 {
     osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(manager_cgi_->GetCameraManipulator());
+            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -91,7 +91,7 @@ void WidgetCGI::topView()
 void WidgetCGI::bottomView()
 {
     osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(manager_cgi_->GetCameraManipulator());
+            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -106,7 +106,7 @@ void WidgetCGI::bottomView()
 void WidgetCGI::frontView()
 {
     osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(manager_cgi_->GetCameraManipulator());
+            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -121,7 +121,7 @@ void WidgetCGI::frontView()
 void WidgetCGI::backView()
 {
     osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(manager_cgi_->GetCameraManipulator());
+            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -136,7 +136,7 @@ void WidgetCGI::backView()
 void WidgetCGI::leftView()
 {
     osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(manager_cgi_->GetCameraManipulator());
+            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -151,7 +151,7 @@ void WidgetCGI::leftView()
 void WidgetCGI::rightView()
 {
     osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(manager_cgi_->GetCameraManipulator());
+            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -165,14 +165,14 @@ void WidgetCGI::rightView()
 
 void WidgetCGI::setCameraManipulatorOrbit()
 {
-    manager_cgi_->SetCameraManipulatorOrbit();
-    getOsgViewer()->setCameraManipulator(manager_cgi_->GetCameraManipulator());
+    _manager_cgi->setCameraManipulatorOrbit();
+    getOsgViewer()->setCameraManipulator(_manager_cgi->getCameraManipulator());
 }
 
 void WidgetCGI::setCameraManipulatorTrack()
 {
-    manager_cgi_->SetCameraManipulatorTrack();
-    getOsgViewer()->setCameraManipulator(manager_cgi_->GetCameraManipulator());
+    _manager_cgi->setCameraManipulatorTrack();
+    getOsgViewer()->setCameraManipulator(_manager_cgi->getCameraManipulator());
 }
 
 void WidgetCGI::resizeEvent(QResizeEvent* event)
@@ -181,8 +181,8 @@ void WidgetCGI::resizeEvent(QResizeEvent* event)
     QWidget::resizeEvent(event);
     ////////////////////////////
 
-    manager_cgi_->SetWinHeight(event->size().height());
-    manager_cgi_->SetWinWidth(event->size().width());
+    _manager_cgi->setWinHeight(event->size().height());
+    _manager_cgi->setWinWidth(event->size().width());
 }
 
 void WidgetCGI::timerEvent(QTimerEvent* event)
@@ -192,52 +192,52 @@ void WidgetCGI::timerEvent(QTimerEvent* event)
     ///////////////////////////
 
     update();
-    manager_cgi_->Update();
+    _manager_cgi->update();
 }
 
 QWidget* WidgetCGI::addViewWidget()
 {
     createCameras();
 
-    setSceneData(manager_cgi_->GetNodeCGI());
-    camera_hud_->addChild(manager_cgi_->GetNodeHUD());
+    setSceneData(_manager_cgi->getNodeCGI());
+    _camera_hud->addChild(_manager_cgi->getNodeHUD());
 
     addEventHandler(new osgViewer::StatsHandler);
     setKeyEventSetsDone(0);
     assignSceneDataToCameras();
 
-    return gwin_->getGLWidget();
+    return _gwin->getGLWidget();
 }
 
 void WidgetCGI::createCameras()
 {
-    camera_cgi_ = getOsgViewer()->getCamera();
-    camera_hud_ = new osg::Camera();
+    _camera_cgi = getOsgViewer()->getCamera();
+    _camera_hud = new osg::Camera();
 
-    camera_cgi_->setGraphicsContext(gwin_);
-    camera_hud_->setGraphicsContext(gwin_);
+    _camera_cgi->setGraphicsContext(_gwin);
+    _camera_hud->setGraphicsContext(_gwin);
 
-    osg::GraphicsContext* context = camera_cgi_->getGraphicsContext();
-    camera_hud_->setGraphicsContext(context);
+    osg::GraphicsContext* context = _camera_cgi->getGraphicsContext();
+    _camera_hud->setGraphicsContext(context);
 
     const osg::GraphicsContext::Traits* traits = _camera->getGraphicsContext()->getTraits();
 
     double w2h = static_cast<double>(traits->width)
                / static_cast<double>(traits->height);
 
-    camera_cgi_->setClearColor(osg::Vec4(0.47, 0.71, 1.0, 1.0));
-    //camera_cgi_->setClearColor(osg::Vec4(0.216, 0.216, 0.216, 1.0));
-    camera_cgi_->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
-    camera_cgi_->setProjectionMatrixAsPerspective(30.0, w2h, 0.1, 1000000.0);
+    _camera_cgi->setClearColor(osg::Vec4(0.47, 0.71, 1.0, 1.0));
+    //_camera_cgi->setClearColor(osg::Vec4(0.216, 0.216, 0.216, 1.0));
+    _camera_cgi->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
+    _camera_cgi->setProjectionMatrixAsPerspective(30.0, w2h, 0.1, 1000000.0);
 
-    camera_hud_->setProjectionMatrixAsOrtho2D(-CGI_HUD_Y_2 * w2h, CGI_HUD_Y_2 * w2h, -CGI_HUD_Y_2, CGI_HUD_Y_2);
-    camera_hud_->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
-    camera_hud_->setViewMatrix(osg::Matrix::identity());
-    camera_hud_->setClearMask(GL_DEPTH_BUFFER_BIT);
-    camera_hud_->setRenderOrder(osg::Camera::POST_RENDER);
-    camera_hud_->setAllowEventFocus(false);
-    camera_hud_->setProjectionResizePolicy(osg::Camera::HORIZONTAL);
-    camera_hud_->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
+    _camera_hud->setProjectionMatrixAsOrtho2D(-CGI_HUD_Y_2 * w2h, CGI_HUD_Y_2 * w2h, -CGI_HUD_Y_2, CGI_HUD_Y_2);
+    _camera_hud->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
+    _camera_hud->setViewMatrix(osg::Matrix::identity());
+    _camera_hud->setClearMask(GL_DEPTH_BUFFER_BIT);
+    _camera_hud->setRenderOrder(osg::Camera::POST_RENDER);
+    _camera_hud->setAllowEventFocus(false);
+    _camera_hud->setProjectionResizePolicy(osg::Camera::HORIZONTAL);
+    _camera_hud->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
 
-    getOsgViewer()->addSlave(camera_hud_, false);
+    getOsgViewer()->addSlave(_camera_hud, false);
 }

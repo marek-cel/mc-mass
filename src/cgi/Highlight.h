@@ -31,19 +31,16 @@ class Highlight : public Component
 {
 public:
 
-    /** */
     Highlight(std::shared_ptr<Data> data);
-
-    /** */
     virtual ~Highlight();
 
-    virtual void Update() override;
+    virtual void update() override;
 
 private:
 
-    osg::ref_ptr<osg::Switch> switch_;
+    osg::ref_ptr<osg::Switch> _switch;
 
-    void RewriteHighlight(double x, double y, double z,
+    void rewriteHighlight(double x, double y, double z,
                           double l, double w, double h);
 };
 

@@ -23,12 +23,10 @@
 
 namespace cgi {
 
-/** */
 class CGI : public Component
 {
 public:
 
-    /** */
     CGI(std::shared_ptr<Data> data);
 };
 

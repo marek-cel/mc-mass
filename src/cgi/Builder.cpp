@@ -26,26 +26,26 @@
 
 namespace cgi {
 
-void Builder::BuildCGI(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
+void Builder::buildCGI(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
 {
     // grid
     std::shared_ptr<Grid> grid = std::make_shared<Grid>(data);
-    root->AddChild(grid);
+    root->addChild(grid);
 
     // highlight
     std::shared_ptr<Highlight> hl = std::make_shared<Highlight>(data);
-    root->AddChild(hl);
+    root->addChild(hl);
 
     // model
     std::shared_ptr<Model> mod = std::make_shared<Model>(data);
-    root->AddChild(mod);
+    root->addChild(mod);
 }
 
-void Builder::BuildHUD(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
+void Builder::buildHUD(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
 {
     // gizmo
     std::shared_ptr<ViewGizmo> gizmo = std::make_shared<ViewGizmo>(data);
-    root->AddChild(gizmo);
+    root->addChild(gizmo);
 }
 
 } // namespace cgi

@@ -22,24 +22,24 @@
 
 DockWidgetResults::DockWidgetResults(AircraftFile* aircraftFile, QWidget *parent)
     : QDockWidget(parent)
-    , ui_(new Ui::DockWidgetResults)
-    , aircraftFile_(aircraftFile)
+    , _ui(new Ui::DockWidgetResults)
+    , _aircraftFile(aircraftFile)
 {
-    ui_->setupUi(this);
+    _ui->setupUi(this);
 
-    aircraft_ = aircraftFile_->GetAircraft();
+    _aircraft = _aircraftFile->GetAircraft();
     settingsRead();
 }
 
 DockWidgetResults::~DockWidgetResults()
 {
     settingsSave();
-    if ( ui_ ) { delete ui_; } ui_ = nullptr;
+    if ( _ui ) { delete _ui; } _ui = nullptr;
 }
 
 void DockWidgetResults::updateGUI()
 {
-    ui_->textResults->setText(aircraft_->ToString().c_str());
+    _ui->textResults->setText(_aircraft->ToString().c_str());
 
     setEmptyMass();
     setCenterOfMass();
@@ -48,46 +48,46 @@ void DockWidgetResults::updateGUI()
 
 void DockWidgetResults::setEmptyMass()
 {
-    units::mass::kilogram_t me = aircraft_->GetTotalEmptyMass();
-    ui_->spinBox_Mass->setValue(ui_->comboBox_Mass->convert(me()));
+    units::mass::kilogram_t me = _aircraft->GetTotalEmptyMass();
+    _ui->spinBox_Mass->setValue(_ui->comboBox_Mass->convert(me()));
 }
 
 void DockWidgetResults::setCenterOfMass()
 {
-    units::length::meter_t cg_x = aircraft_->GetCenterOfMass().x();
-    units::length::meter_t cg_y = aircraft_->GetCenterOfMass().y();
-    units::length::meter_t cg_z = aircraft_->GetCenterOfMass().z();
+    units::length::meter_t cg_x = _aircraft->GetCenterOfMass().x();
+    units::length::meter_t cg_y = _aircraft->GetCenterOfMass().y();
+    units::length::meter_t cg_z = _aircraft->GetCenterOfMass().z();
 
-    ui_->spinBox_CG_X->setValue(ui_->comboBox_CG->convert(cg_x()));
-    ui_->spinBox_CG_Y->setValue(ui_->comboBox_CG->convert(cg_y()));
-    ui_->spinBox_CG_Z->setValue(ui_->comboBox_CG->convert(cg_z()));
+    _ui->spinBox_CG_X->setValue(_ui->comboBox_CG->convert(cg_x()));
+    _ui->spinBox_CG_Y->setValue(_ui->comboBox_CG->convert(cg_y()));
+    _ui->spinBox_CG_Z->setValue(_ui->comboBox_CG->convert(cg_z()));
 }
 
 void DockWidgetResults::setInertia()
 {
-    units::moment_of_inertia::kilogram_square_meter_t i_xx = aircraft_->GetInertiaMatrix().ixx();
-    units::moment_of_inertia::kilogram_square_meter_t i_xy = aircraft_->GetInertiaMatrix().ixy();
-    units::moment_of_inertia::kilogram_square_meter_t i_xz = aircraft_->GetInertiaMatrix().ixz();
+    units::moment_of_inertia::kilogram_square_meter_t i_xx = _aircraft->GetInertiaMatrix().ixx();
+    units::moment_of_inertia::kilogram_square_meter_t i_xy = _aircraft->GetInertiaMatrix().ixy();
+    units::moment_of_inertia::kilogram_square_meter_t i_xz = _aircraft->GetInertiaMatrix().ixz();
 
-    units::moment_of_inertia::kilogram_square_meter_t i_yx = aircraft_->GetInertiaMatrix().iyx();
-    units::moment_of_inertia::kilogram_square_meter_t i_yy = aircraft_->GetInertiaMatrix().iyy();
-    units::moment_of_inertia::kilogram_square_meter_t i_yz = aircraft_->GetInertiaMatrix().iyz();
+    units::moment_of_inertia::kilogram_square_meter_t i_yx = _aircraft->GetInertiaMatrix().iyx();
+    units::moment_of_inertia::kilogram_square_meter_t i_yy = _aircraft->GetInertiaMatrix().iyy();
+    units::moment_of_inertia::kilogram_square_meter_t i_yz = _aircraft->GetInertiaMatrix().iyz();
 
-    units::moment_of_inertia::kilogram_square_meter_t i_zx = aircraft_->GetInertiaMatrix().izx();
-    units::moment_of_inertia::kilogram_square_meter_t i_zy = aircraft_->GetInertiaMatrix().izy();
-    units::moment_of_inertia::kilogram_square_meter_t i_zz = aircraft_->GetInertiaMatrix().izz();
+    units::moment_of_inertia::kilogram_square_meter_t i_zx = _aircraft->GetInertiaMatrix().izx();
+    units::moment_of_inertia::kilogram_square_meter_t i_zy = _aircraft->GetInertiaMatrix().izy();
+    units::moment_of_inertia::kilogram_square_meter_t i_zz = _aircraft->GetInertiaMatrix().izz();
 
-    ui_->spinBox_I_XX->setValue(ui_->comboBox_Inertia->convert(i_xx()));
-    ui_->spinBox_I_XY->setValue(ui_->comboBox_Inertia->convert(i_xy()));
-    ui_->spinBox_I_XZ->setValue(ui_->comboBox_Inertia->convert(i_xz()));
+    _ui->spinBox_I_XX->setValue(_ui->comboBox_Inertia->convert(i_xx()));
+    _ui->spinBox_I_XY->setValue(_ui->comboBox_Inertia->convert(i_xy()));
+    _ui->spinBox_I_XZ->setValue(_ui->comboBox_Inertia->convert(i_xz()));
 
-    ui_->spinBox_I_YX->setValue(ui_->comboBox_Inertia->convert(i_yx()));
-    ui_->spinBox_I_YY->setValue(ui_->comboBox_Inertia->convert(i_yy()));
-    ui_->spinBox_I_YZ->setValue(ui_->comboBox_Inertia->convert(i_yz()));
+    _ui->spinBox_I_YX->setValue(_ui->comboBox_Inertia->convert(i_yx()));
+    _ui->spinBox_I_YY->setValue(_ui->comboBox_Inertia->convert(i_yy()));
+    _ui->spinBox_I_YZ->setValue(_ui->comboBox_Inertia->convert(i_yz()));
 
-    ui_->spinBox_I_ZX->setValue(ui_->comboBox_Inertia->convert(i_zx()));
-    ui_->spinBox_I_ZY->setValue(ui_->comboBox_Inertia->convert(i_zy()));
-    ui_->spinBox_I_ZZ->setValue(ui_->comboBox_Inertia->convert(i_zz()));
+    _ui->spinBox_I_ZX->setValue(_ui->comboBox_Inertia->convert(i_zx()));
+    _ui->spinBox_I_ZY->setValue(_ui->comboBox_Inertia->convert(i_zy()));
+    _ui->spinBox_I_ZZ->setValue(_ui->comboBox_Inertia->convert(i_zz()));
 }
 
 void DockWidgetResults::settingsRead()
@@ -103,9 +103,9 @@ void DockWidgetResults::settingsRead_UnitsCombos(QSettings& settings)
 {
     settings.beginGroup("units_combos");
 
-    ui_->comboBox_Mass->setCurrentIndex(settings.value("mass", 0).toInt());
-    ui_->comboBox_CG->setCurrentIndex(settings.value("cg", 0).toInt());
-    ui_->comboBox_Inertia->setCurrentIndex(settings.value("inertia", 0).toInt());
+    _ui->comboBox_Mass->setCurrentIndex(settings.value("mass", 0).toInt());
+    _ui->comboBox_CG->setCurrentIndex(settings.value("cg", 0).toInt());
+    _ui->comboBox_Inertia->setCurrentIndex(settings.value("inertia", 0).toInt());
 
     settings.endGroup();
 }
@@ -123,9 +123,9 @@ void DockWidgetResults::settingsSave_UnitsCombos(QSettings& settings)
 {
     settings.beginGroup("units_combos");
 
-    settings.setValue("mass", ui_->comboBox_Mass->currentIndex());
-    settings.setValue("cg", ui_->comboBox_CG->currentIndex());
-    settings.setValue("inertia", ui_->comboBox_Inertia->currentIndex());
+    settings.setValue("mass", _ui->comboBox_Mass->currentIndex());
+    settings.setValue("cg", _ui->comboBox_CG->currentIndex());
+    settings.setValue("inertia", _ui->comboBox_Inertia->currentIndex());
 
     settings.endGroup();
 }

@@ -25,13 +25,13 @@ namespace cgi {
 
 Manager::Manager()
 {
-    data_ = std::make_shared<Data>();
+    _data = std::make_shared<Data>();
 
-    cgi_ = std::make_shared<CGI>(data_);
-    hud_ = std::make_shared<HUD>(data_);
+    _cgi = std::make_shared<CGI>(_data);
+    _hud = std::make_shared<HUD>(_data);
 
-    Builder::BuildCGI(data_, cgi_);
-    Builder::BuildHUD(data_, hud_);
+    Builder::buildCGI(_data, _cgi);
+    Builder::buildHUD(_data, _hud);
 
     _manipulatorOrbit = new ManipulatorOrbit();
     _manipulatorTrack = new ManipulatorTrack();
@@ -41,70 +41,70 @@ Manager::Manager()
 
 Manager::~Manager() {}
 
-void Manager::Update()
+void Manager::update()
 {
     osg::Quat q = _manipulator->getMatrix().getRotate();
 
-    data_->camera_w = q.w();
-    data_->camera_x = q.x();
-    data_->camera_y = q.y();
-    data_->camera_z = q.z();
+    _data->camera_w = q.w();
+    _data->camera_x = q.x();
+    _data->camera_y = q.y();
+    _data->camera_z = q.z();
 
-    cgi_->Update();
-    hud_->Update();
+    _cgi->update();
+    _hud->update();
 }
 
-void Manager::SetCameraManipulatorOrbit()
+void Manager::setCameraManipulatorOrbit()
 {
     _manipulator = _manipulatorOrbit;
-    _manipulatorOrbit->setTrackNode(cgi_->root().get());
+    _manipulatorOrbit->setTrackNode(_cgi->root().get());
 }
 
-void Manager::SetCameraManipulatorTrack()
+void Manager::setCameraManipulatorTrack()
 {
     _manipulator = _manipulatorTrack;
-    _manipulatorTrack->setNode(cgi_->root().get());
+    _manipulatorTrack->setNode(_cgi->root().get());
 }
 
-void Manager::SetGridVisibility(bool grid_visible)
+void Manager::setGridVisibility(bool grid_visible)
 {
-    data_->grid_visible = grid_visible;
+    _data->grid_visible = grid_visible;
 }
 
-void Manager::SetWinHeight(int h)
+void Manager::setWinHeight(int h)
 {
-    data_->win_height = h;
+    _data->win_height = h;
 }
 
-void Manager::SetWinWidth(int w)
+void Manager::setWinWidth(int w)
 {
-    data_->win_width = w;
+    _data->win_width = w;
 }
 
-void Manager::SetModelData(const QString& model_file,
+void Manager::setModelData(const QString& model_file,
                            double offset_x, double offset_y, double offset_z,
                            double rotation_x, double rotation_y, double rotation_z,
                            double scale)
 {
-    data_->modelFile = model_file;
+    _data->modelFile = model_file;
 
-    data_->offset_x = offset_x;
-    data_->offset_y = offset_y;
-    data_->offset_z = offset_z;
+    _data->offset_x = offset_x;
+    _data->offset_y = offset_y;
+    _data->offset_z = offset_z;
 
-    data_->rotation_x = rotation_x;
-    data_->rotation_y = rotation_y;
-    data_->rotation_z = rotation_z;
+    _data->rotation_x = rotation_x;
+    _data->rotation_y = rotation_y;
+    _data->rotation_z = rotation_z;
 
-    data_->scale = scale;
+    _data->scale = scale;
 }
 
-void Manager::SetProjectDir(const QString& project_dir)
+void Manager::setProjectDir(const QString& project_dir)
 {
-    data_->projectDir = project_dir;
+    _data->projectDir = project_dir;
 }
 
-void Manager::SetHighlightData(bool highlight,
+void Manager::setHighlightData(bool highlight,
                                double highlight_x,
                                double highlight_y,
                                double highlight_z,
@@ -112,15 +112,15 @@ void Manager::SetHighlightData(bool highlight,
                                double highlight_w,
                                double highlight_h)
 {
-    data_->highlight = highlight;
+    _data->highlight = highlight;
 
-    data_->highlight_x = highlight_x;
-    data_->highlight_y = highlight_y;
-    data_->highlight_z = highlight_z;
+    _data->highlight_x = highlight_x;
+    _data->highlight_y = highlight_y;
+    _data->highlight_z = highlight_z;
 
-    data_->highlight_l = highlight_l;
-    data_->highlight_w = highlight_w;
-    data_->highlight_h = highlight_h;
+    _data->highlight_l = highlight_l;
+    _data->highlight_w = highlight_w;
+    _data->highlight_h = highlight_h;
 }
 
 } // namespace cgi

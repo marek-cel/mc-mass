@@ -32,10 +32,10 @@ int main(int argc, char* argv[])
 
     QSharedPointer<QApplication> app(new QApplication(argc, argv));
 
-    app->setApplicationName(APP_NAME);
-    app->setApplicationVersion(APP_VER);
-    app->setOrganizationDomain(ORG_DOMAIN);
-    app->setOrganizationName(ORG_NAME);
+    app->setApplicationName    ( APP_NAME   );
+    app->setApplicationVersion ( APP_VER    );
+    app->setOrganizationDomain ( ORG_DOMAIN );
+    app->setOrganizationName   ( ORG_NAME   );
 
     QSharedPointer<MainWindow> win(new MainWindow());
     win->show();

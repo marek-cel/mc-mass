@@ -29,7 +29,7 @@
  * @param r position
  * @return shifted inertia matrix
  */
-InertiaMatrix GetParallelAxisInertia(units::mass::kilogram_t m,
+InertiaMatrix getParallelAxisInertia(units::mass::kilogram_t m,
                                      const InertiaMatrix& i,
                                      const PositionVector& r);
 

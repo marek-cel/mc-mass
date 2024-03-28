@@ -27,13 +27,13 @@ class FirstMomentOfMass
 {
 public:
 
-    units::first_moment_of_mass::kilogram_meter_t sx() const { return sx_; }
-    units::first_moment_of_mass::kilogram_meter_t sy() const { return sy_; }
-    units::first_moment_of_mass::kilogram_meter_t sz() const { return sz_; }
+    units::first_moment_of_mass::kilogram_meter_t sx() const { return _sx; }
+    units::first_moment_of_mass::kilogram_meter_t sy() const { return _sy; }
+    units::first_moment_of_mass::kilogram_meter_t sz() const { return _sz; }
 
-    inline units::first_moment_of_mass::kilogram_meter_t& sx() { return sx_; }
-    inline units::first_moment_of_mass::kilogram_meter_t& sy() { return sy_; }
-    inline units::first_moment_of_mass::kilogram_meter_t& sz() { return sz_; }
+    inline units::first_moment_of_mass::kilogram_meter_t& sx() { return _sx; }
+    inline units::first_moment_of_mass::kilogram_meter_t& sy() { return _sy; }
+    inline units::first_moment_of_mass::kilogram_meter_t& sz() { return _sz; }
 
     FirstMomentOfMass operator+(const FirstMomentOfMass& vect) const;
     FirstMomentOfMass& operator+=(const FirstMomentOfMass& vect);
@@ -42,9 +42,9 @@ public:
 
 private:
 
-    units::first_moment_of_mass::kilogram_meter_t sx_ = 0.0_kg_m;
-    units::first_moment_of_mass::kilogram_meter_t sy_ = 0.0_kg_m;
-    units::first_moment_of_mass::kilogram_meter_t sz_ = 0.0_kg_m;
+    units::first_moment_of_mass::kilogram_meter_t _sx = 0.0_kg_m;
+    units::first_moment_of_mass::kilogram_meter_t _sy = 0.0_kg_m;
+    units::first_moment_of_mass::kilogram_meter_t _sz = 0.0_kg_m;
 };
 
 #endif // MC_MASS_UTILS_FIRSTMOMENTOFMASS_H_

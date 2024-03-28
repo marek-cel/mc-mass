@@ -31,11 +31,11 @@ void ComboUnits::switchUnits(QDoubleSpinBox* spinBox, ComboUnits* comboUnits)
 
 ComboUnits::ComboUnits(QWidget* parent)
     : QComboBox(parent)
-    , index_(currentIndex())
-    , index_prev_(index_)
+    , _index(currentIndex())
+    , _index_prev(_index)
 {
-    coefs_.clear();
-    names_.clear();
+    _coefs.clear();
+    _names.clear();
 
     connect(this, SIGNAL(currentIndexChanged(int)), this, SLOT(on_currentIndexChanged(int)));
 }
@@ -44,29 +44,29 @@ ComboUnits::~ComboUnits() {}
 
 double ComboUnits::convert(double value) const
 {
-    return value * factor_;
+    return value * _factor;
 }
 
 double ComboUnits::convertPrev(double value) const
 {
-    return value * factor_prev_;
+    return value * _factor_prev;
 }
 
 double ComboUnits::invert(double value) const
 {
-    return value / factor_;
+    return value / _factor;
 }
 
 double ComboUnits::invertPrev(double value) const
 {
-    return value / factor_prev_;
+    return value / _factor_prev;
 }
 
 double ComboUnits::getCoef(int index) const
 {
-    if ( index >= 0 && index < static_cast<int>(coefs_.size()) )
+    if ( index >= 0 && index < static_cast<int>(_coefs.size()) )
     {
-        return coefs_[index];
+        return _coefs[index];
     }
 
     return std::numeric_limits<double>::quiet_NaN();
@@ -74,13 +74,13 @@ double ComboUnits::getCoef(int index) const
 
 void ComboUnits::on_currentIndexChanged( int index )
 {
-    factor_prev_ = factor_;
+    _factor_prev = _factor;
 
-    index_prev_ = index_;
-    index_ = index;
+    _index_prev = _index;
+    _index = index;
 
-    if ( index >= 0 && index < static_cast<int>(coefs_.size()) )
+    if ( index >= 0 && index < static_cast<int>(_coefs.size()) )
     {
-        factor_ = coefs_[index];
+        _factor = _coefs[index];
     }
 }

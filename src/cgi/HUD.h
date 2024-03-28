@@ -27,12 +27,7 @@ class HUD : public Component
 {
 public:
 
-    /**
-     * @brief Constructor.
-     * @param parent parent module
-     */
     HUD(std::shared_ptr<Data> data);
-
 };
 
 } // namespace cgi

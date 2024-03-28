@@ -26,14 +26,14 @@ using namespace units::literals;
 ComboUnitsAngle::ComboUnitsAngle(QWidget* parent)
     : ComboUnits(parent)
 {
-    coefs_.push_back(1.0);
-    names_.push_back(QString(tr("deg")));
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("deg")));
 
-    coefs_.push_back(1_deg / 1_rad);
-    names_.push_back(QString(tr("rad")));
+    _coefs.push_back(1_deg / 1_rad);
+    _names.push_back(QString(tr("rad")));
 
-    for ( int i = 0; i < names_.size(); i++ )
+    for ( int i = 0; i < _names.size(); i++ )
     {
-        addItem(names_[i]);
+        addItem(_names[i]);
     }
 }

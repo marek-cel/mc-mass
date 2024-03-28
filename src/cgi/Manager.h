@@ -29,48 +29,39 @@ namespace cgi {
 
 class Model;
 
-/** */
 class Manager
 {
 public:
 
-    /** */
     Manager();
-
-    /** */
     virtual ~Manager();
 
-    /** */
-    void Update();
+    void update();
 
-    /** */
-    inline osgGA::CameraManipulator* GetCameraManipulator()
+    inline osgGA::CameraManipulator* getCameraManipulator()
     {
         return _manipulator.get();
     }
 
-    /** Returns root node. */
-    inline osg::Group* GetNodeCGI() { return cgi_->root().get(); }
+    inline osg::Group* getNodeCGI() { return _cgi->root().get(); }
+    inline osg::Group* getNodeHUD() { return _hud->root().get(); }
 
-    /** Returns root node. */
-    inline osg::Group* GetNodeHUD() { return hud_->root().get(); }
+    void setCameraManipulatorOrbit();
+    void setCameraManipulatorTrack();
 
-    void SetCameraManipulatorOrbit();
-    void SetCameraManipulatorTrack();
+    void setGridVisibility(bool grid_visible);
 
-    void SetGridVisibility(bool grid_visible);
+    void setWinHeight(int h);
+    void setWinWidth(int w);
 
-    void SetWinHeight(int h);
-    void SetWinWidth(int w);
-
-    void SetModelData(const QString& model_file,
+    void setModelData(const QString& model_file,
                       double offset_x, double offset_y, double offset_z,
                       double rotation_x, double rotation_y, double rotation_z,
                       double scale);
 
-    void SetProjectDir(const QString& project_dir);
+    void setProjectDir(const QString& project_dir);
 
-    void SetHighlightData(bool highlight,
+    void setHighlightData(bool highlight,
                           double highlight_x = 0.0,
                           double highlight_y = 0.0,
                           double highlight_z = 0.0,
@@ -80,10 +71,10 @@ public:
 
 private:
 
-    std::shared_ptr<Data> data_;
+    std::shared_ptr<Data> _data;
 
-    std::shared_ptr<CGI> cgi_;
-    std::shared_ptr<HUD> hud_;
+    std::shared_ptr<CGI> _cgi;
+    std::shared_ptr<HUD> _hud;
 
     osg::ref_ptr<osgGA::CameraManipulator> _manipulator;    ///< current manipulator
 

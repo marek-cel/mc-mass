@@ -30,53 +30,53 @@ namespace cgi {
 Grid::Grid(std::shared_ptr<Data> data)
     : Component(data)
 {
-    osg::ref_ptr<osg::StateSet> rootStateSet = root_->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
     rootStateSet->setMode(GL_LIGHT0   , osg::StateAttribute::OFF);
     rootStateSet->setMode(GL_LIGHT1   , osg::StateAttribute::OFF);
     rootStateSet->setMode(GL_LIGHTING , osg::StateAttribute::OFF);
 
-    switch_ = new osg::Switch();
-    root_->addChild(switch_.get());
+    _switch = new osg::Switch();
+    _root->addChild(_switch.get());
 
-    CreateGrid();
+    createGrid();
 }
 
-void Grid::Update()
+void Grid::update()
 {
     ////////////////////
-    Component::Update();
+    Component::update();
     ////////////////////
 
-    if ( !data_.expired() )
+    if ( !_data.expired() )
     {
-        std::shared_ptr<Data> data = data_.lock();
+        std::shared_ptr<Data> data = _data.lock();
 
-        if ( data->grid_visible != grid_visible_ )
+        if ( data->grid_visible != _grid_visible )
         {
             if ( data->grid_visible )
             {
-                switch_->setAllChildrenOn();
+                _switch->setAllChildrenOn();
             }
             else
             {
-                switch_->setAllChildrenOff();
+                _switch->setAllChildrenOff();
             }
         }
 
-        grid_visible_ = data->grid_visible;
+        _grid_visible = data->grid_visible;
     }
 }
 
-void Grid::CreateGrid()
+void Grid::createGrid()
 {
-    CreateGridAuxLines();
-    CreateGridMainLines();
+    createGridAuxLines();
+    createGridMainLines();
 }
 
-void Grid::CreateGridAuxLines()
+void Grid::createGridAuxLines()
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    switch_->addChild(geode.get());
+    _switch->addChild(geode.get());
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -87,18 +87,18 @@ void Grid::CreateGridAuxLines()
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
-    for ( int i = -size_; i <= size_; ++i )
+    for ( int i = -kSize; i <= kSize; ++i )
     {
         if ( i != 0 )
         {
-            osg::Vec3d lat_b(-size_, i * step_, 0.0);
-            osg::Vec3d lat_e( size_, i * step_, 0.0);
+            osg::Vec3d lat_b(-kSize, i * kStep, 0.0);
+            osg::Vec3d lat_e( kSize, i * kStep, 0.0);
 
             v->push_back(lat_b);
             v->push_back(lat_e);
 
-            osg::Vec3d lon_b(i * step_, -size_, 0.0);
-            osg::Vec3d lon_e(i * step_,  size_, 0.0);
+            osg::Vec3d lon_b(i * kStep, -kSize, 0.0);
+            osg::Vec3d lon_e(i * kStep,  kSize, 0.0);
 
             v->push_back(lon_b);
             v->push_back(lon_e);
@@ -123,10 +123,10 @@ void Grid::CreateGridAuxLines()
     geode->getOrCreateStateSet()->setAttributeAndModes(lineWidth, osg::StateAttribute::ON);
 }
 
-void Grid::CreateGridMainLines()
+void Grid::createGridMainLines()
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    switch_->addChild( geode.get() );
+    _switch->addChild(geode.get());
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -134,24 +134,24 @@ void Grid::CreateGridMainLines()
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
-    osg::Vec3d lon_b( 0.0, -size_, 0.0 );
-    osg::Vec3d lon_e( 0.0,  size_, 0.0 );
+    osg::Vec3d lon_b( 0.0, -kSize, 0.0 );
+    osg::Vec3d lon_e( 0.0,  kSize, 0.0 );
 
     v->push_back( lon_b );
     v->push_back( lon_e );
     c->push_back( osg::Vec4( Colors::lime, 1.0 ) );
     c->push_back( osg::Vec4( Colors::lime, 1.0 ) );
 
-    osg::Vec3d lat_b( -size_, 0.0, 0.0 );
-    osg::Vec3d lat_e(  size_, 0.0, 0.0 );
+    osg::Vec3d lat_b( -kSize, 0.0, 0.0 );
+    osg::Vec3d lat_e(  kSize, 0.0, 0.0 );
     c->push_back( osg::Vec4( Colors::red, 1.0 ) );
     c->push_back( osg::Vec4( Colors::red, 1.0 ) );
 
     v->push_back( lat_b );
     v->push_back( lat_e );
 
-    osg::Vec3d ver_b( 0.0, 0.0, -size_ );
-    osg::Vec3d ver_e( 0.0, 0.0,  size_ );
+    osg::Vec3d ver_b( 0.0, 0.0, -kSize );
+    osg::Vec3d ver_e( 0.0, 0.0,  kSize );
     c->push_back( osg::Vec4( Colors::blue, 1.0 ) );
     c->push_back( osg::Vec4( Colors::blue, 1.0 ) );
 

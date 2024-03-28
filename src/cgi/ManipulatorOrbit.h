@@ -23,23 +23,18 @@
 
 namespace cgi {
 
-/** */
 class ManipulatorOrbit : public osgGA::NodeTrackerManipulator
 {
 public:
 
-    /** Constructor. */
     ManipulatorOrbit();
 
 protected:
 
-    /** */
     bool handleFrame(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& us);
-
-    /** */
-    bool performMovementRightMouseButton(const double /*eventTimeDelta*/,
-                                         const double /*dx*/,
-                                         const double /*dy*/);
+    bool performMovementRightMouseButton(const double eventTimeDelta,
+                                         const double dx,
+                                         const double dy);
 
 private:
 

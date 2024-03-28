@@ -26,14 +26,14 @@ using namespace units::literals;
 ComboUnitsArea::ComboUnitsArea(QWidget* parent)
     : ComboUnits(parent)
 {
-    coefs_.push_back(1.0);
-    names_.push_back(QString(tr("sq m")));
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("sq m")));
 
-    coefs_.push_back(1_sq_m / 1_sq_ft);
-    names_.push_back(QString(tr("sq ft")));
+    _coefs.push_back(1_sq_m / 1_sq_ft);
+    _names.push_back(QString(tr("sq ft")));
 
-    for ( int i = 0; i < names_.size(); i++ )
+    for ( int i = 0; i < _names.size(); i++ )
     {
-        addItem(names_[i]);
+        addItem(_names[i]);
     }
 }

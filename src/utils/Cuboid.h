@@ -43,7 +43,7 @@ public:
      * @param h [m] height (dimension z-component)
      * @return matrix of inertia [kg*m^2]
      */
-    static InertiaMatrix GetInertiaMatrix(units::mass::kilogram_t m,
+    static InertiaMatrix getInertiaMatrix(units::mass::kilogram_t m,
                                           units::length::meter_t l,
                                           units::length::meter_t w,
                                           units::length::meter_t h );

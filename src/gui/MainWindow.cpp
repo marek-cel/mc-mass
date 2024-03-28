@@ -28,36 +28,36 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui_(new Ui::MainWindow)
+    , _ui(new Ui::MainWindow)
 {
-    ui_->setupUi(this);
+    _ui->setupUi(this);
 
-    dockParams_     = new DockWidgetParams(&aircraftFile_, this);
-    dockComponents_ = new DockWidgetComponents(&aircraftFile_, this);
-    dockResults_    = new DockWidgetResults(&aircraftFile_, this);
+    _dockParams     = new DockWidgetParams(&_aircraftFile, this);
+    _dockComponents = new DockWidgetComponents(&_aircraftFile, this);
+    _dockResults    = new DockWidgetResults(&_aircraftFile, this);
 
-    dockParams_->setObjectName("DockParams");
-    dockComponents_->setObjectName("DockComponents");
-    dockResults_->setObjectName("DockComponents");
+    _dockParams     ->setObjectName("DockParams");
+    _dockComponents ->setObjectName("DockComponents");
+    _dockResults    ->setObjectName("DockComponents");
 
-    addDockWidget(Qt::LeftDockWidgetArea, dockParams_);
-    addDockWidget(Qt::RightDockWidgetArea, dockComponents_);
-    addDockWidget(Qt::BottomDockWidgetArea, dockResults_);
+    addDockWidget( Qt::LeftDockWidgetArea   , _dockParams     );
+    addDockWidget( Qt::RightDockWidgetArea  , _dockComponents );
+    addDockWidget( Qt::BottomDockWidgetArea , _dockResults    );
 
     setSideDockAreasFullHeight(true, true);
 
     settingsRead();
 
-    dockParams_->setVisible(true);
-    dockComponents_->setVisible(true);
-    dockResults_->setVisible(true);
+    _dockParams     ->setVisible(true);
+    _dockComponents ->setVisible(true);
+    _dockResults    ->setVisible(true);
 
-    connect(dockParams_     , SIGNAL(aircraftChanged()), this, SLOT(on_aircraftChanged()));
-    connect(dockComponents_ , SIGNAL(aircraftChanged()), this, SLOT(on_aircraftChanged()));
-    connect(dockComponents_ , SIGNAL(currentComponentChanged()), this, SLOT(on_currentComponentChanged()));
+    connect(_dockParams     , SIGNAL(aircraftChanged()), this, SLOT(on_aircraftChanged()));
+    connect(_dockComponents , SIGNAL(aircraftChanged()), this, SLOT(on_aircraftChanged()));
+    connect(_dockComponents , SIGNAL(currentComponentChanged()), this, SLOT(on_currentComponentChanged()));
 
-    sc_save_   = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_actionSave_triggered()));
-    sc_export_ = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_actionExport_triggered()));
+    _sc_save   = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_actionSave_triggered()));
+    _sc_export = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_actionExport_triggered()));
 
     updateGUI();
 }
@@ -66,10 +66,10 @@ MainWindow::~MainWindow()
 {
     settingsSave();
 
-    if ( sc_save_   ) { delete sc_save_;   } sc_save_   = nullptr;
-    if ( sc_export_ ) { delete sc_export_; } sc_export_ = nullptr;
+    if ( _sc_save   ) { delete _sc_save;   } _sc_save   = nullptr;
+    if ( _sc_export ) { delete _sc_export; } _sc_export = nullptr;
 
-    if ( ui_ ) { delete ui_; } ui_ = nullptr;
+    if ( _ui ) { delete _ui; } _ui = nullptr;
 }
 
 void MainWindow::openFileFromCommandLine(QString filename)
@@ -89,14 +89,14 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::addRecentFile(QString file)
 {
     QStringList recent_files;
-    for ( auto action : recent_actions_ )
+    for ( auto action : _recentActions )
     {
         action->disconnect();
         recent_files.push_back(action->file());
     }
 
-    recent_actions_.clear();
-    ui_->menuRecentFiles->clear();
+    _recentActions.clear();
+    _ui->menuRecentFiles->clear();
 
     if ( file.length() > 0 )
     {
@@ -114,19 +114,19 @@ void MainWindow::addRecentFile(QString file)
         }
     }
 
-    for ( int i = 0; i < recent_files.size() && i < recent_files_max_; ++i )
+    for ( int i = 0; i < recent_files.size() && i < _recentFilesMax; ++i )
     {
-        RecentFileAction* action = new RecentFileAction(recent_files.at(i), ui_->menuRecentFiles);
-        recent_actions_.push_back(action);
+        RecentFileAction* action = new RecentFileAction(recent_files.at(i), _ui->menuRecentFiles);
+        _recentActions.push_back(action);
 
         connect(action, SIGNAL(triggered(RecentFileAction*)), SLOT(recentFile_triggered(RecentFileAction*)));
-        ui_->menuRecentFiles->addAction(action);
+        _ui->menuRecentFiles->addAction(action);
     }
 }
 
 void MainWindow::askIfSave()
 {
-    if ( !saved_ )
+    if ( !_saved )
     {
         QString title = windowTitle();
         QString text = tr("Current file has unsaved changes.");
@@ -149,7 +149,7 @@ void MainWindow::newFile()
 
     setCurrentFile("");
 
-    aircraftFile_.NewEmpty();
+    _aircraftFile.NewEmpty();
 
     updateGUI();
     updateTitleBar();
@@ -160,7 +160,7 @@ void MainWindow::openFile()
     askIfSave();
 
     QString caption = "Open...";
-    QString dir = ( currentFile_.length() > 0 ) ? QFileInfo(currentFile_).absolutePath() : "";
+    QString dir = ( _currentFile.length() > 0 ) ? QFileInfo(_currentFile).absolutePath() : "";
     QString filter;
     QString selectedFilter;
 
@@ -173,20 +173,20 @@ void MainWindow::openFile()
         QDir proj_dir = QFileInfo(file).absoluteDir();
         file = proj_dir.absoluteFilePath(file);
         setCurrentFile(file);
-        addRecentFile(currentFile_);
-        readFile(currentFile_);
+        addRecentFile(_currentFile);
+        readFile(_currentFile);
     }
 
     updateGUI();
-    saved_ = true;
+    _saved = true;
     updateTitleBar();
 }
 
 void MainWindow::saveFile()
 {
-    if ( currentFile_.length() > 0 )
+    if ( _currentFile.length() > 0 )
     {
-        saveFile(currentFile_);
+        saveFile(_currentFile);
     }
     else
     {
@@ -197,7 +197,7 @@ void MainWindow::saveFile()
 void MainWindow::saveFileAs()
 {
     QString caption = "Save as...";
-    QString dir = ( currentFile_.length() > 0 ) ? QFileInfo(currentFile_).absolutePath() : ".";
+    QString dir = ( _currentFile.length() > 0 ) ? QFileInfo(_currentFile).absolutePath() : ".";
     QString filter;
     QString selectedFilter;
 
@@ -212,7 +212,7 @@ void MainWindow::saveFileAs()
         QDir proj_dir = QFileInfo(newFile).absoluteDir();
         newFile = proj_dir.absoluteFilePath(newFile);
         setCurrentFile(newFile);
-        saveFile(currentFile_);
+        saveFile(_currentFile);
     }
 }
 
@@ -245,7 +245,7 @@ void MainWindow::readFile(QString fileName)
         QDir proj_dir = fileInfo.absoluteDir();
         QString fileFullPath = proj_dir.absoluteFilePath(fileInfo.fileName());
 
-        if ( !aircraftFile_.ReadFile(fileFullPath.toStdString().c_str()) )
+        if ( !_aircraftFile.ReadFile(fileFullPath.toStdString().c_str()) )
         {
             QMessageBox::warning(
                 this, APP_TITLE,
@@ -260,15 +260,15 @@ void MainWindow::readFile(QString fileName)
     }
 
     updateGUI();
-    saved_ = true;
+    _saved = true;
     updateTitleBar();
 }
 
 void MainWindow::saveFile(QString fileName)
 {
-    if ( aircraftFile_.SaveFile(fileName.toStdString().c_str()) )
+    if ( _aircraftFile.SaveFile(fileName.toStdString().c_str()) )
     {
-        saved_ = true;
+        _saved = true;
     }
     else
     {
@@ -284,7 +284,7 @@ void MainWindow::saveFile(QString fileName)
 
 void MainWindow::exportAs(QString fileName)
 {
-    if ( !aircraftFile_.ExportAs(fileName.toStdString().c_str()) )
+    if ( !_aircraftFile.ExportAs(fileName.toStdString().c_str()) )
     {
         QMessageBox::warning(
             this, APP_TITLE,
@@ -295,8 +295,8 @@ void MainWindow::exportAs(QString fileName)
 
 void MainWindow::setCurrentFile(const QString& currentFile)
 {
-    currentFile_ = currentFile;
-    ui_->widgetCGI->getManagerCGI()->SetProjectDir(QFileInfo(currentFile_).absolutePath());
+    _currentFile = currentFile;
+    _ui->widgetCGI->getManagerCGI()->setProjectDir(QFileInfo(_currentFile).absolutePath());
 }
 
 void MainWindow::setSideDockAreasFullHeight(bool left, bool rght)
@@ -334,7 +334,7 @@ void MainWindow::settingsRead()
     restoreGeometry(settings.value("geometry").toByteArray());
 
     bool grid_visible = settings.value("grid_visible" , 1).toBool();
-    ui_->actionShowGrid->setChecked(grid_visible);
+    _ui->actionShowGrid->setChecked(grid_visible);
 
     settingsRead_RecentFiles(settings);
 
@@ -346,10 +346,10 @@ void MainWindow::settingsRead_RecentFiles(QSettings& settings)
     QStringList recent_files = settings.value("recent_files").toStringList();
     for ( auto file : recent_files )
     {
-        RecentFileAction* action = new RecentFileAction(file, ui_->menuRecentFiles);
-        recent_actions_.push_back(action);
+        RecentFileAction* action = new RecentFileAction(file, _ui->menuRecentFiles);
+        _recentActions.push_back(action);
         connect(action, SIGNAL(triggered(RecentFileAction*)), SLOT(recentFile_triggered(RecentFileAction*)));
-        ui_->menuRecentFiles->addAction(action);
+        _ui->menuRecentFiles->addAction(action);
     }
 }
 
@@ -362,7 +362,7 @@ void MainWindow::settingsSave()
     settings.setValue("state", saveState());
     settings.setValue("geometry", saveGeometry());
 
-    settings.setValue("grid_visible", ui_->actionShowGrid->isChecked() ? 1 : 0);
+    settings.setValue("grid_visible", _ui->actionShowGrid->isChecked() ? 1 : 0);
 
     settingsSave_RecentFiles(settings);
 
@@ -372,7 +372,7 @@ void MainWindow::settingsSave()
 void MainWindow::settingsSave_RecentFiles(QSettings& settings)
 {
     QStringList recent_files;
-    for ( auto action : recent_actions_ )
+    for ( auto action : _recentActions )
     {
         recent_files.push_back(action->file());
     }
@@ -382,12 +382,12 @@ void MainWindow::settingsSave_RecentFiles(QSettings& settings)
 
 void MainWindow::updateGUI()
 {
-    dockParams_->updateGUI();
-    dockComponents_->updateGUI();
-    dockResults_->updateGUI();
+    _dockParams     ->updateGUI();
+    _dockComponents ->updateGUI();
+    _dockResults    ->updateGUI();
 
-    const AircraftData* data = aircraftFile_.GetAircraftData();
-    ui_->widgetCGI->getManagerCGI()->SetModelData(
+    const AircraftData* data = _aircraftFile.GetAircraftData();
+    _ui->widgetCGI->getManagerCGI()->setModelData(
                 data->model3d.file,
                 data->model3d.offset_x(),
                 data->model3d.offset_y(),
@@ -403,29 +403,29 @@ void MainWindow::updateTitleBar()
 {
     QString title = APP_TITLE;
 
-    if ( currentFile_.length() > 0 )
+    if ( _currentFile.length() > 0 )
     {
-        title += " - " + QFileInfo(currentFile_).fileName();
+        title += " - " + QFileInfo(_currentFile).fileName();
     }
 
-    if ( !saved_ ) title += " (*)";
+    if ( !_saved ) title += " (*)";
 
     setWindowTitle(title);
 }
 
 void MainWindow::on_aircraftChanged()
 {
-    saved_ = false;
+    _saved = false;
     updateTitleBar();
     updateGUI();
 }
 
 void MainWindow::on_currentComponentChanged()
 {
-    int index = dockComponents_->getCurrentComponentIndex();
+    int index = _dockComponents->getCurrentComponentIndex();
     if ( index >= 0 )
     {
-        const Component* component = aircraftFile_.GetAircraft()->GetComponent(index);
+        const Component* component = _aircraftFile.GetAircraft()->GetComponent(index);
 
         PositionVector pos = component->GetPosition();
 
@@ -433,7 +433,7 @@ void MainWindow::on_currentComponentChanged()
         units::length::meter_t w = component->GetWidth();
         units::length::meter_t h = component->GetHeight();
 
-        ui_->widgetCGI->getManagerCGI()->SetHighlightData(
+        _ui->widgetCGI->getManagerCGI()->setHighlightData(
                     true,
                     pos.x()(), pos.y()(), pos.z()(),
                     l(), w(), h()
@@ -441,7 +441,7 @@ void MainWindow::on_currentComponentChanged()
     }
     else
     {
-        ui_->widgetCGI->getManagerCGI()->SetHighlightData(false);
+        _ui->widgetCGI->getManagerCGI()->setHighlightData(false);
     }
 }
 
@@ -477,52 +477,52 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionClearRecent_triggered()
 {
-    for ( auto action : recent_actions_ )
+    for ( auto action : _recentActions )
     {
         action->disconnect(this, SLOT(recentFile_triggered(RecentFileAction*)));
     }
-    recent_actions_.clear();
-    ui_->menuRecentFiles->clear();
+    _recentActions.clear();
+    _ui->menuRecentFiles->clear();
 }
 
 void MainWindow::on_actionShowGrid_toggled(bool checked)
 {
-    ui_->widgetCGI->getManagerCGI()->SetGridVisibility(checked);
+    _ui->widgetCGI->getManagerCGI()->setGridVisibility(checked);
 }
 
 void MainWindow::on_actionViewDefault_triggered()
 {
-    ui_->widgetCGI->resetView();
+    _ui->widgetCGI->resetView();
 }
 
 void MainWindow::on_actionViewTop_triggered()
 {
-    ui_->widgetCGI->topView();
+    _ui->widgetCGI->topView();
 }
 
 void MainWindow::on_actionViewBottom_triggered()
 {
-    ui_->widgetCGI->bottomView();
+    _ui->widgetCGI->bottomView();
 }
 
 void MainWindow::on_actionViewBack_triggered()
 {
-    ui_->widgetCGI->backView();
+    _ui->widgetCGI->backView();
 }
 
 void MainWindow::on_actionViewFront_triggered()
 {
-    ui_->widgetCGI->frontView();
+    _ui->widgetCGI->frontView();
 }
 
 void MainWindow::on_actionViewLeft_triggered()
 {
-    ui_->widgetCGI->leftView();
+    _ui->widgetCGI->leftView();
 }
 
 void MainWindow::on_actionViewRight_triggered()
 {
-    ui_->widgetCGI->rightView();
+    _ui->widgetCGI->rightView();
 }
 
 void MainWindow::on_actionAbout_triggered()
