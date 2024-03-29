@@ -33,7 +33,7 @@ class RotorTail : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "rotor_tail" };    ///< component XML tag name
+    static constexpr char kXmlTagName[] { "rotor_tail" };    ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -54,14 +54,14 @@ public:
      */
     inline units::mass::kilogram_t GetEstimatedMass() const override
     {
-        return GetEstimatedMass(*data_);
+        return GetEstimatedMass(*_data);
     }
 
     /**
      * @brief Returns component XML tag name.
      * @return component XML tag name
      */
-    inline const char* GetXmlTagName() const override { return xmlTagName; }
+    inline const char* GetXmlTagName() const override { return kXmlTagName; }
 
     InertiaMatrix GetInertia() const override;
 };

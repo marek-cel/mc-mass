@@ -149,7 +149,7 @@ void MainWindow::newFile()
 
     setCurrentFile("");
 
-    _aircraftFile.NewEmpty();
+    _aircraftFile.newEmpty();
 
     updateGUI();
     updateTitleBar();
@@ -245,7 +245,7 @@ void MainWindow::readFile(QString fileName)
         QDir proj_dir = fileInfo.absoluteDir();
         QString fileFullPath = proj_dir.absoluteFilePath(fileInfo.fileName());
 
-        if ( !_aircraftFile.ReadFile(fileFullPath.toStdString().c_str()) )
+        if ( !_aircraftFile.readFile(fileFullPath.toStdString().c_str()) )
         {
             QMessageBox::warning(
                 this, APP_TITLE,
@@ -266,7 +266,7 @@ void MainWindow::readFile(QString fileName)
 
 void MainWindow::saveFile(QString fileName)
 {
-    if ( _aircraftFile.SaveFile(fileName.toStdString().c_str()) )
+    if ( _aircraftFile.saveFile(fileName.toStdString().c_str()) )
     {
         _saved = true;
     }
@@ -284,7 +284,7 @@ void MainWindow::saveFile(QString fileName)
 
 void MainWindow::exportAs(QString fileName)
 {
-    if ( !_aircraftFile.ExportAs(fileName.toStdString().c_str()) )
+    if ( !_aircraftFile.exportAs(fileName.toStdString().c_str()) )
     {
         QMessageBox::warning(
             this, APP_TITLE,
@@ -386,7 +386,7 @@ void MainWindow::updateGUI()
     _dockComponents ->updateGUI();
     _dockResults    ->updateGUI();
 
-    const AircraftData* data = _aircraftFile.GetAircraftData();
+    const AircraftData* data = _aircraftFile.getAircraftData();
     _ui->widgetCGI->getManagerCGI()->setModelData(
                 data->model3d.file,
                 data->model3d.offset_x(),
@@ -425,7 +425,7 @@ void MainWindow::on_currentComponentChanged()
     int index = _dockComponents->getCurrentComponentIndex();
     if ( index >= 0 )
     {
-        const Component* component = _aircraftFile.GetAircraft()->GetComponent(index);
+        const Component* component = _aircraftFile.getAircraft()->getComponent(index);
 
         PositionVector pos = component->GetPosition();
 

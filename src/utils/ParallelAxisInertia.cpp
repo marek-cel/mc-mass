@@ -19,7 +19,7 @@
 
 #include <utils/ParallelAxisInertia.h>
 
-InertiaMatrix GetParallelAxisInertia(units::mass::kilogram_t m,
+InertiaMatrix getParallelAxisInertia(units::mass::kilogram_t m,
                                      const InertiaMatrix& i,
                                      const PositionVector& r)
 {

@@ -21,7 +21,7 @@
 
 #include <utils/Atmosphere.h>
 
-constexpr char Wing::xmlTagName[];
+constexpr char Wing::kXmlTagName[];
 
 units::mass::kilogram_t Wing::GetEstimatedMass(const AircraftData& data)
 {
@@ -92,7 +92,7 @@ units::mass::kilogram_t Wing::GetEstimatedMass(const AircraftData& data)
         {
             mass::pound_t w_fw = data.wing.fuel;
             velocity::meters_per_second_t v = data.general.v_cruise;
-            density::kilograms_per_cubic_meter_t rho = Atmosphere::GetDensity(data.general.h_cruise);
+            density::kilograms_per_cubic_meter_t rho = Atmosphere::getDensity(data.general.h_cruise);
             pressure::pounds_per_square_foot_t q = 0.5 * rho * v*v;
 
             m2 = 0.036_lb

@@ -129,14 +129,14 @@ const double Atmosphere::_std_sl_rho = 1.225;
 const double Atmosphere::_g = 9.80665;
 
 units::density::kilograms_per_cubic_meter_t
-Atmosphere::GetDensity(units::length::meter_t altitude)
+Atmosphere::getDensity(units::length::meter_t altitude)
 {
     Atmosphere atmosphere;
-    atmosphere.Update(altitude());
-    return units::density::kilograms_per_cubic_meter_t(atmosphere.GetDensity());
+    atmosphere.update(altitude());
+    return units::density::kilograms_per_cubic_meter_t(atmosphere.getDensity());
 }
 
-void Atmosphere::Update(double altitude)
+void Atmosphere::update(double altitude)
 {
     double h_b = _h_b[5];
     double p_b = _p_b[6];

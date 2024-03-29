@@ -66,7 +66,7 @@ public:
     void update();
 
     inline const Components& getComponents() const { return _components;}
-_
+
     Component* getComponent(int index);
     void addComponent(Component* component);
     void deleteComponent(int index);

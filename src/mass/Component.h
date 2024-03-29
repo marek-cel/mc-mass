@@ -78,15 +78,15 @@ public:
      */
     virtual const char* GetXmlTagName() const = 0;
 
-    inline const char* GetName() const { return name_.c_str(); }
+    inline const char* GetName() const { return _name.c_str(); }
 
-    inline PositionVector GetPosition() const { return r_; }
+    inline PositionVector GetPosition() const { return _r; }
 
-    inline units::mass::kilogram_t GetMass() const { return m_; }
+    inline units::mass::kilogram_t GetMass() const { return _m; }
 
-    inline units::length::meter_t GetLength () const { return l_; }
-    inline units::length::meter_t GetWidth  () const { return w_; }
-    inline units::length::meter_t GetHeight () const { return h_; }
+    inline units::length::meter_t GetLength () const { return _l; }
+    inline units::length::meter_t GetWidth  () const { return _w; }
+    inline units::length::meter_t GetHeight () const { return _h; }
 
     /**
      * @brief getInertia
@@ -113,17 +113,17 @@ public:
 
 protected:
 
-    const AircraftData *data_;  ///< aircraft data
+    const AircraftData* _data;  ///< aircraft data
 
-    std::string name_;          ///< component name
+    std::string _name;          ///< component name
 
-    PositionVector r_;          ///< position
+    PositionVector _r;          ///< position
 
-    units::mass::kilogram_t m_ = 0.0_kg;    ///< [kg] mass
+    units::mass::kilogram_t _m = 0.0_kg;    ///< [kg] mass
 
-    units::length::meter_t l_ = 0.0_m;      ///< length
-    units::length::meter_t w_ = 0.0_m;      ///< width
-    units::length::meter_t h_ = 0.0_m;      ///< height
+    units::length::meter_t _l = 0.0_m;      ///< length
+    units::length::meter_t _w = 0.0_m;      ///< width
+    units::length::meter_t _h = 0.0_m;      ///< height
 
     virtual void SaveParameters(QDomDocument* doc, QDomElement* node);
 };

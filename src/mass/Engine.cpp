@@ -19,7 +19,7 @@
 
 #include <mass/Engine.h>
 
-constexpr char Engine::xmlTagName[];
+constexpr char Engine::kXmlTagName[];
 
 units::mass::kilogram_t Engine::GetEstimatedMass(const AircraftData& data)
 {

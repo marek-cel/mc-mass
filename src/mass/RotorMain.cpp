@@ -19,7 +19,7 @@
 
 #include <mass/RotorMain.h>
 
-constexpr char RotorMain::xmlTagName[];
+constexpr char RotorMain::kXmlTagName[];
 
 units::mass::kilogram_t RotorMain::GetEstimatedMass(const AircraftData& data)
 {

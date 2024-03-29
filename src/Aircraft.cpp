@@ -101,35 +101,35 @@ std::string AircraftToString(ME me,
 
 Aircraft::Aircraft()
 {
-    Reset();
+    reset();
 }
 
 Aircraft::~Aircraft()
 {
-    DeleteAllComponents();
+    deleteAllComponents();
 }
 
-bool Aircraft::Read(QDomElement* parentNode)
+bool Aircraft::read(QDomElement* parentNode)
 {
     if ( !parentNode->isNull() )
     {
         int type_temp = parentNode->attributeNode("type").value().toInt();
 
-        data_.type = AircraftData::FighterAttack;
+        _data.type = AircraftData::FighterAttack;
 
         switch ( type_temp )
         {
         case AircraftData::FighterAttack:
-            data_.type = AircraftData::FighterAttack;
+            _data.type = AircraftData::FighterAttack;
             break;
         case AircraftData::CargoTransport:
-            data_.type = AircraftData::CargoTransport;
+            _data.type = AircraftData::CargoTransport;
             break;
         case AircraftData::GeneralAviation:
-            data_.type = AircraftData::GeneralAviation;
+            _data.type = AircraftData::GeneralAviation;
             break;
         case AircraftData::Helicopter:
-            data_.type = AircraftData::Helicopter;
+            _data.type = AircraftData::Helicopter;
             break;
         }
 
@@ -140,10 +140,10 @@ bool Aircraft::Read(QDomElement* parentNode)
         {
             bool result = true;
 
-            if ( result ) result = ReadData(&dataNode);
-            if ( result ) result = ReadComponents(&componentsNode);
+            if ( result ) result = readData(&dataNode);
+            if ( result ) result = readComponents(&componentsNode);
 
-            if ( result ) Update();
+            if ( result ) update();
 
             return result;
         }
@@ -152,10 +152,10 @@ bool Aircraft::Read(QDomElement* parentNode)
     return false;
 }
 
-void Aircraft::Save(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::save(QDomDocument* doc, QDomElement* parentNode)
 {
     QDomAttr nodeType = doc->createAttribute("type");
-    nodeType.setValue(QString::number(data_.type));
+    nodeType.setValue(QString::number(_data.type));
     parentNode->setAttributeNode(nodeType);
 
     // data
@@ -165,204 +165,204 @@ void Aircraft::Save(QDomDocument* doc, QDomElement* parentNode)
     // data - general
     QDomElement nodeGeneral = doc->createElement("general");
     nodeData.appendChild(nodeGeneral);
-    SaveDataGeneral(doc, &nodeGeneral);
+    saveDataGeneral(doc, &nodeGeneral);
 
     // data - fuselage
     QDomElement nodeFuselage = doc->createElement("fuselage");
     nodeData.appendChild(nodeFuselage);
-    SaveDataFuselage(doc, &nodeFuselage);
+    saveDataFuselage(doc, &nodeFuselage);
 
     // data - wing
     QDomElement nodeWing = doc->createElement("wing");
     nodeData.appendChild(nodeWing);
-    SaveDataWing(doc, &nodeWing);
+    saveDataWing(doc, &nodeWing);
 
     // data - horizontal tail
     QDomElement nodeHorTail = doc->createElement("hor_tail");
     nodeData.appendChild(nodeHorTail);
-    SaveDataHorTail(doc, &nodeHorTail);
+    saveDataHorTail(doc, &nodeHorTail);
 
     // data - vertical tail
     QDomElement nodeVerTail = doc->createElement("ver_tail");
     nodeData.appendChild(nodeVerTail);
-    SaveDataVerTail(doc, &nodeVerTail);
+    saveDataVerTail(doc, &nodeVerTail);
 
     // data - landing gear
     QDomElement nodeLandingGear = doc->createElement("landing_gear");
     nodeData.appendChild(nodeLandingGear);
-    SaveDataLandingGear(doc, &nodeLandingGear);
+    saveDataLandingGear(doc, &nodeLandingGear);
 
     // data - engine
     QDomElement nodeEngine = doc->createElement("engine");
     nodeData.appendChild(nodeEngine);
-    SaveDataEngine(doc, &nodeEngine);
+    saveDataEngine(doc, &nodeEngine);
 
     // rotors
     QDomElement nodeRotors = doc->createElement("rotors");
     nodeData.appendChild(nodeRotors);
-    SaveDataRotors(doc, &nodeRotors);
+    saveDataRotors(doc, &nodeRotors);
 
     // model 3D
     QDomElement nodeModel3D = doc->createElement("model3d");
     nodeData.appendChild(nodeModel3D);
-    SaveDataModel3D(doc, &nodeModel3D);
+    saveDataModel3D(doc, &nodeModel3D);
 
     // components
     QDomElement componentsNode = doc->createElement("components");
     parentNode->appendChild(componentsNode);
 
-    for ( auto component : components_ )
+    for ( auto component : _components )
     {
         component->Save(doc, &componentsNode);
     }
 }
 
-void Aircraft::Reset()
+void Aircraft::reset()
 {
-    data_.type = AircraftData::FighterAttack;
+    _data.type = AircraftData::FighterAttack;
 
     // general
-    data_.general.m_empty    = 0.0_kg;
-    data_.general.mtow       = 0.0_kg;
-    data_.general.m_maxLand  = 0.0_kg;
-    data_.general.nz_max     = 1.0;
-    data_.general.nz_maxLand = 1.0;
-    data_.general.v_stall    = 0.0_kts;
-    data_.general.h_cruise   = 0.0_ft;
-    data_.general.v_cruise   = 0.0_kts;
-    data_.general.mach_max   = 0.0;
-    data_.general.navy_ac    = false;
+    _data.general.m_empty    = 0.0_kg;
+    _data.general.mtow       = 0.0_kg;
+    _data.general.m_maxLand  = 0.0_kg;
+    _data.general.nz_max     = 1.0;
+    _data.general.nz_maxLand = 1.0;
+    _data.general.v_stall    = 0.0_kts;
+    _data.general.h_cruise   = 0.0_ft;
+    _data.general.v_cruise   = 0.0_kts;
+    _data.general.mach_max   = 0.0;
+    _data.general.navy_ac    = false;
 
     // fuselage
-    data_.fuselage.cargo_door   = AircraftData::Fuselage::NoCargoDoor;
-    data_.fuselage.l            = 0.0_m;
-    data_.fuselage.h            = 0.0_m;
-    data_.fuselage.w            = 0.0_m;
-    data_.fuselage.l_n          = 0.0_m;
-    data_.fuselage.wetted_area  = 0.0_sq_m;
-    data_.fuselage.press_vol    = 0.0_cu_m;
-    data_.fuselage.landing_gear = false;
-    data_.fuselage.cargo_ramp   = false;
-    data_.fuselage.wetted_area_override = false;
+    _data.fuselage.cargo_door   = AircraftData::Fuselage::NoCargoDoor;
+    _data.fuselage.l            = 0.0_m;
+    _data.fuselage.h            = 0.0_m;
+    _data.fuselage.w            = 0.0_m;
+    _data.fuselage.l_n          = 0.0_m;
+    _data.fuselage.wetted_area  = 0.0_sq_m;
+    _data.fuselage.press_vol    = 0.0_cu_m;
+    _data.fuselage.landing_gear = false;
+    _data.fuselage.cargo_ramp   = false;
+    _data.fuselage.wetted_area_override = false;
 
     // wing
-    data_.wing.area      = 0.0_sq_m;
-    data_.wing.area_exp  = 0.0_sq_m;
-    data_.wing.span      = 0.0_m;
-    data_.wing.sweep     = 0.0_deg;
-    data_.wing.c_tip     = 0.0_m;
-    data_.wing.c_root    = 0.0_m;
-    data_.wing.ar        = 0.0;
-    data_.wing.tr        = 0.0;
-    data_.wing.tc        = 0.0;
-    data_.wing.fuel      = 0.0_kg;
-    data_.wing.ctrl_area = 0.0_sq_m;
-    data_.wing.delta     = false;
-    data_.wing.var_sweep = false;
+    _data.wing.area      = 0.0_sq_m;
+    _data.wing.area_exp  = 0.0_sq_m;
+    _data.wing.span      = 0.0_m;
+    _data.wing.sweep     = 0.0_deg;
+    _data.wing.c_tip     = 0.0_m;
+    _data.wing.c_root    = 0.0_m;
+    _data.wing.ar        = 0.0;
+    _data.wing.tr        = 0.0;
+    _data.wing.tc        = 0.0;
+    _data.wing.fuel      = 0.0_kg;
+    _data.wing.ctrl_area = 0.0_sq_m;
+    _data.wing.delta     = false;
+    _data.wing.var_sweep = false;
 
     // horizontal tail
-    data_.hor_tail.area      = 0.0_sq_m;
-    data_.hor_tail.span      = 0.0_m;
-    data_.hor_tail.sweep     = 0.0_deg;
-    data_.hor_tail.c_tip     = 0.0_m;
-    data_.hor_tail.c_root    = 0.0_m;
-    data_.hor_tail.tc        = 0.0;
-    data_.hor_tail.elev_area = 0.0_sq_m;
-    data_.hor_tail.w_f       = 0.0_m;
-    data_.hor_tail.arm       = 0.0_m;
-    data_.hor_tail.ar        = 0.0;
-    data_.hor_tail.tr        = 0.0;
-    data_.hor_tail.moving    = false;
-    data_.hor_tail.rolling   = false;
+    _data.hor_tail.area      = 0.0_sq_m;
+    _data.hor_tail.span      = 0.0_m;
+    _data.hor_tail.sweep     = 0.0_deg;
+    _data.hor_tail.c_tip     = 0.0_m;
+    _data.hor_tail.c_root    = 0.0_m;
+    _data.hor_tail.tc        = 0.0;
+    _data.hor_tail.elev_area = 0.0_sq_m;
+    _data.hor_tail.w_f       = 0.0_m;
+    _data.hor_tail.arm       = 0.0_m;
+    _data.hor_tail.ar        = 0.0;
+    _data.hor_tail.tr        = 0.0;
+    _data.hor_tail.moving    = false;
+    _data.hor_tail.rolling   = false;
 
     // vertical tail
-    data_.ver_tail.area      = 0.0_sq_m;
-    data_.ver_tail.height    = 0.0_m;
-    data_.ver_tail.sweep     = 0.0_deg;
-    data_.ver_tail.c_tip     = 0.0_m;
-    data_.ver_tail.c_root    = 0.0_m;
-    data_.ver_tail.tc        = 0.0;
-    data_.ver_tail.arm       = 0.0_m;
-    data_.ver_tail.rudd_area = 0.0_sq_m;
-    data_.ver_tail.ar        = 0.0;
-    data_.ver_tail.tr        = 0.0;
-    data_.ver_tail.t_tail    = false;
-    data_.ver_tail.rotor     = false;
+    _data.ver_tail.area      = 0.0_sq_m;
+    _data.ver_tail.height    = 0.0_m;
+    _data.ver_tail.sweep     = 0.0_deg;
+    _data.ver_tail.c_tip     = 0.0_m;
+    _data.ver_tail.c_root    = 0.0_m;
+    _data.ver_tail.tc        = 0.0;
+    _data.ver_tail.arm       = 0.0_m;
+    _data.ver_tail.rudd_area = 0.0_sq_m;
+    _data.ver_tail.ar        = 0.0;
+    _data.ver_tail.tr        = 0.0;
+    _data.ver_tail.t_tail    = false;
+    _data.ver_tail.rotor     = false;
 
     // landing gear
-    data_.landing_gear.main_l      = 0.0_m;
-    data_.landing_gear.nose_l      = 0.0_m;
-    data_.landing_gear.main_wheels = 0;
-    data_.landing_gear.main_struts = 0;
-    data_.landing_gear.nose_wheels = 0;
-    data_.landing_gear.fixed       = false;
-    data_.landing_gear.cross       = false;
-    data_.landing_gear.tripod      = false;
-    data_.landing_gear.main_kneel  = false;
-    data_.landing_gear.nose_kneel  = false;
+    _data.landing_gear.main_l      = 0.0_m;
+    _data.landing_gear.nose_l      = 0.0_m;
+    _data.landing_gear.main_wheels = 0;
+    _data.landing_gear.main_struts = 0;
+    _data.landing_gear.nose_wheels = 0;
+    _data.landing_gear.fixed       = false;
+    _data.landing_gear.cross       = false;
+    _data.landing_gear.tripod      = false;
+    _data.landing_gear.main_kneel  = false;
+    _data.landing_gear.nose_kneel  = false;
 
     // engine
-    data_.engine.mass = 0.0_kg;
+    _data.engine.mass = 0.0_kg;
 
     // rotors
-    data_.rotors.main_r          = 0.0_m;
-    data_.rotors.main_cb         = 0.0_m;
-    data_.rotors.main_rpm        = 0.0_rpm;
-    data_.rotors.main_gear_ratio = 1.0;
-    data_.rotors.tail_r          = 0.0_m;
-    data_.rotors.mcp             = 0.0_hp;
-    data_.rotors.main_tip_vel    = 0.0_fps;
-    data_.rotors.main_blades     = 0;
+    _data.rotors.main_r          = 0.0_m;
+    _data.rotors.main_cb         = 0.0_m;
+    _data.rotors.main_rpm        = 0.0_rpm;
+    _data.rotors.main_gear_ratio = 1.0;
+    _data.rotors.tail_r          = 0.0_m;
+    _data.rotors.mcp             = 0.0_hp;
+    _data.rotors.main_tip_vel    = 0.0_fps;
+    _data.rotors.main_blades     = 0;
 
     // 3D model
-    data_.model3d.file = "";
-    data_.model3d.offset_x = 0.0_m;
-    data_.model3d.offset_y = 0.0_m;
-    data_.model3d.offset_z = 0.0_m;
-    data_.model3d.rotation_x = 0.0_deg;
-    data_.model3d.rotation_y = 0.0_deg;
-    data_.model3d.rotation_z = 0.0_deg;
-    data_.model3d.scale = 1.0;
+    _data.model3d.file = "";
+    _data.model3d.offset_x = 0.0_m;
+    _data.model3d.offset_y = 0.0_m;
+    _data.model3d.offset_z = 0.0_m;
+    _data.model3d.rotation_x = 0.0_deg;
+    _data.model3d.rotation_y = 0.0_deg;
+    _data.model3d.rotation_z = 0.0_deg;
+    _data.model3d.scale = 1.0;
 
     // RESULTS
-    centerOfMass_.x() = 0.0_m;
-    centerOfMass_.y() = 0.0_m;
-    centerOfMass_.z() = 0.0_m;
+    _centerOfMass.x() = 0.0_m;
+    _centerOfMass.y() = 0.0_m;
+    _centerOfMass.z() = 0.0_m;
 
-    inertiaMatrix_.ixx() = 0.0_kg_m2;
-    inertiaMatrix_.ixy() = 0.0_kg_m2;
-    inertiaMatrix_.ixz() = 0.0_kg_m2;
-    inertiaMatrix_.iyx() = 0.0_kg_m2;
-    inertiaMatrix_.iyy() = 0.0_kg_m2;
-    inertiaMatrix_.iyz() = 0.0_kg_m2;
-    inertiaMatrix_.izx() = 0.0_kg_m2;
-    inertiaMatrix_.izy() = 0.0_kg_m2;
-    inertiaMatrix_.izz() = 0.0_kg_m2;
+    _inertiaMatrix.ixx() = 0.0_kg_m2;
+    _inertiaMatrix.ixy() = 0.0_kg_m2;
+    _inertiaMatrix.ixz() = 0.0_kg_m2;
+    _inertiaMatrix.iyx() = 0.0_kg_m2;
+    _inertiaMatrix.iyy() = 0.0_kg_m2;
+    _inertiaMatrix.iyz() = 0.0_kg_m2;
+    _inertiaMatrix.izx() = 0.0_kg_m2;
+    _inertiaMatrix.izy() = 0.0_kg_m2;
+    _inertiaMatrix.izz() = 0.0_kg_m2;
 
-    totalEmptyMass_ = 0.0_kg;
+    _totalEmptyMass = 0.0_kg;
 
-    DeleteAllComponents();
+    deleteAllComponents();
 }
 
-void Aircraft::Update()
+void Aircraft::update()
 {
     units::mass::kilogram_t m = 0.0_kg;
     FirstMomentOfMass s;
     InertiaMatrix i;
 
-    if ( verbose_ )
+    if ( _verbose )
     {
         std::cout << std::endl;
     }
 
-    for ( auto component : components_ )
+    for ( auto component : _components )
     {
         units::mass::kilogram_t mc = component->GetMass();
         PositionVector rc = component->GetPosition();
         FirstMomentOfMass sc = component->GetMass() * rc;
         InertiaMatrix ic = component->GetInertia();
 
-        if ( verbose_ )
+        if ( _verbose )
         {
             std::cout << "\"" << component->GetName() << "\"\t";
             std::cout << mc() << "\t";
@@ -383,19 +383,19 @@ void Aircraft::Update()
 
         m += mc;
         s += sc;
-        i += GetParallelAxisInertia(mc, ic, rc);
+        i += getParallelAxisInertia(mc, ic, rc);
     }
 
-    centerOfMass_ = ( m > 0.0_kg ) ? (s / m) : PositionVector();
-    inertiaMatrix_ = i;
-    totalEmptyMass_ = m;
+    _centerOfMass = ( m > 0.0_kg ) ? (s / m) : PositionVector();
+    _inertiaMatrix = i;
+    _totalEmptyMass = m;
 }
 
-Component* Aircraft::GetComponent(int index)
+Component* Aircraft::getComponent(int index)
 {
-    Components::iterator it = components_.begin() + index;
+    Components::iterator it = _components.begin() + index;
 
-    if ( it != components_.end() )
+    if ( it != _components.end() )
     {
         return (*it);
     }
@@ -403,61 +403,61 @@ Component* Aircraft::GetComponent(int index)
     return nullptr;
 }
 
-void Aircraft::AddComponent(Component* component)
+void Aircraft::addComponent(Component* component)
 {
-    components_.push_back(component);
-    Update();
+    _components.push_back(component);
+    update();
 }
 
-void Aircraft::DeleteComponent(int index)
+void Aircraft::deleteComponent(int index)
 {
-    Components::iterator it = components_.begin() + index;
+    Components::iterator it = _components.begin() + index;
 
-    if ( it != components_.end() )
+    if ( it != _components.end() )
     {
         if ( *it ) { delete *it; } *it = nullptr;
-        components_.erase(it);
+        _components.erase(it);
     }
 
-    Update();
+    update();
 }
 
-void Aircraft::SetData(const AircraftData& data)
+void Aircraft::setData(const AircraftData& data)
 {
-    data_ = data;
+    _data = data;
 }
 
-std::string Aircraft::ToString() const
+std::string Aircraft::toString() const
 {
-    std::string metric = ToStringMetric();
-    std::string imperial = ToStringImperial();
+    std::string metric = toStringMetric();
+    std::string imperial = toStringImperial();
     return metric + imperial;
 }
 
-void Aircraft::DeleteAllComponents()
+void Aircraft::deleteAllComponents()
 {
-    Components::iterator it = components_.begin();
+    Components::iterator it = _components.begin();
 
-    while ( it != components_.end() )
+    while ( it != _components.end() )
     {
         if ( *it ) { delete *it; } *it = nullptr;
-        it = components_.erase(it);
+        it = _components.erase(it);
     }
 
-    Update();
+    update();
 }
 
-bool Aircraft::ReadData( QDomElement *dataNode )
+bool Aircraft::readData( QDomElement *dataNode )
 {
-    QDomElement nodeGeneral = dataNode->firstChildElement("general");
-    QDomElement nodeFuselage = dataNode->firstChildElement("fuselage");
-    QDomElement nodeWing = dataNode->firstChildElement("wing");
-    QDomElement nodeHorTail = dataNode->firstChildElement("hor_tail");
-    QDomElement nodeVerTail = dataNode->firstChildElement("ver_tail");
+    QDomElement nodeGeneral     = dataNode->firstChildElement("general");
+    QDomElement nodeFuselage    = dataNode->firstChildElement("fuselage");
+    QDomElement nodeWing        = dataNode->firstChildElement("wing");
+    QDomElement nodeHorTail     = dataNode->firstChildElement("hor_tail");
+    QDomElement nodeVerTail     = dataNode->firstChildElement("ver_tail");
     QDomElement nodeLandingGear = dataNode->firstChildElement("landing_gear");
-    QDomElement nodeEngine = dataNode->firstChildElement("engine");
-    QDomElement nodeRotors = dataNode->firstChildElement("rotors");
-    QDomElement nodeModel3D = dataNode->firstChildElement("model3d");
+    QDomElement nodeEngine      = dataNode->firstChildElement("engine");
+    QDomElement nodeRotors      = dataNode->firstChildElement("rotors");
+    QDomElement nodeModel3D     = dataNode->firstChildElement("model3d");
 
     if ( !nodeGeneral.isNull()
       && !nodeFuselage.isNull()
@@ -472,15 +472,15 @@ bool Aircraft::ReadData( QDomElement *dataNode )
     {
         bool result = true;
 
-        if ( result ) result = ReadDataGeneral     ( &nodeGeneral     );
-        if ( result ) result = ReadDataFuselage    ( &nodeFuselage    );
-        if ( result ) result = ReadDataWing        ( &nodeWing        );
-        if ( result ) result = ReadDataHorTail     ( &nodeHorTail     );
-        if ( result ) result = ReadDataVerTail     ( &nodeVerTail     );
-        if ( result ) result = ReadDataLandingGear ( &nodeLandingGear );
-        if ( result ) result = ReadDataEngine      ( &nodeEngine      );
-        if ( result ) result = ReadDataRotors      ( &nodeRotors      );
-        if ( result ) result = ReadDataModel3D     ( &nodeModel3D     );
+        if ( result ) result = readDataGeneral     ( &nodeGeneral     );
+        if ( result ) result = readDataFuselage    ( &nodeFuselage    );
+        if ( result ) result = readDataWing        ( &nodeWing        );
+        if ( result ) result = readDataHorTail     ( &nodeHorTail     );
+        if ( result ) result = readDataVerTail     ( &nodeVerTail     );
+        if ( result ) result = readDataLandingGear ( &nodeLandingGear );
+        if ( result ) result = readDataEngine      ( &nodeEngine      );
+        if ( result ) result = readDataRotors      ( &nodeRotors      );
+        if ( result ) result = readDataModel3D     ( &nodeModel3D     );
 
         return result;
     }
@@ -488,19 +488,19 @@ bool Aircraft::ReadData( QDomElement *dataNode )
     return false;
 }
 
-bool Aircraft::ReadDataGeneral(QDomElement* parentNode)
+bool Aircraft::readDataGeneral(QDomElement* parentNode)
 {
-    QDomElement nodeM_empty = parentNode->firstChildElement("m_empty");
-    QDomElement nodeMTOW = parentNode->firstChildElement("mtow");
+    QDomElement nodeM_empty   = parentNode->firstChildElement("m_empty");
+    QDomElement nodeMTOW      = parentNode->firstChildElement("mtow");
     QDomElement nodeM_maxLand = parentNode->firstChildElement("m_max_land");
-    QDomElement nodeMaxFuel = parentNode->firstChildElement("max_fuel");
-    QDomElement nodeNzMax = parentNode->firstChildElement("nz_max");
+    QDomElement nodeMaxFuel   = parentNode->firstChildElement("max_fuel");
+    QDomElement nodeNzMax     = parentNode->firstChildElement("nz_max");
     QDomElement nodeNzMaxLand = parentNode->firstChildElement("nz_max_land");
-    QDomElement nodeStallV = parentNode->firstChildElement("stall_v");
-    QDomElement nodeCruiseH = parentNode->firstChildElement("h_cruise");
-    QDomElement nodeCruiseV = parentNode->firstChildElement("v_cruise");
-    QDomElement nodeMachMax = parentNode->firstChildElement("mach_max");
-    QDomElement nodeNavyAC = parentNode->firstChildElement("navy_ac");
+    QDomElement nodeStallV    = parentNode->firstChildElement("stall_v");
+    QDomElement nodeCruiseH   = parentNode->firstChildElement("h_cruise");
+    QDomElement nodeCruiseV   = parentNode->firstChildElement("v_cruise");
+    QDomElement nodeMachMax   = parentNode->firstChildElement("mach_max");
+    QDomElement nodeNavyAC    = parentNode->firstChildElement("navy_ac");
 
     if ( !nodeM_empty.isNull()
       && !nodeMTOW.isNull()
@@ -515,17 +515,17 @@ bool Aircraft::ReadDataGeneral(QDomElement* parentNode)
       && !nodeNavyAC.isNull()
        )
     {
-        data_.general.m_empty = units::mass::kilogram_t(nodeM_empty.text().toDouble());
-        data_.general.mtow = units::mass::kilogram_t(nodeMTOW.text().toDouble());
-        data_.general.m_maxLand = units::mass::kilogram_t(nodeM_maxLand.text().toDouble());
-        data_.general.m_maxFuel = units::mass::kilogram_t(nodeMaxFuel.text().toDouble());
-        data_.general.nz_max = nodeNzMax.text().toDouble();
-        data_.general.nz_maxLand = nodeNzMaxLand.text().toDouble();
-        data_.general.v_stall = units::velocity::knot_t(nodeStallV.text().toDouble());
-        data_.general.h_cruise = units::length::foot_t(nodeCruiseH.text().toDouble());
-        data_.general.v_cruise = units::velocity::knot_t(nodeCruiseV.text().toDouble());
-        data_.general.mach_max = nodeMachMax.text().toDouble();
-        data_.general.navy_ac = nodeNavyAC.text().toInt();
+        _data.general.m_empty    = units::mass::kilogram_t(nodeM_empty.text().toDouble());
+        _data.general.mtow       = units::mass::kilogram_t(nodeMTOW.text().toDouble());
+        _data.general.m_maxLand  = units::mass::kilogram_t(nodeM_maxLand.text().toDouble());
+        _data.general.m_maxFuel  = units::mass::kilogram_t(nodeMaxFuel.text().toDouble());
+        _data.general.nz_max     = nodeNzMax.text().toDouble();
+        _data.general.nz_maxLand = nodeNzMaxLand.text().toDouble();
+        _data.general.v_stall    = units::velocity::knot_t(nodeStallV.text().toDouble());
+        _data.general.h_cruise   = units::length::foot_t(nodeCruiseH.text().toDouble());
+        _data.general.v_cruise   = units::velocity::knot_t(nodeCruiseV.text().toDouble());
+        _data.general.mach_max   = nodeMachMax.text().toDouble();
+        _data.general.navy_ac    = nodeNavyAC.text().toInt();
 
         return true;
     }
@@ -533,17 +533,17 @@ bool Aircraft::ReadDataGeneral(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataFuselage(QDomElement* parentNode)
+bool Aircraft::readDataFuselage(QDomElement* parentNode)
 {
-    QDomElement nodeCargoDoor = parentNode->firstChildElement("cargo_door");
-    QDomElement nodeFuseL = parentNode->firstChildElement("lenght");
-    QDomElement nodeFuseH = parentNode->firstChildElement("height");
-    QDomElement nodeFuseW = parentNode->firstChildElement("width");
-    QDomElement nodeNoseL = parentNode->firstChildElement("nose_length");
+    QDomElement nodeCargoDoor  = parentNode->firstChildElement("cargo_door");
+    QDomElement nodeFuseL      = parentNode->firstChildElement("lenght");
+    QDomElement nodeFuseH      = parentNode->firstChildElement("height");
+    QDomElement nodeFuseW      = parentNode->firstChildElement("width");
+    QDomElement nodeNoseL      = parentNode->firstChildElement("nose_length");
     QDomElement nodeWettedArea = parentNode->firstChildElement("wetted_area");
-    QDomElement nodePressVol = parentNode->firstChildElement("press_vol");
+    QDomElement nodePressVol   = parentNode->firstChildElement("press_vol");
     QDomElement nodeFuselageLG = parentNode->firstChildElement("landing_gear");
-    QDomElement nodeCargoRamp = parentNode->firstChildElement("cargo_ramp");
+    QDomElement nodeCargoRamp  = parentNode->firstChildElement("cargo_ramp");
     QDomElement nodeWettedAreaOverride = parentNode->firstChildElement("wetted_area_override");
 
     if ( !nodeCargoDoor.isNull()
@@ -560,36 +560,36 @@ bool Aircraft::ReadDataFuselage(QDomElement* parentNode)
     {
         int cargo_door_temp = nodeCargoDoor.text().toInt();
 
-        data_.fuselage.cargo_door = AircraftData::Fuselage::NoCargoDoor;
+        _data.fuselage.cargo_door = AircraftData::Fuselage::NoCargoDoor;
 
         switch ( cargo_door_temp )
         {
         case AircraftData::Fuselage::NoCargoDoor:
-            data_.fuselage.cargo_door = AircraftData::Fuselage::NoCargoDoor;
+            _data.fuselage.cargo_door = AircraftData::Fuselage::NoCargoDoor;
             break;
         case AircraftData::Fuselage::OneSideCargoDoor:
-            data_.fuselage.cargo_door = AircraftData::Fuselage::OneSideCargoDoor;
+            _data.fuselage.cargo_door = AircraftData::Fuselage::OneSideCargoDoor;
             break;
         case AircraftData::Fuselage::TwoSideCargoDoor:
-            data_.fuselage.cargo_door = AircraftData::Fuselage::TwoSideCargoDoor;
+            _data.fuselage.cargo_door = AircraftData::Fuselage::TwoSideCargoDoor;
             break;
         case AircraftData::Fuselage::AftClamshellDoor:
-            data_.fuselage.cargo_door = AircraftData::Fuselage::AftClamshellDoor;
+            _data.fuselage.cargo_door = AircraftData::Fuselage::AftClamshellDoor;
             break;
         case AircraftData::Fuselage::TwoSideAndAftDoor:
-            data_.fuselage.cargo_door = AircraftData::Fuselage::TwoSideAndAftDoor;
+            _data.fuselage.cargo_door = AircraftData::Fuselage::TwoSideAndAftDoor;
             break;
         }
 
-        data_.fuselage.l = units::length::meter_t(nodeFuseL.text().toDouble());
-        data_.fuselage.h = units::length::meter_t(nodeFuseH.text().toDouble());
-        data_.fuselage.w = units::length::meter_t(nodeFuseW.text().toDouble());
-        data_.fuselage.l_n = units::length::meter_t(nodeNoseL.text().toDouble());
-        data_.fuselage.wetted_area = units::area::square_meter_t(nodeWettedArea.text().toDouble());
-        data_.fuselage.press_vol = units::volume::cubic_meter_t(nodePressVol.text().toDouble());
-        data_.fuselage.landing_gear = nodeFuselageLG .text().toInt();
-        data_.fuselage.cargo_ramp = nodeCargoRamp  .text().toInt();
-        data_.fuselage.wetted_area_override = nodeWettedAreaOverride.text().toInt();
+        _data.fuselage.l = units::length::meter_t(nodeFuseL.text().toDouble());
+        _data.fuselage.h = units::length::meter_t(nodeFuseH.text().toDouble());
+        _data.fuselage.w = units::length::meter_t(nodeFuseW.text().toDouble());
+        _data.fuselage.l_n = units::length::meter_t(nodeNoseL.text().toDouble());
+        _data.fuselage.wetted_area = units::area::square_meter_t(nodeWettedArea.text().toDouble());
+        _data.fuselage.press_vol = units::volume::cubic_meter_t(nodePressVol.text().toDouble());
+        _data.fuselage.landing_gear = nodeFuselageLG .text().toInt();
+        _data.fuselage.cargo_ramp = nodeCargoRamp  .text().toInt();
+        _data.fuselage.wetted_area_override = nodeWettedAreaOverride.text().toInt();
 
         return true;
     }
@@ -597,20 +597,20 @@ bool Aircraft::ReadDataFuselage(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataWing(QDomElement* parentNode)
+bool Aircraft::readDataWing(QDomElement* parentNode)
 {
-    QDomElement nodeWingArea = parentNode->firstChildElement("area");
+    QDomElement nodeWingArea    = parentNode->firstChildElement("area");
     QDomElement nodeWingAreaExp = parentNode->firstChildElement("area_exp");
-    QDomElement nodeWingSpan = parentNode->firstChildElement("span");
-    QDomElement nodeWingSweep = parentNode->firstChildElement("sweep");
-    QDomElement nodeWingCTip = parentNode->firstChildElement("c_tip");
-    QDomElement nodeWingCRoot = parentNode->firstChildElement("c_root");
-    QDomElement nodeWingAR = parentNode->firstChildElement("ar");
-    QDomElement nodeWingTR = parentNode->firstChildElement("tr");
-    QDomElement nodeWingTC = parentNode->firstChildElement("tc");
-    QDomElement nodeWingFuel = parentNode->firstChildElement("fuel");
-    QDomElement nodeCtrlArea = parentNode->firstChildElement("ctrl_area");
-    QDomElement nodeWingDelta = parentNode->firstChildElement("delta");
+    QDomElement nodeWingSpan    = parentNode->firstChildElement("span");
+    QDomElement nodeWingSweep   = parentNode->firstChildElement("sweep");
+    QDomElement nodeWingCTip    = parentNode->firstChildElement("c_tip");
+    QDomElement nodeWingCRoot   = parentNode->firstChildElement("c_root");
+    QDomElement nodeWingAR      = parentNode->firstChildElement("ar");
+    QDomElement nodeWingTR      = parentNode->firstChildElement("tr");
+    QDomElement nodeWingTC      = parentNode->firstChildElement("tc");
+    QDomElement nodeWingFuel    = parentNode->firstChildElement("fuel");
+    QDomElement nodeCtrlArea    = parentNode->firstChildElement("ctrl_area");
+    QDomElement nodeWingDelta   = parentNode->firstChildElement("delta");
     QDomElement nodeWingVarSweep = parentNode->firstChildElement("var_sweep");
 
     if ( !nodeWingArea.isNull()
@@ -628,19 +628,19 @@ bool Aircraft::ReadDataWing(QDomElement* parentNode)
       && !nodeWingVarSweep.isNull()
        )
     {
-        data_.wing.area = units::area::square_meter_t(nodeWingArea.text().toDouble());
-        data_.wing.area_exp = units::area::square_meter_t(nodeWingAreaExp.text().toDouble());
-        data_.wing.span = units::length::meter_t(nodeWingSpan.text().toDouble());
-        data_.wing.sweep = units::angle::degree_t(nodeWingSweep.text().toDouble());
-        data_.wing.c_tip = units::length::meter_t(nodeWingCTip.text().toDouble());
-        data_.wing.c_root = units::length::meter_t(nodeWingCRoot.text().toDouble());
-        data_.wing.ar = nodeWingAR.text().toDouble();
-        data_.wing.tr = nodeWingTR.text().toDouble();
-        data_.wing.tc = nodeWingTC.text().toDouble();
-        data_.wing.fuel = units::mass::kilogram_t(nodeWingFuel.text().toDouble());
-        data_.wing.ctrl_area = units::area::square_meter_t(nodeCtrlArea.text().toDouble());
-        data_.wing.delta = nodeWingDelta.text().toInt();
-        data_.wing.var_sweep = nodeWingVarSweep .text().toInt();
+        _data.wing.area = units::area::square_meter_t(nodeWingArea.text().toDouble());
+        _data.wing.area_exp = units::area::square_meter_t(nodeWingAreaExp.text().toDouble());
+        _data.wing.span = units::length::meter_t(nodeWingSpan.text().toDouble());
+        _data.wing.sweep = units::angle::degree_t(nodeWingSweep.text().toDouble());
+        _data.wing.c_tip = units::length::meter_t(nodeWingCTip.text().toDouble());
+        _data.wing.c_root = units::length::meter_t(nodeWingCRoot.text().toDouble());
+        _data.wing.ar = nodeWingAR.text().toDouble();
+        _data.wing.tr = nodeWingTR.text().toDouble();
+        _data.wing.tc = nodeWingTC.text().toDouble();
+        _data.wing.fuel = units::mass::kilogram_t(nodeWingFuel.text().toDouble());
+        _data.wing.ctrl_area = units::area::square_meter_t(nodeCtrlArea.text().toDouble());
+        _data.wing.delta = nodeWingDelta.text().toInt();
+        _data.wing.var_sweep = nodeWingVarSweep .text().toInt();
 
         return true;
     }
@@ -648,7 +648,7 @@ bool Aircraft::ReadDataWing(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataHorTail(QDomElement* parentNode)
+bool Aircraft::readDataHorTail(QDomElement* parentNode)
 {
     QDomElement nodeHorTailArea = parentNode->firstChildElement("area");
     QDomElement nodeHorTailSpan = parentNode->firstChildElement("span");
@@ -679,19 +679,19 @@ bool Aircraft::ReadDataHorTail(QDomElement* parentNode)
       && !nodeHorTailRolling.isNull()
        )
     {
-        data_.hor_tail.area = area::square_meter_t(nodeHorTailArea.text().toDouble());
-        data_.hor_tail.span = length::meter_t(nodeHorTailSpan.text().toDouble());
-        data_.hor_tail.sweep = angle::degree_t(nodeHorTailSweep.text().toDouble());
-        data_.hor_tail.c_tip = length::meter_t(nodeHorTailCTip.text().toDouble());
-        data_.hor_tail.c_root = length::meter_t(nodeHorTailCRoot.text().toDouble());
-        data_.hor_tail.tc = nodeHorTailTC.text().toDouble();
-        data_.hor_tail.elev_area = area::square_meter_t(nodeElevArea.text().toDouble());
-        data_.hor_tail.w_f = length::meter_t(nodeHorTailWF.text().toDouble());
-        data_.hor_tail.arm = length::meter_t(nodeHorTailArm.text().toDouble());
-        data_.hor_tail.ar = nodeHorTailAR.text().toDouble();
-        data_.hor_tail.tr = nodeHorTailTR.text().toDouble();
-        data_.hor_tail.moving = nodeHorTailMoving.text().toInt();
-        data_.hor_tail.rolling = nodeHorTailRolling.text().toInt();
+        _data.hor_tail.area = area::square_meter_t(nodeHorTailArea.text().toDouble());
+        _data.hor_tail.span = length::meter_t(nodeHorTailSpan.text().toDouble());
+        _data.hor_tail.sweep = angle::degree_t(nodeHorTailSweep.text().toDouble());
+        _data.hor_tail.c_tip = length::meter_t(nodeHorTailCTip.text().toDouble());
+        _data.hor_tail.c_root = length::meter_t(nodeHorTailCRoot.text().toDouble());
+        _data.hor_tail.tc = nodeHorTailTC.text().toDouble();
+        _data.hor_tail.elev_area = area::square_meter_t(nodeElevArea.text().toDouble());
+        _data.hor_tail.w_f = length::meter_t(nodeHorTailWF.text().toDouble());
+        _data.hor_tail.arm = length::meter_t(nodeHorTailArm.text().toDouble());
+        _data.hor_tail.ar = nodeHorTailAR.text().toDouble();
+        _data.hor_tail.tr = nodeHorTailTR.text().toDouble();
+        _data.hor_tail.moving = nodeHorTailMoving.text().toInt();
+        _data.hor_tail.rolling = nodeHorTailRolling.text().toInt();
 
         return true;
     }
@@ -699,7 +699,7 @@ bool Aircraft::ReadDataHorTail(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataVerTail(QDomElement* parentNode)
+bool Aircraft::readDataVerTail(QDomElement* parentNode)
 {
     QDomElement nodeVerTailArea = parentNode->firstChildElement("area");
     QDomElement nodeVerTailHeight = parentNode->firstChildElement("height");
@@ -728,18 +728,18 @@ bool Aircraft::ReadDataVerTail(QDomElement* parentNode)
       && !nodeVerTailRotor.isNull()
        )
     {
-        data_.ver_tail.area = area::square_meter_t(nodeVerTailArea.text().toDouble());
-        data_.ver_tail.height = length::meter_t(nodeVerTailHeight.text().toDouble());
-        data_.ver_tail.sweep = angle::degree_t(nodeVerTailSweep.text().toDouble());
-        data_.ver_tail.c_tip = length::meter_t(nodeVerTailCTip.text().toDouble());
-        data_.ver_tail.c_root = length::meter_t(nodeVerTailCRoot.text().toDouble());
-        data_.ver_tail.tc = nodeVerTailTC.text().toDouble();
-        data_.ver_tail.arm = length::meter_t(nodeVerTailArm.text().toDouble());
-        data_.ver_tail.rudd_area = area::square_meter_t(nodeRuddArea.text().toDouble());
-        data_.ver_tail.ar = nodeVerTailAR.text().toDouble();
-        data_.ver_tail.tr = nodeVerTailTR.text().toDouble();
-        data_.ver_tail.t_tail = nodeTailT.text().toInt();
-        data_.ver_tail.rotor = nodeVerTailRotor.text().toInt();
+        _data.ver_tail.area = area::square_meter_t(nodeVerTailArea.text().toDouble());
+        _data.ver_tail.height = length::meter_t(nodeVerTailHeight.text().toDouble());
+        _data.ver_tail.sweep = angle::degree_t(nodeVerTailSweep.text().toDouble());
+        _data.ver_tail.c_tip = length::meter_t(nodeVerTailCTip.text().toDouble());
+        _data.ver_tail.c_root = length::meter_t(nodeVerTailCRoot.text().toDouble());
+        _data.ver_tail.tc = nodeVerTailTC.text().toDouble();
+        _data.ver_tail.arm = length::meter_t(nodeVerTailArm.text().toDouble());
+        _data.ver_tail.rudd_area = area::square_meter_t(nodeRuddArea.text().toDouble());
+        _data.ver_tail.ar = nodeVerTailAR.text().toDouble();
+        _data.ver_tail.tr = nodeVerTailTR.text().toDouble();
+        _data.ver_tail.t_tail = nodeTailT.text().toInt();
+        _data.ver_tail.rotor = nodeVerTailRotor.text().toInt();
 
         return true;
     }
@@ -747,7 +747,7 @@ bool Aircraft::ReadDataVerTail(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataLandingGear(QDomElement* parentNode)
+bool Aircraft::readDataLandingGear(QDomElement* parentNode)
 {
     QDomElement nodeMainGearL = parentNode->firstChildElement("main_gear_l");
     QDomElement nodeNoseGearL = parentNode->firstChildElement("nose_gear_l");
@@ -772,16 +772,16 @@ bool Aircraft::ReadDataLandingGear(QDomElement* parentNode)
       && !nodeNoseGearKneel.isNull()
        )
     {
-        data_.landing_gear.main_l = length::meter_t(nodeMainGearL.text().toDouble());
-        data_.landing_gear.nose_l = length::meter_t(nodeNoseGearL.text().toDouble());
-        data_.landing_gear.main_wheels = nodeMainGearWheels.text().toInt();
-        data_.landing_gear.main_struts = nodeMainGearStruts.text().toInt();
-        data_.landing_gear.nose_wheels = nodeNoseGearWheels.text().toInt();
-        data_.landing_gear.fixed = nodeGearFixed.text().toInt();
-        data_.landing_gear.cross = nodeGearCross.text().toInt();
-        data_.landing_gear.tripod = nodeGearTripod.text().toInt();
-        data_.landing_gear.main_kneel = nodeMainGearKneel.text().toInt();
-        data_.landing_gear.nose_kneel = nodeNoseGearKneel.text().toInt();
+        _data.landing_gear.main_l = length::meter_t(nodeMainGearL.text().toDouble());
+        _data.landing_gear.nose_l = length::meter_t(nodeNoseGearL.text().toDouble());
+        _data.landing_gear.main_wheels = nodeMainGearWheels.text().toInt();
+        _data.landing_gear.main_struts = nodeMainGearStruts.text().toInt();
+        _data.landing_gear.nose_wheels = nodeNoseGearWheels.text().toInt();
+        _data.landing_gear.fixed = nodeGearFixed.text().toInt();
+        _data.landing_gear.cross = nodeGearCross.text().toInt();
+        _data.landing_gear.tripod = nodeGearTripod.text().toInt();
+        _data.landing_gear.main_kneel = nodeMainGearKneel.text().toInt();
+        _data.landing_gear.nose_kneel = nodeNoseGearKneel.text().toInt();
 
         return true;
     }
@@ -789,13 +789,13 @@ bool Aircraft::ReadDataLandingGear(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataEngine(QDomElement* parentNode)
+bool Aircraft::readDataEngine(QDomElement* parentNode)
 {
     QDomElement nodeEngineMass = parentNode->firstChildElement("mass");
 
     if ( !nodeEngineMass.isNull() )
     {
-        data_.engine.mass = mass::kilogram_t(nodeEngineMass.text().toDouble());
+        _data.engine.mass = mass::kilogram_t(nodeEngineMass.text().toDouble());
 
         return true;
     }
@@ -803,7 +803,7 @@ bool Aircraft::ReadDataEngine(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataRotors(QDomElement* parentNode)
+bool Aircraft::readDataRotors(QDomElement* parentNode)
 {
     QDomElement nodeMainRotorR = parentNode->firstChildElement("main_rotor_radius");
     QDomElement nodeMainRotorCB = parentNode->firstChildElement("main_rotor_blade_chord");
@@ -824,14 +824,14 @@ bool Aircraft::ReadDataRotors(QDomElement* parentNode)
       && !nodeMainRotorBlades.isNull()
        )
     {
-        data_.rotors.main_r = length::meter_t(nodeMainRotorR.text().toDouble());
-        data_.rotors.main_cb = length::meter_t(nodeMainRotorCB.text().toDouble());
-        data_.rotors.main_rpm = angular_velocity::rpm_t(nodeMainRotorRPM.text().toDouble());
-        data_.rotors.main_gear_ratio = nodeMainRotorGR.text().toDouble();
-        data_.rotors.tail_r = length::meter_t(nodeTailRotorR.text().toDouble());
-        data_.rotors.mcp = power::horsepower_t(nodePowerLimit.text().toDouble());
-        data_.rotors.main_tip_vel = velocity::meters_per_second_t(nodeMainRotorTipVel.text().toDouble());
-        data_.rotors.main_blades = nodeMainRotorBlades.text().toInt();
+        _data.rotors.main_r = length::meter_t(nodeMainRotorR.text().toDouble());
+        _data.rotors.main_cb = length::meter_t(nodeMainRotorCB.text().toDouble());
+        _data.rotors.main_rpm = angular_velocity::rpm_t(nodeMainRotorRPM.text().toDouble());
+        _data.rotors.main_gear_ratio = nodeMainRotorGR.text().toDouble();
+        _data.rotors.tail_r = length::meter_t(nodeTailRotorR.text().toDouble());
+        _data.rotors.mcp = power::horsepower_t(nodePowerLimit.text().toDouble());
+        _data.rotors.main_tip_vel = velocity::meters_per_second_t(nodeMainRotorTipVel.text().toDouble());
+        _data.rotors.main_blades = nodeMainRotorBlades.text().toInt();
 
         return true;
     }
@@ -839,7 +839,7 @@ bool Aircraft::ReadDataRotors(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadDataModel3D(QDomElement* parentNode)
+bool Aircraft::readDataModel3D(QDomElement* parentNode)
 {
     QDomElement nodeModelFile = parentNode->firstChildElement("model_file");
     QDomElement nodeOffsetX = parentNode->firstChildElement("offset_x");
@@ -860,14 +860,14 @@ bool Aircraft::ReadDataModel3D(QDomElement* parentNode)
       && !nodeScale.isNull()
        )
     {
-        data_.model3d.file = nodeModelFile.text();
-        data_.model3d.offset_x = length::meter_t(nodeOffsetX.text().toDouble());
-        data_.model3d.offset_y = length::meter_t(nodeOffsetY.text().toDouble());
-        data_.model3d.offset_z = length::meter_t(nodeOffsetZ.text().toDouble());
-        data_.model3d.rotation_x = angle::degree_t(nodeRotationX.text().toDouble());
-        data_.model3d.rotation_y = angle::degree_t(nodeRotationY.text().toDouble());
-        data_.model3d.rotation_z = angle::degree_t(nodeRotationZ.text().toDouble());
-        data_.model3d.scale = nodeScale.text().toDouble();
+        _data.model3d.file = nodeModelFile.text();
+        _data.model3d.offset_x = length::meter_t(nodeOffsetX.text().toDouble());
+        _data.model3d.offset_y = length::meter_t(nodeOffsetY.text().toDouble());
+        _data.model3d.offset_z = length::meter_t(nodeOffsetZ.text().toDouble());
+        _data.model3d.rotation_x = angle::degree_t(nodeRotationX.text().toDouble());
+        _data.model3d.rotation_y = angle::degree_t(nodeRotationY.text().toDouble());
+        _data.model3d.rotation_z = angle::degree_t(nodeRotationZ.text().toDouble());
+        _data.model3d.scale = nodeScale.text().toDouble();
 
         return true;
     }
@@ -875,7 +875,7 @@ bool Aircraft::ReadDataModel3D(QDomElement* parentNode)
     return false;
 }
 
-bool Aircraft::ReadComponents(QDomElement* componentsNode)
+bool Aircraft::readComponents(QDomElement* componentsNode)
 {
     QDomElement nodeComponent = componentsNode->firstChildElement();
 
@@ -883,59 +883,59 @@ bool Aircraft::ReadComponents(QDomElement* componentsNode)
     {
         Component* temp = nullptr;
 
-        if ( nodeComponent.tagName() == AllElse::xmlTagName )
+        if ( nodeComponent.tagName() == AllElse::kXmlTagName )
         {
-            temp = new AllElse(&data_);
+            temp = new AllElse(&_data);
         }
-        else if ( nodeComponent.tagName() == Engine::xmlTagName )
+        else if ( nodeComponent.tagName() == Engine::kXmlTagName )
         {
-            temp = new Engine(&data_);
+            temp = new Engine(&_data);
         }
-        else if ( nodeComponent.tagName() == Fuselage::xmlTagName )
+        else if ( nodeComponent.tagName() == Fuselage::kXmlTagName )
         {
-            temp = new Fuselage(&data_);
+            temp = new Fuselage(&_data);
         }
-        else if ( nodeComponent.tagName() == GearMain::xmlTagName )
+        else if ( nodeComponent.tagName() == GearMain::kXmlTagName )
         {
-            temp = new GearMain(&data_);
+            temp = new GearMain(&_data);
         }
-        else if ( nodeComponent.tagName() == GearNose::xmlTagName )
+        else if ( nodeComponent.tagName() == GearNose::kXmlTagName )
         {
-            temp = new GearNose(&data_);
+            temp = new GearNose(&_data);
         }
-        else if ( nodeComponent.tagName() == RotorDrive::xmlTagName )
+        else if ( nodeComponent.tagName() == RotorDrive::kXmlTagName )
         {
-            temp = new RotorDrive(&data_);
+            temp = new RotorDrive(&_data);
         }
-        else if ( nodeComponent.tagName() == RotorHub::xmlTagName )
+        else if ( nodeComponent.tagName() == RotorHub::kXmlTagName )
         {
-            temp = new RotorHub(&data_);
+            temp = new RotorHub(&_data);
         }
-        else if ( nodeComponent.tagName() == RotorMain::xmlTagName )
+        else if ( nodeComponent.tagName() == RotorMain::kXmlTagName )
         {
-            temp = new RotorMain(&data_);
+            temp = new RotorMain(&_data);
         }
-        else if ( nodeComponent.tagName() == RotorTail::xmlTagName )
+        else if ( nodeComponent.tagName() == RotorTail::kXmlTagName )
         {
-            temp = new RotorTail(&data_);
+            temp = new RotorTail(&_data);
         }
-        else if ( nodeComponent.tagName() == TailHor::xmlTagName )
+        else if ( nodeComponent.tagName() == TailHor::kXmlTagName )
         {
-            temp = new TailHor(&data_);
+            temp = new TailHor(&_data);
         }
-        else if ( nodeComponent.tagName() == TailVer::xmlTagName )
+        else if ( nodeComponent.tagName() == TailVer::kXmlTagName )
         {
-            temp = new TailVer(&data_);
+            temp = new TailVer(&_data);
         }
-        else if ( nodeComponent.tagName() == Wing::xmlTagName )
+        else if ( nodeComponent.tagName() == Wing::kXmlTagName )
         {
-            temp = new Wing(&data_);
+            temp = new Wing(&_data);
         }
 
         if ( temp )
         {
             temp->Read(&nodeComponent);
-            components_.push_back(temp);
+            _components.push_back(temp);
         }
 
         nodeComponent = nodeComponent.nextSiblingElement();
@@ -944,147 +944,147 @@ bool Aircraft::ReadComponents(QDomElement* componentsNode)
     return true;
 }
 
-void Aircraft::SaveDataGeneral(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataGeneral(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "m_empty", data_.general.m_empty());
-    XmlUtils::SaveTextNode(doc, parentNode, "mtow", data_.general.mtow());
-    XmlUtils::SaveTextNode(doc, parentNode, "m_max_land", data_.general.m_maxLand());
-    XmlUtils::SaveTextNode(doc, parentNode, "max_fuel", data_.general.m_maxFuel());
-    XmlUtils::SaveTextNode(doc, parentNode, "nz_max", data_.general.nz_max);
-    XmlUtils::SaveTextNode(doc, parentNode, "nz_max_land", data_.general.nz_maxLand);
-    XmlUtils::SaveTextNode(doc, parentNode, "stall_v", data_.general.v_stall());
-    XmlUtils::SaveTextNode(doc, parentNode, "h_cruise", data_.general.h_cruise());
-    XmlUtils::SaveTextNode(doc, parentNode, "v_cruise", data_.general.v_cruise());
-    XmlUtils::SaveTextNode(doc, parentNode, "mach_max", data_.general.mach_max);
-    XmlUtils::SaveTextNode(doc, parentNode, "navy_ac", data_.general.navy_ac);
+    XmlUtils::saveTextNode(doc, parentNode, "m_empty"     , _data.general.m_empty());
+    XmlUtils::saveTextNode(doc, parentNode, "mtow"        , _data.general.mtow());
+    XmlUtils::saveTextNode(doc, parentNode, "m_max_land"  , _data.general.m_maxLand());
+    XmlUtils::saveTextNode(doc, parentNode, "max_fuel"    , _data.general.m_maxFuel());
+    XmlUtils::saveTextNode(doc, parentNode, "nz_max"      , _data.general.nz_max);
+    XmlUtils::saveTextNode(doc, parentNode, "nz_max_land" , _data.general.nz_maxLand);
+    XmlUtils::saveTextNode(doc, parentNode, "stall_v"     , _data.general.v_stall());
+    XmlUtils::saveTextNode(doc, parentNode, "h_cruise"    , _data.general.h_cruise());
+    XmlUtils::saveTextNode(doc, parentNode, "v_cruise"    , _data.general.v_cruise());
+    XmlUtils::saveTextNode(doc, parentNode, "mach_max"    , _data.general.mach_max);
+    XmlUtils::saveTextNode(doc, parentNode, "navy_ac"     , _data.general.navy_ac);
 }
 
-void Aircraft::SaveDataFuselage(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataFuselage(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "cargo_door", QString::number(data_.fuselage.cargo_door));
-    XmlUtils::SaveTextNode(doc, parentNode, "lenght", data_.fuselage.l());
-    XmlUtils::SaveTextNode(doc, parentNode, "height", data_.fuselage.h());
-    XmlUtils::SaveTextNode(doc, parentNode, "width", data_.fuselage.w());
-    XmlUtils::SaveTextNode(doc, parentNode, "nose_length", data_.fuselage.l_n());
-    XmlUtils::SaveTextNode(doc, parentNode, "wetted_area", data_.fuselage.wetted_area());
-    XmlUtils::SaveTextNode(doc, parentNode, "press_vol", data_.fuselage.press_vol());
-    XmlUtils::SaveTextNode(doc, parentNode, "landing_gear", data_.fuselage.landing_gear);
-    XmlUtils::SaveTextNode(doc, parentNode, "cargo_ramp", data_.fuselage.cargo_ramp);
-    XmlUtils::SaveTextNode(doc, parentNode, "wetted_area_override", data_.fuselage.wetted_area_override);
+    XmlUtils::saveTextNode(doc, parentNode, "cargo_door", QString::number(_data.fuselage.cargo_door));
+    XmlUtils::saveTextNode(doc, parentNode, "lenght"               , _data.fuselage.l());
+    XmlUtils::saveTextNode(doc, parentNode, "height"               , _data.fuselage.h());
+    XmlUtils::saveTextNode(doc, parentNode, "width"                , _data.fuselage.w());
+    XmlUtils::saveTextNode(doc, parentNode, "nose_length"          , _data.fuselage.l_n());
+    XmlUtils::saveTextNode(doc, parentNode, "wetted_area"          , _data.fuselage.wetted_area());
+    XmlUtils::saveTextNode(doc, parentNode, "press_vol"            , _data.fuselage.press_vol());
+    XmlUtils::saveTextNode(doc, parentNode, "landing_gear"         , _data.fuselage.landing_gear);
+    XmlUtils::saveTextNode(doc, parentNode, "cargo_ramp"           , _data.fuselage.cargo_ramp);
+    XmlUtils::saveTextNode(doc, parentNode, "wetted_area_override" , _data.fuselage.wetted_area_override);
 }
 
-void Aircraft::SaveDataWing(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataWing(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "area", data_.wing.area());
-    XmlUtils::SaveTextNode(doc, parentNode, "area_exp", data_.wing.area_exp());
-    XmlUtils::SaveTextNode(doc, parentNode, "span", data_.wing.span());
-    XmlUtils::SaveTextNode(doc, parentNode, "sweep", data_.wing.sweep());
-    XmlUtils::SaveTextNode(doc, parentNode, "c_tip", data_.wing.c_tip());
-    XmlUtils::SaveTextNode(doc, parentNode, "c_root", data_.wing.c_root());
-    XmlUtils::SaveTextNode(doc, parentNode, "ar", data_.wing.ar);
-    XmlUtils::SaveTextNode(doc, parentNode, "tr", data_.wing.tr);
-    XmlUtils::SaveTextNode(doc, parentNode, "tc", data_.wing.tc);
-    XmlUtils::SaveTextNode(doc, parentNode, "fuel", data_.wing.fuel());
-    XmlUtils::SaveTextNode(doc, parentNode, "ctrl_area", data_.wing.ctrl_area());
-    XmlUtils::SaveTextNode(doc, parentNode, "delta", data_.wing.delta);
-    XmlUtils::SaveTextNode(doc, parentNode, "var_sweep", data_.wing.var_sweep);
+    XmlUtils::saveTextNode(doc, parentNode, "area"      , _data.wing.area());
+    XmlUtils::saveTextNode(doc, parentNode, "area_exp"  , _data.wing.area_exp());
+    XmlUtils::saveTextNode(doc, parentNode, "span"      , _data.wing.span());
+    XmlUtils::saveTextNode(doc, parentNode, "sweep"     , _data.wing.sweep());
+    XmlUtils::saveTextNode(doc, parentNode, "c_tip"     , _data.wing.c_tip());
+    XmlUtils::saveTextNode(doc, parentNode, "c_root"    , _data.wing.c_root());
+    XmlUtils::saveTextNode(doc, parentNode, "ar"        , _data.wing.ar);
+    XmlUtils::saveTextNode(doc, parentNode, "tr"        , _data.wing.tr);
+    XmlUtils::saveTextNode(doc, parentNode, "tc"        , _data.wing.tc);
+    XmlUtils::saveTextNode(doc, parentNode, "fuel"      , _data.wing.fuel());
+    XmlUtils::saveTextNode(doc, parentNode, "ctrl_area" , _data.wing.ctrl_area());
+    XmlUtils::saveTextNode(doc, parentNode, "delta"     , _data.wing.delta);
+    XmlUtils::saveTextNode(doc, parentNode, "var_sweep" , _data.wing.var_sweep);
 }
 
-void Aircraft::SaveDataHorTail(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataHorTail(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "area", data_.hor_tail.area());
-    XmlUtils::SaveTextNode(doc, parentNode, "span", data_.hor_tail.span());
-    XmlUtils::SaveTextNode(doc, parentNode, "sweep", data_.hor_tail.sweep());
-    XmlUtils::SaveTextNode(doc, parentNode, "c_tip", data_.hor_tail.c_tip());
-    XmlUtils::SaveTextNode(doc, parentNode, "c_root", data_.hor_tail.c_root());
-    XmlUtils::SaveTextNode(doc, parentNode, "tc", data_.hor_tail.tc);
-    XmlUtils::SaveTextNode(doc, parentNode, "elev_area", data_.hor_tail.elev_area());
-    XmlUtils::SaveTextNode(doc, parentNode, "w_f", data_.hor_tail.w_f());
-    XmlUtils::SaveTextNode(doc, parentNode, "arm", data_.hor_tail.arm());
-    XmlUtils::SaveTextNode(doc, parentNode, "ar", data_.hor_tail.ar);
-    XmlUtils::SaveTextNode(doc, parentNode, "tr", data_.hor_tail.tr);
-    XmlUtils::SaveTextNode(doc, parentNode, "moving", data_.hor_tail.moving);
-    XmlUtils::SaveTextNode(doc, parentNode, "rolling", data_.hor_tail.rolling);
+    XmlUtils::saveTextNode(doc, parentNode, "area"      , _data.hor_tail.area());
+    XmlUtils::saveTextNode(doc, parentNode, "span"      , _data.hor_tail.span());
+    XmlUtils::saveTextNode(doc, parentNode, "sweep"     , _data.hor_tail.sweep());
+    XmlUtils::saveTextNode(doc, parentNode, "c_tip"     , _data.hor_tail.c_tip());
+    XmlUtils::saveTextNode(doc, parentNode, "c_root"    , _data.hor_tail.c_root());
+    XmlUtils::saveTextNode(doc, parentNode, "tc"        , _data.hor_tail.tc);
+    XmlUtils::saveTextNode(doc, parentNode, "elev_area" , _data.hor_tail.elev_area());
+    XmlUtils::saveTextNode(doc, parentNode, "w_f"       , _data.hor_tail.w_f());
+    XmlUtils::saveTextNode(doc, parentNode, "arm"       , _data.hor_tail.arm());
+    XmlUtils::saveTextNode(doc, parentNode, "ar"        , _data.hor_tail.ar);
+    XmlUtils::saveTextNode(doc, parentNode, "tr"        , _data.hor_tail.tr);
+    XmlUtils::saveTextNode(doc, parentNode, "moving"    , _data.hor_tail.moving);
+    XmlUtils::saveTextNode(doc, parentNode, "rolling"   , _data.hor_tail.rolling);
 }
 
-void Aircraft::SaveDataVerTail(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataVerTail(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "area", data_.ver_tail.area());
-    XmlUtils::SaveTextNode(doc, parentNode, "height", data_.ver_tail.height());
-    XmlUtils::SaveTextNode(doc, parentNode, "sweep", data_.ver_tail.sweep());
-    XmlUtils::SaveTextNode(doc, parentNode, "c_tip", data_.ver_tail.c_tip());
-    XmlUtils::SaveTextNode(doc, parentNode, "c_root", data_.ver_tail.c_root());
-    XmlUtils::SaveTextNode(doc, parentNode, "tc", data_.ver_tail.tc);
-    XmlUtils::SaveTextNode(doc, parentNode, "arm", data_.ver_tail.arm());
-    XmlUtils::SaveTextNode(doc, parentNode, "rudd_area", data_.ver_tail.rudd_area());
-    XmlUtils::SaveTextNode(doc, parentNode, "ar", data_.ver_tail.ar);
-    XmlUtils::SaveTextNode(doc, parentNode, "tr", data_.ver_tail.tr);
-    XmlUtils::SaveTextNode(doc, parentNode, "t_tail", data_.ver_tail.t_tail);
-    XmlUtils::SaveTextNode(doc, parentNode, "rotor", data_.ver_tail.rotor);
+    XmlUtils::saveTextNode(doc, parentNode, "area"      , _data.ver_tail.area());
+    XmlUtils::saveTextNode(doc, parentNode, "height"    , _data.ver_tail.height());
+    XmlUtils::saveTextNode(doc, parentNode, "sweep"     , _data.ver_tail.sweep());
+    XmlUtils::saveTextNode(doc, parentNode, "c_tip"     , _data.ver_tail.c_tip());
+    XmlUtils::saveTextNode(doc, parentNode, "c_root"    , _data.ver_tail.c_root());
+    XmlUtils::saveTextNode(doc, parentNode, "tc"        , _data.ver_tail.tc);
+    XmlUtils::saveTextNode(doc, parentNode, "arm"       , _data.ver_tail.arm());
+    XmlUtils::saveTextNode(doc, parentNode, "rudd_area" , _data.ver_tail.rudd_area());
+    XmlUtils::saveTextNode(doc, parentNode, "ar"        , _data.ver_tail.ar);
+    XmlUtils::saveTextNode(doc, parentNode, "tr"        , _data.ver_tail.tr);
+    XmlUtils::saveTextNode(doc, parentNode, "t_tail"    , _data.ver_tail.t_tail);
+    XmlUtils::saveTextNode(doc, parentNode, "rotor"     , _data.ver_tail.rotor);
 }
 
-void Aircraft::SaveDataLandingGear(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataLandingGear(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "main_gear_l", data_.landing_gear.main_l());
-    XmlUtils::SaveTextNode(doc, parentNode, "nose_gear_l", data_.landing_gear.nose_l());
-    XmlUtils::SaveTextNode(doc, parentNode, "main_gear_wheels", static_cast<int>(data_.landing_gear.main_wheels));
-    XmlUtils::SaveTextNode(doc, parentNode, "main_gear_struts", static_cast<int>(data_.landing_gear.main_struts));
-    XmlUtils::SaveTextNode(doc, parentNode, "nose_gear_wheels", static_cast<int>(data_.landing_gear.nose_wheels));
-    XmlUtils::SaveTextNode(doc, parentNode, "fixed", data_.landing_gear.fixed);
-    XmlUtils::SaveTextNode(doc, parentNode, "cross", data_.landing_gear.cross);
-    XmlUtils::SaveTextNode(doc, parentNode, "tripod", data_.landing_gear.tripod);
-    XmlUtils::SaveTextNode(doc, parentNode, "main_gear_kneel", data_.landing_gear.main_kneel);
-    XmlUtils::SaveTextNode(doc, parentNode, "nose_gear_kneel", data_.landing_gear.nose_kneel);
+    XmlUtils::saveTextNode(doc, parentNode, "main_gear_l"      , _data.landing_gear.main_l());
+    XmlUtils::saveTextNode(doc, parentNode, "nose_gear_l"      , _data.landing_gear.nose_l());
+    XmlUtils::saveTextNode(doc, parentNode, "main_gear_wheels" , static_cast<int>(_data.landing_gear.main_wheels));
+    XmlUtils::saveTextNode(doc, parentNode, "main_gear_struts" , static_cast<int>(_data.landing_gear.main_struts));
+    XmlUtils::saveTextNode(doc, parentNode, "nose_gear_wheels" , static_cast<int>(_data.landing_gear.nose_wheels));
+    XmlUtils::saveTextNode(doc, parentNode, "fixed"            , _data.landing_gear.fixed);
+    XmlUtils::saveTextNode(doc, parentNode, "cross"            , _data.landing_gear.cross);
+    XmlUtils::saveTextNode(doc, parentNode, "tripod"           , _data.landing_gear.tripod);
+    XmlUtils::saveTextNode(doc, parentNode, "main_gear_kneel"  , _data.landing_gear.main_kneel);
+    XmlUtils::saveTextNode(doc, parentNode, "nose_gear_kneel"  , _data.landing_gear.nose_kneel);
 }
 
-void Aircraft::SaveDataEngine(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataEngine(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "mass", data_.engine.mass());
+    XmlUtils::saveTextNode(doc, parentNode, "mass", _data.engine.mass());
 }
 
-void Aircraft::SaveDataRotors(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataRotors(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "main_rotor_radius", data_.rotors.main_r());
-    XmlUtils::SaveTextNode(doc, parentNode, "main_rotor_blade_chord", data_.rotors.main_cb());
-    XmlUtils::SaveTextNode(doc, parentNode, "main_rotor_rpm", data_.rotors.main_rpm());
-    XmlUtils::SaveTextNode(doc, parentNode, "main_rotor_gear_ratio", data_.rotors.main_gear_ratio);
-    XmlUtils::SaveTextNode(doc, parentNode, "tail_rotor_radius", data_.rotors.tail_r());
-    XmlUtils::SaveTextNode(doc, parentNode, "mcp", data_.rotors.mcp());
-    XmlUtils::SaveTextNode(doc, parentNode, "main_rotor_tip_vel", data_.rotors.main_tip_vel());
-    XmlUtils::SaveTextNode(doc, parentNode, "main_rotor_blades", static_cast<int>(data_.rotors.main_blades));
+    XmlUtils::saveTextNode(doc, parentNode, "main_rotor_radius"      , _data.rotors.main_r());
+    XmlUtils::saveTextNode(doc, parentNode, "main_rotor_blade_chord" , _data.rotors.main_cb());
+    XmlUtils::saveTextNode(doc, parentNode, "main_rotor_rpm"         , _data.rotors.main_rpm());
+    XmlUtils::saveTextNode(doc, parentNode, "main_rotor_gear_ratio"  , _data.rotors.main_gear_ratio);
+    XmlUtils::saveTextNode(doc, parentNode, "tail_rotor_radius"      , _data.rotors.tail_r());
+    XmlUtils::saveTextNode(doc, parentNode, "mcp"                    , _data.rotors.mcp());
+    XmlUtils::saveTextNode(doc, parentNode, "main_rotor_tip_vel"     , _data.rotors.main_tip_vel());
+    XmlUtils::saveTextNode(doc, parentNode, "main_rotor_blades", static_cast<int>(_data.rotors.main_blades));
 }
 
-void Aircraft::SaveDataModel3D(QDomDocument* doc, QDomElement* parentNode)
+void Aircraft::saveDataModel3D(QDomDocument* doc, QDomElement* parentNode)
 {
-    XmlUtils::SaveTextNode(doc, parentNode, "model_file", data_.model3d.file);
-    XmlUtils::SaveTextNode(doc, parentNode, "offset_x", data_.model3d.offset_x());
-    XmlUtils::SaveTextNode(doc, parentNode, "offset_y", data_.model3d.offset_y());
-    XmlUtils::SaveTextNode(doc, parentNode, "offset_z", data_.model3d.offset_z());
-    XmlUtils::SaveTextNode(doc, parentNode, "rotation_x", data_.model3d.rotation_x());
-    XmlUtils::SaveTextNode(doc, parentNode, "rotation_y", data_.model3d.rotation_y());
-    XmlUtils::SaveTextNode(doc, parentNode, "rotation_z", data_.model3d.rotation_z());
-    XmlUtils::SaveTextNode(doc, parentNode, "scale", data_.model3d.scale);
+    XmlUtils::saveTextNode(doc, parentNode, "model_file" , _data.model3d.file);
+    XmlUtils::saveTextNode(doc, parentNode, "offset_x"   , _data.model3d.offset_x());
+    XmlUtils::saveTextNode(doc, parentNode, "offset_y"   , _data.model3d.offset_y());
+    XmlUtils::saveTextNode(doc, parentNode, "offset_z"   , _data.model3d.offset_z());
+    XmlUtils::saveTextNode(doc, parentNode, "rotation_x" , _data.model3d.rotation_x());
+    XmlUtils::saveTextNode(doc, parentNode, "rotation_y" , _data.model3d.rotation_y());
+    XmlUtils::saveTextNode(doc, parentNode, "rotation_z" , _data.model3d.rotation_z());
+    XmlUtils::saveTextNode(doc, parentNode, "scale"      , _data.model3d.scale);
 }
 
-std::string Aircraft::ToStringMetric() const
+std::string Aircraft::toStringMetric() const
 {
-    units::mass::kilogram_t me = totalEmptyMass_;
+    units::mass::kilogram_t me = _totalEmptyMass;
 
-    units::length::meter_t cg_x = centerOfMass_.x();
-    units::length::meter_t cg_y = centerOfMass_.y();
-    units::length::meter_t cg_z = centerOfMass_.z();
+    units::length::meter_t cg_x = _centerOfMass.x();
+    units::length::meter_t cg_y = _centerOfMass.y();
+    units::length::meter_t cg_z = _centerOfMass.z();
 
-    units::moment_of_inertia::kilogram_square_meter_t i_xx = inertiaMatrix_.ixx();
-    units::moment_of_inertia::kilogram_square_meter_t i_xy = inertiaMatrix_.ixy();
-    units::moment_of_inertia::kilogram_square_meter_t i_xz = inertiaMatrix_.ixz();
+    units::moment_of_inertia::kilogram_square_meter_t i_xx = _inertiaMatrix.ixx();
+    units::moment_of_inertia::kilogram_square_meter_t i_xy = _inertiaMatrix.ixy();
+    units::moment_of_inertia::kilogram_square_meter_t i_xz = _inertiaMatrix.ixz();
 
-    units::moment_of_inertia::kilogram_square_meter_t i_yx = inertiaMatrix_.iyx();
-    units::moment_of_inertia::kilogram_square_meter_t i_yy = inertiaMatrix_.iyy();
-    units::moment_of_inertia::kilogram_square_meter_t i_yz = inertiaMatrix_.iyz();
+    units::moment_of_inertia::kilogram_square_meter_t i_yx = _inertiaMatrix.iyx();
+    units::moment_of_inertia::kilogram_square_meter_t i_yy = _inertiaMatrix.iyy();
+    units::moment_of_inertia::kilogram_square_meter_t i_yz = _inertiaMatrix.iyz();
 
-    units::moment_of_inertia::kilogram_square_meter_t i_zx = inertiaMatrix_.izx();
-    units::moment_of_inertia::kilogram_square_meter_t i_zy = inertiaMatrix_.izy();
-    units::moment_of_inertia::kilogram_square_meter_t i_zz = inertiaMatrix_.izz();
+    units::moment_of_inertia::kilogram_square_meter_t i_zx = _inertiaMatrix.izx();
+    units::moment_of_inertia::kilogram_square_meter_t i_zy = _inertiaMatrix.izy();
+    units::moment_of_inertia::kilogram_square_meter_t i_zz = _inertiaMatrix.izz();
 
     return AircraftToString(me,
                             cg_x, cg_y, cg_z,
@@ -1093,25 +1093,25 @@ std::string Aircraft::ToStringMetric() const
                             i_zx, i_zy, i_zz);
 }
 
-std::string Aircraft::ToStringImperial() const
+std::string Aircraft::toStringImperial() const
 {
-    units::mass::pound_t me = totalEmptyMass_;
+    units::mass::pound_t me = _totalEmptyMass;
 
-    units::length::inch_t cg_x = centerOfMass_.x();
-    units::length::inch_t cg_y = centerOfMass_.y();
-    units::length::inch_t cg_z = centerOfMass_.z();
+    units::length::inch_t cg_x = _centerOfMass.x();
+    units::length::inch_t cg_y = _centerOfMass.y();
+    units::length::inch_t cg_z = _centerOfMass.z();
 
-    units::moment_of_inertia::slug_square_feet_t i_xx = inertiaMatrix_.ixx();
-    units::moment_of_inertia::slug_square_feet_t i_xy = inertiaMatrix_.ixy();
-    units::moment_of_inertia::slug_square_feet_t i_xz = inertiaMatrix_.ixz();
+    units::moment_of_inertia::slug_square_feet_t i_xx = _inertiaMatrix.ixx();
+    units::moment_of_inertia::slug_square_feet_t i_xy = _inertiaMatrix.ixy();
+    units::moment_of_inertia::slug_square_feet_t i_xz = _inertiaMatrix.ixz();
 
-    units::moment_of_inertia::slug_square_feet_t i_yx = inertiaMatrix_.iyx();
-    units::moment_of_inertia::slug_square_feet_t i_yy = inertiaMatrix_.iyy();
-    units::moment_of_inertia::slug_square_feet_t i_yz = inertiaMatrix_.iyz();
+    units::moment_of_inertia::slug_square_feet_t i_yx = _inertiaMatrix.iyx();
+    units::moment_of_inertia::slug_square_feet_t i_yy = _inertiaMatrix.iyy();
+    units::moment_of_inertia::slug_square_feet_t i_yz = _inertiaMatrix.iyz();
 
-    units::moment_of_inertia::slug_square_feet_t i_zx = inertiaMatrix_.izx();
-    units::moment_of_inertia::slug_square_feet_t i_zy = inertiaMatrix_.izy();
-    units::moment_of_inertia::slug_square_feet_t i_zz = inertiaMatrix_.izz();
+    units::moment_of_inertia::slug_square_feet_t i_zx = _inertiaMatrix.izx();
+    units::moment_of_inertia::slug_square_feet_t i_zy = _inertiaMatrix.izy();
+    units::moment_of_inertia::slug_square_feet_t i_zz = _inertiaMatrix.izz();
 
     return AircraftToString(me,
                             cg_x, cg_y, cg_z,

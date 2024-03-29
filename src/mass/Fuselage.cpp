@@ -21,7 +21,7 @@
 
 #include <utils/Atmosphere.h>
 
-constexpr char Fuselage::xmlTagName[];
+constexpr char Fuselage::kXmlTagName[];
 
 units::mass::kilogram_t Fuselage::GetEstimatedMass(const AircraftData& data)
 {
@@ -107,7 +107,7 @@ units::mass::kilogram_t Fuselage::GetEstimatedMass(const AircraftData& data)
             length::foot_t l_t = data.hor_tail.arm;
             volume::cubic_foot_t vol_press = data.fuselage.press_vol;
             velocity::meters_per_second_t v = data.general.v_cruise;
-            density::kilograms_per_cubic_meter_t rho = Atmosphere::GetDensity(data.general.h_cruise);
+            density::kilograms_per_cubic_meter_t rho = Atmosphere::getDensity(data.general.h_cruise);
             pressure::pounds_per_square_foot_t q = 0.5 * rho * v*v;
 
             double w_press = 11.9 + pow(vol_press() * 8.0, 0.271); // p.579

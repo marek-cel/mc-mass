@@ -21,7 +21,7 @@
 
 #include <utils/Atmosphere.h>
 
-constexpr char TailVer::xmlTagName[];
+constexpr char TailVer::kXmlTagName[];
 
 units::mass::kilogram_t TailVer::GetEstimatedMass(const AircraftData& data)
 {
@@ -96,7 +96,7 @@ units::mass::kilogram_t TailVer::GetEstimatedMass(const AircraftData& data)
         if ( data.type == AircraftData::GeneralAviation )
         {
             velocity::meters_per_second_t v = data.general.v_cruise;
-            density::kilograms_per_cubic_meter_t rho = Atmosphere::GetDensity(data.general.h_cruise);
+            density::kilograms_per_cubic_meter_t rho = Atmosphere::getDensity(data.general.h_cruise);
             pressure::pounds_per_square_foot_t q = 0.5 * rho * v*v;
             double lambda_vt = data.ver_tail.tr;
 

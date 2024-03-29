@@ -33,7 +33,7 @@ class RotorDrive : public Component
 {
 public:
 
-    static constexpr char xmlTagName[] { "rotor_drive" };   ///< component XML tag name
+    static constexpr char kXmlTagName[] { "rotor_drive" };   ///< component XML tag name
 
     /**
      * @brief Estimates component mass based on the aircraft parameters.
@@ -54,14 +54,14 @@ public:
      */
     inline units::mass::kilogram_t GetEstimatedMass() const override
     {
-        return GetEstimatedMass(*data_);
+        return GetEstimatedMass(*_data);
     }
 
     /**
      * @brief Returns component XML tag name.
      * @return component XML tag name
      */
-    inline const char* GetXmlTagName() const override { return xmlTagName; }
+    inline const char* GetXmlTagName() const override { return kXmlTagName; }
 };
 
 #endif // MC_MASS_MASS_ROTORDRIVE_H_

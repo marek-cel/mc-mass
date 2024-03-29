@@ -27,7 +27,7 @@ DockWidgetResults::DockWidgetResults(AircraftFile* aircraftFile, QWidget *parent
 {
     _ui->setupUi(this);
 
-    _aircraft = _aircraftFile->GetAircraft();
+    _aircraft = _aircraftFile->getAircraft();
     settingsRead();
 }
 
@@ -39,7 +39,7 @@ DockWidgetResults::~DockWidgetResults()
 
 void DockWidgetResults::updateGUI()
 {
-    _ui->textResults->setText(_aircraft->ToString().c_str());
+    _ui->textResults->setText(_aircraft->toString().c_str());
 
     setEmptyMass();
     setCenterOfMass();
@@ -48,15 +48,15 @@ void DockWidgetResults::updateGUI()
 
 void DockWidgetResults::setEmptyMass()
 {
-    units::mass::kilogram_t me = _aircraft->GetTotalEmptyMass();
+    units::mass::kilogram_t me = _aircraft->getTotalEmptyMass();
     _ui->spinBox_Mass->setValue(_ui->comboBox_Mass->convert(me()));
 }
 
 void DockWidgetResults::setCenterOfMass()
 {
-    units::length::meter_t cg_x = _aircraft->GetCenterOfMass().x();
-    units::length::meter_t cg_y = _aircraft->GetCenterOfMass().y();
-    units::length::meter_t cg_z = _aircraft->GetCenterOfMass().z();
+    units::length::meter_t cg_x = _aircraft->getCenterOfMass().x();
+    units::length::meter_t cg_y = _aircraft->getCenterOfMass().y();
+    units::length::meter_t cg_z = _aircraft->getCenterOfMass().z();
 
     _ui->spinBox_CG_X->setValue(_ui->comboBox_CG->convert(cg_x()));
     _ui->spinBox_CG_Y->setValue(_ui->comboBox_CG->convert(cg_y()));
@@ -65,17 +65,17 @@ void DockWidgetResults::setCenterOfMass()
 
 void DockWidgetResults::setInertia()
 {
-    units::moment_of_inertia::kilogram_square_meter_t i_xx = _aircraft->GetInertiaMatrix().ixx();
-    units::moment_of_inertia::kilogram_square_meter_t i_xy = _aircraft->GetInertiaMatrix().ixy();
-    units::moment_of_inertia::kilogram_square_meter_t i_xz = _aircraft->GetInertiaMatrix().ixz();
+    units::moment_of_inertia::kilogram_square_meter_t i_xx = _aircraft->getInertiaMatrix().ixx();
+    units::moment_of_inertia::kilogram_square_meter_t i_xy = _aircraft->getInertiaMatrix().ixy();
+    units::moment_of_inertia::kilogram_square_meter_t i_xz = _aircraft->getInertiaMatrix().ixz();
 
-    units::moment_of_inertia::kilogram_square_meter_t i_yx = _aircraft->GetInertiaMatrix().iyx();
-    units::moment_of_inertia::kilogram_square_meter_t i_yy = _aircraft->GetInertiaMatrix().iyy();
-    units::moment_of_inertia::kilogram_square_meter_t i_yz = _aircraft->GetInertiaMatrix().iyz();
+    units::moment_of_inertia::kilogram_square_meter_t i_yx = _aircraft->getInertiaMatrix().iyx();
+    units::moment_of_inertia::kilogram_square_meter_t i_yy = _aircraft->getInertiaMatrix().iyy();
+    units::moment_of_inertia::kilogram_square_meter_t i_yz = _aircraft->getInertiaMatrix().iyz();
 
-    units::moment_of_inertia::kilogram_square_meter_t i_zx = _aircraft->GetInertiaMatrix().izx();
-    units::moment_of_inertia::kilogram_square_meter_t i_zy = _aircraft->GetInertiaMatrix().izy();
-    units::moment_of_inertia::kilogram_square_meter_t i_zz = _aircraft->GetInertiaMatrix().izz();
+    units::moment_of_inertia::kilogram_square_meter_t i_zx = _aircraft->getInertiaMatrix().izx();
+    units::moment_of_inertia::kilogram_square_meter_t i_zy = _aircraft->getInertiaMatrix().izy();
+    units::moment_of_inertia::kilogram_square_meter_t i_zz = _aircraft->getInertiaMatrix().izz();
 
     _ui->spinBox_I_XX->setValue(_ui->comboBox_Inertia->convert(i_xx()));
     _ui->spinBox_I_XY->setValue(_ui->comboBox_Inertia->convert(i_xy()));

@@ -26,24 +26,24 @@
 
 AircraftFile::AircraftFile()
 {
-    NewEmpty();
+    newEmpty();
 }
 
 AircraftFile::~AircraftFile() {}
 
-void AircraftFile::NewEmpty()
+void AircraftFile::newEmpty()
 {
-    fileName_ = "";
-    aircraft_.Reset();
+    _fileName = "";
+    _aircraft.reset();
 }
 
-bool AircraftFile::ExportAs(const QString& fileName)
+bool AircraftFile::exportAs(const QString& fileName)
 {
     std::fstream fs(fileName.toStdString(), std::ios_base::out);
 
     if ( fs.is_open() )
     {
-        fs << aircraft_.ToString();
+        fs << _aircraft.toString();
 
         fs.flush();
         fs.close();
@@ -54,12 +54,12 @@ bool AircraftFile::ExportAs(const QString& fileName)
     return false;
 }
 
-bool AircraftFile::ReadFile(const QString& fileName)
+bool AircraftFile::readFile(const QString& fileName)
 {
-    fileName_ = "";
+    _fileName = "";
     bool status = false;
 
-    NewEmpty();
+    newEmpty();
 
     QFile devFile(fileName);
     if ( devFile.open(QFile::ReadOnly | QFile::Text) )
@@ -74,9 +74,9 @@ bool AircraftFile::ReadFile(const QString& fileName)
 
             if ( !nodeAircraft.isNull() )
             {
-                if ( aircraft_.Read(&nodeAircraft) )
+                if ( _aircraft.read(&nodeAircraft) )
                 {
-                    fileName_ = fileName;
+                    _fileName = fileName;
                     status = true;
                 }
             }
@@ -88,9 +88,9 @@ bool AircraftFile::ReadFile(const QString& fileName)
     return status;
 }
 
-bool AircraftFile::SaveFile(const QString& fileName)
+bool AircraftFile::saveFile(const QString& fileName)
 {
-    fileName_ = "";
+    _fileName = "";
     QString fileTemp = fileName;
 
     if ( QFileInfo(fileTemp).suffix() != QString("mcmass") )
@@ -115,13 +115,13 @@ bool AircraftFile::SaveFile(const QString& fileName)
         QDomElement nodeAircraft = doc.createElement("aircraft");
         rootNode.appendChild(nodeAircraft);
 
-        aircraft_.Save(&doc, &nodeAircraft);
+        _aircraft.save(&doc, &nodeAircraft);
 
         out << doc.toString();
 
         devFile.close();
 
-        fileName_ = fileName;
+        _fileName = fileName;
         return true;
     }
 

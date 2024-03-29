@@ -21,7 +21,7 @@
 
 #include <utils/ParallelAxisInertia.h>
 
-constexpr char RotorTail::xmlTagName[];
+constexpr char RotorTail::kXmlTagName[];
 
 units::mass::kilogram_t RotorTail::GetEstimatedMass(const AircraftData& data)
 {

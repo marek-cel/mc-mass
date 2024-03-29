@@ -23,34 +23,34 @@ InertiaMatrix InertiaMatrix::operator+(const InertiaMatrix& matrix) const
 {
     InertiaMatrix result;
 
-    result.ixx_ = ixx_ + matrix.ixx_;
-    result.ixy_ = ixy_ + matrix.ixy_;
-    result.ixz_ = ixz_ + matrix.ixz_;
+    result._ixx = _ixx + matrix._ixx;
+    result._ixy = _ixy + matrix._ixy;
+    result._ixz = _ixz + matrix._ixz;
 
-    result.iyx_ = iyx_ + matrix.iyx_;
-    result.iyy_ = iyy_ + matrix.iyy_;
-    result.iyz_ = iyz_ + matrix.iyz_;
+    result._iyx = _iyx + matrix._iyx;
+    result._iyy = _iyy + matrix._iyy;
+    result._iyz = _iyz + matrix._iyz;
 
-    result.izx_ = izx_ + matrix.izx_;
-    result.izy_ = izy_ + matrix.izy_;
-    result.izz_ = izz_ + matrix.izz_;
+    result._izx = _izx + matrix._izx;
+    result._izy = _izy + matrix._izy;
+    result._izz = _izz + matrix._izz;
 
     return result;
 }
 
 InertiaMatrix& InertiaMatrix::operator+=(const InertiaMatrix& matrix)
 {
-    ixx_ += matrix.ixx_;
-    ixy_ += matrix.ixy_;
-    ixz_ += matrix.ixz_;
+    _ixx += matrix._ixx;
+    _ixy += matrix._ixy;
+    _ixz += matrix._ixz;
 
-    iyx_ += matrix.iyx_;
-    iyy_ += matrix.iyy_;
-    iyz_ += matrix.iyz_;
+    _iyx += matrix._iyx;
+    _iyy += matrix._iyy;
+    _iyz += matrix._iyz;
 
-    izx_ += matrix.izx_;
-    izy_ += matrix.izy_;
-    izz_ += matrix.izz_;
+    _izx += matrix._izx;
+    _izy += matrix._izy;
+    _izz += matrix._izz;
 
     return (*this);
 }

@@ -36,14 +36,14 @@ units::mass::kilogram_t Component::GetDesignGrossWeight(const AircraftData& data
 }
 
 Component::Component(const AircraftData* data)
-    : data_(data)
+    : _data(data)
 {
-    name_ = "";
+    _name = "";
 }
 
 void Component::Read(QDomElement* parentNode)
 {
-    name_ = parentNode->attributeNode("name").value().toStdString();
+    _name = parentNode->attributeNode("name").value().toStdString();
 
     QDomElement nodeMass = parentNode->firstChildElement("mass");
 
@@ -55,15 +55,15 @@ void Component::Read(QDomElement* parentNode)
     QDomElement nodeW = parentNode->firstChildElement("width");
     QDomElement nodeH = parentNode->firstChildElement("height");
 
-    if ( !nodeMass.isNull() ) m_ = units::mass::kilogram_t(nodeMass.text().toDouble());
+    if ( !nodeMass.isNull() ) _m = units::mass::kilogram_t(nodeMass.text().toDouble());
 
-    if ( !nodeX.isNull() ) r_.x() = units::length::meter_t(nodeX.text().toDouble());
-    if ( !nodeY.isNull() ) r_.y() = units::length::meter_t(nodeY.text().toDouble());
-    if ( !nodeZ.isNull() ) r_.z() = units::length::meter_t(nodeZ.text().toDouble());
+    if ( !nodeX.isNull() ) _r.x() = units::length::meter_t(nodeX.text().toDouble());
+    if ( !nodeY.isNull() ) _r.y() = units::length::meter_t(nodeY.text().toDouble());
+    if ( !nodeZ.isNull() ) _r.z() = units::length::meter_t(nodeZ.text().toDouble());
 
-    if ( !nodeL.isNull() ) l_ = units::length::meter_t(nodeL.text().toDouble());
-    if ( !nodeW.isNull() ) w_ = units::length::meter_t(nodeW.text().toDouble());
-    if ( !nodeH.isNull() ) h_ = units::length::meter_t(nodeH.text().toDouble());
+    if ( !nodeL.isNull() ) _l = units::length::meter_t(nodeL.text().toDouble());
+    if ( !nodeW.isNull() ) _w = units::length::meter_t(nodeW.text().toDouble());
+    if ( !nodeH.isNull() ) _h = units::length::meter_t(nodeH.text().toDouble());
 }
 
 void Component::Save(QDomDocument* doc, QDomElement* parentNode)
@@ -75,37 +75,37 @@ void Component::Save(QDomDocument* doc, QDomElement* parentNode)
 
 InertiaMatrix Component::GetInertia() const
 {
-    return Cuboid::GetInertiaMatrix(m_, l_, w_, h_);
+    return Cuboid::getInertiaMatrix(_m, _l, _w, _h);
 }
 
 void Component::SetName(const char* name)
 {
-    name_ = name;
+    _name = name;
 }
 
 void Component::SetPosition(const PositionVector& r)
 {
-    r_ = r;
+    _r = r;
 }
 
 void Component::SetMass(units::mass::kilogram_t m)
 {
-    m_ = m;
+    _m = m;
 }
 
 void Component::SetLength(units::length::meter_t l)
 {
-    l_ = l;
+    _l = l;
 }
 
 void Component::SetWidth(units::length::meter_t w)
 {
-    w_ = w;
+    _w = w;
 }
 
 void Component::SetHeight(units::length::meter_t h)
 {
-    h_ = h;
+    _h = h;
 }
 
 void Component::SaveParameters(QDomDocument* doc, QDomElement* node)
@@ -114,13 +114,13 @@ void Component::SaveParameters(QDomDocument* doc, QDomElement* node)
     nodeName.setValue(GetName());
     node->setAttributeNode(nodeName);
 
-    XmlUtils::SaveTextNode(doc, node, "mass", m_());
+    XmlUtils::saveTextNode(doc, node, "mass", _m());
 
-    XmlUtils::SaveTextNode(doc, node, "pos_x", r_.x()());
-    XmlUtils::SaveTextNode(doc, node, "pos_y", r_.y()());
-    XmlUtils::SaveTextNode(doc, node, "pos_z", r_.z()());
+    XmlUtils::saveTextNode(doc, node, "pos_x", _r.x()());
+    XmlUtils::saveTextNode(doc, node, "pos_y", _r.y()());
+    XmlUtils::saveTextNode(doc, node, "pos_z", _r.z()());
 
-    XmlUtils::SaveTextNode(doc, node, "length" , l_());
-    XmlUtils::SaveTextNode(doc, node, "width"  , w_());
-    XmlUtils::SaveTextNode(doc, node, "height" , h_());
+    XmlUtils::saveTextNode(doc, node, "length" , _l());
+    XmlUtils::saveTextNode(doc, node, "width"  , _w());
+    XmlUtils::saveTextNode(doc, node, "height" , _h());
 }

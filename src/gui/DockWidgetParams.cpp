@@ -32,7 +32,7 @@ DockWidgetParams::DockWidgetParams(AircraftFile* aircraftFile, QWidget* parent)
 {
     _ui->setupUi(this);
 
-    _aircraft = _aircraftFile->GetAircraft();
+    _aircraft = _aircraftFile->getAircraft();
 
     setAircraftType(AircraftData::FighterAttack);
     updateGUI();
@@ -49,7 +49,7 @@ DockWidgetParams::~DockWidgetParams()
 
 void DockWidgetParams::updateGUI()
 {
-    const AircraftData* data = _aircraft->GetData();
+    const AircraftData* data = _aircraft->getData();
 
     // general
     _ui->comboBoxAircraftType->setCurrentIndex(data->type);
@@ -975,7 +975,7 @@ void DockWidgetParams::updateWettedArea()
 
 void DockWidgetParams::updateWingAR()
 {
-    const AircraftData* data = _aircraft->GetData();
+    const AircraftData* data = _aircraft->getData();
     if ( data->wing.area > 0.0_sq_m )
     {
         double ar = pow(data->wing.span(), 2.0) / data->wing.area();
@@ -989,7 +989,7 @@ void DockWidgetParams::updateWingAR()
 
 void DockWidgetParams::updateWingTR()
 {
-    const AircraftData* data = _aircraft->GetData();
+    const AircraftData* data = _aircraft->getData();
     if ( data->wing.c_root > 0.0_m )
     {
         double tr = data->wing.c_tip / data->wing.c_root;
@@ -1003,7 +1003,7 @@ void DockWidgetParams::updateWingTR()
 
 void DockWidgetParams::updateHorTailAR()
 {
-    const AircraftData* data = _aircraft->GetData();
+    const AircraftData* data = _aircraft->getData();
     if ( data->hor_tail.area > 0.0_sq_m )
     {
         double ar = pow(data->hor_tail.span(), 2.0) / data->hor_tail.area();
@@ -1017,7 +1017,7 @@ void DockWidgetParams::updateHorTailAR()
 
 void DockWidgetParams::updateHorTailTR()
 {
-    const AircraftData* data = _aircraft->GetData();
+    const AircraftData* data = _aircraft->getData();
     if ( data->hor_tail.c_root > 0.0_m )
     {
         double tr = data->hor_tail.c_tip / data->hor_tail.c_root;
@@ -1031,7 +1031,7 @@ void DockWidgetParams::updateHorTailTR()
 
 void DockWidgetParams::updateVerTailAR()
 {
-    const AircraftData* data = _aircraft->GetData();
+    const AircraftData* data = _aircraft->getData();
     if ( data->ver_tail.area > 0.0_sq_m )
     {
         double ar = pow(data->ver_tail.height(), 2.0) / data->ver_tail.area();
@@ -1045,7 +1045,7 @@ void DockWidgetParams::updateVerTailAR()
 
 void DockWidgetParams::updateVerTailTR()
 {
-    const AircraftData* data = _aircraft->GetData();
+    const AircraftData* data = _aircraft->getData();
     if ( data->ver_tail.c_root > 0.0_m )
     {
         double tr = data->ver_tail.c_tip / data->ver_tail.c_root;
@@ -1085,7 +1085,7 @@ void DockWidgetParams::on_comboBoxAircraftType_currentIndexChanged(int index)
     }
 
     setAircraftType(type);
-    _aircraft->GetData()->type = type;
+    _aircraft->getData()->type = type;
 
     emit(aircraftChanged());
 }
@@ -1093,73 +1093,73 @@ void DockWidgetParams::on_comboBoxAircraftType_currentIndexChanged(int index)
 void DockWidgetParams::on_spinBoxMassEmpty_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMassEmpty->invert(arg1);
-    _aircraft->GetData()->general.m_empty = units::mass::kilogram_t(arg1_raw);
+    _aircraft->getData()->general.m_empty = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMTOW_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMTOW->invert(arg1);
-    _aircraft->GetData()->general.mtow =  units::mass::kilogram_t(arg1_raw);
+    _aircraft->getData()->general.mtow =  units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMassMaxLand_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMassMaxLand->invert(arg1);
-    _aircraft->GetData()->general.m_maxLand = units::mass::kilogram_t(arg1_raw);
+    _aircraft->getData()->general.m_maxLand = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMaxFuel_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMaxFuel->invert(arg1);
-    _aircraft->GetData()->general.m_maxFuel = units::mass::kilogram_t(arg1_raw);
+    _aircraft->getData()->general.m_maxFuel = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMaxNz_valueChanged(double arg1)
 {
-    _aircraft->GetData()->general.nz_max = arg1;
+    _aircraft->getData()->general.nz_max = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMaxNzLand_valueChanged(double arg1)
 {
-    _aircraft->GetData()->general.nz_maxLand = arg1;
+    _aircraft->getData()->general.nz_maxLand = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxStallV_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxStallV->invert(arg1);
-    _aircraft->GetData()->general.v_stall = units::velocity::knot_t(arg1_raw);
+    _aircraft->getData()->general.v_stall = units::velocity::knot_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxCruiseV_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxCruiseV->invert(arg1);
-    _aircraft->GetData()->general.v_cruise = units::velocity::knot_t(arg1_raw);
+    _aircraft->getData()->general.v_cruise = units::velocity::knot_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxCruiseH_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxCruiseH->invert(arg1);
-    _aircraft->GetData()->general.h_cruise = units::length::foot_t(arg1_raw);
+    _aircraft->getData()->general.h_cruise = units::length::foot_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMachMax_valueChanged(double arg1)
 {
-    _aircraft->GetData()->general.mach_max = arg1;
+    _aircraft->getData()->general.mach_max = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxNavyAircraft_toggled(bool checked)
 {
-    _aircraft->GetData()->general.navy_ac = checked;
+    _aircraft->getData()->general.navy_ac = checked;
     emit(aircraftChanged());
 }
 
@@ -1185,14 +1185,14 @@ void DockWidgetParams::on_comboBoxCargoDoor_currentIndexChanged(int index)
         break;
     }
 
-    _aircraft->GetData()->fuselage.cargo_door = door;
+    _aircraft->getData()->fuselage.cargo_door = door;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxFuseLength_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxFuseLength->invert(arg1);
-    _aircraft->GetData()->fuselage.l = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->fuselage.l = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
@@ -1200,7 +1200,7 @@ void DockWidgetParams::on_spinBoxFuseLength_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxFuseHeight_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxFuseHeight->invert(arg1);
-    _aircraft->GetData()->fuselage.h = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->fuselage.h = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
@@ -1208,7 +1208,7 @@ void DockWidgetParams::on_spinBoxFuseHeight_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxFuseWidth_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxFuseWidth->invert(arg1);
-    _aircraft->GetData()->fuselage.w = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->fuselage.w = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
@@ -1216,7 +1216,7 @@ void DockWidgetParams::on_spinBoxFuseWidth_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxNoseLength_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxNoseLength->invert(arg1);
-    _aircraft->GetData()->fuselage.l_n = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->fuselage.l_n = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWettedArea();
 }
@@ -1224,14 +1224,14 @@ void DockWidgetParams::on_spinBoxNoseLength_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxPressVol_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxPressVol->invert(arg1);
-    _aircraft->GetData()->fuselage.press_vol = units::volume::cubic_meter_t(arg1_raw);
+    _aircraft->getData()->fuselage.press_vol = units::volume::cubic_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWetAreaEst_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWetAreaEst->invert(arg1);
-    if ( !_aircraft->GetData()->fuselage.wetted_area_override )
+    if ( !_aircraft->getData()->fuselage.wetted_area_override )
     {
         _ui->spinBoxWetAreaReal->setValue(_ui->comboBoxWetAreaReal->convert(arg1_raw));
     }
@@ -1240,25 +1240,25 @@ void DockWidgetParams::on_spinBoxWetAreaEst_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxWetAreaReal_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWetAreaReal->invert(arg1);
-    _aircraft->GetData()->fuselage.wetted_area = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->fuselage.wetted_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxFuselageLG_toggled(bool checked)
 {
-    _aircraft->GetData()->fuselage.landing_gear = checked;
+    _aircraft->getData()->fuselage.landing_gear = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxCargoRamp_toggled(bool checked)
 {
-    _aircraft->GetData()->fuselage.cargo_ramp = checked;
+    _aircraft->getData()->fuselage.cargo_ramp = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxWettedAreaOverride_toggled(bool checked)
 {
-    _aircraft->GetData()->fuselage.wetted_area_override = checked;
+    _aircraft->getData()->fuselage.wetted_area_override = checked;
     _ui->labelWettedAreaReal->setEnabled(checked);
     _ui->spinBoxWetAreaReal->setEnabled(checked);
     _ui->comboBoxWetAreaReal->setEnabled(checked);
@@ -1275,7 +1275,7 @@ void DockWidgetParams::on_checkBoxWettedAreaOverride_toggled(bool checked)
 void DockWidgetParams::on_spinBoxWingArea_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWingArea->invert(arg1);
-    _aircraft->GetData()->wing.area = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->wing.area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingAR();
 }
@@ -1283,14 +1283,14 @@ void DockWidgetParams::on_spinBoxWingArea_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxWingAreaExp_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWingAreaExp->invert(arg1);
-    _aircraft->GetData()->wing.area_exp = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->wing.area_exp = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingSpan_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWingSpan->invert(arg1);
-    _aircraft->GetData()->wing.span = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->wing.span = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingAR();
 }
@@ -1298,14 +1298,14 @@ void DockWidgetParams::on_spinBoxWingSpan_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxWingSweep_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWingSweep->invert(arg1);
-    _aircraft->GetData()->wing.sweep = units::angle::degree_t(arg1_raw);
+    _aircraft->getData()->wing.sweep = units::angle::degree_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingCRoot_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWingCRoot->invert(arg1);
-    _aircraft->GetData()->wing.c_root = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->wing.c_root = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingTR();
 }
@@ -1313,59 +1313,59 @@ void DockWidgetParams::on_spinBoxWingCRoot_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxWingCTip_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWingCTip->invert(arg1);
-    _aircraft->GetData()->wing.c_tip = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->wing.c_tip = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateWingTR();
 }
 
 void DockWidgetParams::on_spinBoxWingTC_valueChanged(double arg1)
 {
-    _aircraft->GetData()->wing.tc = arg1;
+    _aircraft->getData()->wing.tc = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingFuel_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxWingFuel->invert(arg1);
-    _aircraft->GetData()->wing.fuel = units::mass::kilogram_t(arg1_raw);
+    _aircraft->getData()->wing.fuel = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxCtrlArea_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxCtrlArea->invert(arg1);
-    _aircraft->GetData()->wing.ctrl_area = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->wing.ctrl_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingAR_valueChanged(double arg1)
 {
-    _aircraft->GetData()->wing.ar = arg1;
+    _aircraft->getData()->wing.ar = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxWingTR_valueChanged(double arg1)
 {
-    _aircraft->GetData()->wing.tr = arg1;
+    _aircraft->getData()->wing.tr = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxWingDelta_toggled(bool checked)
 {
-    _aircraft->GetData()->wing.delta = checked;
+    _aircraft->getData()->wing.delta = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxWingVarSweep_toggled(bool checked)
 {
-    _aircraft->GetData()->wing.var_sweep = checked;
+    _aircraft->getData()->wing.var_sweep = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailArea_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxHorTailArea->invert(arg1);
-    _aircraft->GetData()->hor_tail.area = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->hor_tail.area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailAR();
 }
@@ -1373,7 +1373,7 @@ void DockWidgetParams::on_spinBoxHorTailArea_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxHorTailSpan_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxHorTailSpan->invert(arg1);
-    _aircraft->GetData()->hor_tail.span = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->hor_tail.span = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailAR();
 }
@@ -1381,14 +1381,14 @@ void DockWidgetParams::on_spinBoxHorTailSpan_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxHorTailSweep_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxHorTailSweep->invert(arg1);
-    _aircraft->GetData()->hor_tail.sweep = units::angle::degree_t(arg1_raw);
+    _aircraft->getData()->hor_tail.sweep = units::angle::degree_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailCRoot_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxHorTailCRoot->invert(arg1);
-    _aircraft->GetData()->hor_tail.c_root = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->hor_tail.c_root = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailTR();
 }
@@ -1396,66 +1396,66 @@ void DockWidgetParams::on_spinBoxHorTailCRoot_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxHorTailCTip_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxHorTailCTip->invert(arg1);
-    _aircraft->GetData()->hor_tail.c_tip = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->hor_tail.c_tip = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateHorTailTR();
 }
 
 void DockWidgetParams::on_spinBoxHorTailTC_valueChanged(double arg1)
 {
-    _aircraft->GetData()->hor_tail.tc = arg1;
+    _aircraft->getData()->hor_tail.tc = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxElevArea_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxElevArea->invert(arg1);
-    _aircraft->GetData()->hor_tail.elev_area = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->hor_tail.elev_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailWF_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxHorTailWF->invert(arg1);
-    _aircraft->GetData()->hor_tail.w_f = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->hor_tail.w_f = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailArm_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxHorTailArm->invert(arg1);
-    _aircraft->GetData()->hor_tail.arm = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->hor_tail.arm = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailAR_valueChanged(double arg1)
 {
-    _aircraft->GetData()->hor_tail.ar = arg1;
+    _aircraft->getData()->hor_tail.ar = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxHorTailTR_valueChanged(double arg1)
 {
-    _aircraft->GetData()->hor_tail.tr = arg1;
+    _aircraft->getData()->hor_tail.tr = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxHorTailMoving_toggled(bool checked)
 {
-    _aircraft->GetData()->hor_tail.moving = checked;
+    _aircraft->getData()->hor_tail.moving = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxHorTailRolling_toggled(bool checked)
 {
-    _aircraft->GetData()->hor_tail.rolling = checked;
+    _aircraft->getData()->hor_tail.rolling = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailArea_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxVerTailArea->invert(arg1);
-    _aircraft->GetData()->ver_tail.area = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->ver_tail.area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailAR();
 }
@@ -1463,7 +1463,7 @@ void DockWidgetParams::on_spinBoxVerTailArea_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxVerTailHeight_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxVerTailHeight->invert(arg1);
-    _aircraft->GetData()->ver_tail.height = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->ver_tail.height = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailAR();
 }
@@ -1471,14 +1471,14 @@ void DockWidgetParams::on_spinBoxVerTailHeight_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxVerTailSweep_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxVerTailSweep->invert(arg1);
-    _aircraft->GetData()->ver_tail.sweep = units::angle::degree_t(arg1_raw);
+    _aircraft->getData()->ver_tail.sweep = units::angle::degree_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailCRoot_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxVerTailCRoot->invert(arg1);
-    _aircraft->GetData()->ver_tail.c_root = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->ver_tail.c_root = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailTR();
 }
@@ -1486,128 +1486,128 @@ void DockWidgetParams::on_spinBoxVerTailCRoot_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxVerTailCTip_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxVerTailCTip->invert(arg1);
-    _aircraft->GetData()->ver_tail.c_tip = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->ver_tail.c_tip = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateVerTailTR();
 }
 
 void DockWidgetParams::on_spinBoxVerTailTC_valueChanged(double arg1)
 {
-    _aircraft->GetData()->ver_tail.tc = arg1;
+    _aircraft->getData()->ver_tail.tc = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailArm_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxVerTailArm->invert(arg1);
-    _aircraft->GetData()->ver_tail.arm = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->ver_tail.arm = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxRuddArea_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxRuddArea->invert(arg1);
-    _aircraft->GetData()->ver_tail.rudd_area = units::area::square_meter_t(arg1_raw);
+    _aircraft->getData()->ver_tail.rudd_area = units::area::square_meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailAR_valueChanged(double arg1)
 {
-    _aircraft->GetData()->ver_tail.ar = arg1;
+    _aircraft->getData()->ver_tail.ar = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxVerTailTR_valueChanged(double arg1)
 {
-    _aircraft->GetData()->ver_tail.tr = arg1;
+    _aircraft->getData()->ver_tail.tr = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxTailT_toggled(bool checked)
 {
-    _aircraft->GetData()->ver_tail.t_tail = checked;
+    _aircraft->getData()->ver_tail.t_tail = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxVerTailRotor_toggled(bool checked)
 {
-    _aircraft->GetData()->ver_tail.rotor = checked;
+    _aircraft->getData()->ver_tail.rotor = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainGearLength_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMainGearLength->invert(arg1);
-    _aircraft->GetData()->landing_gear.main_l = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->landing_gear.main_l = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxNoseGearLength_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxNoseGearLength->invert(arg1);
-    _aircraft->GetData()->landing_gear.nose_l = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->landing_gear.nose_l = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainGearWheels_valueChanged(int arg1)
 {
-    _aircraft->GetData()->landing_gear.main_wheels = arg1;
+    _aircraft->getData()->landing_gear.main_wheels = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainGearStruts_valueChanged(int arg1)
 {
-    _aircraft->GetData()->landing_gear.main_struts = arg1;
+    _aircraft->getData()->landing_gear.main_struts = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxNoseGearWheels_valueChanged(int arg1)
 {
-    _aircraft->GetData()->landing_gear.nose_wheels = arg1;
+    _aircraft->getData()->landing_gear.nose_wheels = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearFixed_toggled(bool checked)
 {
-    _aircraft->GetData()->landing_gear.fixed = checked;
+    _aircraft->getData()->landing_gear.fixed = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearCross_toggled(bool checked)
 {
-    _aircraft->GetData()->landing_gear.cross = checked;
+    _aircraft->getData()->landing_gear.cross = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearTripod_toggled(bool checked)
 {
-    _aircraft->GetData()->landing_gear.tripod = checked;
+    _aircraft->getData()->landing_gear.tripod = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearMainKneel_toggled(bool checked)
 {
-    _aircraft->GetData()->landing_gear.main_kneel = checked;
+    _aircraft->getData()->landing_gear.main_kneel = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_checkBoxGearNoseKneel_toggled(bool checked)
 {
-    _aircraft->GetData()->landing_gear.nose_kneel = checked;
+    _aircraft->getData()->landing_gear.nose_kneel = checked;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxEngineMass_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxEngineMass->invert(arg1);
-    _aircraft->GetData()->engine.mass = units::mass::kilogram_t(arg1_raw);
+    _aircraft->getData()->engine.mass = units::mass::kilogram_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorDiameter_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMainRotorDiameter->invert(arg1);
-    _aircraft->GetData()->rotors.main_r = 0.5 * units::length::meter_t(arg1_raw);
+    _aircraft->getData()->rotors.main_r = 0.5 * units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
     updateRotorTipVel();
 }
@@ -1615,13 +1615,13 @@ void DockWidgetParams::on_spinBoxMainRotorDiameter_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxMainRotorChord_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMainRotorChord->invert(arg1);
-    _aircraft->GetData()->rotors.main_cb = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->rotors.main_cb = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorRPM_valueChanged(double arg1)
 {
-    _aircraft->GetData()->rotors.main_rpm = units::angular_velocity::rpm_t(arg1);
+    _aircraft->getData()->rotors.main_rpm = units::angular_velocity::rpm_t(arg1);
     emit(aircraftChanged());
     updateRotorTipVel();
 }
@@ -1629,39 +1629,39 @@ void DockWidgetParams::on_spinBoxMainRotorRPM_valueChanged(double arg1)
 void DockWidgetParams::on_spinBoxTailRotorDiameter_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxTailRotorDiameter->invert(arg1);
-    _aircraft->GetData()->rotors.tail_r = 0.5 * units::length::meter_t(arg1_raw);
+    _aircraft->getData()->rotors.tail_r = 0.5 * units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorGear_valueChanged(double arg1)
 {
-    _aircraft->GetData()->rotors.main_gear_ratio = arg1;
+    _aircraft->getData()->rotors.main_gear_ratio = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxPowerLimit_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxPowerLimit->invert(arg1);
-    _aircraft->GetData()->rotors.mcp = units::power::horsepower_t(arg1_raw);
+    _aircraft->getData()->rotors.mcp = units::power::horsepower_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorTipVel_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBoxMainRotorTipVel->invert(arg1);
-    _aircraft->GetData()->rotors.main_tip_vel = units::velocity::meters_per_second_t(arg1_raw);
+    _aircraft->getData()->rotors.main_tip_vel = units::velocity::meters_per_second_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBoxMainRotorBlades_valueChanged(int arg1)
 {
-    _aircraft->GetData()->rotors.main_blades = arg1;
+    _aircraft->getData()->rotors.main_blades = arg1;
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_toolButtonBrowse_clicked()
 {
-    QDir proj_dir = QFileInfo(_aircraftFile->GetFile()).absoluteDir();
+    QDir proj_dir = QFileInfo(_aircraftFile->getFile()).absoluteDir();
     QString file = proj_dir.absoluteFilePath(_ui->lineEditModelFile->text());
 
     QString caption = "Browse";
@@ -1685,7 +1685,7 @@ void DockWidgetParams::on_toolButtonBrowse_clicked()
 
     if ( new_file.length() > 0 )
     {
-        QDir proj_dir = QFileInfo(_aircraftFile->GetFile()).absoluteDir();
+        QDir proj_dir = QFileInfo(_aircraftFile->getFile()).absoluteDir();
         new_file = proj_dir.relativeFilePath(new_file);
 
         _ui->lineEditModelFile->setText(new_file);
@@ -1694,7 +1694,7 @@ void DockWidgetParams::on_toolButtonBrowse_clicked()
 
 void DockWidgetParams::on_lineEditModelFile_textChanged(const QString &arg1)
 {
-    _aircraft->GetData()->model3d.file = arg1;
+    _aircraft->getData()->model3d.file = arg1;
     emit(aircraftChanged());
 }
 
@@ -1702,45 +1702,45 @@ void DockWidgetParams::on_lineEditModelFile_textChanged(const QString &arg1)
 void DockWidgetParams::on_spinBox_OffsetX_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBox_OffsetX->invert(arg1);
-    _aircraft->GetData()->model3d.offset_x = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->model3d.offset_x = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_OffsetY_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBox_OffsetY->invert(arg1);
-    _aircraft->GetData()->model3d.offset_y = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->model3d.offset_y = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_OffsetZ_valueChanged(double arg1)
 {
     double arg1_raw = _ui->comboBox_OffsetZ->invert(arg1);
-    _aircraft->GetData()->model3d.offset_z = units::length::meter_t(arg1_raw);
+    _aircraft->getData()->model3d.offset_z = units::length::meter_t(arg1_raw);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_RotationX_valueChanged(double arg1)
 {
-    _aircraft->GetData()->model3d.rotation_x = units::angle::degree_t(arg1);
+    _aircraft->getData()->model3d.rotation_x = units::angle::degree_t(arg1);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_RotationY_valueChanged(double arg1)
 {
-    _aircraft->GetData()->model3d.rotation_y = units::angle::degree_t(arg1);
+    _aircraft->getData()->model3d.rotation_y = units::angle::degree_t(arg1);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_RotationZ_valueChanged(double arg1)
 {
-    _aircraft->GetData()->model3d.rotation_z = units::angle::degree_t(arg1);
+    _aircraft->getData()->model3d.rotation_z = units::angle::degree_t(arg1);
     emit(aircraftChanged());
 }
 
 void DockWidgetParams::on_spinBox_Scale_valueChanged(double arg1)
 {
-    _aircraft->GetData()->model3d.scale = arg1;
+    _aircraft->getData()->model3d.scale = arg1;
     emit(aircraftChanged());
 }
 

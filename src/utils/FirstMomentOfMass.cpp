@@ -25,18 +25,18 @@ FirstMomentOfMass FirstMomentOfMass::operator+(const FirstMomentOfMass& vect) co
 {
     FirstMomentOfMass result;
 
-    result.sx_ = sx_ + vect.sx_;
-    result.sy_ = sy_ + vect.sy_;
-    result.sz_ = sz_ + vect.sz_;
+    result._sx = _sx + vect._sx;
+    result._sy = _sy + vect._sy;
+    result._sz = _sz + vect._sz;
 
     return result;
 }
 
 FirstMomentOfMass& FirstMomentOfMass::operator+=(const FirstMomentOfMass& vect)
 {
-    sx_ += vect.sx_;
-    sy_ += vect.sy_;
-    sz_ += vect.sz_;
+    _sx += vect._sx;
+    _sy += vect._sy;
+    _sz += vect._sz;
 
     return (*this);
 }
@@ -45,9 +45,9 @@ PositionVector FirstMomentOfMass::operator/(units::mass::kilogram_t m) const
 {
     PositionVector result;
 
-    result.x() = sx_ / m;
-    result.y() = sy_ / m;
-    result.z() = sz_ / m;
+    result.x() = _sx / m;
+    result.y() = _sy / m;
+    result.z() = _sz / m;
 
     return result;
 }

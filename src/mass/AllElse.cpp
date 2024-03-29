@@ -19,7 +19,7 @@
 
 #include <mass/AllElse.h>
 
-constexpr char AllElse::xmlTagName[];
+constexpr char AllElse::kXmlTagName[];
 
 units::mass::kilogram_t AllElse::GetEstimatedMass(const AircraftData& data)
 {

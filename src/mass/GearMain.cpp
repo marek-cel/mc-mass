@@ -19,7 +19,7 @@
 
 #include <mass/GearMain.h>
 
-constexpr char GearMain::xmlTagName[];
+constexpr char GearMain::kXmlTagName[];
 
 units::mass::kilogram_t GearMain::GetEstimatedMass(const AircraftData& data)
 {

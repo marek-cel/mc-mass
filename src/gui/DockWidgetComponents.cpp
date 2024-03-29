@@ -42,7 +42,7 @@ DockWidgetComponents::DockWidgetComponents(AircraftFile* aircraftFile, QWidget *
 {
     _ui->setupUi(this);
 
-    _aircraft = _aircraftFile->GetAircraft();
+    _aircraft = _aircraftFile->getAircraft();
     updateGUI();
 }
 
@@ -55,7 +55,7 @@ void DockWidgetComponents::updateGUI()
 {
     _ui->listComponents->clear();
 
-    Aircraft::Components components = _aircraft->GetComponents();
+    Aircraft::Components components = _aircraft->getComponents();
     for ( auto component : components )
     {
         QString name = component->GetName();
@@ -75,56 +75,56 @@ void DockWidgetComponents::addComponent()
 
     if ( _ui->comboBoxComponents->currentIndex() == 0 )
     {
-        component = new Fuselage(_aircraft->GetData());
+        component = new Fuselage(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 1 )
     {
-        component = new Wing(_aircraft->GetData());
+        component = new Wing(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 2 )
     {
-        component = new TailHor(_aircraft->GetData());
+        component = new TailHor(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 3 )
     {
-        component = new TailVer(_aircraft->GetData());
+        component = new TailVer(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 4 )
     {
-        component = new GearMain(_aircraft->GetData());
+        component = new GearMain(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 5 )
     {
-        component = new GearNose(_aircraft->GetData());
+        component = new GearNose(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 6 )
     {
-        component = new Engine(_aircraft->GetData());
+        component = new Engine(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 7 )
     {
-        component = new RotorDrive(_aircraft->GetData());
+        component = new RotorDrive(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 8 )
     {
-        component = new RotorHub(_aircraft->GetData());
+        component = new RotorHub(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 9 )
     {
-        component = new RotorMain(_aircraft->GetData());
+        component = new RotorMain(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 10 )
     {
-        component = new RotorTail(_aircraft->GetData());
+        component = new RotorTail(_aircraft->getData());
     }
     else if ( _ui->comboBoxComponents->currentIndex() == 11 )
     {
-        component = new AllElse(_aircraft->GetData());
+        component = new AllElse(_aircraft->getData());
     }
 
     if ( component )
     {
-        _aircraft->AddComponent(component);
+        _aircraft->addComponent(component);
         emit(aircraftChanged());
     }
 }
@@ -132,12 +132,12 @@ void DockWidgetComponents::addComponent()
 void DockWidgetComponents::editComponent()
 {
     int index = _ui->listComponents->currentRow();
-    Component* component = _aircraft->GetComponent(index);
+    Component* component = _aircraft->getComponent(index);
     if ( component )
     {
         if ( QDialog::Accepted == DialogEdit::edit(this, component) )
         {
-            _aircraft->Update();
+            _aircraft->update();
             _previousComponentIndex = index;
             emit(aircraftChanged());
         }
@@ -148,7 +148,7 @@ void DockWidgetComponents::on_listComponents_currentRowChanged(int currentRow)
 {
     _currentComponentIndex = currentRow;
 
-    Aircraft::Components components = _aircraft->GetComponents();
+    Aircraft::Components components = _aircraft->getComponents();
 
     if ( currentRow >=0 && currentRow < static_cast<int>(components.size()) )
     {
@@ -191,12 +191,12 @@ void DockWidgetComponents::on_pushButtonAdd_clicked()
 
 void DockWidgetComponents::on_pushButtonDel_clicked()
 {
-    Aircraft::Components components = _aircraft->GetComponents();
+    Aircraft::Components components = _aircraft->getComponents();
     int currentRow = _ui->listComponents->currentRow();
 
     if ( currentRow >=0 && currentRow < static_cast<int>(components.size()) )
     {
-        _aircraft->DeleteComponent(currentRow);
+        _aircraft->deleteComponent(currentRow);
     }
 
     emit(aircraftChanged());

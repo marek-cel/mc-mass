@@ -19,7 +19,7 @@
 
 #include <utils/Cuboid.h>
 
-InertiaMatrix Cuboid::GetInertiaMatrix(units::mass::kilogram_t m,
+InertiaMatrix Cuboid::getInertiaMatrix(units::mass::kilogram_t m,
                                        units::length::meter_t l,
                                        units::length::meter_t w,
                                        units::length::meter_t h)

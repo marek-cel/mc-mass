@@ -23,9 +23,9 @@ FirstMomentOfMass PositionVector::operator*(units::mass::kilogram_t m) const
 {
     FirstMomentOfMass result;
 
-    result.sx() = x_ * m;
-    result.sy() = y_ * m;
-    result.sz() = z_ * m;
+    result.sx() = _x * m;
+    result.sy() = _y * m;
+    result.sz() = _z * m;
 
     return result;
 }
