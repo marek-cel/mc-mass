@@ -19,6 +19,8 @@
 #ifndef MC_MASS_CGI_MODEL_H_
 #define MC_MASS_CGI_MODEL_H_
 
+#include <filesystem>
+
 #include <cgi/Component.h>
 
 #include <osg/PositionAttitudeTransform>
@@ -40,10 +42,10 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
     osg::ref_ptr<osg::Group> _model;
 
-    QString _model_file;
-    QString _project_dir;
+    std::filesystem::path _model_file;
+    std::filesystem::path _project_dir;
 
-    void updateModel(const QString& model_file, const QString& project_dir);
+    void updateModel(const std::filesystem::path& model_file, const std::filesystem::path& project_dir);
     void updateTransformations(double offset_x, double offset_y, double offset_z,
                                double rotation_x, double rotation_y, double rotation_z,
                                double scale);

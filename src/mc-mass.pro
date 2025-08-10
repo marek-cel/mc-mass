@@ -1,4 +1,4 @@
-QT += core gui opengl xml
+QT += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,7 +11,7 @@ TARGET = mc-mass
 
 ################################################################################
 
-CONFIG += c++17 object_parallel_to_source
+CONFIG += c++20 object_parallel_to_source
 
 ################################################################################
 
@@ -96,18 +96,15 @@ unix: LIBS += \
     -losgViewer \
     -losgWidget
 
+LIBS += -lxml2
+
 ################################################################################
 
 HEADERS += \
-    $$PWD/defs.h \
-    $$PWD/Aircraft.h \
-    $$PWD/AircraftData.h \
-    $$PWD/AircraftFile.h
+    $$PWD/defs.h
 
 SOURCES += \
-    $$PWD/main.cpp \
-    $$PWD/Aircraft.cpp \
-    $$PWD/AircraftFile.cpp
+    $$PWD/main.cpp
 
 RESOURCES += \
     $$PWD/mc-mass.qrc
@@ -116,5 +113,4 @@ RESOURCES += \
 
 include($$PWD/cgi/cgi.pri)
 include($$PWD/gui/gui.pri)
-include($$PWD/mass/mass.pri)
 include($$PWD/utils/utils.pri)

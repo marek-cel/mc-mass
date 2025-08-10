@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2024 Marek M. Cel
+ *  Copyright (C) 2022 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -21,17 +21,14 @@
 #include <QSharedPointer>
 
 #include <defs.h>
-
 #include <gui/MainWindow.h>
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     setlocale(LC_ALL, "C");
-
     QLocale::setDefault(QLocale::system());
 
     QSharedPointer<QApplication> app(new QApplication(argc, argv));
-
     app->setApplicationName    ( APP_NAME   );
     app->setApplicationVersion ( APP_VER    );
     app->setOrganizationDomain ( ORG_DOMAIN );
@@ -39,13 +36,10 @@ int main(int argc, char* argv[])
 
     QSharedPointer<MainWindow> win(new MainWindow());
     win->show();
+    // if ( argc > 1 )
+    // {
+    //     win->openFileFromCommandLine(argv[1]);
+    // }
 
-    if ( argc > 1 )
-    {
-        win->openFileFromCommandLine(argv[1]);
-    }
-    
-    int result = app->exec();
-
-    return result;
+    return app->exec();
 }

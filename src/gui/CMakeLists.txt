@@ -1,32 +1,8 @@
-set(MODULE_NAME gui)
+set(MODULE_NAME mc-mass-gui)
 
 ################################################################################
 
-set(CPP_FILES
-    ComboUnits.cpp
-    ComboUnitsAltitude.cpp
-    ComboUnitsAngle.cpp
-    ComboUnitsArea.cpp
-    ComboUnitsInertia.cpp
-    ComboUnitsLength.cpp
-    ComboUnitsMass.cpp
-    ComboUnitsPower.cpp
-    ComboUnitsSpeed.cpp
-    ComboUnitsVelocity.cpp
-    ComboUnitsVolume.cpp
-    DialogEdit.cpp
-    DockWidgetComponents.cpp
-    DockWidgetParams.cpp
-    DockWidgetResults.cpp
-    GraphicsWindowQt.cpp
-    KeyMap.cpp
-    MainWindow.cpp
-    RecentFileAction.cpp
-    WidgetCGI.cpp
-    WidgetOSG.cpp
-)
-
-set(MOC_SRC_FILES
+set(MOC_FILES
     ComboUnits.h
     ComboUnitsAltitude.h
     ComboUnitsAngle.h
@@ -38,28 +14,42 @@ set(MOC_SRC_FILES
     ComboUnitsSpeed.h
     ComboUnitsVelocity.h
     ComboUnitsVolume.h
-    DialogEdit.h
-    DockWidgetComponents.h
-    DockWidgetParams.h
-    DockWidgetResults.h
     MainWindow.h
     RecentFileAction.h
     WidgetCGI.h
     WidgetOSG.h
 )
 
-set(UIC_SRC_FILES
-    DialogEdit.ui
-    DockWidgetComponents.ui
-    DockWidgetParams.ui
-    DockWidgetResults.ui
+set(UIC_FILES
     MainWindow.ui
+)
+
+set(SOURCES
+    ${MOC_FILES}
+    ${UIC_FILES}
+    ComboUnits.cpp
+    ComboUnitsAltitude.cpp
+    ComboUnitsAngle.cpp
+    ComboUnitsArea.cpp
+    ComboUnitsInertia.cpp
+    ComboUnitsLength.cpp
+    ComboUnitsMass.cpp
+    ComboUnitsPower.cpp
+    ComboUnitsSpeed.cpp
+    ComboUnitsVelocity.cpp
+    ComboUnitsVolume.cpp
+    GraphicsWindowQt.cpp
+    KeyMap.cpp
+    MainWindow.cpp
+    RecentFileAction.cpp
+    WidgetCGI.cpp
+    WidgetOSG.cpp
 )
 
 ################################################################################
 
-add_library(${MODULE_NAME} STATIC ${CPP_FILES} ${MOC_SRC_FILES} ${UIC_SRC_FILES})
+add_library(${MODULE_NAME} STATIC ${SOURCES})
 
 ################################################################################
 
-qt5_use_modules(${MODULE_NAME} Widgets OpenGL Xml)
+qt5_use_modules(${MODULE_NAME} Core Widgets OpenGL)

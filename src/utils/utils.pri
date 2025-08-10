@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/InertiaMatrix.h \
     $$PWD/Atmosphere.h \
     $$PWD/Cuboid.h \
-    $$PWD/XmlUtils.h
+    $$PWD/XmlDoc.h \
+    $$PWD/XmlNode.h
 
 SOURCES += \
     $$PWD/Atmosphere.cpp \
@@ -15,4 +16,5 @@ SOURCES += \
     $$PWD/InertiaMatrix.cpp \
     $$PWD/ParallelAxisInertia.cpp \
     $$PWD/PositionVector.cpp \
-    $$PWD/XmlUtils.cpp
+    $$PWD/XmlDoc.cpp \
+    $$PWD/XmlNode.cpp

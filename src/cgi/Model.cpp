@@ -21,8 +21,6 @@
 
 #include <osgDB/ReadFile>
 
-#include <QDir>
-
 namespace cgi
 {
 
@@ -51,21 +49,16 @@ void Model::update()
     }
 }
 
-void Model::updateModel(const QString& model_file, const QString& project_dir)
+void Model::updateModel(const std::filesystem::path& model_file, const std::filesystem::path& project_dir)
 {
     if ( _model_file != model_file || _project_dir != project_dir )
     {
         _model_file = model_file;
         _project_dir = project_dir;
 
-        QDir dir(_project_dir);
-        QString file_path = dir.absoluteFilePath(_model_file);
-
         _model->removeChildren(0, _model->getNumChildren());
 
-        //std::cout << "file_path.toStdString() " << file_path.toStdString() << std::endl;
-
-        osg::ref_ptr<osg::Node> model = osgDB::readNodeFile(file_path.toStdString());
+        osg::ref_ptr<osg::Node> model = osgDB::readNodeFile(model_file.string());
         if ( model.valid() )
         {
             _model->addChild(model);

@@ -1,4 +1,4 @@
-set(MODULE_NAME utils)
+set(MODULE_NAME mc-mass-utils)
 
 ################################################################################
 
@@ -9,11 +9,10 @@ set(CPP_FILES
     InertiaMatrix.cpp
     ParallelAxisInertia.cpp
     PositionVector.cpp
-    XmlUtils.cpp
+    XmlDoc.cpp
+    XmlNode.cpp
 )
 
 ################################################################################
 
 add_library(${MODULE_NAME} STATIC ${CPP_FILES})
-
-qt5_use_modules(${MODULE_NAME} Xml)

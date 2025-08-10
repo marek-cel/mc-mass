@@ -81,7 +81,7 @@ void Manager::setWinWidth(int w)
     _data->win_width = w;
 }
 
-void Manager::setModelData(const QString& model_file,
+void Manager::setModelData(const std::filesystem::path& model_file,
                            double offset_x, double offset_y, double offset_z,
                            double rotation_x, double rotation_y, double rotation_z,
                            double scale)
@@ -99,7 +99,7 @@ void Manager::setModelData(const QString& model_file,
     _data->scale = scale;
 }
 
-void Manager::setProjectDir(const QString& project_dir)
+void Manager::setProjectDir(const std::filesystem::path& project_dir)
 {
     _data->projectDir = project_dir;
 }

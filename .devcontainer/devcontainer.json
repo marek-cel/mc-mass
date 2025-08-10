@@ -1,6 +1,6 @@
 {
 	"name": "mc-mass-dev-env",
-	
+
 	"build": {
 		"context": "..",
 		"dockerfile": "../Dockerfile"
@@ -21,7 +21,7 @@
 		}
 	},
 
-	"remoteUser": "vscode",
-	"containerUser" : "vscode",
+	"remoteUser": "ubuntu",
+	"containerUser" : "ubuntu",
 	"updateRemoteUserUID": true
 }

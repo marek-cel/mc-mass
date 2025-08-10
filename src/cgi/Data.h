@@ -19,7 +19,7 @@
 #ifndef MC_MASS_CGI_DATA_H_
 #define MC_MASS_CGI_DATA_H_
 
-#include <QString>
+#include <filesystem>
 
 namespace cgi {
 
@@ -34,8 +34,8 @@ struct Data
     int win_width  = 0;
     int win_height = 0;
 
-    QString projectDir;
-    QString modelFile;
+    std::filesystem::path projectDir;
+    std::filesystem::path modelFile;
 
     double offset_x = 0.0;
     double offset_y = 0.0;

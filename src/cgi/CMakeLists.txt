@@ -1,4 +1,4 @@
-set(MODULE_NAME cgi)
+set(MODULE_NAME mc-mass-cgi)
 
 ################################################################################
 
@@ -20,5 +20,3 @@ set(CPP_FILES
 ################################################################################
 
 add_library(${MODULE_NAME} STATIC ${CPP_FILES})
-
-qt5_use_modules(${MODULE_NAME} Core)

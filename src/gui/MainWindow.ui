@@ -17,179 +17,19 @@
    <iconset resource="../mc-mass.qrc">
     <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
   </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="WidgetCGI" name="widgetCGI" native="true"/>
-    </item>
-   </layout>
-  </widget>
+  <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="locale">
-     <locale language="English" country="UnitedStates"/>
-    </property>
-    <property name="title">
-     <string>File</string>
-    </property>
-    <widget class="QMenu" name="menuRecentFiles">
-     <property name="title">
-      <string>Recent files</string>
-     </property>
-    </widget>
-    <addaction name="actionNew"/>
-    <addaction name="actionOpen"/>
-    <addaction name="menuRecentFiles"/>
-    <addaction name="actionClearRecent"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSaveAs"/>
-    <addaction name="actionExport"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="locale">
-     <locale language="English" country="UnitedStates"/>
-    </property>
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionAbout"/>
-    <addaction name="actionAboutQt"/>
-   </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionShowGrid"/>
-    <addaction name="separator"/>
-    <addaction name="actionViewDefault"/>
-    <addaction name="separator"/>
-    <addaction name="actionViewTop"/>
-    <addaction name="actionViewBottom"/>
-    <addaction name="separator"/>
-    <addaction name="actionViewLeft"/>
-    <addaction name="actionViewRight"/>
-    <addaction name="separator"/>
-    <addaction name="actionViewBack"/>
-    <addaction name="actionViewFront"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuView"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
-  <action name="actionNew">
-   <property name="text">
-    <string>New</string>
-   </property>
-  </action>
-  <action name="actionOpen">
-   <property name="text">
-    <string>Open</string>
-   </property>
-  </action>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save (Ctrl+S)</string>
-   </property>
-  </action>
-  <action name="actionSaveAs">
-   <property name="text">
-    <string>Save as...</string>
-   </property>
-  </action>
-  <action name="actionExport">
-   <property name="text">
-    <string>Export as... (Ctrl+E)</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionClearRecent">
-   <property name="text">
-    <string>Clear recent</string>
-   </property>
-  </action>
-  <action name="actionAboutQt">
-   <property name="text">
-    <string>About Qt</string>
-   </property>
-  </action>
-  <action name="actionShowGrid">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Show Grid</string>
-   </property>
-  </action>
-  <action name="actionViewDefault">
-   <property name="text">
-    <string>Default (0)</string>
-   </property>
-  </action>
-  <action name="actionViewTop">
-   <property name="text">
-    <string>Top (7)</string>
-   </property>
-  </action>
-  <action name="actionViewBottom">
-   <property name="text">
-    <string>Bottom (Ctrl+7)</string>
-   </property>
-  </action>
-  <action name="actionViewLeft">
-   <property name="text">
-    <string>Left (1)</string>
-   </property>
-  </action>
-  <action name="actionViewRight">
-   <property name="text">
-    <string>Right (Ctrl+1)</string>
-   </property>
-  </action>
-  <action name="actionViewBack">
-   <property name="text">
-    <string>Back (3)</string>
-   </property>
-  </action>
-  <action name="actionViewFront">
-   <property name="text">
-    <string>Front (Ctrl+3)</string>
-   </property>
-  </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>WidgetCGI</class>
-   <extends>QWidget</extends>
-   <header>gui/WidgetCGI.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../mc-mass.qrc"/>
  </resources>

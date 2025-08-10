@@ -1,0 +1,39 @@
+/****************************************************************************//*
+ *  Copyright (C) 2024 Marek M. Cel
+ *
+ *  This file is part of MC-Mass.
+ *
+ *  MC-Mass is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  MC-Mass is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>
+ ******************************************************************************/
+
+#include <gui/ComboUnitsVelocity.h>
+
+#include <units.h>
+
+using namespace units::literals;
+
+ComboUnitsVelocity::ComboUnitsVelocity(QWidget* parent)
+    : ComboUnits(parent)
+{
+    _coefs.push_back(1.0);
+    _names.push_back(QString(tr("m/s")));
+
+    _coefs.push_back(1_mps / 1_fps);
+    _names.push_back(QString(tr("fps")));
+
+    for ( int i = 0; i < _names.size(); i++ )
+    {
+        addItem(_names[i]);
+    }
+}

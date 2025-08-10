@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>gui/html/about.html</file>
+        <!--<file>gui/html/about.html</file>-->
         <file>gui/images/icon.svg</file>
     </qresource>
 </RCC>

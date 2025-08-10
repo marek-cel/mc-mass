@@ -19,6 +19,8 @@
 #ifndef MC_MASS_CGI_MANAGER_H_
 #define MC_MASS_CGI_MANAGER_H_
 
+#include <filesystem>
+
 #include <cgi/ManipulatorOrbit.h>
 #include <cgi/ManipulatorTrack.h>
 
@@ -54,12 +56,12 @@ public:
     void setWinHeight(int h);
     void setWinWidth(int w);
 
-    void setModelData(const QString& model_file,
+    void setModelData(const std::filesystem::path& model_file,
                       double offset_x, double offset_y, double offset_z,
                       double rotation_x, double rotation_y, double rotation_z,
                       double scale);
 
-    void setProjectDir(const QString& project_dir);
+    void setProjectDir(const std::filesystem::path& project_dir);
 
     void setHighlightData(bool highlight,
                           double highlight_x = 0.0,

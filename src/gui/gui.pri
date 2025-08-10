@@ -10,10 +10,6 @@ HEADERS += \
     $$PWD/ComboUnitsSpeed.h \
     $$PWD/ComboUnitsVelocity.h \
     $$PWD/ComboUnitsVolume.h \
-    $$PWD/DialogEdit.h \
-    $$PWD/DockWidgetComponents.h \
-    $$PWD/DockWidgetParams.h \
-    $$PWD/DockWidgetResults.h \
     $$PWD/GraphicsWindowQt.h \
     $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
@@ -33,11 +29,6 @@ SOURCES += \
     $$PWD/ComboUnitsSpeed.cpp \
     $$PWD/ComboUnitsVelocity.cpp \
     $$PWD/ComboUnitsVolume.cpp \
-    $$PWD/DialogEdit.cpp \
-    $$PWD/DockWidgetComponents.cpp \
-    $$PWD/DockWidgetParams.cpp \
-    $$PWD/DockWidgetResults.cpp \
-    $$PWD/GraphicsWindowQt.cpp \
     $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/RecentFileAction.cpp \
@@ -45,8 +36,4 @@ SOURCES += \
     $$PWD/WidgetOSG.cpp
 
 FORMS += \
-    $$PWD/DialogEdit.ui \
-    $$PWD/DockWidgetComponents.ui \
-    $$PWD/DockWidgetParams.ui \
-    $$PWD/DockWidgetResults.ui \
     $$PWD/MainWindow.ui
