@@ -179,6 +179,22 @@ bool ManipulatorOrtho::handleMouseWheel(const osgGA::GUIEventAdapter& ea, osgGA:
 }
 
 
+bool ManipulatorOrtho::performMovementMiddleMouseButton(const double eventTimeDelta, const double dx, const double dy)
+{
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
+    // TODO
+    return false;
+}
+
+
+bool ManipulatorOrtho::performMovementRightMouseButton(const double eventTimeDelta, const double dx, const double dy)
+{
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
+    // TODO
+    return false;
+}
+
+
 void ManipulatorOrtho::zoomModel(const float dy)
 {
     setScale(_scale * (1.0 + dy));

@@ -77,6 +77,9 @@ protected:
 
     bool handleMouseWheel(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& us) override;
 
+    bool performMovementMiddleMouseButton(const double eventTimeDelta, const double dx, const double dy);
+    bool performMovementRightMouseButton(const double eventTimeDelta, const double dx, const double dy);
+
     void zoomModel(const float dy);
 };
 
