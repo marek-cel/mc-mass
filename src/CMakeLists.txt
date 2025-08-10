@@ -11,6 +11,9 @@ set(RCC_FILES
 set(SOURCES
     ${RCC_FILES}
     main.cpp
+    Document.cpp
+    Log.cpp
+    Vehicle.cpp
 )
 
 ################################################################################

@@ -9,6 +9,7 @@ set(CPP_FILES
     InertiaMatrix.cpp
     ParallelAxisInertia.cpp
     PositionVector.cpp
+    StringUtils.cpp
     XmlDoc.cpp
     XmlNode.cpp
 )

@@ -23,8 +23,8 @@
 
 #define APP_NAME   "mc-mass"
 #define APP_VER    "2.0"
-#define ORG_NAME   "marekcel.pl"
-#define ORG_DOMAIN "marekcel.pl"
+#define ORG_NAME   "mc-tech.org"
+#define ORG_DOMAIN "mc-tech.org"
 
 #define APP_TITLE "MC-Mass"
 

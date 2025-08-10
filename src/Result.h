@@ -19,8 +19,6 @@
 #ifndef MC_MASS_RESULT_H_
 #define MC_MASS_RESULT_H_
 
-namespace mc {
-
 /**
  * \brief The Result enum
  */
@@ -29,7 +27,5 @@ enum class Result : int
     Success = 0,    ///< success
     Failure = 1     ///< failure
 };
-
-} // namespace mc
 
 #endif // MC_MASS_RESULT_H_

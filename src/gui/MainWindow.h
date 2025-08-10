@@ -16,10 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MC_MASS_GUI_MAINWINDOW_H_
+#define MC_MASS_GUI_MAINWINDOW_H_
+
+#include <filesystem>
 
 #include <QMainWindow>
+#include <QShortcut>
+#include <QVector>
+
+#include <CommandsManager.h>
+#include <gui/RecentFileAction.h>
 
 namespace Ui {
 class MainWindow;
@@ -30,11 +37,72 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+
+    using RecentFilesActions = QVector<RecentFileAction*>;
+
+    explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+    void openFileFromCommandLine(QString filename);
+
+protected:
+
+    void closeEvent(QCloseEvent* event) override;
+
 private:
-    Ui::MainWindow *ui;
+
+    Ui::MainWindow* _ui;
+
+    QShortcut* _sc_save   = nullptr;
+    QShortcut* _sc_export = nullptr;
+    QShortcut* _sc_undo   = nullptr;
+    QShortcut* _sc_redo   = nullptr;
+    QShortcut* _sc_redo_2 = nullptr;
+
+    std::shared_ptr<CommandsManager> _cmd_mngr = std::make_shared<CommandsManager>();
+
+    std::filesystem::path _currentFile;
+    RecentFilesActions _recentActions;
+    int _recentFilesMax = 10;
+
+    bool _saved = true;
+
+    void addRecentFile(QString file = "");
+
+    void askIfSave();
+
+    void newFile();
+    void openFile();
+    void saveFile();
+    void saveFileAs();
+    void exportFileAs();
+
+    void readFile(QString fileName);
+    void saveFile(QString fileName);
+    void exportAs(QString fileName);
+
+    void undo();
+    void redo();
+
+    void settingsRead();
+    void settingsSave();
+
+private slots:
+
+    void on_actionNew_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_actionSaveAs_triggered();
+    void on_actionExport_triggered();
+    void on_actionExit_triggered();
+
+    void on_actionUndo_triggered();
+    void on_actionRedo_triggered();
+
+    void on_actionDocs_triggered();
+    void on_actionAbout_triggered();
+
+    void recentFile_triggered(RecentFileAction* action);
 };
 
-#endif // MAINWINDOW_H
+#endif // MC_MASS_GUI_MAINWINDOW_H_

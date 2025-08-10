@@ -22,8 +22,6 @@
 #include <cstring>
 #include <iostream>
 
-namespace mc {
-
 XmlDoc::XmlDoc()
 {
     _doc = xmlNewDoc(reinterpret_cast<const xmlChar*>("1.0"));
@@ -130,4 +128,3 @@ Result XmlDoc::saveFile(const char* path)
     return Result::Failure;
 }
 
-} // namespace mc

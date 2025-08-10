@@ -25,9 +25,8 @@
 #include <utility>
 #include <iostream>
 
-// #include <mcsim/utils/misc/StringUtils.h>
+#include <utils/StringUtils.h>
 
-namespace mc {
 
 XmlNode::XmlNode(xmlNodePtr node, std::weak_ptr<std::filesystem::path> path)
     : _path(path)
@@ -309,4 +308,3 @@ bool XmlNode::hasAttribute(const char* name) const
     return false;
 }
 
-} // namespace mc

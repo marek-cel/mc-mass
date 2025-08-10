@@ -27,8 +27,6 @@
 #include <Result.h>
 #include <utils/XmlNode.h>
 
-namespace mc {
-
 /**
  * \brief XML Document class.
  */
@@ -141,7 +139,5 @@ private:
     bool _open = false;         ///< specifies if document is open
     XmlNode *_root = nullptr;   ///< XML document root node
 };
-
-} // namespace mc
 
 #endif // MC_MASS_UTILS_XMLDOC_H_

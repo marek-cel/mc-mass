@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2022 Marek M. Cel
+ *  Copyright (C) 2025 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
@@ -17,29 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <QApplication>
-#include <QSharedPointer>
+#include <Vehicle.h>
 
-#include <defs.h>
-#include <gui/MainWindow.h>
+using namespace units::math;
 
-int main(int argc, char *argv[])
-{
-    setlocale(LC_ALL, "C");
-    QLocale::setDefault(QLocale::system());
+namespace mc {
+namespace mass {
 
-    QSharedPointer<QApplication> app(new QApplication(argc, argv));
-    app->setApplicationName    ( APP_NAME   );
-    app->setApplicationVersion ( APP_VER    );
-    app->setOrganizationDomain ( ORG_DOMAIN );
-    app->setOrganizationName   ( ORG_NAME   );
 
-    QSharedPointer<MainWindow> win(new MainWindow());
-    win->show();
-    if ( argc > 1 )
-    {
-        win->openFileFromCommandLine(argv[1]);
-    }
 
-    return app->exec();
-}
+} // namespace mass
+} // namespace mc

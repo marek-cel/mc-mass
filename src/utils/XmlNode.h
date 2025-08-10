@@ -30,8 +30,6 @@
 
 #include <Result.h>
 
-namespace mc {
-
 /**
  * \brief XML node class.
  */
@@ -295,7 +293,5 @@ private:
     std::weak_ptr<std::filesystem::path> _path; ///< XML file path pointer
     xmlNodePtr _node = nullptr;                 ///< XML node pointer
 };
-
-} // namespace mc
 
 #endif // MC_MASS_UTILS_XMLNODE_H_
