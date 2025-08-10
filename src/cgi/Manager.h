@@ -21,8 +21,7 @@
 
 #include <filesystem>
 
-#include <cgi/ManipulatorOrbit.h>
-#include <cgi/ManipulatorTrack.h>
+#include <cgi/ManipulatorOrtho.h>
 
 #include <cgi/CGI.h>
 #include <cgi/HUD.h>
@@ -48,8 +47,7 @@ public:
     inline osg::Group* getNodeCGI() { return _cgi->root().get(); }
     inline osg::Group* getNodeHUD() { return _hud->root().get(); }
 
-    void setCameraManipulatorOrbit();
-    void setCameraManipulatorTrack();
+    void setCameraManipulatorOrtho();
 
     void setGridVisibility(bool grid_visible);
 
@@ -79,9 +77,7 @@ private:
     std::shared_ptr<HUD> _hud;
 
     osg::ref_ptr<osgGA::CameraManipulator> _manipulator;    ///< current manipulator
-
-    osg::ref_ptr<ManipulatorOrbit> _manipulatorOrbit;
-    osg::ref_ptr<ManipulatorTrack> _manipulatorTrack;
+    osg::ref_ptr<ManipulatorOrtho> _manipulatorOrtho;
 };
 
 } // namespace cgi

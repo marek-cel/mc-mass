@@ -33,10 +33,8 @@ Manager::Manager()
     Builder::buildCGI(_data, _cgi);
     Builder::buildHUD(_data, _hud);
 
-    _manipulatorOrbit = new ManipulatorOrbit();
-    _manipulatorTrack = new ManipulatorTrack();
-
-    _manipulator = _manipulatorTrack;
+    _manipulatorOrtho = new ManipulatorOrtho();
+    setCameraManipulatorOrtho();
 }
 
 Manager::~Manager() {}
@@ -54,16 +52,10 @@ void Manager::update()
     _hud->update();
 }
 
-void Manager::setCameraManipulatorOrbit()
+void Manager::setCameraManipulatorOrtho()
 {
-    _manipulator = _manipulatorOrbit;
-    _manipulatorOrbit->setTrackNode(_cgi->root().get());
-}
-
-void Manager::setCameraManipulatorTrack()
-{
-    _manipulator = _manipulatorTrack;
-    _manipulatorTrack->setNode(_cgi->root().get());
+    _manipulator = _manipulatorOrtho;
+    _manipulatorOrtho->setNode(_cgi->root().get());
 }
 
 void Manager::setGridVisibility(bool grid_visible)
