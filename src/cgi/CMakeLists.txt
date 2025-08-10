@@ -12,6 +12,7 @@ set(CPP_FILES
     HUD.cpp
     Manager.cpp
     ManipulatorOrbit.cpp
+    ManipulatorOrtho.cpp
     ManipulatorTrack.cpp
     Model.cpp
     ViewGizmo.cpp
