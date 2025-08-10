@@ -26,6 +26,8 @@
 #include <QVector>
 
 #include <CommandsManager.h>
+#include <Document.h>
+#include <gui/DockWidgetParams.h>
 #include <gui/RecentFileAction.h>
 
 namespace Ui {
@@ -53,11 +55,11 @@ private:
 
     Ui::MainWindow* _ui;
 
-    QShortcut* _sc_save   = nullptr;
-    QShortcut* _sc_export = nullptr;
-    QShortcut* _sc_undo   = nullptr;
-    QShortcut* _sc_redo   = nullptr;
-    QShortcut* _sc_redo_2 = nullptr;
+    DockWidgetParams* _dockParams = nullptr;
+
+    QShortcut* _sc_redo = nullptr;  ///< redo alternative shortcut (Shift+Ctrl+Z)
+
+    std::shared_ptr<Document> _doc = std::make_shared<Document>();
 
     std::shared_ptr<CommandsManager> _cmd_mngr = std::make_shared<CommandsManager>();
 
@@ -98,6 +100,14 @@ private slots:
 
     void on_actionUndo_triggered();
     void on_actionRedo_triggered();
+
+    void on_actionViewDefault_triggered();
+    void on_actionViewTop_triggered();
+    void on_actionViewBottom_triggered();
+    void on_actionViewLeft_triggered();
+    void on_actionViewRight_triggered();
+    void on_actionViewBack_triggered();
+    void on_actionViewFront_triggered();
 
     void on_actionDocs_triggered();
     void on_actionAbout_triggered();
