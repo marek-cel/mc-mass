@@ -14,6 +14,7 @@ set(MOC_FILES
     ComboUnitsSpeed.h
     ComboUnitsVelocity.h
     ComboUnitsVolume.h
+    DockWidgetParams.h
     MainWindow.h
     RecentFileAction.h
     WidgetCGI.h
@@ -21,6 +22,7 @@ set(MOC_FILES
 )
 
 set(UIC_FILES
+    DockWidgetParams.ui
     MainWindow.ui
 )
 
@@ -38,6 +40,7 @@ set(SOURCES
     ComboUnitsSpeed.cpp
     ComboUnitsVelocity.cpp
     ComboUnitsVolume.cpp
+    DockWidgetParams.cpp
     GraphicsWindowQt.cpp
     KeyMap.cpp
     MainWindow.cpp
