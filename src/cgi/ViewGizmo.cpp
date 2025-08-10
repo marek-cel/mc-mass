@@ -57,8 +57,8 @@ void ViewGizmo::update()
         double w2h = static_cast<double>(data->win_width)
                    / static_cast<double>(data->win_height);
 
-        double x = -w2h * CGI_HUD_Y_2 + kOffset_x;
-        double y = -CGI_HUD_Y_2 + kOffset_y;
+        double x = -w2h * HUD_FOV_Y_2 + kOffset_x;
+        double y = -HUD_FOV_Y_2 + kOffset_y;
 
         q = q.inverse();
 

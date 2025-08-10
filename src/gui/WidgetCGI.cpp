@@ -37,15 +37,7 @@ WidgetCGI::WidgetCGI(QWidget* parent)
 
     setLayout(_layout);
 
-    _sc_view_default = new QShortcut( QKeySequence(Qt::Key_0), this, SLOT(resetView()) );
-    _sc_view_top     = new QShortcut( QKeySequence(Qt::Key_7), this, SLOT(topView())   );
-    _sc_view_back    = new QShortcut( QKeySequence(Qt::Key_3), this, SLOT(backView())   );
-    _sc_view_left    = new QShortcut( QKeySequence(Qt::Key_1), this, SLOT(leftView())   );
-    _sc_view_bottom  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_7), this, SLOT(bottomView()) );
-    _sc_view_front   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_3), this, SLOT(frontView()) );
-    _sc_view_right   = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_1), this, SLOT(rightView()) );
-
-    setCameraManipulatorOrbit();
+    setCameraManipulatorOrtho();
     resetView();
 
     _timerId = startTimer(1000.0 / 60.0);
@@ -60,23 +52,14 @@ WidgetCGI::~WidgetCGI()
 
 void WidgetCGI::resetView()
 {
-    osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
-
-    osg::Matrixd matrix = manipulator->getMatrix();
-
-    osg::Quat quat = osg::Quat(M_PI_2       , osg::X_AXIS,
-                              -0.75 * M_PI  , osg::Y_AXIS,
-                               M_PI_2 / 3.0 , osg::X_AXIS);
-
-    matrix.setRotate(quat);
-    manipulator->setByMatrix(matrix);
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 }
 
 void WidgetCGI::topView()
 {
-    osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -90,8 +73,8 @@ void WidgetCGI::topView()
 
 void WidgetCGI::bottomView()
 {
-    osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -105,8 +88,8 @@ void WidgetCGI::bottomView()
 
 void WidgetCGI::frontView()
 {
-    osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -120,8 +103,8 @@ void WidgetCGI::frontView()
 
 void WidgetCGI::backView()
 {
-    osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -135,8 +118,8 @@ void WidgetCGI::backView()
 
 void WidgetCGI::leftView()
 {
-    osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -150,8 +133,8 @@ void WidgetCGI::leftView()
 
 void WidgetCGI::rightView()
 {
-    osg::ref_ptr<osgGA::OrbitManipulator> manipulator =
-            dynamic_cast<osgGA::OrbitManipulator*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -163,15 +146,9 @@ void WidgetCGI::rightView()
     manipulator->setByMatrix(matrix);
 }
 
-void WidgetCGI::setCameraManipulatorOrbit()
+void WidgetCGI::setCameraManipulatorOrtho()
 {
-    _manager_cgi->setCameraManipulatorOrbit();
-    getOsgViewer()->setCameraManipulator(_manager_cgi->getCameraManipulator());
-}
-
-void WidgetCGI::setCameraManipulatorTrack()
-{
-    _manager_cgi->setCameraManipulatorTrack();
+    _manager_cgi->setCameraManipulatorOrtho();
     getOsgViewer()->setCameraManipulator(_manager_cgi->getCameraManipulator());
 }
 
@@ -228,9 +205,10 @@ void WidgetCGI::createCameras()
     _camera_cgi->setClearColor(osg::Vec4(0.47, 0.71, 1.0, 1.0));
     //_camera_cgi->setClearColor(osg::Vec4(0.216, 0.216, 0.216, 1.0));
     _camera_cgi->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
-    _camera_cgi->setProjectionMatrixAsPerspective(30.0, w2h, 0.1, 1000000.0);
+    // _camera_cgi->setProjectionMatrixAsPerspective(30.0, w2h, 0.1, 1000000.0);
+    _camera_cgi->setProjectionMatrixAsOrtho(-CGI_FOV_Y_2 * w2h, CGI_FOV_Y_2 * w2h, -CGI_FOV_Y_2, CGI_FOV_Y_2, 0.1, 1000000.0);
 
-    _camera_hud->setProjectionMatrixAsOrtho2D(-CGI_HUD_Y_2 * w2h, CGI_HUD_Y_2 * w2h, -CGI_HUD_Y_2, CGI_HUD_Y_2);
+    _camera_hud->setProjectionMatrixAsOrtho2D(-HUD_FOV_Y_2 * w2h, HUD_FOV_Y_2 * w2h, -HUD_FOV_Y_2, HUD_FOV_Y_2);
     _camera_hud->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
     _camera_hud->setViewMatrix(osg::Matrix::identity());
     _camera_hud->setClearMask(GL_DEPTH_BUFFER_BIT);

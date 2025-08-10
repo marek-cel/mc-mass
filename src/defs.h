@@ -28,7 +28,10 @@
 
 #define APP_TITLE "MC-Mass"
 
-#define CGI_HUD_Y 200.0
-#define CGI_HUD_Y_2 ( CGI_HUD_Y / 2.0 )
+#define CGI_FOV_Y 20.0
+#define CGI_FOV_Y_2 ( CGI_FOV_Y / 2.0 )
+
+#define HUD_FOV_Y 200.0
+#define HUD_FOV_Y_2 ( HUD_FOV_Y / 2.0 )
 
 #endif // MC_MASS_DEFS_H_

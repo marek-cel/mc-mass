@@ -19,8 +19,6 @@
 #ifndef MC_MASS_GUI_WIDGETCGI_H_
 #define MC_MASS_GUI_WIDGETCGI_H_
 
-#include <QShortcut>
-
 #include <cgi/Manager.h>
 #include <gui/WidgetOSG.h>
 
@@ -40,8 +38,6 @@ public:
 
     cgi::Manager* getManagerCGI() { return _manager_cgi; }
 
-public slots:
-
     void resetView();
     void topView();
     void bottomView();
@@ -50,8 +46,7 @@ public slots:
     void leftView();
     void rightView();
 
-    void setCameraManipulatorOrbit();
-    void setCameraManipulatorTrack();
+    void setCameraManipulatorOrtho();
 
 protected:
 
@@ -60,20 +55,12 @@ protected:
 
 private:
 
-    QShortcut* _sc_view_default = nullptr;
-    QShortcut* _sc_view_top     = nullptr;
-    QShortcut* _sc_view_back    = nullptr;
-    QShortcut* _sc_view_left    = nullptr;
-    QShortcut* _sc_view_bottom  = nullptr;
-    QShortcut* _sc_view_front   = nullptr;
-    QShortcut* _sc_view_right   = nullptr;
-
     cgi::Manager* _manager_cgi = nullptr;
 
     osg::ref_ptr<osg::Camera> _camera_cgi;
     osg::ref_ptr<osg::Camera> _camera_hud;
 
-    int _timerId = 0; 
+    int _timerId = 0;
 
     QWidget* addViewWidget();
 
