@@ -36,6 +36,8 @@ set(SOURCES
     ComboUnitsSpeed.cpp
     ComboUnitsVelocity.cpp
     ComboUnitsVolume.cpp
+    GraphicsWindowQt.cpp
+    KeyMap.cpp
     MainWindow.cpp
     RecentFileAction.cpp
 )

@@ -10,6 +10,8 @@ HEADERS += \
     $$PWD/ComboUnitsSpeed.h \
     $$PWD/ComboUnitsVelocity.h \
     $$PWD/ComboUnitsVolume.h \
+    $$PWD/GraphicsWindowQt.h \
+    $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
     $$PWD/RecentFileAction.h
 
@@ -25,6 +27,8 @@ SOURCES += \
     $$PWD/ComboUnitsSpeed.cpp \
     $$PWD/ComboUnitsVelocity.cpp \
     $$PWD/ComboUnitsVolume.cpp \
+    $$PWD/GraphicsWindowQt.cpp \
+    $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/RecentFileAction.cpp
 
