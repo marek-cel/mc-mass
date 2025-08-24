@@ -13,7 +13,9 @@ HEADERS += \
     $$PWD/GraphicsWindowQt.h \
     $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
-    $$PWD/RecentFileAction.h
+    $$PWD/RecentFileAction.h \
+    $$PWD/WidgetCGI.h \
+    $$PWD/WidgetOSG.h
 
 SOURCES += \
     $$PWD/ComboUnits.cpp \
@@ -30,7 +32,9 @@ SOURCES += \
     $$PWD/GraphicsWindowQt.cpp \
     $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
-    $$PWD/RecentFileAction.cpp
+    $$PWD/RecentFileAction.cpp \
+    $$PWD/WidgetCGI.cpp \
+    $$PWD/WidgetOSG.cpp
 
 FORMS += \
     $$PWD/MainWindow.ui

@@ -16,21 +16,46 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
+#ifndef MC_MASS_CGI_DATA_H_
+#define MC_MASS_CGI_DATA_H_
 
-#include <cgi/CGI.h>
+#include <filesystem>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+struct Data
 {
-    _root->setName("SceneRoot");
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
-}
+    double camera_w = 1.0;
+    double camera_x = 0.0;
+    double camera_y = 0.0;
+    double camera_z = 0.0;
+
+    int win_width  = 0;
+    int win_height = 0;
+
+    std::filesystem::path projectDir;
+    std::filesystem::path modelFile;
+
+    double offset_x = 0.0;
+    double offset_y = 0.0;
+    double offset_z = 0.0;
+
+    double rotation_x = 0.0;
+    double rotation_y = 0.0;
+    double rotation_z = 0.0;
+
+    double scale = 1.0;
+
+    bool highlight = false;
+
+    double highlight_x = 0.0;
+    double highlight_y = 0.0;
+    double highlight_z = 0.0;
+
+    double highlight_l = 0.0;
+    double highlight_w = 0.0;
+    double highlight_h = 0.0;
+
+    bool grid_visible = true;
+};
+
+#endif // MC_MASS_CGI_DATA_H_

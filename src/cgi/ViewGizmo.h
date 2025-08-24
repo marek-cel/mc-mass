@@ -16,21 +16,39 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
+#ifndef MC_MASS_CGI_VIEWGIZMO_H_
+#define MC_MASS_CGI_VIEWGIZMO_H_
 
-#include <cgi/CGI.h>
+#include <osg/PositionAttitudeTransform>
+#include <osgText/Text>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+#include <cgi/Component.h>
+
+class ViewGizmo : public Component
 {
-    _root->setName("SceneRoot");
+public:
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
-}
+    static constexpr int kOffset_x = 15;
+    static constexpr int kOffset_y = 15;
+
+    static constexpr double kSize = 10.0;
+
+    ViewGizmo(std::shared_ptr<Data> data);
+
+    void update() override;
+
+private:
+
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
+
+    int _x0 = 0;
+    int _y0 = 0;
+
+    void createGizmo();
+    void createGizmoLabel();
+    void createGizmoLabel(osg::Vec3d pos, osg::Vec3d color, const char* str,
+                          osgText::TextBase::AxisAlignment alignment);
+
+};
+
+#endif // MC_MASS_CGI_VIEWGIZMO_H_

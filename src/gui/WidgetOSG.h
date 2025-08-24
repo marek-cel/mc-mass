@@ -16,21 +16,44 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
+#ifndef MC_MASS_GUI_WIDGETOSG_H_
+#define MC_MASS_GUI_WIDGETOSG_H_
 
-#include <cgi/CGI.h>
+#include <QDateTime>
+#include <QGridLayout>
+#include <QWidget>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+#include <osgViewer/Viewer>
+#include <osgGA/GUIEventHandler>
+
+#include <defs.h>
+
+#include <gui/GraphicsWindowQt.h>
+
+/**
+ * @brief OSG common widget class.
+ */
+class WidgetOSG : public QWidget, public osgViewer::Viewer
 {
-    _root->setName("SceneRoot");
+    Q_OBJECT
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
-}
+public:
+
+    explicit WidgetOSG(QWidget* parent = nullptr);
+    virtual ~WidgetOSG();
+
+    virtual osgViewer::Viewer* getOsgViewer();
+
+    virtual void setSceneData(osg::Node* node);
+
+protected:
+
+    QGridLayout* _layout = nullptr;
+    osg::ref_ptr<GraphicsWindowQt> _gwin;
+    bool _initialized = true;
+
+    virtual void paintEvent(QPaintEvent* event);
+    osg::ref_ptr<GraphicsWindowQt> createGraphicsWindow(int x, int y, int w, int h);
+};
+
+#endif // MC_MASS_GUI_WIDGETOSG_H_

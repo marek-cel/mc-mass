@@ -16,21 +16,33 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
+#ifndef MC_MASS_CGI_GRID_H_
+#define MC_MASS_CGI_GRID_H_
 
-#include <cgi/CGI.h>
+#include <osg/Switch>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+#include <cgi/Component.h>
+
+/** */
+class Grid : public Component
 {
-    _root->setName("SceneRoot");
+public:
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
-}
+    static constexpr int kSize = 10;
+    static constexpr int kStep = 1;
+
+    Grid(std::shared_ptr<Data> data);
+
+    void update() override;
+
+private:
+
+    osg::ref_ptr<osg::Switch> _switch;
+    bool _grid_visible = true;
+
+    void createGrid();
+    void createGridAuxLines();
+    void createGridMainLines();
+};
+
+#endif // MC_MASS_CGI_GRID_H_

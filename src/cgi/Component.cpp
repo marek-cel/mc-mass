@@ -17,20 +17,44 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <cgi/CGI.h>
+#include <cgi/Component.h>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+Component::Component(std::shared_ptr<Data> data)
+    : _data(data)
 {
-    _root->setName("SceneRoot");
+    _root = new osg::Group();
+    _children.clear();
+}
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
+Component::~Component()
+{
+    removeAllChildren();
+}
+
+void Component::addChild(std::shared_ptr<Component> child)
+{
+    _children.push_back(child);
+    _root->addChild(child->root().get());
+}
+
+void Component::update()
+{
+    for ( auto child : _children )
+    {
+        child->update();
+    }
+}
+
+void Component::removeAllChildren()
+{
+    if ( _root->getNumChildren() > 0 )
+    {
+        _root->removeChildren(0, _root->getNumChildren());
+    }
+
+    List::iterator it = _children.begin();
+    while ( it != _children.end() )
+    {
+        it = _children.erase(it);
+    }
 }

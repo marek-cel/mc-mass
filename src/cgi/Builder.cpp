@@ -17,20 +17,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <cgi/CGI.h>
+#include <cgi/Builder.h>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+#include <cgi/Grid.h>
+#include <cgi/Highlight.h>
+#include <cgi/Model.h>
+#include <cgi/ViewGizmo.h>
+
+void Builder::buildCGI(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
 {
-    _root->setName("SceneRoot");
+    // grid
+    std::shared_ptr<Grid> grid = std::make_shared<Grid>(data);
+    root->addChild(grid);
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
+    // highlight
+    std::shared_ptr<Highlight> hl = std::make_shared<Highlight>(data);
+    root->addChild(hl);
+
+    // model
+    std::shared_ptr<Model> mod = std::make_shared<Model>(data);
+    root->addChild(mod);
+}
+
+void Builder::buildHUD(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
+{
+    // gizmo
+    std::shared_ptr<ViewGizmo> gizmo = std::make_shared<ViewGizmo>(data);
+    root->addChild(gizmo);
 }

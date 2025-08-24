@@ -16,21 +16,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
+#ifndef MC_MASS_CGI_BUILDER_H_
+#define MC_MASS_CGI_BUILDER_H_
 
-#include <cgi/CGI.h>
+#include <cgi/Component.h>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+class Builder
 {
-    _root->setName("SceneRoot");
+public:
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
-}
+    static void buildCGI(std::shared_ptr<Data> data, std::shared_ptr<Component> root);
+    static void buildHUD(std::shared_ptr<Data> data, std::shared_ptr<Component> root);
+
+};
+
+#endif // MC_MASS_CGI_BUILDER_H_

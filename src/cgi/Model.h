@@ -16,21 +16,36 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
+#ifndef MC_MASS_CGI_MODEL_H_
+#define MC_MASS_CGI_MODEL_H_
 
-#include <cgi/CGI.h>
+#include <filesystem>
 
-CGI::CGI(std::shared_ptr<Data> data)
-    : Component(data)
+#include <cgi/Component.h>
+
+#include <osg/PositionAttitudeTransform>
+
+class Model : public Component
 {
-    _root->setName("SceneRoot");
+public:
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
-    rootStateSet->setMode(GL_RESCALE_NORMAL , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT0         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHT1         , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_LIGHTING       , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_BLEND          , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_ALPHA_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setMode(GL_DEPTH_TEST     , osg::StateAttribute::ON);
-    rootStateSet->setRenderBinDetails(1, "DepthSortedBin");
-}
+    Model(std::shared_ptr<Data> data);
+    virtual ~Model();
+
+    virtual void update() override;
+
+private:
+
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
+    osg::ref_ptr<osg::Group> _model;
+
+    std::filesystem::path _model_file;
+    std::filesystem::path _project_dir;
+
+    void updateModel(const std::filesystem::path& model_file, const std::filesystem::path& project_dir);
+    void updateTransformations(double offset_x, double offset_y, double offset_z,
+                               double rotation_x, double rotation_y, double rotation_z,
+                               double scale);
+};
+
+#endif // MC_MASS_CGI_MODEL_H_

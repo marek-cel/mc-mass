@@ -16,6 +16,8 @@ set(MOC_FILES
     ComboUnitsVolume.h
     MainWindow.h
     RecentFileAction.h
+    WidgetCGI.h
+    WidgetOSG.h
 )
 
 set(UIC_FILES
@@ -40,6 +42,8 @@ set(SOURCES
     KeyMap.cpp
     MainWindow.cpp
     RecentFileAction.cpp
+    WidgetCGI.cpp
+    WidgetOSG.cpp
 )
 
 ################################################################################
