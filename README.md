@@ -22,14 +22,16 @@ Windows [zip package](https://github.com/marek-cel/mc-mass/releases/download/1.0
 
 MC-Mass requires Qt and libxml2.
 
+* [GoogleTest](https://github.com/google/googletest)
+* [libxml2](https://gitlab.gnome.org/GNOME/libxml2)
+* [OpenSceneGraph](https://openscenegraph.github.io/openscenegraph.io/)
 * [Qt5](https://www.qt.io/)
-* [libmcutil](https://gitlab.gnome.org/GNOME/libxml2)
 
 #### Linux
 
 On Ubuntu based Linux distributions Qt can be installed with the following command:
 
-```apt install qtbase5-dev libqt5opengl5-dev libxml2-dev```
+```apt install googletest libgmock-dev libgtest-dev libqt5opengl5-dev libxml2-dev qtbase5-dev```
 
 #### Windows
 

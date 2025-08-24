@@ -17,16 +17,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <QApplication>
-
 #include <gui/MainWindow.h>
+#include <ui_MainWindow.h>
 
-int main(int argc, char* argv[])
+#include <QCloseEvent>
+#include <QDebug>
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QSettings>
+
+namespace gui {
+
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , _ui(new Ui::MainWindow)
 {
-    QApplication app(argc, argv);
-
-    gui::MainWindow mainWindow;
-    mainWindow.show();
-
-    return app.exec();
+    _ui->setupUi(this);
 }
+
+
+MainWindow::~MainWindow()
+{
+    if ( _ui ) { delete _ui; } _ui = nullptr;
+}
+
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://mc-tech.org/mc-mass/"));
+}
+
+
+void MainWindow::on_actionDocs_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://mc-tech.org/mc-mass/docs/"));
+}
+
+
+} // namespace gui

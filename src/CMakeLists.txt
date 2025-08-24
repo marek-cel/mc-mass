@@ -7,11 +7,16 @@ include_directories(.)
 ################################################################################
 
 # add_subdirectory(cgi)
-# add_subdirectory(gui)
+add_subdirectory(gui)
 
 ################################################################################
 
+set(RCC_FILES
+    mc-mass.qrc
+)
+
 set(SOURCES
+    ${RCC_FILES}
     main.cpp
 )
 
@@ -27,7 +32,7 @@ set(LIBS
 
 target_link_libraries(${TARGET_NAME}
     # $<TARGET_OBJECTS:mc-mass-cgi>
-    # $<TARGET_OBJECTS:mc-mass-gui>
+    $<TARGET_OBJECTS:mc-mass-gui>
     ${LIBS}
 )
 

@@ -1,0 +1,10 @@
+{
+  "dependencies": [
+    "gtest",
+    "libjpeg-turbo",
+    "libpng",
+    "libxml2",
+    "osg",
+    "tiff"
+  ]
+}

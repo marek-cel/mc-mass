@@ -16,17 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
+#ifndef MC_MASS_GUI_MAINWINDOW_H_
+#define MC_MASS_GUI_MAINWINDOW_H_
 
-#include <QApplication>
+#include <QMainWindow>
 
-#include <gui/MainWindow.h>
-
-int main(int argc, char* argv[])
-{
-    QApplication app(argc, argv);
-
-    gui::MainWindow mainWindow;
-    mainWindow.show();
-
-    return app.exec();
+namespace Ui {
+class MainWindow;
 }
+
+namespace gui {
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+
+    explicit MainWindow(QWidget* parent = nullptr);
+    ~MainWindow();
+
+private:
+
+    Ui::MainWindow* _ui;
+
+private slots:
+
+    void on_actionDocs_triggered();
+    void on_actionAbout_triggered();
+};
+
+} // namespace gui
+
+#endif // MC_MASS_GUI_MAINWINDOW_H_
