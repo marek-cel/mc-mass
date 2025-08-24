@@ -273,7 +273,7 @@ private:
 };
 
 
-Matrix3x3 operator*(double scalar, const Matrix3x3& mat)
+inline Matrix3x3 operator*(double scalar, const Matrix3x3& mat)
 {
     return mat * scalar;
 }
