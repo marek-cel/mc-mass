@@ -1,8 +1,30 @@
 HEADERS += \
+    $$PWD/ComboUnits.h \
+    $$PWD/ComboUnitsAltitude.h \
+    $$PWD/ComboUnitsAngle.h \
+    $$PWD/ComboUnitsArea.h \
+    $$PWD/ComboUnitsInertia.h \
+    $$PWD/ComboUnitsLength.h \
+    $$PWD/ComboUnitsMass.h \
+    $$PWD/ComboUnitsPower.h \
+    $$PWD/ComboUnitsSpeed.h \
+    $$PWD/ComboUnitsVelocity.h \
+    $$PWD/ComboUnitsVolume.h \
     $$PWD/MainWindow.h \
     $$PWD/RecentFileAction.h
 
 SOURCES += \
+    $$PWD/ComboUnits.cpp \
+    $$PWD/ComboUnitsAltitude.cpp \
+    $$PWD/ComboUnitsAngle.cpp \
+    $$PWD/ComboUnitsArea.cpp \
+    $$PWD/ComboUnitsInertia.cpp \
+    $$PWD/ComboUnitsLength.cpp \
+    $$PWD/ComboUnitsMass.cpp \
+    $$PWD/ComboUnitsPower.cpp \
+    $$PWD/ComboUnitsSpeed.cpp \
+    $$PWD/ComboUnitsVelocity.cpp \
+    $$PWD/ComboUnitsVolume.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/RecentFileAction.cpp
 

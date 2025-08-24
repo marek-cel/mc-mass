@@ -3,6 +3,17 @@ set(MODULE_NAME mc-mass-gui)
 ################################################################################
 
 set(MOC_FILES
+    ComboUnits.h
+    ComboUnitsAltitude.h
+    ComboUnitsAngle.h
+    ComboUnitsArea.h
+    ComboUnitsInertia.h
+    ComboUnitsLength.h
+    ComboUnitsMass.h
+    ComboUnitsPower.h
+    ComboUnitsSpeed.h
+    ComboUnitsVelocity.h
+    ComboUnitsVolume.h
     MainWindow.h
     RecentFileAction.h
 )
@@ -14,6 +25,17 @@ set(UIC_FILES
 set(SOURCES
     ${MOC_FILES}
     ${UIC_FILES}
+    ComboUnits.cpp
+    ComboUnitsAltitude.cpp
+    ComboUnitsAngle.cpp
+    ComboUnitsArea.cpp
+    ComboUnitsInertia.cpp
+    ComboUnitsLength.cpp
+    ComboUnitsMass.cpp
+    ComboUnitsPower.cpp
+    ComboUnitsSpeed.cpp
+    ComboUnitsVelocity.cpp
+    ComboUnitsVolume.cpp
     MainWindow.cpp
     RecentFileAction.cpp
 )
