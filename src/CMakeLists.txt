@@ -6,8 +6,9 @@ include_directories(.)
 
 ################################################################################
 
-# add_subdirectory(cgi)
+add_subdirectory(cgi)
 add_subdirectory(gui)
+add_subdirectory(utils)
 
 ################################################################################
 
@@ -31,8 +32,9 @@ set(LIBS
 )
 
 target_link_libraries(${TARGET_NAME}
-    # $<TARGET_OBJECTS:mc-mass-cgi>
+    $<TARGET_OBJECTS:mc-mass-cgi>
     $<TARGET_OBJECTS:mc-mass-gui>
+    $<TARGET_OBJECTS:mc-mass-utils>
     ${LIBS}
 )
 

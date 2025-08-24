@@ -6,7 +6,7 @@ TEMPLATE = app
 
 ################################################################################
 
-DESTDIR = $$PWD/../bin
+DESTDIR = $$PWD/bin
 TARGET = mc-mass
 
 ################################################################################
@@ -58,27 +58,77 @@ unix: INCLUDEPATH += /usr/local/include
 
 ################################################################################
 
-LIBS += \
+INCLUDEPATH += ./
+
+win32: INCLUDEPATH += \
+    $(OSG_ROOT)/include/ \
+    $(OSG_ROOT)/include/libxml2
+
+unix: INCLUDEPATH += \
+    /usr/include/libxml2
+
+################################################################################
+
+win32: LIBS += \
+    -L$(OSG_ROOT)/lib \
+    -llibxml2 \
+    -lopengl32
 
 win32: CONFIG(release, debug|release): LIBS += \
+    -lOpenThreads \
+    -losg \
+    -losgDB \
+    -losgGA \
+    -losgParticle \
+    -losgSim \
+    -losgText \
+    -losgUtil \
+    -losgViewer \
+    -losgWidget
 
 win32: CONFIG(debug, debug|release): LIBS += \
+    -lOpenThreadsd \
+    -losgd \
+    -losgDBd \
+    -losgGAd \
+    -losgParticled \
+    -losgSimd \
+    -losgTextd \
+    -losgUtild \
+    -losgViewerd \
+    -losgWidgetd
 
 unix: LIBS += \
     -L/lib \
-    -L/usr/lib \
-    -L/usr/local/lib
+    -lxml2
+
+unix: LIBS += \
+    -lOpenThreads \
+    -losg \
+    -losgDB \
+    -losgGA \
+    -losgParticle \
+    -losgSim \
+    -losgText \
+    -losgUtil \
+    -losgViewer \
+    -losgWidget
 
 ################################################################################
 
 HEADERS += \
+    $$PWD/src/defs.h \
+    $$PWD/src/Result.h
 
 SOURCES += \
-    $$PWD/main.cpp
+    $$PWD/src/main.cpp
 
 RESOURCES += \
-    $$PWD/mc-mass.qrc
+    $$PWD/src/mc-mass.qrc
 
 ################################################################################
 
-include($$PWD/gui/gui.pri)
+include($$PWD/src/cgi/cgi.pri)
+include($$PWD/src/gui/gui.pri)
+
+include($$PWD/src/utils/utils.pri)

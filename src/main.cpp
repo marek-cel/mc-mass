@@ -19,14 +19,24 @@
 
 #include <QApplication>
 
+#include <defs.h>
 #include <gui/MainWindow.h>
 
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
+    app.setApplicationName    ( APP_NAME   );
+    app.setApplicationVersion ( APP_VER    );
+    app.setOrganizationDomain ( ORG_DOMAIN );
+    app.setOrganizationName   ( ORG_NAME   );
 
-    gui::MainWindow mainWindow;
-    mainWindow.show();
+    gui::MainWindow win;
+    win.show();
+
+    if ( argc > 1 )
+    {
+        win.openFileFromCommandLine(argv[1]);
+    }
 
     return app.exec();
 }

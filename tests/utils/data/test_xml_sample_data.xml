@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_root attribute_a="A" attribute_b="B">
+Lorem ipsum
+<sibling_1 />
+dolor sit amet
+<sibling_2 />
+<!-- comment -->
+</test_root>

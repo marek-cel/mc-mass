@@ -20,6 +20,7 @@
 #define MC_MASS_GUI_MAINWINDOW_H_
 
 #include <QMainWindow>
+#include <QShortcut>
 
 namespace Ui {
 class MainWindow;
@@ -36,11 +37,40 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+    void openFileFromCommandLine(QString filename);
+
+protected:
+
+    void closeEvent(QCloseEvent* event) override;
+
 private:
 
     Ui::MainWindow* _ui;
 
+    QShortcut* _sc_redo = nullptr;  ///< redo alternative shortcut (Shift+Ctrl+Z)
+
+    void settingsRead();
+    void settingsSave();
+
 private slots:
+
+    void on_actionNew_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_actionSaveAs_triggered();
+    void on_actionExport_triggered();
+    void on_actionExit_triggered();
+
+    void on_actionUndo_triggered();
+    void on_actionRedo_triggered();
+
+    void on_actionViewDefault_triggered();
+    void on_actionViewTop_triggered();
+    void on_actionViewBottom_triggered();
+    void on_actionViewLeft_triggered();
+    void on_actionViewRight_triggered();
+    void on_actionViewBack_triggered();
+    void on_actionViewFront_triggered();
 
     void on_actionDocs_triggered();
     void on_actionAbout_triggered();

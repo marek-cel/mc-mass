@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_root>
+
+  <test_double> 3.14 </test_double>
+  <test_int> 42 </test_int>
+
+  <test_length>              1.0 </test_length>
+  <test_length_m  unit="m">  1.0 </test_length_m>
+  <test_length_cm unit="cm"> 1.0 </test_length_cm>
+  <test_length_mm unit="mm"> 1.0 </test_length_mm>
+  <test_length_ft unit="ft"> 1.0 </test_length_ft>
+  <test_length_in unit="in"> 1.0 </test_length_in>
+
+  <test_angle>                1.0 </test_angle>
+  <test_angle_rad unit="rad"> 1.0 </test_angle_rad>
+  <test_angle_deg unit="deg"> 1.0 </test_angle_deg>
+
+  <test_vel>                1.0 </test_vel>
+  <test_vel_mps unit="mps"> 1.0 </test_vel_mps>
+  <test_vel_fps unit="fps"> 1.0 </test_vel_fps>
+  <test_vel_kph unit="kph"> 1.0 </test_vel_kph>
+  <test_vel_mph unit="mph"> 1.0 </test_vel_mph>
+  <test_vel_kts unit="kts"> 1.0 </test_vel_kts>
+  <test_vel_fpm unit="fpm"> 1.0 </test_vel_fpm>
+
+  <test_mass>                  1.0 </test_mass>
+  <test_mass_kg   unit="kg">   1.0 </test_mass_kg>
+  <test_mass_g    unit="g">    1.0 </test_mass_g>
+  <test_mass_lb   unit="lb">   1.0 </test_mass_lb>
+  <test_mass_slug unit="slug"> 1.0 </test_mass_slug>
+  <test_mass_t    unit="t">    1.0 </test_mass_t>
+
+  <test_angles>                <phi>1.0</phi> <tht>2.0</tht> <psi>3.0</psi> </test_angles>
+  <test_angles_rad unit="rad"> <phi>1.0</phi> <tht>2.0</tht> <psi>3.0</psi> </test_angles_rad>
+  <test_angles_deg unit="deg"> <phi>1.0</phi> <tht>2.0</tht> <psi>3.0</psi> </test_angles_deg>
+
+  <test_vector3d> <x>1.0</x> <y>2.0</y> <z>3.0</z> </test_vector3d>
+
+  <test_length_vector3>              <x>1.0</x> <y>2.0</y> <z>3.0</z> </test_length_vector3>
+  <test_length_vector3_m unit="m">   <x>1.0</x> <y>2.0</y> <z>3.0</z> </test_length_vector3_m>
+  <test_length_vector3_cm unit="cm"> <x>1.0</x> <y>2.0</y> <z>3.0</z> </test_length_vector3_cm>
+  <test_length_vector3_mm unit="mm"> <x>1.0</x> <y>2.0</y> <z>3.0</z> </test_length_vector3_mm>
+  <test_length_vector3_ft unit="ft"> <x>1.0</x> <y>2.0</y> <z>3.0</z> </test_length_vector3_ft>
+  <test_length_vector3_in unit="in"> <x>1.0</x> <y>2.0</y> <z>3.0</z> </test_length_vector3_in>
+
+
+</test_root>

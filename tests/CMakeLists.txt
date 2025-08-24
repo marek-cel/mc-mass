@@ -10,7 +10,7 @@ include_directories(. ../src)
 
 ################################################################################
 
-# add_subdirectory(utils)
+add_subdirectory(utils)
 
 ################################################################################
 
@@ -35,8 +35,8 @@ if (UNIX)
 endif()
 
 target_link_libraries(${TARGET_NAME}
-    $<TARGET_OBJECTS:tests-exec-utils>
-    $<TARGET_OBJECTS:tests-exec-utils-astro>
+    $<TARGET_OBJECTS:mc-mass-utils>
+    $<TARGET_OBJECTS:mc-mass-tests-utils>
     ${LIBS}
 )
 
