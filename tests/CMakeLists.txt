@@ -16,6 +16,7 @@ add_subdirectory(utils)
 
 set(SOURCES
     main.cpp
+    CsvFileReader.cpp
 )
 
 ################################################################################

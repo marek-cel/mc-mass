@@ -3,6 +3,7 @@ set(MODULE_NAME mc-mass-tests-utils)
 ################################################################################
 
 set(SOURCES
+    TestAtmosphere.cpp
     TestCheck.cpp
     TestMatrix3x3.cpp
     TestStringUtils.cpp
