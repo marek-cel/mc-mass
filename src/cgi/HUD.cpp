@@ -19,8 +19,12 @@
 
 #include <cgi/HUD.h>
 
+namespace cgi {
+
 
 HUD::HUD(std::shared_ptr<Data> data)
     : Component(data)
 {}
+
+} // namespace cgi
 

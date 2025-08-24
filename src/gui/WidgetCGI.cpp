@@ -27,7 +27,7 @@
 WidgetCGI::WidgetCGI(QWidget* parent)
     : WidgetOSG(parent)
 {
-    _manager_cgi = new Manager();
+    _manager_cgi = new cgi::Manager();
 
     QWidget* widget = addViewWidget();
 
@@ -52,14 +52,14 @@ WidgetCGI::~WidgetCGI()
 
 void WidgetCGI::resetView()
 {
-    osg::ref_ptr<ManipulatorOrtho> manipulator =
-            dynamic_cast<ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 }
 
 void WidgetCGI::topView()
 {
-    osg::ref_ptr<ManipulatorOrtho> manipulator =
-            dynamic_cast<ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -73,8 +73,8 @@ void WidgetCGI::topView()
 
 void WidgetCGI::bottomView()
 {
-    osg::ref_ptr<ManipulatorOrtho> manipulator =
-            dynamic_cast<ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -88,8 +88,8 @@ void WidgetCGI::bottomView()
 
 void WidgetCGI::frontView()
 {
-    osg::ref_ptr<ManipulatorOrtho> manipulator =
-            dynamic_cast<ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -103,8 +103,8 @@ void WidgetCGI::frontView()
 
 void WidgetCGI::backView()
 {
-    osg::ref_ptr<ManipulatorOrtho> manipulator =
-            dynamic_cast<ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -118,8 +118,8 @@ void WidgetCGI::backView()
 
 void WidgetCGI::leftView()
 {
-    osg::ref_ptr<ManipulatorOrtho> manipulator =
-            dynamic_cast<ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 
@@ -133,8 +133,8 @@ void WidgetCGI::leftView()
 
 void WidgetCGI::rightView()
 {
-    osg::ref_ptr<ManipulatorOrtho> manipulator =
-            dynamic_cast<ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
+    osg::ref_ptr<cgi::ManipulatorOrtho> manipulator =
+            dynamic_cast<cgi::ManipulatorOrtho*>(_manager_cgi->getCameraManipulator());
 
     osg::Matrixd matrix = manipulator->getMatrix();
 

@@ -24,6 +24,8 @@
 #include <cgi/Model.h>
 #include <cgi/ViewGizmo.h>
 
+namespace cgi {
+
 void Builder::buildCGI(std::shared_ptr<Data> data, std::shared_ptr<Component> root)
 {
     // grid
@@ -45,3 +47,5 @@ void Builder::buildHUD(std::shared_ptr<Data> data, std::shared_ptr<Component> ro
     std::shared_ptr<ViewGizmo> gizmo = std::make_shared<ViewGizmo>(data);
     root->addChild(gizmo);
 }
+
+} // namespace cgi

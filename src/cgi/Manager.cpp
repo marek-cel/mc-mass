@@ -21,6 +21,8 @@
 
 #include <cgi/Builder.h>
 
+namespace cgi {
+
 Manager::Manager()
 {
     _data = std::make_shared<Data>();
@@ -112,3 +114,5 @@ void Manager::setHighlightData(bool highlight,
     _data->highlight_w = highlight_w;
     _data->highlight_h = highlight_h;
 }
+
+} // namespace cgi

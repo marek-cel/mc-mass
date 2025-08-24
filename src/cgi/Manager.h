@@ -26,7 +26,7 @@
 #include <cgi/CGI.h>
 #include <cgi/HUD.h>
 
-class Model;
+namespace cgi {
 
 class Manager
 {
@@ -81,5 +81,7 @@ private:
     osg::ref_ptr<osgGA::CameraManipulator> _manipulator;    ///< current manipulator
     osg::ref_ptr<ManipulatorOrtho> _manipulatorOrtho;
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_MANAGER_H_

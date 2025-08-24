@@ -21,6 +21,8 @@
 
 #include <osgDB/ReadFile>
 
+namespace cgi {
+
 
 Model::Model(std::shared_ptr<Data> data)
     : Component(data)
@@ -78,3 +80,5 @@ void Model::updateTransformations(double offset_x, double offset_y, double offse
     _pat->setAttitude(q);
     _pat->setScale(s);
 }
+
+} // namespace cgi

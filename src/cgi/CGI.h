@@ -21,11 +21,15 @@
 
 #include <cgi/Component.h>
 
+namespace cgi {
+
 class CGI : public Component
 {
 public:
 
     CGI(std::shared_ptr<Data> data);
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_CGI_H_

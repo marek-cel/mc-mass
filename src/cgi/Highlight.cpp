@@ -25,6 +25,8 @@
 
 #include <cgi/Colors.h>
 
+namespace cgi {
+
 Highlight::Highlight(std::shared_ptr<Data> data)
     : Component(data)
 {
@@ -120,3 +122,5 @@ void Highlight::rewriteHighlight(double x, double y, double z,
     stateSet->setMode(GL_DEPTH_TEST , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);
     stateSet->setRenderBinDetails(99, "DepthSortedBin");
 }
+
+} // namespace cgi

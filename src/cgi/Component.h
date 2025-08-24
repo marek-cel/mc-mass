@@ -27,6 +27,8 @@
 
 #include <cgi/Data.h>
 
+namespace cgi {
+
 /**
  * @brief CGI component base class.
  */
@@ -60,5 +62,7 @@ private:
     /** Removes all children. */
     void removeAllChildren();
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_COMPONENT_H_

@@ -24,6 +24,8 @@
 
 #include <cgi/Component.h>
 
+namespace cgi {
+
 class ViewGizmo : public Component
 {
 public:
@@ -50,5 +52,7 @@ private:
                           osgText::TextBase::AxisAlignment alignment);
 
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_VIEWGIZMO_H_

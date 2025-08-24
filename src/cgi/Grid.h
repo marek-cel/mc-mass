@@ -23,6 +23,8 @@
 
 #include <cgi/Component.h>
 
+namespace cgi {
+
 /** */
 class Grid : public Component
 {
@@ -44,5 +46,7 @@ private:
     void createGridAuxLines();
     void createGridMainLines();
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_GRID_H_

@@ -26,6 +26,8 @@
 
 #include <cgi/Colors.h>
 
+namespace cgi {
+
 ViewGizmo::ViewGizmo(std::shared_ptr<Data> data)
     : Component(data)
 {
@@ -170,3 +172,5 @@ void ViewGizmo::createGizmoLabel()
     text->setAlignment(osgText::Text::CENTER_CENTER);
     text->setText("X");
 }
+
+} // namespace cgi

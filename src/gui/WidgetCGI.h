@@ -36,7 +36,7 @@ public:
 
     void updateGUI();
 
-    Manager* getManagerCGI() { return _manager_cgi; }
+    cgi::Manager* getManagerCGI() { return _manager_cgi; }
 
     void resetView();
     void topView();
@@ -55,7 +55,7 @@ protected:
 
 private:
 
-    Manager* _manager_cgi = nullptr;
+    cgi::Manager* _manager_cgi = nullptr;
 
     osg::ref_ptr<osg::Camera> _camera_cgi;
     osg::ref_ptr<osg::Camera> _camera_hud;

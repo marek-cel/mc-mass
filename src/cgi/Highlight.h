@@ -23,6 +23,8 @@
 
 #include <osg/Switch>
 
+namespace cgi {
+
 /** */
 class Highlight : public Component
 {
@@ -40,5 +42,7 @@ private:
     void rewriteHighlight(double x, double y, double z,
                           double l, double w, double h);
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_HIGHLIGHT_H_

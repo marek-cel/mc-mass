@@ -21,6 +21,8 @@
 
 #include <osgGA/StandardManipulator>
 
+namespace cgi {
+
 
 class ManipulatorOrtho : public osgGA::StandardManipulator
 {
@@ -80,5 +82,6 @@ protected:
     void zoomModel(const float dy);
 };
 
+} // namespace cgi
 
 #endif // MC_MASS_CGI_MANIPULATORORTHO_H_

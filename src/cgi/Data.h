@@ -21,6 +21,8 @@
 
 #include <filesystem>
 
+namespace cgi {
+
 struct Data
 {
 
@@ -57,5 +59,7 @@ struct Data
 
     bool grid_visible = true;
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_DATA_H_

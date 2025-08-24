@@ -19,6 +19,8 @@
 
 #include <cgi/Component.h>
 
+namespace cgi {
+
 Component::Component(std::shared_ptr<Data> data)
     : _data(data)
 {
@@ -58,3 +60,5 @@ void Component::removeAllChildren()
         it = _children.erase(it);
     }
 }
+
+} // namespace cgi

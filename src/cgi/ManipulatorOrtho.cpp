@@ -21,6 +21,7 @@
 
 #include <iostream>
 
+namespace cgi {
 
 ManipulatorOrtho::ManipulatorOrtho()
     : osgGA::StandardManipulator()
@@ -205,3 +206,5 @@ void ManipulatorOrtho::zoomModel(const float dy)
 //                                           ortho_pan_scale * dy,
 //                                           ortho_pan_scale * dz);
 // }
+
+} // namespace cgi

@@ -25,6 +25,8 @@
 
 #include <cgi/Colors.h>
 
+namespace cgi {
+
 Grid::Grid(std::shared_ptr<Data> data)
     : Component(data)
 {
@@ -172,3 +174,5 @@ void Grid::createGridMainLines()
 
     geode->getOrCreateStateSet()->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
 }
+
+} // namespace cgi

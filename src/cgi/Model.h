@@ -25,6 +25,8 @@
 
 #include <osg/PositionAttitudeTransform>
 
+namespace cgi {
+
 class Model : public Component
 {
 public:
@@ -47,5 +49,7 @@ private:
                                double rotation_x, double rotation_y, double rotation_z,
                                double scale);
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_MODEL_H_

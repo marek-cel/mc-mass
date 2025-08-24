@@ -21,6 +21,8 @@
 
 #include <cgi/Component.h>
 
+namespace cgi {
+
 class Builder
 {
 public:
@@ -29,5 +31,7 @@ public:
     static void buildHUD(std::shared_ptr<Data> data, std::shared_ptr<Component> root);
 
 };
+
+} // namespace cgi
 
 #endif // MC_MASS_CGI_BUILDER_H_

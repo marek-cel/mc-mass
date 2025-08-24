@@ -21,6 +21,7 @@
 
 #include <osg/Vec3>
 
+namespace cgi {
 namespace Colors {
 
 const osg::Vec3 black   = osg::Vec3(0.00f, 0.00f, 0.00f);
@@ -45,5 +46,6 @@ const osg::Vec3 scarlet = osg::Vec3(1.00f, 0.75f, 0.00f);
 const osg::Vec3 orangeRed = osg::Vec3(1.00f, 0.27f, 0.00f);
 
 } // namespace Colors
+} // namespace cgi
 
 #endif // MC_MASS_CGI_COLORS_H_
