@@ -6,6 +6,7 @@ set(SOURCES
     TestAtmosphere.cpp
     TestCheck.cpp
     TestMatrix3x3.cpp
+    TestParallelAxis.cpp
     TestStringUtils.cpp
     TestVector3.cpp
     TestXmlDoc.cpp
