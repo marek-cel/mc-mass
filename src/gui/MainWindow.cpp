@@ -98,7 +98,7 @@ void MainWindow::addRecentFile(QString file)
         }
     }
 
-    for ( size_t i = 0; i < recent_files.size() && i < _recentFilesMax; ++i )
+    for ( int i = 0; i < recent_files.size() && i < _recentFilesMax; ++i )
     {
         RecentFileAction* action = new RecentFileAction(recent_files.at(i), _ui->menuRecentFiles);
         _recentFileActions.push_back(action);
@@ -119,7 +119,7 @@ void MainWindow::updateRecentFilesMenu()
 
     _ui->menuRecentFiles->setEnabled(true);
 
-    for ( size_t i = 0; i < _recentFileActions.size() && i < _recentFilesMax; ++i )
+    for ( int i = 0; i < _recentFileActions.size() && i < _recentFilesMax; ++i )
     {
         RecentFileAction* action = _recentFileActions.at(i);
         connect(action, SIGNAL(triggered(RecentFileAction*)), SLOT(recentFile_triggered(RecentFileAction*)));

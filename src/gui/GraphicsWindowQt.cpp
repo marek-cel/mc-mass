@@ -435,11 +435,11 @@ void GraphicsWindowQt::GLWidget::mousePressEvent(QMouseEvent* event)
     int button = 0;
     switch ( event->button() )
     {
-        case Qt::LeftButton:  button = 1; break;
-        case Qt::MidButton:   button = 2; break;
-        case Qt::RightButton: button = 3; break;
-        case Qt::NoButton:    button = 0; break;
-        default:              button = 0; break;
+        case Qt::LeftButton:   button = 1; break;
+        case Qt::MiddleButton: button = 2; break;
+        case Qt::RightButton:  button = 3; break;
+        case Qt::NoButton:     button = 0; break;
+        default:               button = 0; break;
     }
     setKeyboardModifiers(event);
     _gwin->getEventQueue()->mouseButtonPress(event->x(), event->y(), button);
@@ -451,11 +451,11 @@ void GraphicsWindowQt::GLWidget::mouseReleaseEvent(QMouseEvent* event)
     int button = 0;
     switch ( event->button() )
     {
-        case Qt::LeftButton:  button = 1; break;
-        case Qt::MidButton:   button = 2; break;
-        case Qt::RightButton: button = 3; break;
-        case Qt::NoButton:    button = 0; break;
-        default:              button = 0; break;
+        case Qt::LeftButton:   button = 1; break;
+        case Qt::MiddleButton: button = 2; break;
+        case Qt::RightButton:  button = 3; break;
+        case Qt::NoButton:     button = 0; break;
+        default:               button = 0; break;
     }
     setKeyboardModifiers(event);
     _gwin->getEventQueue()->mouseButtonRelease(event->x(), event->y(), button);
@@ -467,11 +467,11 @@ void GraphicsWindowQt::GLWidget::mouseDoubleClickEvent(QMouseEvent* event)
     int button = 0;
     switch ( event->button() )
     {
-        case Qt::LeftButton:  button = 1; break;
-        case Qt::MidButton:   button = 2; break;
-        case Qt::RightButton: button = 3; break;
-        case Qt::NoButton:    button = 0; break;
-        default:              button = 0; break;
+        case Qt::LeftButton:   button = 1; break;
+        case Qt::MiddleButton: button = 2; break;
+        case Qt::RightButton:  button = 3; break;
+        case Qt::NoButton:     button = 0; break;
+        default:               button = 0; break;
     }
     setKeyboardModifiers(event);
     _gwin->getEventQueue()->mouseDoubleButtonPress(event->x(), event->y(), button);
