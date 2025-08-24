@@ -73,6 +73,11 @@ TEST_F(TestAtmosphere, CanCalculate)
 
     Atmosphere atm;
 
+    if ( h_ref.size() == 0 )
+    {
+        EXPECT_TRUE(false) << "No reference data.";
+    }
+
     for ( unsigned int i = 0; i < h_ref.size(); i++ )
     {
         double h = h_ref.at(i);
