@@ -4,6 +4,7 @@ set(MODULE_NAME mc-mass-tests-utils)
 
 set(SOURCES
     TestCheck.cpp
+    TestStringUtils.cpp
     TestXmlDoc.cpp
     TestXmlNode.cpp
 )

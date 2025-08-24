@@ -24,8 +24,6 @@
 #include <string>
 #include <vector>
 
-namespace misc {
-
 /**
  * \brief Compares strings.
  * \param str_1 1st string to compare
@@ -123,7 +121,5 @@ std::string toLower(const std::string& str);
  * \return result string
  */
 std::string toUpper(const std::string& str);
-
-} // namespace misc
 
 #endif // MC_MASS_UTILS_STRINGUTILS_H_

@@ -27,7 +27,6 @@
 
 #include <utils/Check.h>
 
-namespace misc {
 
 int compareStrings(const std::string& str_1, const std::string& str_2,
                    bool case_sensitive)
@@ -42,6 +41,7 @@ int compareStrings(const std::string& str_1, const std::string& str_2,
     return strTemp_1.compare(strTemp_2);
 }
 
+
 std::string getFirstLine(const std::string& str)
 {
     std::istringstream iss(str);
@@ -49,6 +49,7 @@ std::string getFirstLine(const std::string& str)
     std::getline(iss, firstLine);
     return firstLine;
 }
+
 
 std::vector<std::string> splitString(const std::string& str, const std::string& sep)
 {
@@ -67,6 +68,7 @@ std::vector<std::string> splitString(const std::string& str, const std::string& 
     return result;
 }
 
+
 std::string stripLeadingSpaces(const std::string& str)
 {
     std::string::size_type offset = 0;
@@ -81,6 +83,7 @@ std::string stripLeadingSpaces(const std::string& str)
     return str.substr(offset);
 }
 
+
 std::string stripTrailingSpaces(const std::string& str)
 {
     std::string::size_type offset = 0;
@@ -93,6 +96,7 @@ std::string stripTrailingSpaces(const std::string& str)
     }
     return str.substr(0, offset + 1);
 }
+
 
 std::string stripSpaces(const std::string& str)
 {
@@ -114,6 +118,7 @@ std::string stripSpaces(const std::string& str)
     return str.substr(offset_l, offset_t - offset_l + 1);
 }
 
+
 bool toBool(const std::string& str, bool def)
 {
     bool result = def;
@@ -126,6 +131,7 @@ bool toBool(const std::string& str, bool def)
     }
     return result;
 }
+
 
 int toInt(const std::string& str, int def)
 {
@@ -140,6 +146,7 @@ int toInt(const std::string& str, int def)
     return result;
 }
 
+
 double toDouble(const std::string& str, double def)
 {
     double result = def;
@@ -153,6 +160,7 @@ double toDouble(const std::string& str, double def)
     return result;
 }
 
+
 std::string toLower(const std::string& str)
 {
     std::string result;
@@ -165,6 +173,7 @@ std::string toLower(const std::string& str)
     return result;
 }
 
+
 std::string toUpper(const std::string& str)
 {
     std::string result;
@@ -176,5 +185,3 @@ std::string toUpper(const std::string& str)
     }
     return result;
 }
-
-} //namespace misc
