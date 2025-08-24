@@ -1,5 +1,5 @@
 /****************************************************************************//*
- *  Copyright (C) 2024 Marek M. Cel
+ *  Copyright (C) 2025 Marek M. Cel
  *
  *  This file is part of MC-Mass.
  *
