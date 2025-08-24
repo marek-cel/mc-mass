@@ -236,33 +236,33 @@ void MainWindow::settingsSave()
 
 void MainWindow::on_actionNew_triggered()
 {
-    // newFile();
+    newFile();
 }
 
 
 void MainWindow::on_actionOpen_triggered()
 {
-    // openFile();
+    openFile();
 }
 
 
 void MainWindow::on_actionSave_triggered()
 {
     qDebug() << "Save action triggered";
-    // saveFile();
+    saveFile();
 }
 
 
 void MainWindow::on_actionSaveAs_triggered()
 {
-    // saveFileAs();
+    saveFileAs();
 }
 
 
 void MainWindow::on_actionExport_triggered()
 {
     qDebug() << "Export action triggered";
-    // exportFileAs();
+    exportFileAs();
 }
 
 
@@ -289,49 +289,49 @@ void MainWindow::on_actionRedo_triggered()
 void MainWindow::on_actionViewDefault_triggered()
 {
     qDebug() << "Default view";
-    // _ui->widgetCGI->resetView();
+    _ui->widgetCGI->resetView();
 }
 
 
 void MainWindow::on_actionViewTop_triggered()
 {
     qDebug() << "Top view";
-    // _ui->widgetCGI->topView();
+    _ui->widgetCGI->topView();
 }
 
 
 void MainWindow::on_actionViewBottom_triggered()
 {
     qDebug() << "Bottom view";
-    // _ui->widgetCGI->bottomView();
+    _ui->widgetCGI->bottomView();
 }
 
 
 void MainWindow::on_actionViewLeft_triggered()
 {
     qDebug() << "Left view";
-    // _ui->widgetCGI->leftView();
+    _ui->widgetCGI->leftView();
 }
 
 
 void MainWindow::on_actionViewRight_triggered()
 {
     qDebug() << "Right view";
-    // _ui->widgetCGI->rightView();
+    _ui->widgetCGI->rightView();
 }
 
 
 void MainWindow::on_actionViewBack_triggered()
 {
     qDebug() << "Back view";
-    // _ui->widgetCGI->backView();
+    _ui->widgetCGI->backView();
 }
 
 
 void MainWindow::on_actionViewFront_triggered()
 {
     qDebug() << "Front view";
-    // _ui->widgetCGI->frontView();
+    _ui->widgetCGI->frontView();
 }
 
 
