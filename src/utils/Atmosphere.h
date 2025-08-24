@@ -20,7 +20,7 @@
 #define MC_MASS_UTILS_ATMOSPHERE_H_
 
 /**
- * @brief US Standard Atmosphere class.
+ * \brief US Standard Atmosphere class.
  *
  * This class is used to compute altitude depend atmospheric data. It is
  * based on U.S. Standard Atmosphere 1976 extended by user defined sea level
@@ -73,16 +73,16 @@ public:
     static const double _g;             ///< [m/s^2] standard gravitional acceleration
 
     /**
-     * @brief Computes air density at a given altitude.
+     * \brief Computes air density at a given altitude.
      *
-     * @param altitude [m] altitude above sea level
-     * @return [kg/m^3] air density
+     * \param altitude [m] altitude above sea level
+     * \return [kg/m^3] air density
      */
     static double getDensity(double altitude);
 
     /**
-     * @brief Updates atmosphere due to altitude.
-     * @param altitude [m] altitude above sea level
+     * \brief Updates atmosphere due to altitude.
+     * \param altitude [m] altitude above sea level
      */
     virtual void update(double altitude);
 

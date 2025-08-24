@@ -29,8 +29,6 @@
 
 #include <defs.h>
 
-namespace gui {
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -40,7 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     _sc_redo = new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_actionRedo_triggered()));
 
+    _clear_recent = new QAction(tr("Clear"), this);
+    connect(_clear_recent, SIGNAL(triggered()), SLOT(clearRecent_triggered()));
+
     settingsRead();
+
+    updateRecentFilesMenu(); // after settings restoration
 }
 
 
@@ -54,17 +57,145 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFileFromCommandLine(QString filename)
 {
-    // readFile(filename);
+    readFile(filename);
 }
 
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-    // askIfSave();
+    askIfSave();
 
     /////////////////////////////////
     QMainWindow::closeEvent( event );
     /////////////////////////////////
+}
+
+
+void MainWindow::addRecentFile(QString file)
+{
+    QStringList recent_files;
+    for ( auto action : _recentFileActions )
+    {
+        action->disconnect();
+        recent_files.push_back(action->file());
+    }
+
+    _recentFileActions.clear();
+
+    if ( file.length() > 0 )
+    {
+#       ifdef WIN32
+        if ( recent_files.contains(file, Qt::CaseInsensitive) )
+#       else
+        if ( recent_files.contains(file, Qt::CaseSensitive) )
+#       endif
+        {
+            recent_files.move(recent_files.indexOf(file),0);
+        }
+        else
+        {
+            recent_files.push_front(file);
+        }
+    }
+
+    for ( size_t i = 0; i < recent_files.size() && i < _recentFilesMax; ++i )
+    {
+        RecentFileAction* action = new RecentFileAction(recent_files.at(i), _ui->menuRecentFiles);
+        _recentFileActions.push_back(action);
+    }
+
+    updateRecentFilesMenu();
+}
+
+void MainWindow::updateRecentFilesMenu()
+{
+    _ui->menuRecentFiles->clear();
+
+    if ( _recentFileActions.size() == 0 )
+    {
+        _ui->menuRecentFiles->setEnabled(false);
+        return;
+    }
+
+    _ui->menuRecentFiles->setEnabled(true);
+
+    for ( size_t i = 0; i < _recentFileActions.size() && i < _recentFilesMax; ++i )
+    {
+        RecentFileAction* action = _recentFileActions.at(i);
+        connect(action, SIGNAL(triggered(RecentFileAction*)), SLOT(recentFile_triggered(RecentFileAction*)));
+        _ui->menuRecentFiles->addAction(action);
+    }
+
+    _ui->menuRecentFiles->addSeparator();
+    _ui->menuRecentFiles->addAction(_clear_recent);
+}
+
+
+void MainWindow::askIfSave()
+{
+    if ( !_saved )
+    {
+        QString title = windowTitle();
+        QString text = tr("Current file has unsaved changes.");
+
+        QMessageBox::StandardButton result =
+                QMessageBox::question(this, title, text,
+                                      QMessageBox::Save | QMessageBox::Discard,
+                                      QMessageBox::Save);
+
+        if ( result == QMessageBox::Save )
+        {
+            saveFile();
+        }
+    }
+}
+
+
+void MainWindow::newFile()
+{
+    // TODO
+}
+
+
+void MainWindow::openFile()
+{
+    // TODO
+}
+
+
+void MainWindow::saveFile()
+{
+    // TODO
+}
+
+
+void MainWindow::saveFileAs()
+{
+    // TODO
+}
+
+
+void MainWindow::exportFileAs()
+{
+    // TODO
+}
+
+
+void MainWindow::readFile(QString fileName)
+{
+    // TODO
+}
+
+
+void MainWindow::saveFile(QString fileName)
+{
+    // TODO
+}
+
+
+void MainWindow::exportAs(QString fileName)
+{
+    // TODO
 }
 
 
@@ -144,14 +275,14 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionUndo_triggered()
 {
     qDebug() << "Undo action triggered";
-    // undo();
+    _cmd_mngr->undo();
 }
 
 
 void MainWindow::on_actionRedo_triggered()
 {
     qDebug() << "Redo action triggered";
-    // redo();
+    _cmd_mngr->redo();
 }
 
 
@@ -216,4 +347,19 @@ void MainWindow::on_actionDocs_triggered()
 }
 
 
-} // namespace gui
+void MainWindow::clearRecent_triggered()
+{
+    for ( auto action : _recentFileActions )
+    {
+        action->disconnect();
+    }
+    _recentFileActions.clear();
+    updateRecentFilesMenu();
+}
+
+
+void MainWindow::recentFile_triggered(RecentFileAction* action)
+{
+    askIfSave();
+    readFile(action->file());
+}

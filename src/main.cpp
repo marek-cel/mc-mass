@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     app.setOrganizationDomain ( ORG_DOMAIN );
     app.setOrganizationName   ( ORG_NAME   );
 
-    gui::MainWindow win;
+    MainWindow win;
     win.show();
 
     if ( argc > 1 )

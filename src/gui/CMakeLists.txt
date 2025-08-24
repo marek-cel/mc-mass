@@ -4,6 +4,7 @@ set(MODULE_NAME mc-mass-gui)
 
 set(MOC_FILES
     MainWindow.h
+    RecentFileAction.h
 )
 
 set(UIC_FILES
@@ -14,6 +15,7 @@ set(SOURCES
     ${MOC_FILES}
     ${UIC_FILES}
     MainWindow.cpp
+    RecentFileAction.cpp
 )
 
 ################################################################################
