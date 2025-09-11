@@ -1,5 +1,5 @@
 SOURCES=\
-	rectangular_skewed_frustum.m
+	rectangular_oblique_frustum.m
 
 ################################################################################
 

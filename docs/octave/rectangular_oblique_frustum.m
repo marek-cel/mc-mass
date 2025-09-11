@@ -13,19 +13,25 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp('## Rectangular Skewed Frustum');
+disp('## Rectangular Oblique Frustum');
 
 disp('## Volume');
 
 syms lx1 ly1 lx2 ly2 lz
+syms z
 syms vol
+
+vol = lz*simplify(int((ly1 + (ly2 - ly1)*(z/lz))*(lx1 + (lx2 - lx1)*(z/lz))/lz, z, 0, lz));
+disp_latex('V', vol);
 
 disp('## Center of Mass');
 
+syms x1 y1 z1 % lower surface (base) center coordinates
+syms x2 y2 z2 % upper surface (base) center coordinates
 syms cg_x cg_y cg_z
 
-disp('## Moments of Inertia');
+% TODO
 
-syms x0 y0 z0 % 0th base center coordinates
-syms x1 y1 z1 % 1st base center coordinates
+disp('## Moments of Inertia About Center of Mass');
+
 syms Ixx Iyy Izz Ixy Ixz Iyz
